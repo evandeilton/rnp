@@ -6,8 +6,7 @@ Authors@R:
            family = "Lopes",
            role = c("aut", "cre"),
            email = "evandeilton@gmail.com")
-Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra de funções e recursos para todos os alunos do rnp. 
-Este pacote está em atualização contínua e novos resursos serão adicionados.
+Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra de funções e recursos para todos os alunos do rnp. Este pacote está em atualização contínua e novos resursos serão adicionados.
 License: GPL-3
 Encoding: UTF-8
 Suggests: knitr, rmarkdown
