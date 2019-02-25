@@ -14,7 +14,8 @@ rnp_get_classes_inep(caminho, aba = 1, pula_linha = 1,
 
 \item{pula_linha}{quantidade de linhas que deseja pular}
 
-\item{retorn_lista}{TRUE se quer obter uma lista de data.frames, sendo um para cada variável ou base já agregada.}
+\item{retorn_lista}{TRUE se quer obter uma lista de data.frames, sendo
+um para cada variável ou base já agregada.}
 }
 \description{
 Obtem as classes das variáveis do diconário de dados do censo INEP.

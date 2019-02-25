@@ -1,10 +1,15 @@
 ---
 title: "R NA PRÁTICA - Pacote de recursos extras"
-output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{R NA PRÁTICA - Pacote de recursos extras}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
+    \usepackage[utf8]{inputenc}
 ---
 
 # Introdução

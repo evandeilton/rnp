@@ -311,7 +311,8 @@ rnp_aplica_classes <- function(base, classes){
 #' @param caminho caminho do arquivo Excel do dicionário de dados do INEP
 #' @param aba aba da planilha correspondente aos dados que deseja
 #' @param pula_linha quantidade de linhas que deseja pular
-#' @param retorn_lista TRUE se quer obter uma lista de data.frames, sendo um para cada variável ou base já agregada.
+#' @param retorn_lista TRUE se quer obter uma lista de data.frames, sendo
+#' um para cada variável ou base já agregada.
 #' @author LOPES, J. E.
 #' @examples
 #' \dontrun{
