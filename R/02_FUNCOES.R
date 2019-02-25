@@ -313,6 +313,7 @@ rnp_aplica_classes <- function(base, classes){
 #' @param pula_linha quantidade de linhas que deseja pular
 #' @param retorn_lista TRUE se quer obter uma lista de data.frames, sendo um para cada variável ou base já agregada.
 #' @author LOPES, J. E.
+#' @examples
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 #' L <- plyr::llply(nn[1], function(base){

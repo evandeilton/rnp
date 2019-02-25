@@ -1,0 +1,14 @@
+---
+title: "R NA PRÁTICA - Pacote de recursos extras"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{R NA PRÁTICA - Pacote de recursos extras}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introdução
+
+# Funções
+
+# Bases de dados

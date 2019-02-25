@@ -27,8 +27,7 @@ um data.frame com 4 aolunas contendo ordem, nome, categoria e descrição
 para todas as variáveis da base informada.
 OBS.: Testado apenas nos dados do censo de 2017.
 }
-\author{
-LOPES, J. E.
+\examples{
 \dontrun{
 nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 L <- plyr::llply(nn[1], function(base){
@@ -46,4 +45,7 @@ L <- plyr::llply(nn[1], function(base){
 }, .progress = "text")
 names(L) <- nn
 }
+}
+\author{
+LOPES, J. E.
 }
