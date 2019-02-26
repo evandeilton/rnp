@@ -24,7 +24,8 @@ O R NA PRATICA agora engloba cinco módulos:
 
 ### Módulo I - R NA PRÁTICA: Data Wrangling com R para Ciência de Dados
 
-![Neste módulo](https://www.udemy.com/r-na-pratica-ciencia-de-dados/) o aluno aprenderá:
+Neste módulo o aluno aprenderá:
+<https://www.udemy.com/r-na-pratica-ciencia-de-dados/>
 
   * Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
   * Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
