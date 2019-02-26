@@ -23,9 +23,9 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
   # Instalar o rnp
   devtools::install_github("evandeilton/rnp")
   
-  # Carregar o pacote e a vinheta
+  # Carregar o pacote
   require("rnp")
-  vignette("rnp", package = "rnp")
+  ?rnp::rnp_freq
 ```
 
 ## Programa integrado
