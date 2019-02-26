@@ -389,3 +389,101 @@ rnp_try_error <- function(code, silent = TRUE) {
     invisible(structure(msg, class = "try-error"))
   }), warning = w.handler)
 }
+
+
+#' Download dados do INEP
+#' @description Recebe uma data ou uma url do portal de microdados do INEP e baixa os dados.
+#' @details  Quando passado apenas uma data a função baixa os dados do INEP
+#' da data correspondente para o censo de educação superior, desde que esta
+#' data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a função
+#' baixará os dados do censo de 2017.
+#' Se uma url com final .zip for passada, a função ignora a data, caso tenha
+#' sido informada e baixa o arquivo da url informada.
+#' @param ano ano formato numérico, ex. 2010, 2016
+#' @param url url, vetor ou lista de urls completas para baixar os dados.
+#' @return arquivo .zip ou da extenção da url passada.
+#' @examples
+#' \dontrun{
+#' url_in = 'http://download.inep.gov.br/microdados/micro_censo_edu_superior1995.zip'
+#' rnp_get_inep_censo(url = url_in)
+#' rnp_get_inep_censo()
+#' }
+#' @author LOPES, J. E.
+#' @export
+rnp_get_inep_censo <- function(ano = NULL, url = NULL){
+  fn_aux <- function(url, file){
+    f = RCurl::CFILE(file, mode="wb")
+    a = RCurl::curlPerform(url = url, writedata = f@ref, noprogress=FALSE)
+    RCurl::close(f)
+    return(a)
+  }
+  s <- seq(1995, 2017, by = 1)
+  if(is.null(ano) & is.null(url)){
+    cat("Baixando dados do censo de 2017!\n")
+    anos <- max(s)
+    nm <- paste0("base_", anos, ".zip")
+  } else if(is.null(ano) & !is.null(url)){
+    cat("Ignorando a data, pois você passou urls.\n")
+    anos <- NULL
+    nm <- sapply(url, function(i){
+      o <- unlist(stringr::str_split(i, pattern = "\\/"))
+      unname(o[length(o)])
+    })
+  } else if(!is.null(ano) & is.null(url)) {
+    if(!ano %in% s) {
+      stop("Passe valores para anos entre 1995 e 2017 ou uma url do arquivo .zip válida.\n")
+    } else {
+      anos <- ano
+      nm <- paste0("base_", anos, ".zip")
+    }
+  } else if(!is.null(ano) & !is.null(url)){
+    cat("Ignorando a data, pois você passou urls.\n")
+    anos <- NULL
+    nm <- sapply(url, function(i){
+      o <- unlist(stringr::str_split(i, pattern = "\\/"))
+      unname(o[length(o)])
+    })
+  } else {
+    anos <- ano
+    nm <- paste0("dados_", anos, ".zip")
+  }
+  url_in <- c('http://download.inep.gov.br/microdados/micro_censo_edu_superior1995.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior1996.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior1997.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior1998.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior1999.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior2000.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior2001.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior2002.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior2003.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_educacao_superior_2004.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_educacao_superior_2005.zip',
+              'http://download.inep.gov.br/microdados/microdados_educacao_superior_2006.zip',
+              'http://download.inep.gov.br/microdados/microdados_educacao_superior_2007.zip',
+              'http://download.inep.gov.br/microdados/micro_censo_edu_superior2008.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2009.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2010.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2011.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2012.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2013.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2014.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2015.zip',
+              'http://download.inep.gov.br/microdados/microdados_censo_superior_2016.zip',
+              'http://download.inep.gov.br/microdados/microdados_educacao_superior_2017.zip')
+
+  inep_url <- data.frame(url_in = as.character(url_in),
+                         ano_in = as.numeric(stringr::str_extract(url_in, "[0-9]{4}")), stringsAsFactors = FALSE)
+
+  get_url <- if(!is.null(url)) {
+    url
+  } else {
+    inep_url %>%
+      dplyr::filter(ano_in %in% anos) %>%
+      dplyr::select(url_in) %>%
+      unlist() %>%
+      unname()
+  }
+  lapply(seq_along(get_url), function(i) {
+    fn_aux(url = get_url[[i]], file = nm[[i]])
+  })
+}
