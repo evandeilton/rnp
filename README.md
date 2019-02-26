@@ -14,25 +14,38 @@ Os materiais como funções, alguns documentos e as funções dsiponibilizadas a
 
 ## Programa integrado
 
-### R NA PRÁTICA: Data Wrangling com R para Ciência de Dados
+O R NA PRATICA agora engloba cinco módulos:
+  
+  * Módulo - I   (Data Wrangling com R para Ciência de Dados)
+  * Módulo - II  (Estatística descomplicada com R)
+  * Módulo - III (Introdução à probabilidade com R)
+  * Módulo - VI  (Testes de hipóteses com R)
+  * Módulo - V   (Modelagem estatística com R)
+
+### Módulo I - R NA PRÁTICA: Data Wrangling com R para Ciência de Dados
 
 Neste módulo o aluno aprenderá:
 
-    Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
+  * Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
+  * Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
+  * Dominará a criação de códigos otimizados em R com o moderno operador pipe "%>%" e os pacotes do tidyverse;   
+  * Terá domínio sobre o processo de obtenção de conhecimento a partir de dados passando pelo ciclo de análise de situação problema, obtenção de dados, preparação, análise, visualização e comunicação de resultados com R Markdown;   
+  * Será capaz de resolver cases de estudo e problemas com dados e situações reais.
+  * Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
 
-    Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
+### Módulo II - R NA PRÁTICA: Estatística descomplicada com R 
 
-    Dominará a criação de códigos otimizados em R com o moderno operador pipe "%>%" e os pacotes do tidyverse;   
+Em desenvolvimento (0%================70%=======100%)
 
-    Terá domínio sobre o processo de obtenção de conhecimento a partir de dados passando pelo ciclo de análise de situação problema, obtenção de dados, preparação, análise, visualização e comunicação de resultados com R Markdown;   
+### Módulo - III (Introdução à probabilidade com R)
 
-    Será capaz de resolver cases de estudo e problemas com dados e situações reais.
+Em desenvolvimento (0%====10%===================100%)
 
-    Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
+### Módulo - VI  (Testes de hipóteses com R)
 
-Tudo isso em um ciclo desenhado especialmente para que você saiba a trilha certa a seguir e seu aprendizado seja gradual.  
+Em desenvolvimento (0%==5%======================100%)
 
+### Módulo - V   (Modelagem estatística com R)
 
+Em desenvolvimento (0%=1%=======================100%)
 
-# rnp
-Pacote de funções do R NA PRÁTICA
