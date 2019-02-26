@@ -12,6 +12,21 @@ A ideia do R NA PRATICA cresceu e tornou-se um projeto de maior abrangência com
 
 Os materiais como funções, alguns documentos e as funções dsiponibilizadas aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, estatísticas e ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
 
+### Instalação do pacote
+
+```{r}
+  # Se não tiver o devtools, instala.
+  if(!require(devtools)){
+    install.packages("devtools")
+  }
+  
+  # Instala o rnp
+  devtools::install_github("evandeilton/rnp")
+  
+  # carrega o pacote e a vinheta
+  vignette("rnp", package = "rnp")
+```
+
 ## Programa integrado
 
 O R NA PRATICA agora engloba cinco módulos:
