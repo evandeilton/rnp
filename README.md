@@ -4,13 +4,13 @@ A linguagem R é uma das que mais cresce atualmente no mundo das linguagens de p
 
 ## R NA PRÁTICA
 
-O Curso `R NA PRÁTICA: Data Wrangling com R para Ciência de Dados` foi uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciênci de dados. O conceito Data Wrangling é um tanto genérico em nosso português brasileiro, mas poderia ser traduzido como disputa/briga/luta de dados. Esta disputa está intimamente ligada ao processo de transformação de dados e isso inclui: obtenção, transformação, limpeza, agregação, visualização e criação de bases limpas para fins de Analytics na Ciência de Dados.
+O Curso **R NA PRÁTICA: Data Wrangling com R para Ciência de Dados** foi uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados. O conceito Data Wrangling é um tanto genérico em nosso português brasileiro, mas poderia ser traduzido como disputa/briga/luta de dados. Esta disputa está intimamente ligada ao processo de transformação de dados para obter conhecimento e isso inclui: obtenção, transformação, limpeza, agregação, visualização e criação de bases limpas para fins de Analytics na Ciência de Dados.
 
 ## O pacote `rnp`
 
-A ideia do R NA PRATICA cresceu e tornou-se um projeto de maior abrangência com o bjetivo de ensinar estatística de _Data Science_ com auxílio do _R_. Diante disso, muitas funções estão sendo criadas à medida em que o projeto ganha volume. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github.
+A ideia do R NA PRATICA cresceu e tornou-se um projeto de maior abrangência com o bjetivo de ensinar e aprender Estatística e _Data Science_ com auxílio do _R_. Diante disso, muitas funções estão sendo criadas à medida em que o projeto ganha volume. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github.
 
-Os materiais como funções, alguns documentos e as funções dsiponibilizadas aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, estatísticas e ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
+Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
 
 ### Instalação do pacote
 
@@ -30,7 +30,7 @@ Os materiais como funções, alguns documentos e as funções dsiponibilizadas a
 
 ## Programa integrado
 
-O R NA PRATICA agora engloba cinco módulos:
+O R NA PRATICA engloba cinco módulos. O primeiro já está completo e disponível. Os demais estão em fase de desenvolvimento:
   
   * Módulo - I   (Data Wrangling com R para Ciência de Dados)
   * Módulo - II  (Estatística descomplicada com R)
