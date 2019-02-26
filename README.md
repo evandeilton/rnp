@@ -15,15 +15,16 @@ Os materiais como funções, alguns documentos e as funções dsiponibilizadas a
 ### Instalação do pacote
 
 ```{r}
-  # Se não tiver o devtools, instala.
+  # Se não tiver o devtools, instalar.
   if(!require(devtools)){
     install.packages("devtools")
   }
   
-  # Instala o rnp
+  # Instalar o rnp
   devtools::install_github("evandeilton/rnp")
   
-  # carrega o pacote e a vinheta
+  # Carregar o pacote e a vinheta
+  require("rnp")
   vignette("rnp", package = "rnp")
 ```
 
