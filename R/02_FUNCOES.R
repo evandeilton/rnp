@@ -412,6 +412,7 @@ rnp_try_error <- function(code, silent = TRUE) {
 #' rnp_get_inep_censo()
 #' }
 #' @author LOPES, J. E.
+#' @import dplyr
 #' @export
 rnp_get_inep_censo <- function(ano = NULL, url = NULL){
   fn_aux <- function(url, file){
