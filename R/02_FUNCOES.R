@@ -392,7 +392,8 @@ rnp_try_error <- function(code, silent = TRUE) {
 
 
 #' Download dados do INEP
-#' @description Recebe uma data ou uma url do portal de microdados do INEP e baixa os dados.
+#' @description Recebe uma data ou uma url do portal de microdados do INEP e
+#' baixa os dados no local em que a sessão do R foi carregada.
 #' @details  Quando passado apenas uma data a função baixa os dados do INEP
 #' da data correspondente para o censo de educação superior, desde que esta
 #' data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a função
@@ -404,6 +405,8 @@ rnp_try_error <- function(code, silent = TRUE) {
 #' @return arquivo .zip ou da extenção da url passada.
 #' @examples
 #' \dontrun{
+#' require(rnp)
+#' require(dplyr)
 #' url_in = 'http://download.inep.gov.br/microdados/micro_censo_edu_superior1995.zip'
 #' rnp_get_inep_censo(url = url_in)
 #' rnp_get_inep_censo()

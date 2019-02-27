@@ -15,7 +15,8 @@ rnp_get_inep_censo(ano = NULL, url = NULL)
 arquivo .zip ou da extenção da url passada.
 }
 \description{
-Recebe uma data ou uma url do portal de microdados do INEP e baixa os dados.
+Recebe uma data ou uma url do portal de microdados do INEP e
+baixa os dados no local em que a sessão do R foi carregada.
 }
 \details{
 Quando passado apenas uma data a função baixa os dados do INEP
@@ -27,6 +28,8 @@ sido informada e baixa o arquivo da url informada.
 }
 \examples{
 \dontrun{
+require(rnp)
+require(dplyr)
 url_in = 'http://download.inep.gov.br/microdados/micro_censo_edu_superior1995.zip'
 rnp_get_inep_censo(url = url_in)
 rnp_get_inep_censo()
