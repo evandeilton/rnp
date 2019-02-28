@@ -4,7 +4,7 @@
 \alias{rnp_get_inep_censo}
 \title{Download dados do INEP}
 \usage{
-rnp_get_inep_censo(ano = NULL, url = NULL)
+rnp_get_inep_censo(ano = 2017, url = NULL, salvar = NULL)
 }
 \arguments{
 \item{ano}{ano formato numérico, ex. 2010, 2016}

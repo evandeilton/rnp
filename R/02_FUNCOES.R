@@ -414,7 +414,7 @@ rnp_try_error <- function(code, silent = TRUE) {
 #' @author LOPES, J. E.
 #' @import dplyr
 #' @export
-rnp_get_inep_censo <- function(ano = NULL, url = NULL){
+rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
   fn_aux <- function(url, file){
     f = RCurl::CFILE(file, mode="wb")
     a = RCurl::curlPerform(url = url, writedata = f@ref, noprogress=FALSE)
@@ -488,6 +488,6 @@ rnp_get_inep_censo <- function(ano = NULL, url = NULL){
       unname()
   }
   lapply(seq_along(get_url), function(i) {
-    fn_aux(url = get_url[[i]], file = nm[[i]])
+    fn_aux(url = get_url[[i]], file = ifelse(is.null(salvar), nm[[i]], paste0(salvar, nm[[i]])))
   })
 }
