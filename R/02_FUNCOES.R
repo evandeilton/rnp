@@ -90,9 +90,9 @@ rnp_2freq <- function(x, y, digits = 4, percents = FALSE){
                           check.names = FALSE, stringsAsFactors = FALSE),
                data.frame(cbind(Tipo = "fr", Classe = as.character(rownames(t2)), round(as.matrix(t2), digits = digits)),
                           check.names = FALSE, stringsAsFactors = FALSE),
-               data.frame(cbind(Tipo = "fr_linha", Classe = as.character(rownames(li)), round(as.matrix(li), digits = digits)),
+               data.frame(cbind(Tipo = "fr_lin", Classe = as.character(rownames(li)), round(as.matrix(li), digits = digits)),
                           check.names = FALSE, stringsAsFactors = FALSE),
-               data.frame(cbind(Tipo = "fr_coluna", Classe = as.character(rownames(co)), round(as.matrix(co), digits = digits)),
+               data.frame(cbind(Tipo = "fr_col", Classe = as.character(rownames(co)), round(as.matrix(co), digits = digits)),
                           check.names = FALSE, stringsAsFactors = FALSE)
 			  )
   } else {
@@ -111,12 +111,12 @@ rnp_2freq <- function(x, y, digits = 4, percents = FALSE){
 
   if(percents) {
 	O <- O[order(O$Classe, O$Tipo), ]
-	out <- O[!(O$Classe == "Total" & O$Tipo %in% c("fr_coluna","fr_linha")), ]
+	out <- O[!(O$Classe == "Total" & O$Tipo %in% c("fr_col","fr_lin")), ]
   } else {
 	out <- O
   }
   rownames(out) <- NULL
-  colnames(out)[2] <- "Classe X / Y"
+  colnames(out)[2] <- "Classe X/Y"
   return(out)
 }
 
