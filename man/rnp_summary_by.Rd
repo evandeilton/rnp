@@ -9,10 +9,12 @@ rnp_summary_by(base, variavel, grupos, digits = 3)
 \arguments{
 \item{base}{data.frame com as variáveis de entrada}
 
-\item{grupos}{lista ou vetor de nomes das estatísticas de agrupamento na ordem em que deseja
-obter os resultados}
+\item{variavel}{o nome da variável numérica entre aspas}
 
-\item{variável}{o nome da variável numérica entre aspas}
+\item{grupos}{lista ou vetor de nomes das estatísticas de agrupamento na ordem em que deseja
+obter os resultados.}
+
+\item{digits}{total de digitos para arredondar os decimais.}
 }
 \value{
 As estatísticas de saída desta função são: total (N), soma, número de missing (Nmis),

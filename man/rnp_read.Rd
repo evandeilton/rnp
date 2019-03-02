@@ -18,7 +18,11 @@ rnp_read(base, sep = "|", dec = ".", encoding = "Latin-1",
 
 \item{nrows}{Número de linhas a extrair. Se Inf, trás todas}
 
-\item{...}{Passagem de argumentos ectras para a função  data.table::fread()}
+\item{verbose}{Se TRUE, exibe logs do que está aocontecendo em tempo de extração}
+
+\item{showProgress}{Se TRUE, exibe o andamento do processo de leitura}
+
+\item{...}{Passagem de argumentos ectras para a função \code{\link{fread}}}
 }
 \value{
 tibla com os dados importados

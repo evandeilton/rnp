@@ -4,7 +4,7 @@
 \alias{rnp_summary}
 \title{Sumário estatístico}
 \usage{
-rnp_summary(x, digits = 4, ...)
+rnp_summary(x, digits = 4)
 }
 \arguments{
 \item{x}{vetor numérico de entrada}

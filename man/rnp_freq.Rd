@@ -10,6 +10,8 @@ rnp_freq(x, sortd = FALSE, digits = 4)
 \item{x}{vetor numérico ou caractere de entrada}
 
 \item{sortd}{TRUE para ordenar}
+
+\item{digits}{Número de dígitos para arredondar os decimais}
 }
 \value{
 data.frame

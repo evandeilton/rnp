@@ -10,6 +10,9 @@ rnp_get_inep_censo(ano = 2017, url = NULL, salvar = NULL)
 \item{ano}{ano formato numérico, ex. 2010, 2016}
 
 \item{url}{url, vetor ou lista de urls completas para baixar os dados.}
+
+\item{salvar}{caminho onde deseja salvar os dados baixados. Se NULL, a função
+baixa na pasta onde a sessão ativa do R foi iniciada. Execute \code{\link{getwd}} para saber o local.}
 }
 \value{
 arquivo .zip ou da extenção da url passada.
