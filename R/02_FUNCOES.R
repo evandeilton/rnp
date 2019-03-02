@@ -168,6 +168,8 @@ rnp_summary_all <- function(base){
 #' @param ... Passagem de argumentos ectras para a função  data.table::fread()
 #' @return tibla com os dados importados
 #' @author LOPES, J. E
+#' @importFrom data.table fread
+#' @importFrom dplyr as_tibble
 #' @export
 rnp_read <- function(base, sep = "|", dec = ".", encoding = "Latin-1", nrows = Inf,
                      verbose = TRUE, showProgress = TRUE, ...) {
@@ -241,7 +243,8 @@ rnp_freq2 <- function(x, y, digits = 4, type = c("n","pct"), chisqt = FALSE){
 #' @param base base de dados censo INEP
 #' @param classes base de dados com informações das classes obtidas do dicionário de dados do INEP.
 #' @author LOPES, J. E.
-#'
+#' @import dplyr
+#' @importFrom magrittr set_colnames
 #' @examples
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
@@ -314,6 +317,8 @@ rnp_aplica_classes <- function(base, classes){
 #' @param retorn_lista TRUE se quer obter uma lista de data.frames, sendo
 #' um para cada variável ou base já agregada.
 #' @author LOPES, J. E.
+#' @import dplyr
+#' @importFrom magrittr set_colnames
 #' @examples
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
@@ -412,7 +417,8 @@ rnp_try_error <- function(code, silent = TRUE) {
 #' rnp_get_inep_censo()
 #' }
 #' @author LOPES, J. E.
-#' @import dplyr
+#' @import dplyr RCurl
+#' @importFrom stringr str_extract
 #' @export
 rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
   fn_aux <- function(url, file){
@@ -490,4 +496,43 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
   lapply(seq_along(get_url), function(i) {
     fn_aux(url = get_url[[i]], file = ifelse(is.null(salvar), nm[[i]], paste0(salvar, nm[[i]])))
   })
+}
+
+#' Estatísticas descritivas por grupo
+#' @description
+#' Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
+#' o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
+#' como grupos. A função trabalha com apoio da função \link{\code{plyr::ddply}} e aceita muitos
+#' grupos.
+#' @param base data.frame com as variáveis de entrada
+#' @param variável o nome da variável numérica entre aspas
+#' @param grupos lista ou vetor de nomes das estatísticas de agrupamento na ordem em que deseja
+#' obter os resultados
+#' @return
+#' As estatísticas de saída desta função são: total (N), soma, número de missing (Nmis),
+#' minimo, primeiro quartil (Q1), mediana (Q2), terceiro quartil (Q3), máximo, desvio pacrão (devpad)
+#' e coeficiente de variação (cv) em um data.frame agrupadas conforme as classes das variáveis de
+#' agrupamento.
+#' @author LOPES, J. E.
+#' @examples
+#' rnp_summary_by(base = mtcars, variavel = "wt", grupos = "gear")
+#' rnp_summary_by(base = mtcars, variavel = "wt", grupos = c("gear","cyl"))
+#' rnp_summary_by(base = mtcars, variavel = "wt",
+#'                grupos = list("gear","cyl"), digits = 2)
+#' @importFrom plyr ddply
+#' @export
+rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
+  variavel <- if(length(variavel) > 1){
+    stop("Informe apenas uma variavel numerica")
+  } else as.character(variavel)
+  if(length(grupos) > 10){
+    cat("Cuidado, muitos grupos podem gerar dados confusos!")
+  }
+  grupos <- as.character(unlist(grupos))
+  out <- plyr::ddply(.data = base,
+                     .variables = grupos,
+                     .fun = function(xx){
+                       rnp::rnp_summary(xx[,variavel], digits = digits)
+                     })
+  return(out)
 }
