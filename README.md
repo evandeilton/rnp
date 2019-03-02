@@ -25,5 +25,5 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
   
   # Carregar o pacote
   require("rnp")
-  ?rnp::rnp_freq
+  vignette("rnp")
 ```
