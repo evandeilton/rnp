@@ -3,7 +3,7 @@
 \docType{data}
 \name{dm_ies}
 \alias{dm_ies}
-\title{Dados do censo superior INEP 2017 (IES)}
+\title{Dados do censo ensino superior INEP 2017 (IES)}
 \description{
 Este conjunto de dados faz parte da base de dados do INEP para o censo
 brasileiro do ensino superior. Nesta parte temos os dados das IES

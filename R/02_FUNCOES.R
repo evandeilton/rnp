@@ -537,7 +537,7 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
   return(out)
 }
 
-#' Dados do censo superior INEP 2017 (Cursos)
+#' Dados do censo ensino superior INEP 2017 (Cursos)
 #' @description
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados dos cursos
@@ -554,7 +554,7 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
 #' str(dm_curso)
 NULL
 
-#' Dados do censo superior INEP 2017 (IES)
+#' Dados do censo ensino superior INEP 2017 (IES)
 #' @description
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados das IES

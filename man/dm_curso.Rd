@@ -3,7 +3,7 @@
 \docType{data}
 \name{dm_curso}
 \alias{dm_curso}
-\title{Dados do censo superior INEP 2017 (Cursos)}
+\title{Dados do censo ensino superior INEP 2017 (Cursos)}
 \description{
 Este conjunto de dados faz parte da base de dados do INEP para o censo
 brasileiro do ensino superior. Nesta parte temos os dados dos cursos

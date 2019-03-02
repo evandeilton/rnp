@@ -14,7 +14,7 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
 
 ### Instalação do pacote
 
-```{r}
+```{r, eval = FALSE}
   # Se não tiver o devtools, instalar.
   if(!require(devtools)){
     install.packages("devtools")
@@ -27,44 +27,3 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
   require("rnp")
   ?rnp::rnp_freq
 ```
-
-## Programa integrado
-
-O R NA PRATICA engloba cinco módulos. O primeiro já está completo e disponível. Os demais estão em fase de desenvolvimento:
- 
-  * Módulo - I   (Data Wrangling com R para Ciência de Dados)
-  * Módulo - II  (Estatística descomplicada com R)
-  * Módulo - III (Introdução à probabilidade com R)
-  * Módulo - VI  (Testes de hipóteses com R)
-  * Módulo - V   (Modelagem estatística com R)
-
-### Módulo I - R NA PRÁTICA: Data Wrangling com R para Ciência de Dados
-
-Neste módulo exploramos o conceito Data Wrangling que é um tanto genérico em nosso português brasileiro, mas poderia ser traduzido como disputa/briga/luta de dados. Esta disputa está intimamente ligada ao processo de transformação de dados para obter conhecimento e isso inclui: obtenção, transformação, limpeza, agregação, visualização e criação de bases limpas para fins de Analytics na Ciência de Dados.
-
-Neste módulo o aluno aprenderá:
-<https://www.udemy.com/r-na-pratica-ciencia-de-dados/>
-
-  * Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
-  * Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
-  * Dominará a criação de códigos otimizados em R com o moderno operador pipe "%>%" e os pacotes do tidyverse;   
-  * Terá domínio sobre o processo de obtenção de conhecimento a partir de dados passando pelo ciclo de análise de situação problema, obtenção de dados, preparação, análise, visualização e comunicação de resultados com R Markdown;   
-  * Será capaz de resolver cases de estudo e problemas com dados e situações reais.
-  * Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
-
-### Módulo - II (R NA PRÁTICA: Estatística descomplicada com R )
-
-Em desenvolvimento (0%================70%=======100%)
-
-### Módulo - III (Introdução à probabilidade com R)
-
-Em desenvolvimento (0%====10%===================100%)
-
-### Módulo - VI  (Testes de hipóteses com R)
-
-Em desenvolvimento (0%==5%======================100%)
-
-### Módulo - V   (Modelagem estatística com R)
-
-Em desenvolvimento (0%=1%=======================100%)
-
