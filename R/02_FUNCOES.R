@@ -502,7 +502,7 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
 #' @description
 #' Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
 #' o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
-#' como grupos. A função trabalha com apoio da função \link{ddply} e aceita muitos
+#' como grupos. A função trabalha com apoio da função \link{\code{ddply}} e aceita muitos
 #' grupos.
 #' @param base data.frame com as variáveis de entrada
 #' @param variável o nome da variável numérica entre aspas
