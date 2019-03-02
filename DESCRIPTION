@@ -1,6 +1,6 @@
 Package: rnp
 Title: R NA PRATICA - Pacote de recursos extras
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "José E.",
            family = "Lopes",
