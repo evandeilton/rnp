@@ -23,7 +23,7 @@ agrupamento.
 \description{
 Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
 o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
-como grupos. A função trabalha com apoio da função \link{\code{ddply}} e aceita muitos
+como grupos. A função trabalha com apoio da função \code{\link{ddply}} e aceita muitos
 grupos.
 }
 \examples{
