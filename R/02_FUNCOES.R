@@ -536,3 +536,37 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
                      })
   return(out)
 }
+
+#' Dados do censo superior INEP 2017 (Cursos)
+#' @description
+#' Este conjunto de dados faz parte da base de dados do INEP para o censo
+#' brasileiro do ensino superior. Nesta parte temos os dados dos cursos
+#' mapeados pelo censo naquele ano.
+#' Para obter dados de outros anos consulte o link do site do INEP ou
+#' a função \code{\link{rnp_get_inep_censo}}
+#' @name dm_curso
+#' @docType data
+#' @author INEP
+#' @references \url{http://inep.gov.br/microdados}
+#' @keywords dm_curso
+#' @examples
+#' require(rnp)
+#' str(dm_curso)
+NULL
+
+#' Dados do censo superior INEP 2017 (IES)
+#' @description
+#' Este conjunto de dados faz parte da base de dados do INEP para o censo
+#' brasileiro do ensino superior. Nesta parte temos os dados das IES
+#' Instituições de Ensino Superior mapeados pelo censo naquele ano.
+#' Para obter dados de outros anos consulte o link do site do INEP ou
+#' a função \code{\link{rnp_get_inep_censo}}
+#' @name dm_ies
+#' @docType data
+#' @author INEP
+#' @references \url{http://inep.gov.br/microdados}
+#' @keywords dm_ies
+#' @examples
+#' require(rnp)
+#' str(dm_ies)
+NULL
