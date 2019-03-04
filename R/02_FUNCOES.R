@@ -576,3 +576,28 @@ NULL
 #' require(rnp)
 #' str(dm_ies)
 NULL
+
+
+#'  Instalar pacotes CRAN
+#' @description
+#' Carega pacotes necesários pra trabalhar com o R NA PRATICA
+#' @param pacotes Lista ou vetr e nomes de pacotes separados por aspas e ponto e virgula.
+#' @examples
+#' require(rnp)
+#' rnp_load_packages()
+#' @export
+rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","broom","stringr",
+                                           "plotly","ggplot2","data.table","DT", "formatR", "svglite",
+                                           "tufte","kable","kableExtra","ggmosaic")){
+  lapply(pacotes, function(pkg) {
+    if (system.file(package = pkg) == '') {
+      install.packages(pkg, dependencies = TRUE)
+    }
+  })
+  lapply(pacotes, function(pkg) {require(pkg, character.only = TRUE, warn.conflicts = TRUE)})
+
+  # Instalar rnp
+  if(!require(rnp)){
+    devtools::install_github("evandeilton/rnp")
+  }
+}
