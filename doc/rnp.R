@@ -10,4 +10,7 @@
 #    # Carregar o pacote
 #    require("rnp")
 #    ?rnp::rnp_freq
+#  
+#    # Vinheta
+#    vignette("rnp")
 
