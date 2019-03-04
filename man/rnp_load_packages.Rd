@@ -2,11 +2,11 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_load_packages}
 \alias{rnp_load_packages}
-\title{Instalar pacotes CRAN}
+\title{Carregar ou instalar pacotes CRAN}
 \usage{
 rnp_load_packages(pacotes = c("tidyverse", "lubridate", "magrittr",
   "broom", "stringr", "plotly", "ggplot2", "data.table", "DT", "formatR",
-  "svglite", "tufte", "kable", "kableExtra", "ggmosaic"))
+  "svglite", "tufte", "kableExtra", "ggmosaic", "prettydoc"))
 }
 \arguments{
 \item{pacotes}{Lista ou vetr e nomes de pacotes separados por aspas e ponto e virgula.}

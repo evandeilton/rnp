@@ -578,7 +578,7 @@ NULL
 NULL
 
 
-#'  Instalar pacotes CRAN
+#' Carregar ou instalar pacotes CRAN
 #' @description
 #' Carega pacotes necesários pra trabalhar com o R NA PRATICA
 #' @param pacotes Lista ou vetr e nomes de pacotes separados por aspas e ponto e virgula.
@@ -588,13 +588,18 @@ NULL
 #' @export
 rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","broom","stringr",
                                            "plotly","ggplot2","data.table","DT", "formatR", "svglite",
-                                           "tufte","kable","kableExtra","ggmosaic")){
-  lapply(pacotes, function(pkg) {
-    if (system.file(package = pkg) == '') {
-      install.packages(pkg, dependencies = TRUE)
+                                           "tufte","kableExtra","ggmosaic","prettydoc")){
+  lapply(pacotes, function(i) {
+    if (system.file(package = i) == '') {
+      cat("Pacote ", i, "nao localizado. Tentando instalar, se existir no CRAN...\n")
+      rnp::rnp_try_error(install.packages(i, dependencies = TRUE, verbose = TRUE))
     }
   })
-  lapply(pacotes, function(pkg) {require(pkg, character.only = TRUE, warn.conflicts = TRUE)})
+
+  lapply(pacotes, function(i) {
+    rnp::rnp_try_error(require(i, character.only = TRUE, warn.conflicts = TRUE, quietly = TRUE))
+    }
+  )
 
   # Instalar rnp
   if(!require(rnp)){
