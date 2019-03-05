@@ -132,15 +132,15 @@ rnp_summary <- function(x, digits = 4) {
   o <- c(N        = length(x),
          Soma     = sum(x, na.rm = TRUE),
          Nmis     = sum(is.na(x)),
-         Min      = min(x),
-         Q1       = unname(quantile(x, probs = 0.25)),
-         Media    = mean(x),
+         Min      = min(x, na.rm = TRUE),
+         Q1       = unname(quantile(x, probs = 0.25, na.rm = TRUE)),
+         Media    = mean(x, na.rm = TRUE),
          Mediana  = median(x),
-         Q3       = unname(quantile(x, probs = 0.75)),
-         Max      = max(x),
-         DevPad   = sd(x),
+         Q3       = unname(quantile(x, probs = 0.75, na.rm = TRUE)),
+         Max      = max(x, na.rm = TRUE),
+         DevPad   = sd(x, na.rm = TRUE),
          #IQR      = IQR(x),
-         cv       = sd(x)/mean(x))
+         cv       = sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE))
   return(round(o, digits = digits))
 }
 
