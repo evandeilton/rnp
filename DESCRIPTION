@@ -9,11 +9,17 @@ Authors@R:
 Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra de funções e recursos para todos os alunos do rnp. Este pacote está em atualização contínua e novos resursos serão adicionados.
 License: GPL-3
 Encoding: UTF-8
+Imports: 
+    tidyverse,
+    RCurl,
+    ggplot2 (>= 2.2.1),
+    lubridate (>= 1.7.4),
+    magrittr (>= 1.5),
+    data.table,
+    stringr (>= 1.3.0)
 Suggests: 
     knitr,
-    rmarkdown,
-    stringr,
-    dplyr
+    rmarkdown
 VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.1.1
