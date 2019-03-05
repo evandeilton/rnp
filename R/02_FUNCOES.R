@@ -135,11 +135,11 @@ rnp_summary <- function(x, digits = 4) {
          Min      = min(x, na.rm = TRUE),
          Q1       = unname(quantile(x, probs = 0.25, na.rm = TRUE)),
          Media    = mean(x, na.rm = TRUE),
-         Mediana  = median(x),
+         Mediana  = median(x, na.rm = TRUE),
          Q3       = unname(quantile(x, probs = 0.75, na.rm = TRUE)),
          Max      = max(x, na.rm = TRUE),
          DevPad   = sd(x, na.rm = TRUE),
-         #IQR      = IQR(x),
+         IQR      = IQR(x, na.rm = TRUE),
          cv       = sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE))
   return(round(o, digits = digits))
 }
