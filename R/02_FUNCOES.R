@@ -17,7 +17,7 @@ rnp_freq <- function(x, sortd = FALSE, digits = 4){
 
   if(is.numeric(x)){
     #cat("Variavel numerica, utilizando a funcao quantile() para faixas.\n")
-    quebras = unique(round(quantile(x), 2))
+    quebras = unique(round(quantile(x, na.rm = TRUE), 2))
     t1 <- table(cut(x, breaks = quebras, include.lowest = TRUE))
     #names(t1) <- paste(names(quebras), names(t1), sep = "_")
   } else {
@@ -176,9 +176,8 @@ rnp_summary_all <- function(base){
 #' @export
 rnp_read <- function(base, sep = "|", dec = ".", encoding = "Latin-1", nrows = Inf,
                      verbose = TRUE, showProgress = TRUE, ...) {
-  data.table::fread(input = base, sep = sep, dec = dec, encoding = encoding, header = TRUE,
-                    stringsAsFactors = FALSE, verbose = verbose, showProgress = showProgress) %>%
-    dplyr::as_tibble()
+  data.table::fread(input = base, sep = sep, dec = dec, encoding = encoding, header = TRUE, nrows = nrows,
+                    stringsAsFactors = FALSE, verbose = verbose, showProgress = showProgress)
 }
 
 #' Extrai atributos de um objeto
