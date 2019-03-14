@@ -27,3 +27,8 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
   require("rnp")
   vignette("rnp")
 ```
+
+### Bugs
+
+Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos corrigir nas próximas atualizações do pacote.
+

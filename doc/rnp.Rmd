@@ -30,6 +30,10 @@ Muitas funções estão sendo criadas à medida em que o projeto ganha volume e 
 
 Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
 
+## Bugs
+
+Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos corrigir nas próximas atualizações do pacote.
+
 ### Instalação do pacote
 
 ```{r, eval=FALSE, echo=TRUE}
