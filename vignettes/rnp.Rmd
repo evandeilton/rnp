@@ -18,7 +18,7 @@ vignette: >
 
 # Introdução
 
-A linguagem R é uma das que mais cresce atualmente no mundo das linguagens de programação científicas. Esta linguagem tem sido uma das mais requisitadas por empresas, centros de pesquisa e por recrutadores das áreas de analytics e data science. Isso graças ao poder de processamento, aos recursos e à sua capacidade de expansão. R é uma linguagem científica, cross-plataforma, orientada a objetos, free e open source com uma comunidade de desenvolvedores e colaboradores global extremamente ativa.
+R é uma das linguagens que mais cresce atualmente no mundo da programação científica. Esta linguagem tem sido uma das mais requisitadas por empresas, centros de pesquisa e por recrutadores das áreas de analytics e data science. Isso graças ao poder de processamento, aos recursos e à sua capacidade de expansão. R é uma linguagem científica, cross-plataforma, orientada a objetos, free e open source com uma comunidade de desenvolvedores e colaboradores global extremamente ativa.
 
 ## R NA PRÁTICA
 
@@ -26,13 +26,13 @@ O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajuda
 
 ## O pacote `rnp`
 
-Muitas funções estão sendo criadas à medida em que o projeto ganha volume e os novos módulos vão sendo escritos. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github. Nasce o pacote `rnp`.
+Muitas funções estão sendo criadas à medida em que o projeto ganha volume e os novos módulos vão sendo escritos. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github. Este é o pacote `rnp`.
 
-Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
+Materiais como funções, algumas bases de dados e documentos disponibilizados aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
 
 ## Bugs
 
-Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos corrigir nas próximas atualizações do pacote.
+Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de função, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos atender nas próximas atualizações do pacote.
 
 ### Instalação do pacote
 
@@ -41,7 +41,7 @@ Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://gith
   if(!require(devtools)){
     install.packages("devtools")
   }
-  
+
   # Instalar o rnp
   devtools::install_github("evandeilton/rnp")
   
@@ -50,6 +50,11 @@ Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://gith
   ?rnp::rnp_freq
   
   # Vinheta
+  # Se não tiver o prettydoc, a vinheta não roda
+  if(!require(prettydoc)){
+    install.packages("prettydoc")
+  }
+
   vignette("rnp")
 ```
 

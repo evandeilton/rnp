@@ -12,5 +12,10 @@
 #    ?rnp::rnp_freq
 #  
 #    # Vinheta
+#    # Se não tiver o prettydoc, a vinheta não roda
+#    if(!require(prettydoc)){
+#      install.packages("prettydoc")
+#    }
+#  
 #    vignette("rnp")
 
