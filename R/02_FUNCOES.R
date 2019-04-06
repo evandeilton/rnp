@@ -607,6 +607,7 @@ rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","
 #' @param y variável dois
 #' @param ... argumentos passados para a função \code{\link{chisq.test}}
 #' @author LOPES, J. E.
+#' @export
 rnp_associacao <- function(x, y, ...){
   oo <- table(x, y)
   ch <- chisq.test(oo)
