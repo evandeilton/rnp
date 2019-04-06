@@ -596,3 +596,24 @@ rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","
     devtools::install_github("evandeilton/rnp")
   }
 }
+
+#' Estatística de associação
+#'
+#' @description Recebe dois vetores categóricos de tamanhos iguais e calcula as estatísticas
+#' Qui-quadrado, V de Cramér e o coeficiante de contingência para a tabela de contingência
+#' das duas variáveis criada pela função \code{\link{table}}.
+#'
+#' @param x variável um
+#' @param y variável dois
+#' @param ... argumentos passados para a função \code{\link{chisq.test}}
+#' @author LOPES, J. E.
+rnp_associacao <- function(x, y, ...){
+  oo <- table(x, y)
+  ch <- chisq.test(oo)
+  rr <- sum(ch$expected)*(min(dim(ch$expected))-1)
+  vv <- sqrt(ch$statistic / rr)
+  cc <- sqrt((min(dim(ch$observed)))/(min(dim(ch$observed))-1))*sqrt(ch$statistic/(ch$statistic+sum(ch$observed)))
+  out <- unname(c(ch$statistic, vv, cc))
+  names(out) <- c("Qui-quadrado","V-Cramer","C-Contingencia")
+  return(out)
+}
