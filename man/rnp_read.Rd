@@ -5,7 +5,8 @@
 \title{Leitura rápida de bases de dados}
 \usage{
 rnp_read(base, sep = "|", dec = ".", encoding = "Latin-1",
-  nrows = Inf, verbose = TRUE, showProgress = TRUE, ...)
+  nrows = Inf, verbose = TRUE, showProgress = TRUE, select = NULL,
+  ...)
 }
 \arguments{
 \item{base}{Local e nome com a extensão da base de dados de entrada}

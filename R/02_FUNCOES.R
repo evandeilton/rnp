@@ -173,9 +173,9 @@ rnp_summary_all <- function(base){
 #' @author LOPES, J. E
 #' @export
 rnp_read <- function(base, sep = "|", dec = ".", encoding = "Latin-1", nrows = Inf,
-                     verbose = TRUE, showProgress = TRUE, ...) {
+                     verbose = TRUE, showProgress = TRUE, select = NULL, ...) {
   data.table::fread(input = base, sep = sep, dec = dec, encoding = encoding, header = TRUE, nrows = nrows,
-                    stringsAsFactors = FALSE, verbose = verbose, showProgress = showProgress)
+                    stringsAsFactors = FALSE, verbose = verbose, showProgress = showProgress, select = select)
 }
 
 #' Extrai atributos de um objeto
@@ -538,6 +538,8 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados dos cursos
 #' mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variáveis, porém o total de observações
+#' está completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
 #' a função \code{\link{rnp_get_inep_censo}}
 #' @name dm_curso
@@ -555,6 +557,8 @@ NULL
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados das IES
 #' Instituições de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variáveis, porém o total de observações
+#' está completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
 #' a função \code{\link{rnp_get_inep_censo}}
 #' @name dm_ies
@@ -566,6 +570,47 @@ NULL
 #' require(rnp)
 #' str(dm_ies)
 NULL
+
+
+#' Dados do censo ensino superior INEP 2017 (Docente)
+#' @description
+#' Este conjunto de dados faz parte da base de dados do INEP para o censo
+#' brasileiro do ensino superior. Nesta parte temos os dados dos docentes
+#' das Instituições de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variáveis, porém o total de observações
+#' está completo.
+#' Para obter dados de outros anos consulte o link do site do INEP ou
+#' a função \code{\link{rnp_get_inep_censo}}
+#' @name dm_docente
+#' @docType data
+#' @author INEP
+#' @references \url{http://inep.gov.br/microdados}
+#' @keywords dm_docente
+#' @examples
+#' require(rnp)
+#' str(dm_docente)
+NULL
+
+#' Dados do censo ensino superior INEP 2017 (Local da oferta)
+#' @description
+#' Este conjunto de dados faz parte da base de dados do INEP para o censo
+#' brasileiro do ensino superior.
+#' Nesta parte temos os dados dos locais de oferta do curso das
+#' Instituições de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variáveis, porém o total de observações
+#' está completo.
+#' Para obter dados de outros anos consulte o link do site do INEP ou
+#' a função \code{\link{rnp_get_inep_censo}}
+#' @name dm_local
+#' @docType data
+#' @author INEP
+#' @references \url{http://inep.gov.br/microdados}
+#' @keywords dm_docente
+#' @examples
+#' require(rnp)
+#' str(dm_docente)
+NULL
+
 
 
 #' Carregar ou instalar pacotes CRAN
