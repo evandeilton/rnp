@@ -16,6 +16,5 @@
 #    if(!require(prettydoc)){
 #      install.packages("prettydoc")
 #    }
-#  
 #    vignette("rnp")
 

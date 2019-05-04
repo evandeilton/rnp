@@ -54,7 +54,6 @@ Caso encontre algum bug ou tenha interesse em solicitar alguma inclusÃ£o de funÃ
   if(!require(prettydoc)){
     install.packages("prettydoc")
   }
-
   vignette("rnp")
 ```
 

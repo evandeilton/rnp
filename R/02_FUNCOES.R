@@ -663,3 +663,55 @@ rnp_associacao <- function(x, y, ...){
   names(out) <- c("Qui-quadrado","V-Cramer","C-Contingencia")
   return(out)
 }
+
+
+#' Calculo de correlação
+#'
+#' @description Esta função recebe como entrada uma base de dados com pelo menos duas
+#' variáveis numéricas e deternina os coeficientes de correlação de Pearson, Spearman
+#' e Kendal.
+#'
+#' @details É possivel que existam variáveis não numérias em sua base de dados. Neste caso,
+#' elas serão eliminadas. Para mais detalhes veja \code{\link{cor}}
+#'
+#' @param base data.frame, tibla, data.table, etc.
+#' @param digits numeros de dígitos para arrendondar o valor da correlação.
+#' @param ... argumentos passados para a função \code{\link{chisq.test}}
+#' @author LOPES, J. E.
+#' @return Um data.frame com cinco colunas onde as duas primeiras são as combinações
+#' aos pares de cada uma das variáveis e as três ultimas são as correlações de
+#' Pearson, Spearman e Kendal respectivamente.
+#' @export
+rnp_correlacao <- function (base, digits = 4) {
+  if(missing(base)) {
+    stop("log: Informe uma base com pelo menos duas variáveis numéricas.\n")
+  }
+
+  cl <- sapply(base, class)
+  if(any(!cl %in% c("integer", "numeric"))) {
+    cat("log: parece que a base tem variáveis não numericas, removendo e trabalhando apenas com as numericas")
+  }
+  if(length(names(cl)[cl %in% c("integer", "numeric")]) < 2) {
+    stop("log: Informe uma base com pelo menos duas variáveis numéricas.\n")
+  }
+  base <- subset(base, select = names(cl)[cl %in% c("integer", "numeric")])
+  metodos <- c("pearson","spearman", "kendall")
+  lc <- lapply(metodos, function(i){
+    tab_cor <- round(cor(base, use = "complete.obs", method = i), digits)
+    tab_cor[lower.tri(tab_cor, diag = TRUE)] <- NA
+    tab_cor <- as.data.frame(as.table(tab_cor))
+    tab_cor <- na.omit(tab_cor)
+    return(tab_cor)
+  })
+  names(lc) <- metodos
+  pe <- lc$pearson
+  sp <- lc$spearman
+  ke <- lc$kendall
+  cors <- merge(merge(pe, sp,
+                     by.x = c("Var1","Var2"), by.y = c("Var1","Var2")),
+               ke, by.x = c("Var1","Var2"), by.y = c("Var1","Var2"))
+  colnames(cors) <- c("x", "y", metodos)
+  cors <- cors[order(cors$x, -abs(cors$pearson)),]
+  return(cors)
+}
+
