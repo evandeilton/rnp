@@ -25,7 +25,7 @@ e Kendal.
 }
 \details{
 É possivel que existam variáveis não numérias em sua base de dados. Neste caso,
-elas serão eliminadas. Para mais detalhes veja \code{\link{cor}}
+elas serão eliminadas. Para mais detalhes veja \code{\link{cor}}.
 }
 \author{
 LOPES, J. E.
