@@ -1,5 +1,7 @@
 # Introdução
 
+[![Travis build status](https://travis-ci.org/evandeilton/rnp.svg?branch=master)](https://travis-ci.org/evandeilton/rnp)
+
 A linguagem R é uma das que mais cresce atualmente no mundo das linguagens de programação científicas. Esta linguagem tem sido uma das mais requisitadas por empresas, centros de pesquisa e por recrutadores das áreas de analytics e data science. Isso graças ao poder de processamento, aos recursos e à sua capacidade de expansão. R é uma linguagem científica, cross-plataforma, orientada a objetos, free e open source com uma comunidade de desenvolvedores e colaboradores global extremamente ativa.
 
 ## R NA PRÁTICA
@@ -32,4 +34,3 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
 
 Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos corrigir nas próximas atualizações do pacote.
 
-[![Travis build status](https://travis-ci.org/evandeilton/rnp.svg?branch=master)](https://travis-ci.org/evandeilton/rnp)
