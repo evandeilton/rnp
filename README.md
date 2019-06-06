@@ -32,3 +32,4 @@ Os materiais como funções, algumas bases e documentos dsiponibilizadas aqui s�
 
 Caso encontre algum bug, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos corrigir nas próximas atualizações do pacote.
 
+[![Travis build status](https://travis-ci.org/evandeilton/rnp.svg?branch=master)](https://travis-ci.org/evandeilton/rnp)

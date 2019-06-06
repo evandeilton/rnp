@@ -26,7 +26,7 @@ da categoria e ao lado a variável original
 \dontrun{
 nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 L <- plyr::llply(nn[1], function(base){
-  classes <- rnp_get_classes_inep(caminho = "Dados/AJUDA/ANEXOS/ANEXO I - Dicionário de Dados e Tabelas Auxiliares/Dicionário_de_Dados.xlsx",
+  classes <- rnp_get_classes_inep(caminho = "Dados/AJUDA/ANEXOS/ANEXO I - DicionÃ¡rio de Dados e Tabelas Auxiliares/DicionÃ¡rio_de_Dados.xlsx",
                                   aba = base, retorna_lista = FALSE)
   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
                    sep = "|",
