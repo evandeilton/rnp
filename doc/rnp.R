@@ -1,5 +1,5 @@
 ## ---- eval=FALSE, echo=TRUE----------------------------------------------
-#    # Se n„o tiver o devtools, instalar.
+#    # Se n√£o tiver o devtools, instalar.
 #    if(!require(devtools)){
 #      install.packages("devtools")
 #    }
@@ -12,7 +12,7 @@
 #    ?rnp::rnp_freq
 #  
 #    # Vinheta
-#    # Se n„o tiver o prettydoc, a vinheta n„o roda
+#    # Se n√£o tiver o prettydoc, a vinheta n√£o roda
 #    if(!require(prettydoc)){
 #      install.packages("prettydoc")
 #    }

@@ -193,45 +193,6 @@ rnp_atributos <- function(obj) {
   return(o)
 }
 
-
-rnp_freq2 <- function(x, y, digits = 4, type = c("n","pct"), chisqt = FALSE){
-  match.arg(type, c("N","n","pct","PCT"), several.ok = TRUE)
-  type <- unique(tolower(type))
-  if(missing(x) & missing(y)) {
-    stop("Informe pelo menos um vetor, x ou y!")
-  } else if(!missing(x) & missing(y)){
-    out <- rnp_freq(x, digits = digits)
-  } else if(missing(x) & !missing(y)){
-    out <- rnp_freq(y, digits = digits)
-  } else if(!missing(x) & !missing(y)) {
-    t1 <- table(x, y)
-    if(chisqt) {
-      ch <- chisq.test(t1, simulate.p.value = TRUE, B = 500)
-    }
-
-    out <- lapply(type, function(i) {
-      if(i == "n") {
-        t2 <- addmargins(t1)
-      } else if(i == "pct") {
-        t2 <- round(addmargins(prop.table(t1)), digits = digits)
-      }
-      t3 <- as.data.frame.matrix(t2)
-      t3 <- data.frame("Classes x / y" = rownames(t3),
-                       Tipo = ifelse(i == "n", "fa", "fr"),
-                       t3, stringsAsFactors = FALSE, check.names = FALSE)
-      rownames(t3) <- NULL
-      t3$`Classes x / y`[length(t3$`Classes x / y`)] <- "Total"
-      colnames(t3)[length(colnames(t3))] <- "Total"
-      return(t3)
-    })
-    out <- do.call("rbind", out)
-  }
-  return(out)
-}
-
-
-
-
 #' Aplica classes na base do INEP correspondente
 #' @description Esta função recebe como entrada a base de dados do censo do INEP,
 #' podendo ser "DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE" ou "DM_ALUNO" e
@@ -247,7 +208,7 @@ rnp_freq2 <- function(x, y, digits = 4, type = c("n","pct"), chisqt = FALSE){
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 #' L <- plyr::llply(nn[1], function(base){
-#'   classes <- rnp_get_classes_inep(caminho = "Dados/AJUDA/ANEXOS/ANEXO I - Dicionário de Dados e Tabelas Auxiliares/Dicionário_de_Dados.xlsx",
+#'   classes <- rnp_get_classes_inep(caminho = "Dicionário_de_Dados.xlsx",
 #'                                   aba = base, retorna_lista = FALSE)
 #'   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
 #'                    sep = "|",
@@ -319,7 +280,7 @@ rnp_aplica_classes <- function(base, classes){
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 #' L <- plyr::llply(nn[1], function(base){
-#'   classes <- rnp_get_classes_inep(caminho = "Dados/AJUDA/ANEXOS/ANEXO I - Dicionário de Dados e Tabelas Auxiliares/Dicionário_de_Dados.xlsx",
+#'   classes <- rnp_get_classes_inep(caminho = "Dicionário_de_Dados.xlsx",
 #'                                   aba = base, retorna_lista = FALSE)
 #'   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
 #'                    sep = "|",
@@ -528,7 +489,7 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
   out <- plyr::ddply(.data = base,
                      .variables = grupos,
                      .fun = function(xx){
-                       rnp::rnp_summary(xx[,variavel], digits = digits)
+                       rnp_summary(xx[,variavel], digits = digits)
                      })
   return(out)
 }
@@ -627,12 +588,12 @@ rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","
   lapply(pacotes, function(i) {
     if (system.file(package = i) == '') {
       cat("Pacote ", i, "nao localizado. Tentando instalar, se existir no CRAN...\n")
-      rnp::rnp_try_error(install.packages(i, dependencies = TRUE, verbose = TRUE))
+      rnp_try_error(install.packages(i, dependencies = TRUE, verbose = TRUE))
     }
   })
 
   lapply(pacotes, function(i) {
-    rnp::rnp_try_error(require(i, character.only = TRUE, warn.conflicts = TRUE, quietly = TRUE))
+    rnp_try_error(require(i, character.only = TRUE, warn.conflicts = TRUE, quietly = TRUE))
     }
   )
 

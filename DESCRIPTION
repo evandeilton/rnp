@@ -10,7 +10,7 @@ Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra 
 License: GPL-3
 Encoding: UTF-8
 Imports: 
-    tidyverse,
+    dplyr,
     RCurl,
     ggplot2 (>= 2.2.1),
     lubridate (>= 1.7.4),
