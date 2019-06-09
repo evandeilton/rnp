@@ -7,14 +7,17 @@ output:
   highlight: github
 vignette: >
   %\VignetteIndexEntry{R NA PRÁTICA - Pacote de recursos extras}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
     \usepackage[utf8]{inputenc}
 ---
 
+```{r, echo=FALSE, eval=FALSE}
+%\VignetteEngine{knitr::rmarkdown}
 <style> 
   body{text-align: justify}
 </style>
+
+```
 
 # Introdução
 

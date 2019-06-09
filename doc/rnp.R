@@ -1,3 +1,10 @@
+## ---- echo=FALSE, eval=FALSE---------------------------------------------
+#  %\VignetteEngine{knitr::rmarkdown}
+#  <style>
+#    body{text-align: justify}
+#  </style>
+#  
+
 ## ---- eval=FALSE, echo=TRUE----------------------------------------------
 #    # Se não tiver o devtools, instalar.
 #    if(!require(devtools)){

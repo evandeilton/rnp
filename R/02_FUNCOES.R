@@ -168,6 +168,7 @@ rnp_summary_all <- function(base){
 #' @param nrows Número de linhas a extrair. Se Inf, trás todas
 #' @param verbose Se TRUE, exibe logs do que está aocontecendo em tempo de extração
 #' @param showProgress Se TRUE, exibe o andamento do processo de leitura
+#' @param select Uma lista de variáveis de interesse pode ser passada para simplificar a saída.
 #' @param ... Passagem de argumentos ectras para a função \code{\link{fread}}
 #' @return tibla com os dados importados
 #' @author LOPES, J. E
@@ -459,7 +460,7 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
 #' @description
 #' Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
 #' o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
-#' como grupos. A função trabalha com apoio da função \code{\link{ddply}} e aceita muitos
+#' como grupos. A função trabalha com apoio da função \code{\link{dplyr::ddply}} e aceita muitos
 #' grupos.
 #' @param base data.frame com as variáveis de entrada
 #' @param variavel o nome da variável numérica entre aspas

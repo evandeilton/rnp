@@ -23,6 +23,8 @@ rnp_read(base, sep = "|", dec = ".", encoding = "Latin-1",
 
 \item{showProgress}{Se TRUE, exibe o andamento do processo de leitura}
 
+\item{select}{Uma lista de variáveis de interesse pode ser passada para simplificar a saída.}
+
 \item{...}{Passagem de argumentos ectras para a função \code{\link{fread}}}
 }
 \value{
