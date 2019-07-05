@@ -1,9 +1,9 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: R
 cache: packages
 sudo: true
 dist: trusty
+warnings_are_errors: false
 
 # build matrix; turn on vdiffr only on r release
 matrix:
@@ -14,9 +14,7 @@ matrix:
   - r: release
     env: VDIFFR_RUN_TESTS=true
     before_cache:
-    - Rscript -e 'remotes::install_cran("pkgdown")'
     - Rscript -e 'remotes::install_cran("prettydoc")'    
-    - Rscript -e 'remotes::install_github("tidyverse/tidytemplate")'
 
 # environment variables set for all builds
 env:
