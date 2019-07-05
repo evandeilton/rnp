@@ -676,4 +676,3 @@ rnp_correlacao <- function (base, digits = 4) {
   cors <- cors[order(cors$x, -abs(cors$pearson)),]
   return(cors)
 }
-
