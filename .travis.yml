@@ -15,6 +15,7 @@ matrix:
     env: VDIFFR_RUN_TESTS=true
     before_cache:
     - Rscript -e 'remotes::install_cran("pkgdown")'
+    - Rscript -e 'remotes::install_cran("prettydoc")'    
     - Rscript -e 'remotes::install_github("tidyverse/tidytemplate")'
 
 # environment variables set for all builds
