@@ -2,30 +2,30 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_correlacao}
 \alias{rnp_correlacao}
-\title{Calculo de correlação}
+\title{Calculo de correlacao}
 \usage{
 rnp_correlacao(base, digits = 4)
 }
 \arguments{
 \item{base}{data.frame, tibla, data.table, etc.}
 
-\item{digits}{numeros de dígitos para arrendondar o valor da correlação.}
+\item{digits}{numeros de digitos para arrendondar o valor da correlacao.}
 
-\item{...}{argumentos passados para a função \code{\link{chisq.test}}}
+\item{...}{argumentos passados para a funcao \code{\link{chisq.test}}}
 }
 \value{
-Um data.frame com cinco colunas onde as duas primeiras são as combinações
-aos pares de cada uma das variáveis e as três ultimas são as correlações de
+Um data.frame com cinco colunas onde as duas primeiras sao as combinacoes
+aos pares de cada uma das variaveis e as tres ultimas sao as correlacoes de
 Pearson, Spearman e Kendal respectivamente.
 }
 \description{
-Esta função recebe como entrada uma base de dados com pelo menos duas
-variáveis numéricas e deternina os coeficientes de correlação de Pearson, Spearman
+Esta funcao recebe como entrada uma base de dados com pelo menos duas
+variaveis numericas e deternina os coeficientes de correlacao de Pearson, Spearman
 e Kendal.
 }
 \details{
-É possivel que existam variáveis não numérias em sua base de dados. Neste caso,
-elas serão eliminadas. Para mais detalhes veja \code{\link{cor}}.
+E possivel que existam variaveis nao numerias em sua base de dados. Neste caso,
+elas serao eliminadas. Para mais detalhes veja \code{\link{cor}}.
 }
 \author{
 LOPES, J. E.

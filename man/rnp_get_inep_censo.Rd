@@ -7,26 +7,26 @@
 rnp_get_inep_censo(ano = 2017, url = NULL, salvar = NULL)
 }
 \arguments{
-\item{ano}{ano formato numérico, ex. 2010, 2016}
+\item{ano}{ano formato numerico, ex. 2010, 2016}
 
 \item{url}{url, vetor ou lista de urls completas para baixar os dados.}
 
-\item{salvar}{caminho onde deseja salvar os dados baixados. Se NULL, a função
-baixa na pasta onde a sessão ativa do R foi iniciada. Execute \code{\link{getwd}} para saber o local.}
+\item{salvar}{caminho onde deseja salvar os dados baixados. Se NULL, a funcao
+baixa na pasta onde a sessao ativa do R foi iniciada. Execute \code{\link{getwd}} para saber o local.}
 }
 \value{
-arquivo .zip ou da extenção da url passada.
+arquivo .zip ou da extencao da url passada.
 }
 \description{
 Recebe uma data ou uma url do portal de microdados do INEP e
-baixa os dados no local em que a sessão do R foi carregada.
+baixa os dados no local em que a sessao do R foi carregada.
 }
 \details{
-Quando passado apenas uma data a função baixa os dados do INEP
-da data correspondente para o censo de educação superior, desde que esta
-data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a função
-baixará os dados do censo de 2017.
-Se uma url com final .zip for passada, a função ignora a data, caso tenha
+Quando passado apenas uma data a funcao baixa os dados do INEP
+da data correspondente para o censo de educacao superior, desde que esta
+data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a funcao
+baixara os dados do censo de 2017.
+Se uma url com final .zip for passada, a funcao ignora a data, caso tenha
 sido informada e baixa o arquivo da url informada.
 }
 \examples{

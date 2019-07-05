@@ -17,7 +17,7 @@ NULL
 #' @importFrom "stats" "IQR" "addmargins" "chisq.test" "cor" "median" "na.exclude" "na.omit" "quantile" "sd"
 NULL
 
-#' Extras do stats install.packages
+#' Extras do utils install.packages
 #'
 #' @name "ex2"
 # @export
@@ -27,6 +27,5 @@ NULL
 
 # variaveis globais
 if(getRversion() >= "2.15.1")  utils::globalVariables(
-  c('::',':','.','VAR_NOME','VAR_CATEGORIA','VAR_DESCRICAO','ORD','NOME DA
-     VARIÁVE', 'VAR_DESCRICAO_CATEGORIAS','ORDEM','VAR_DESCRICAO_CATEGORIAS_FIX','')
+  c('::',':','.','VAR_NOME','VAR_CATEGORIA','VAR_DESCRICAO','ORD','NOME DA VARI??VEL', 'VAR_DESCRICAO_CATEGORIAS','ORDEM','VAR_DESCRICAO_CATEGORIAS_FIX','ano_in')
 )

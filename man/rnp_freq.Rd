@@ -2,26 +2,26 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_freq}
 \alias{rnp_freq}
-\title{Tabela de frequências}
+\title{Tabela de frequencias}
 \usage{
 rnp_freq(x, sortd = FALSE, digits = 4)
 }
 \arguments{
-\item{x}{vetor numérico ou caractere de entrada}
+\item{x}{vetor numerico ou caractere de entrada}
 
 \item{sortd}{TRUE para ordenar}
 
-\item{digits}{Número de dígitos para arredondar os decimais}
+\item{digits}{Numero de digitos para arredondar os decimais}
 }
 \value{
 data.frame
 }
 \description{
-Tabela de frequências
+Tabela de frequencias
 }
 \details{
-Calcula tabela de freência simples. Quando o vetor passado for caractere ou fator, a função trabalha com as frequências
-e quando é passado um vetor numérico, ela utiliza função \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
+Calcula tabela de freencia simples. Quando o vetor passado for caractere ou fator, a funcao trabalha com as frequencias
+e quando e passado um vetor numerico, ela utiliza funcao \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
 os dados utilizando os quartis.
 }
 \author{

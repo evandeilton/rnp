@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_summary_all}
 \alias{rnp_summary_all}
-\title{Sumário estatístico geral}
+\title{Sumario estatistico geral}
 \usage{
 rnp_summary_all(base)
 }
@@ -10,14 +10,14 @@ rnp_summary_all(base)
 \item{base}{data.frame de entrada}
 }
 \value{
-data.frame com as estatísticas por variáveis.
+data.frame com as estatisticas por variaveis.
 }
 \description{
-Sumário estatístico geral
+Sumario estatistico geral
 }
 \details{
-Calcula estatísticas descritivas para todos os vetores numpericos de uma base de dados.
-Se tiver variáveis categóricas, a função os ignora.
+Calcula estatisticas descritivas para todos os vetores numpericos de uma base de dados.
+Se tiver variaveis categoricas, a funcao os ignora.
 }
 \author{
 LOPES, J. E

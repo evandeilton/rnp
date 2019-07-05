@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-pipe.R
 \name{"ex2"}
 \alias{"ex2"}
-\title{Extras do stats install.packages}
+\title{Extras do utils install.packages}
 \description{
-Extras do stats install.packages
+Extras do utils install.packages
 }

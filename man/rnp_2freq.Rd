@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_2freq}
 \alias{rnp_2freq}
-\title{Tabela de frequências dupla entrada}
+\title{Tabela de frequencias dupla entrada}
 \usage{
 rnp_2freq(x, y, digits = 4, percents = FALSE)
 }
@@ -13,13 +13,13 @@ rnp_2freq(x, y, digits = 4, percents = FALSE)
 
 \item{digits}{total de digitos decimais na saida}
 
-\item{percents}{se TRUE, retorna também os percentuais de linha e de colunas.}
+\item{percents}{se TRUE, retorna tambem os percentuais de linha e de colunas.}
 }
 \value{
 data.frame
 }
 \description{
-Tabela de frequências dupla entrada
+Tabela de frequencias dupla entrada
 }
 \details{
 faz tabela de dupla entrada com base em dois vetores de entrada.

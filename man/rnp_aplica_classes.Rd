@@ -9,24 +9,24 @@ rnp_aplica_classes(base, classes)
 \arguments{
 \item{base}{base de dados censo INEP}
 
-\item{classes}{base de dados com informações das classes obtidas do dicionário de dados do INEP.}
+\item{classes}{base de dados com informacoes das classes obtidas do dicionario de dados do INEP.}
 }
 \description{
-Esta função recebe como entrada a base de dados do censo do INEP,
+Esta funcao recebe como entrada a base de dados do censo do INEP,
 podendo ser "DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE" ou "DM_ALUNO" e
-sua base de classes extraidas com a função rnp_get_classes_inep() e aplica
-na base apenas para as variáveis que possuem descrição de classes.
+sua base de classes extraidas com a funcao 'rnp_get_classes_inep' e aplica
+na base apenas para as variaveis que possuem descricao de classes.
 }
 \details{
-Se uma variável não possui descrição de classe então e ala não é processada
-o data.frame de saída possui novas colunas com prefixo "_DESC" que possui a descrição
-da categoria e ao lado a variável original
+Se uma variavel nao possui descricao de classe entao e ala nao e processada
+o data.frame de saida possui novas colunas com prefixo "_DESC" que possui a descricao
+da categoria e ao lado a variavel original
 }
 \examples{
 \dontrun{
 nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 L <- plyr::llply(nn[1], function(base){
-  classes <- rnp_get_classes_inep(caminho = "Dicionário_de_Dados.xlsx",
+  classes <- rnp_get_classes_inep(caminho = "Dicionario_de_Dados.xlsx",
                                   aba = base, retorna_lista = FALSE)
   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
                    sep = "|",

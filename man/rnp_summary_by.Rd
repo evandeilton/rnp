@@ -2,30 +2,30 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_summary_by}
 \alias{rnp_summary_by}
-\title{Estatísticas descritivas por grupo}
+\title{Estatisticas descritivas por grupo}
 \usage{
 rnp_summary_by(base, variavel, grupos, digits = 3)
 }
 \arguments{
-\item{base}{data.frame com as variáveis de entrada}
+\item{base}{data.frame com as variaveis de entrada}
 
-\item{variavel}{o nome da variável numérica entre aspas}
+\item{variavel}{o nome da variavel numerica entre aspas}
 
-\item{grupos}{lista ou vetor de nomes das estatísticas de agrupamento na ordem em que deseja
+\item{grupos}{lista ou vetor de nomes das estatisticas de agrupamento na ordem em que deseja
 obter os resultados.}
 
 \item{digits}{total de digitos para arredondar os decimais.}
 }
 \value{
-As estatísticas de saída desta função são: total (N), soma, número de missing (Nmis),
-minimo, primeiro quartil (Q1), mediana (Q2), terceiro quartil (Q3), máximo, desvio pacrão (devpad)
-e coeficiente de variação (cv) em um data.frame agrupadas conforme as classes das variáveis de
+As estatisticas de saida desta funcao sao: total (N), soma, numero de missing (Nmis),
+minimo, primeiro quartil (Q1), mediana (Q2), terceiro quartil (Q3), maximo, desvio pacrao (devpad)
+e coeficiente de variacao (cv) em um data.frame agrupadas conforme as classes das variaveis de
 agrupamento.
 }
 \description{
-Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
-o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
-como grupos. A função trabalha com apoio da função \code{\link{dplyr::ddply}} e aceita muitos
+Calcula estatisticas descritivas por grupo. Ela recebe como entrada um data.frame
+o nome da variavel numerica e um vetor ou lista de nomes das variaveis que serao utilizadas
+como grupos. A funcao trabalha com apoio da funcao \code{plyr::\link[plyr]{ddply}} e aceita muitos
 grupos.
 }
 \examples{

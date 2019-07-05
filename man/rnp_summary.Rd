@@ -2,12 +2,12 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_summary}
 \alias{rnp_summary}
-\title{Sumário estatístico}
+\title{Sumario estatistico}
 \usage{
 rnp_summary(x, digits = 4)
 }
 \arguments{
-\item{x}{vetor numérico de entrada}
+\item{x}{vetor numerico de entrada}
 
 \item{digits}{total de digitos decimais na saida}
 }
@@ -15,10 +15,10 @@ rnp_summary(x, digits = 4)
 Vetor nomeado
 }
 \description{
-Sumário estatístico
+Sumario estatistico
 }
 \details{
-Calcula estatísticas descritivas de um vetor numérico informado
+Calcula estatisticas descritivas de um vetor numerico informado
 }
 \author{
 LOPES, J. E

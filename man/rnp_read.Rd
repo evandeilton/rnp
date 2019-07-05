@@ -2,36 +2,36 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_read}
 \alias{rnp_read}
-\title{Leitura rápida de bases de dados}
+\title{Leitura rapida de bases de dados}
 \usage{
 rnp_read(base, sep = "|", dec = ".", encoding = "Latin-1",
   nrows = Inf, verbose = TRUE, showProgress = TRUE, select = NULL,
   ...)
 }
 \arguments{
-\item{base}{Local e nome com a extensão da base de dados de entrada}
+\item{base}{Local e nome com a extensao da base de dados de entrada}
 
 \item{sep}{Separador de colunas}
 
 \item{dec}{Separador decimal}
 
-\item{encoding}{Codificação dos dados, padrão é Latin-1. UTF-8 também é muito útil}
+\item{encoding}{Codificacao dos dados, padrao e Latin-1. UTF-8 tambem e muito util}
 
-\item{nrows}{Número de linhas a extrair. Se Inf, trás todas}
+\item{nrows}{Numero de linhas a extrair. Se Inf, tras todas}
 
-\item{verbose}{Se TRUE, exibe logs do que está aocontecendo em tempo de extração}
+\item{verbose}{Se TRUE, exibe logs do que esta aocontecendo em tempo de extracao}
 
 \item{showProgress}{Se TRUE, exibe o andamento do processo de leitura}
 
-\item{select}{Uma lista de variáveis de interesse pode ser passada para simplificar a saída.}
+\item{select}{Uma lista de variaveis de interesse pode ser passada para simplificar a saida.}
 
-\item{...}{Passagem de argumentos ectras para a função \code{\link{fread}}}
+\item{...}{Passagem de argumentos ectras para a funcao \code{\link{fread}}}
 }
 \value{
 tibla com os dados importados
 }
 \description{
-Leitura rápida de bases de dados
+Leitura rapida de bases de dados
 }
 \author{
 LOPES, J. E

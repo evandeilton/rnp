@@ -7,11 +7,11 @@
 \description{
 Este conjunto de dados faz parte da base de dados do INEP para o censo
 brasileiro do ensino superior. Nesta parte temos os dados dos docentes
-das Instituições de Ensino Superior mapeados pelo censo naquele ano.
-Trata-se de uma amostras das variáveis, porém o total de observações
-está completo.
+das Instituicoes de Ensino Superior mapeados pelo censo naquele ano.
+Trata-se de uma amostras das variaveis, porem o total de observacoes
+esta completo.
 Para obter dados de outros anos consulte o link do site do INEP ou
-a função \code{\link{rnp_get_inep_censo}}
+a funcao \code{\link{rnp_get_inep_censo}}
 }
 \examples{
 require(rnp)

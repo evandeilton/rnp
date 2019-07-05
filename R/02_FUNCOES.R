@@ -1,9 +1,9 @@
-#' Tabela de frequências
-#' @param x vetor numérico ou caractere de entrada
+#' Tabela de frequencias
+#' @param x vetor numerico ou caractere de entrada
 #' @param sortd  TRUE para ordenar
-#' @param digits Número de dígitos para arredondar os decimais
-#' @details Calcula tabela de freência simples. Quando o vetor passado for caractere ou fator, a função trabalha com as frequências
-#' e quando é passado um vetor numérico, ela utiliza função \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
+#' @param digits Numero de digitos para arredondar os decimais
+#' @details Calcula tabela de freencia simples. Quando o vetor passado for caractere ou fator, a funcao trabalha com as frequencias
+#' e quando e passado um vetor numerico, ela utiliza funcao \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
 #' os dados utilizando os quartis.
 #' @return data.frame
 #' @author LOPES, J. E
@@ -40,11 +40,11 @@ rnp_freq <- function(x, sortd = FALSE, digits = 4){
   return(t2)
 }
 
-#' Tabela de frequências dupla entrada
+#' Tabela de frequencias dupla entrada
 #' @param x vetor caractere/fator de entrada
 #' @param y vetor caractere/fator de entrada
 #' @param digits total de digitos decimais na saida
-#' @param percents se TRUE, retorna também os percentuais de linha e de colunas.
+#' @param percents se TRUE, retorna tambem os percentuais de linha e de colunas.
 #' @details faz tabela de dupla entrada com base em dois vetores de entrada.
 #' @return data.frame
 #' @author LOPES, J. E
@@ -121,10 +121,10 @@ rnp_2freq <- function(x, y, digits = 4, percents = FALSE){
   return(out)
 }
 
-#' Sumário estatístico
-#' @param x vetor numérico de entrada
+#' Sumario estatistico
+#' @param x vetor numerico de entrada
 #' @param digits total de digitos decimais na saida
-#' @details Calcula estatísticas descritivas de um vetor numérico informado
+#' @details Calcula estatisticas descritivas de um vetor numerico informado
 #' @return Vetor nomeado
 #' @author LOPES, J. E
 #' @export
@@ -144,11 +144,11 @@ rnp_summary <- function(x, digits = 4) {
   return(round(o, digits = digits))
 }
 
-#' Sumário estatístico geral
+#' Sumario estatistico geral
 #' @param base data.frame de entrada
-#' @details Calcula estatísticas descritivas para todos os vetores numpericos de uma base de dados.
-#' Se tiver variáveis categóricas, a função os ignora.
-#' @return data.frame com as estatísticas por variáveis.
+#' @details Calcula estatisticas descritivas para todos os vetores numpericos de uma base de dados.
+#' Se tiver variaveis categoricas, a funcao os ignora.
+#' @return data.frame com as estatisticas por variaveis.
 #' @author LOPES, J. E
 #' @export
 rnp_summary_all <- function(base){
@@ -160,16 +160,16 @@ rnp_summary_all <- function(base){
 }
 
 
-#' Leitura rápida de bases de dados
-#' @param base Local e nome com a extensão da base de dados de entrada
+#' Leitura rapida de bases de dados
+#' @param base Local e nome com a extensao da base de dados de entrada
 #' @param sep Separador de colunas
 #' @param dec Separador decimal
-#' @param encoding Codificação dos dados, padrão é Latin-1. UTF-8 também é muito útil
-#' @param nrows Número de linhas a extrair. Se Inf, trás todas
-#' @param verbose Se TRUE, exibe logs do que está aocontecendo em tempo de extração
+#' @param encoding Codificacao dos dados, padrao e Latin-1. UTF-8 tambem e muito util
+#' @param nrows Numero de linhas a extrair. Se Inf, tras todas
+#' @param verbose Se TRUE, exibe logs do que esta aocontecendo em tempo de extracao
 #' @param showProgress Se TRUE, exibe o andamento do processo de leitura
-#' @param select Uma lista de variáveis de interesse pode ser passada para simplificar a saída.
-#' @param ... Passagem de argumentos ectras para a função \code{\link{fread}}
+#' @param select Uma lista de variaveis de interesse pode ser passada para simplificar a saida.
+#' @param ... Passagem de argumentos ectras para a funcao \code{\link{fread}}
 #' @return tibla com os dados importados
 #' @author LOPES, J. E
 #' @export
@@ -195,21 +195,21 @@ rnp_atributos <- function(obj) {
 }
 
 #' Aplica classes na base do INEP correspondente
-#' @description Esta função recebe como entrada a base de dados do censo do INEP,
+#' @description Esta funcao recebe como entrada a base de dados do censo do INEP,
 #' podendo ser "DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE" ou "DM_ALUNO" e
-#' sua base de classes extraidas com a função rnp_get_classes_inep() e aplica
-#' na base apenas para as variáveis que possuem descrição de classes.
-#' @details Se uma variável não possui descrição de classe então e ala não é processada
-#' o data.frame de saída possui novas colunas com prefixo "_DESC" que possui a descrição
-#' da categoria e ao lado a variável original
+#' sua base de classes extraidas com a funcao 'rnp_get_classes_inep' e aplica
+#' na base apenas para as variaveis que possuem descricao de classes.
+#' @details Se uma variavel nao possui descricao de classe entao e ala nao e processada
+#' o data.frame de saida possui novas colunas com prefixo "_DESC" que possui a descricao
+#' da categoria e ao lado a variavel original
 #' @param base base de dados censo INEP
-#' @param classes base de dados com informações das classes obtidas do dicionário de dados do INEP.
+#' @param classes base de dados com informacoes das classes obtidas do dicionario de dados do INEP.
 #' @author LOPES, J. E.
 #' @examples
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 #' L <- plyr::llply(nn[1], function(base){
-#'   classes <- rnp_get_classes_inep(caminho = "Dicionário_de_Dados.xlsx",
+#'   classes <- rnp_get_classes_inep(caminho = "Dicionario_de_Dados.xlsx",
 #'                                   aba = base, retorna_lista = FALSE)
 #'   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
 #'                    sep = "|",
@@ -226,10 +226,10 @@ rnp_atributos <- function(obj) {
 #' @export
 rnp_aplica_classes <- function(base, classes){
   # Seleciona nomes da base de dados. Vamos tratar apenas os nomes que das
-  # variaveis que possuem descrição de classes
+  # variaveis que possuem descricao de classes
   nm_da <- colnames(base)
 
-  # Separando apenas as variáveis que possuem categorias com descrição.
+  # Separando apenas as variaveis que possuem categorias com descricao.
   # na base de classes
   nm_cl <- unname(sapply(split(classes, classes$VAR_NOME), function(i){
     tmp <- if(nrow(i) == 1) {
@@ -241,7 +241,7 @@ rnp_aplica_classes <- function(base, classes){
   }))
   nm_cl <- as.character(na.exclude(nm_cl))
 
-  # Criando novas variáveis com as descrições das categorias
+  # Criando novas variaveis com as descricoes das categorias
 
   lda <- lapply(nm_cl, function(i, ...){
     va <- base %>%
@@ -261,27 +261,27 @@ rnp_aplica_classes <- function(base, classes){
   return(out)
 }
 
-#' Obtem as classes das variáveis censo INEP
+#' Obtem as classes das variaveis censo INEP
 #' @description
-#' Obtem as classes das variáveis do diconário de dados do censo INEP.
+#' Obtem as classes das variaveis do diconario de dados do censo INEP.
 #' @details
-#' Exige que passe o caminho para o dicionário de dados em excel e o nome da
-#' aba correspondente ou o número da mesma, ex. 1 = primeira aba e assim por diante.
-#' A função faz a leitura dos dados utilizando readxl::read_excel() e retorna
-#' um data.frame com 4 aolunas contendo ordem, nome, categoria e descrição
-#' para todas as variáveis da base informada.
+#' Exige que passe o caminho para o dicionario de dados em excel e o nome da
+#' aba correspondente ou o numero da mesma, ex. 1 = primeira aba e assim por diante.
+#' A funcao faz a leitura dos dados utilizando 'read_excel' e retorna
+#' um data.frame com 4 aolunas contendo ordem, nome, categoria e descricao
+#' para todas as variaveis da base informada.
 #' OBS.: Testado apenas nos dados do censo de 2017.
-#' @param caminho caminho do arquivo Excel do dicionário de dados do INEP
+#' @param caminho caminho do arquivo Excel do dicionario de dados do INEP
 #' @param aba aba da planilha correspondente aos dados que deseja
 #' @param pula_linha quantidade de linhas que deseja pular
 #' @param retorna_lista TRUE se quer obter uma lista de data.frames, sendo
-#' um para cada variável ou base já agregada.
+#' um para cada variavel ou base ja agregada.
 #' @author LOPES, J. E.
 #' @examples
 #' \dontrun{
 #' nn <- c("DM_CURSO","DM_IES","DM_LOCAL_OFERTA","DM_DOCENTE")
 #' L <- plyr::llply(nn[1], function(base){
-#'   classes <- rnp_get_classes_inep(caminho = "Dicionário_de_Dados.xlsx",
+#'   classes <- rnp_get_classes_inep(caminho = "Dicionario_de_Dados.xlsx",
 #'                                   aba = base, retorna_lista = FALSE)
 #'   base <- rnp_read(base = paste0("Dados/CSV/", base, ".CSV"),
 #'                    sep = "|",
@@ -297,15 +297,15 @@ rnp_aplica_classes <- function(base, classes){
 #' }
 #' @export
 rnp_get_classes_inep <- function(caminho, aba = 1, pula_linha = 1, retorna_lista = FALSE){
-  # Dicionário de dados
+  # Dicionario de dados
     dic_dm_aluno <- readxl::read_excel(path = caminho,
                                        sheet = aba, col_names = TRUE, skip = pula_linha, trim_ws = TRUE) %>%
-      select(1:7)
+      dplyr::select(1:7)
   # Seleciona colunas de interesse e arruma as
   tp <- dic_dm_aluno %>%
     dplyr::select(1:6) %>%
-    dplyr::filter(!is.na(`ORD`)) %>%
-    dplyr::filter(!is.na(`NOME DA VARIÁVEL`)) %>%
+    dplyr::filter(!is.na("ORD")) %>%
+    dplyr::filter(!is.na("NOME DA VARIAVEL")) %>%
     magrittr::set_names(., c("ORDEM","VAR_NOME","VAR_DESCRICAO","VAR_TIPO","VAR_TAMANHO","VAR_DESCRICAO_CATEGORIAS")) %>%
     dplyr::mutate(VAR_DESCRICAO_CATEGORIAS_FIX = stringr::str_replace_all(VAR_DESCRICAO_CATEGORIAS, pattern = "\\r|\\n", replacement = "|"))
 
@@ -333,8 +333,8 @@ rnp_get_classes_inep <- function(caminho, aba = 1, pula_linha = 1, retorna_lista
 
 
 #' Trata erros
-#' @description Trata qualquer erro em chamadas de funções. Se der erro, sai um objeto da classe 'try-error'
-#' @param code Qualquer código R passado
+#' @description Trata qualquer erro em chamadas de funcoes. Se der erro, sai um objeto da classe 'try-error'
+#' @param code Qualquer codigo R passado
 #' @param silent Rodar silenciosamente? TRUE ou FALSE
 #' @return Objeto de entrada
 #' @author LOPES, J. E
@@ -356,18 +356,18 @@ rnp_try_error <- function(code, silent = TRUE) {
 
 #' Download dados do INEP
 #' @description Recebe uma data ou uma url do portal de microdados do INEP e
-#' baixa os dados no local em que a sessão do R foi carregada.
-#' @details  Quando passado apenas uma data a função baixa os dados do INEP
-#' da data correspondente para o censo de educação superior, desde que esta
-#' data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a função
-#' baixará os dados do censo de 2017.
-#' Se uma url com final .zip for passada, a função ignora a data, caso tenha
+#' baixa os dados no local em que a sessao do R foi carregada.
+#' @details  Quando passado apenas uma data a funcao baixa os dados do INEP
+#' da data correspondente para o censo de educacao superior, desde que esta
+#' data seja entre 1995 e 2017. Caso a data esteja fora deste intervalo, a funcao
+#' baixara os dados do censo de 2017.
+#' Se uma url com final .zip for passada, a funcao ignora a data, caso tenha
 #' sido informada e baixa o arquivo da url informada.
-#' @param ano ano formato numérico, ex. 2010, 2016
+#' @param ano ano formato numerico, ex. 2010, 2016
 #' @param url url, vetor ou lista de urls completas para baixar os dados.
-#' @param salvar caminho onde deseja salvar os dados baixados. Se NULL, a função
-#' baixa na pasta onde a sessão ativa do R foi iniciada. Execute \code{\link{getwd}} para saber o local.
-#' @return arquivo .zip ou da extenção da url passada.
+#' @param salvar caminho onde deseja salvar os dados baixados. Se NULL, a funcao
+#' baixa na pasta onde a sessao ativa do R foi iniciada. Execute \code{\link{getwd}} para saber o local.
+#' @return arquivo .zip ou da extencao da url passada.
 #' @examples
 #' \dontrun{
 #' require(rnp)
@@ -391,7 +391,7 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
     anos <- max(s)
     nm <- paste0("base_", anos, ".zip")
   } else if(is.null(ano) & !is.null(url)){
-    cat("Ignorando a data, pois você passou urls.\n")
+    cat("Ignorando a data, pois voce passou urls.\n")
     anos <- NULL
     nm <- sapply(url, function(i){
       o <- unlist(stringr::str_split(i, pattern = "\\/"))
@@ -399,13 +399,13 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
     })
   } else if(!is.null(ano) & is.null(url)) {
     if(!ano %in% s) {
-      stop("Passe valores para anos entre 1995 e 2017 ou uma url do arquivo .zip válida.\n")
+      stop("Passe valores para anos entre 1995 e 2017 ou uma url do arquivo .zip valida.\n")
     } else {
       anos <- ano
       nm <- paste0("base_", anos, ".zip")
     }
   } else if(!is.null(ano) & !is.null(url)){
-    cat("Ignorando a data, pois você passou urls.\n")
+    cat("Ignorando a data, pois voce passou urls.\n")
     anos <- NULL
     nm <- sapply(url, function(i){
       o <- unlist(stringr::str_split(i, pattern = "\\/"))
@@ -456,21 +456,21 @@ rnp_get_inep_censo <- function(ano = 2017, url = NULL, salvar = NULL){
   })
 }
 
-#' Estatísticas descritivas por grupo
+#' Estatisticas descritivas por grupo
 #' @description
-#' Calcula estatísticas descritivas por grupo. Ela recebe como entrada um data.frame
-#' o nome da variável numérica e um vetor ou lista de nomes das variáveis que serão utilizadas
-#' como grupos. A função trabalha com apoio da função \code{\link{dplyr::ddply}} e aceita muitos
+#' Calcula estatisticas descritivas por grupo. Ela recebe como entrada um data.frame
+#' o nome da variavel numerica e um vetor ou lista de nomes das variaveis que serao utilizadas
+#' como grupos. A funcao trabalha com apoio da funcao \code{plyr::\link[plyr]{ddply}} e aceita muitos
 #' grupos.
-#' @param base data.frame com as variáveis de entrada
-#' @param variavel o nome da variável numérica entre aspas
-#' @param grupos lista ou vetor de nomes das estatísticas de agrupamento na ordem em que deseja
+#' @param base data.frame com as variaveis de entrada
+#' @param variavel o nome da variavel numerica entre aspas
+#' @param grupos lista ou vetor de nomes das estatisticas de agrupamento na ordem em que deseja
 #' obter os resultados.
 #' @param digits total de digitos para arredondar os decimais.
 #' @return
-#' As estatísticas de saída desta função são: total (N), soma, número de missing (Nmis),
-#' minimo, primeiro quartil (Q1), mediana (Q2), terceiro quartil (Q3), máximo, desvio pacrão (devpad)
-#' e coeficiente de variação (cv) em um data.frame agrupadas conforme as classes das variáveis de
+#' As estatisticas de saida desta funcao sao: total (N), soma, numero de missing (Nmis),
+#' minimo, primeiro quartil (Q1), mediana (Q2), terceiro quartil (Q3), maximo, desvio pacrao (devpad)
+#' e coeficiente de variacao (cv) em um data.frame agrupadas conforme as classes das variaveis de
 #' agrupamento.
 #' @author LOPES, J. E.
 #' @examples
@@ -500,10 +500,10 @@ rnp_summary_by <- function(base, variavel, grupos, digits = 3) {
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados dos cursos
 #' mapeados pelo censo naquele ano.
-#' Trata-se de uma amostras das variáveis, porém o total de observações
-#' está completo.
+#' Trata-se de uma amostras das variaveis, porem o total de observacoes
+#' esta completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
-#' a função \code{\link{rnp_get_inep_censo}}
+#' a funcao \code{\link{rnp_get_inep_censo}}
 #' @name dm_curso
 #' @docType data
 #' @author INEP
@@ -518,11 +518,11 @@ NULL
 #' @description
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados das IES
-#' Instituições de Ensino Superior mapeados pelo censo naquele ano.
-#' Trata-se de uma amostras das variáveis, porém o total de observações
-#' está completo.
+#' Instituicoes de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variaveis, porem o total de observacoes
+#' esta completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
-#' a função \code{\link{rnp_get_inep_censo}}
+#' a funcao \code{\link{rnp_get_inep_censo}}
 #' @name dm_ies
 #' @docType data
 #' @author INEP
@@ -538,11 +538,11 @@ NULL
 #' @description
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior. Nesta parte temos os dados dos docentes
-#' das Instituições de Ensino Superior mapeados pelo censo naquele ano.
-#' Trata-se de uma amostras das variáveis, porém o total de observações
-#' está completo.
+#' das Instituicoes de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variaveis, porem o total de observacoes
+#' esta completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
-#' a função \code{\link{rnp_get_inep_censo}}
+#' a funcao \code{\link{rnp_get_inep_censo}}
 #' @name dm_docente
 #' @docType data
 #' @author INEP
@@ -558,11 +558,11 @@ NULL
 #' Este conjunto de dados faz parte da base de dados do INEP para o censo
 #' brasileiro do ensino superior.
 #' Nesta parte temos os dados dos locais de oferta do curso das
-#' Instituições de Ensino Superior mapeados pelo censo naquele ano.
-#' Trata-se de uma amostras das variáveis, porém o total de observações
-#' está completo.
+#' Instituicoes de Ensino Superior mapeados pelo censo naquele ano.
+#' Trata-se de uma amostras das variaveis, porem o total de observacoes
+#' esta completo.
 #' Para obter dados de outros anos consulte o link do site do INEP ou
-#' a função \code{\link{rnp_get_inep_censo}}
+#' a funcao \code{\link{rnp_get_inep_censo}}
 #' @name dm_local
 #' @docType data
 #' @author INEP
@@ -577,7 +577,7 @@ NULL
 
 #' Carregar ou instalar pacotes CRAN
 #' @description
-#' Carega pacotes necesários pra trabalhar com o R NA PRATICA
+#' Carega pacotes necesarios pra trabalhar com o R NA PRATICA
 #' @param pacotes Lista ou vetr e nomes de pacotes separados por aspas e ponto e virgula.
 #' @examples
 #' require(rnp)
@@ -604,15 +604,15 @@ rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","
   }
 }
 
-#' Estatística de associação
+#' Estatistica de associacao
 #'
-#' @description Recebe dois vetores categóricos de tamanhos iguais e calcula as estatísticas
-#' Qui-quadrado, V de Cramér e o coeficiante de contingência para a tabela de contingência
-#' das duas variáveis criada pela função \code{\link{table}}.
+#' @description Recebe dois vetores categoricos de tamanhos iguais e calcula as estatisticas
+#' Qui-quadrado, V de Cramer e o coeficiante de contingencia para a tabela de contingencia
+#' das duas variaveis criada pela funcao \code{\link{table}}.
 #'
-#' @param x variável um
-#' @param y variável dois
-#' @param ... argumentos passados para a função \code{\link{chisq.test}}
+#' @param x variavel um
+#' @param y variavel dois
+#' @param ... argumentos passados para a funcao \code{\link{chisq.test}}
 #' @author LOPES, J. E.
 #' @export
 rnp_associacao <- function(x, y, ...){
@@ -627,34 +627,34 @@ rnp_associacao <- function(x, y, ...){
 }
 
 
-#' Calculo de correlação
+#' Calculo de correlacao
 #'
-#' @description Esta função recebe como entrada uma base de dados com pelo menos duas
-#' variáveis numéricas e deternina os coeficientes de correlação de Pearson, Spearman
+#' @description Esta funcao recebe como entrada uma base de dados com pelo menos duas
+#' variaveis numericas e deternina os coeficientes de correlacao de Pearson, Spearman
 #' e Kendal.
 #'
-#' @details É possivel que existam variáveis não numérias em sua base de dados. Neste caso,
-#' elas serão eliminadas. Para mais detalhes veja \code{\link{cor}}.
+#' @details E possivel que existam variaveis nao numerias em sua base de dados. Neste caso,
+#' elas serao eliminadas. Para mais detalhes veja \code{\link{cor}}.
 #'
 #' @param base data.frame, tibla, data.table, etc.
-#' @param digits numeros de dígitos para arrendondar o valor da correlação.
-#' @param ... argumentos passados para a função \code{\link{chisq.test}}
+#' @param digits numeros de digitos para arrendondar o valor da correlacao.
+#' @param ... argumentos passados para a funcao \code{\link{chisq.test}}
 #' @author LOPES, J. E.
-#' @return Um data.frame com cinco colunas onde as duas primeiras são as combinações
-#' aos pares de cada uma das variáveis e as três ultimas são as correlações de
+#' @return Um data.frame com cinco colunas onde as duas primeiras sao as combinacoes
+#' aos pares de cada uma das variaveis e as tres ultimas sao as correlacoes de
 #' Pearson, Spearman e Kendal respectivamente.
 #' @export
 rnp_correlacao <- function (base, digits = 4) {
   if(missing(base)) {
-    stop("log: Informe uma base com pelo menos duas variáveis numéricas.\n")
+    stop("log: Informe uma base com pelo menos duas variaveis numericas.\n")
   }
 
   cl <- sapply(base, class)
   if(any(!cl %in% c("integer", "numeric"))) {
-    cat("log: parece que a base tem variáveis não numericas, removendo e trabalhando apenas com as numericas")
+    cat("log: parece que a base tem variaveis nao numericas, removendo e trabalhando apenas com as numericas")
   }
   if(length(names(cl)[cl %in% c("integer", "numeric")]) < 2) {
-    stop("log: Informe uma base com pelo menos duas variáveis numéricas.\n")
+    stop("log: Informe uma base com pelo menos duas variaveis numericas.\n")
   }
   base <- subset(base, select = names(cl)[cl %in% c("integer", "numeric")])
   metodos <- c("pearson","spearman", "kendall")

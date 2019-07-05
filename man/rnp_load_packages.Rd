@@ -12,7 +12,7 @@ rnp_load_packages(pacotes = c("tidyverse", "lubridate", "magrittr",
 \item{pacotes}{Lista ou vetr e nomes de pacotes separados por aspas e ponto e virgula.}
 }
 \description{
-Carega pacotes necesários pra trabalhar com o R NA PRATICA
+Carega pacotes necesarios pra trabalhar com o R NA PRATICA
 }
 \examples{
 require(rnp)

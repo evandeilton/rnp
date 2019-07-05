@@ -2,21 +2,21 @@
 % Please edit documentation in R/02_FUNCOES.R
 \name{rnp_associacao}
 \alias{rnp_associacao}
-\title{Estatística de associação}
+\title{Estatistica de associacao}
 \usage{
 rnp_associacao(x, y, ...)
 }
 \arguments{
-\item{x}{variável um}
+\item{x}{variavel um}
 
-\item{y}{variável dois}
+\item{y}{variavel dois}
 
-\item{...}{argumentos passados para a função \code{\link{chisq.test}}}
+\item{...}{argumentos passados para a funcao \code{\link{chisq.test}}}
 }
 \description{
-Recebe dois vetores categóricos de tamanhos iguais e calcula as estatísticas
-Qui-quadrado, V de Cramér e o coeficiante de contingência para a tabela de contingência
-das duas variáveis criada pela função \code{\link{table}}.
+Recebe dois vetores categoricos de tamanhos iguais e calcula as estatisticas
+Qui-quadrado, V de Cramer e o coeficiante de contingencia para a tabela de contingencia
+das duas variaveis criada pela funcao \code{\link{table}}.
 }
 \author{
 LOPES, J. E.

@@ -7,7 +7,7 @@
 rnp_try_error(code, silent = TRUE)
 }
 \arguments{
-\item{code}{Qualquer código R passado}
+\item{code}{Qualquer codigo R passado}
 
 \item{silent}{Rodar silenciosamente? TRUE ou FALSE}
 }
@@ -15,7 +15,7 @@ rnp_try_error(code, silent = TRUE)
 Objeto de entrada
 }
 \description{
-Trata qualquer erro em chamadas de funções. Se der erro, sai um objeto da classe 'try-error'
+Trata qualquer erro em chamadas de funcoes. Se der erro, sai um objeto da classe 'try-error'
 }
 \author{
 LOPES, J. E
