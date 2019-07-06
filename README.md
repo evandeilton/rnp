@@ -6,7 +6,7 @@ A linguagem R é uma das que mais cresce atualmente no mundo das linguagens de p
 
 ## R NA PRÁTICA
 
-O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis e lançamos o primeiro curso, o (R NA PRÁTICA: Data Wrangling com R para Ciência de Dados)[https://www.udemy.com/r-na-pratica-ciencia-de-dados/]. A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade e _Data Science_.
+O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis e lançamos o primeiro curso, o [R NA PRÁTICA: Data Wrangling com R para Ciência de Dados](https://www.udemy.com/r-na-pratica-ciencia-de-dados/). A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade e _Data Science_.
 
 ## O pacote `rnp`
 
