@@ -25,7 +25,7 @@ R é uma das linguagens que mais cresce atualmente no mundo da programação cie
 
 ## R NA PRÁTICA
 
-O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis. A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade e _Data Science_.
+O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis. A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade para _Data Science_.
 
 ## O pacote `rnp`
 
@@ -65,10 +65,10 @@ Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de fun�
 O R NA PRATICA engloba cinco módulos. O primeiro já está completo e disponível. Os demais estão em fase de desenvolvimento:
  
   * Módulo - I   (Data Wrangling com R para Ciência de Dados)
-  * Módulo - II  (Estatística descomplicada com R)
-  * Módulo - III (Introdução à probabilidade com R)
-  * Módulo - VI  (Testes de hipóteses com R)
-  * Módulo - V   (Modelagem estatística com R)
+  * Módulo - II  (Estatística descritiva para Data Science com R)
+  * Módulo - III (Introdução à probabilidade para Data Science com R)
+  * Módulo - VI  (Testes de hipóteses para Data Science com R)
+  * Módulo - V   (Modelagem estatística para Data Science com R)
 
 ### Módulo - I (Data Wrangling com R para Ciência de Dados)
 
@@ -84,19 +84,19 @@ Neste módulo o aluno aprenderá:
   * Será capaz de resolver cases de estudo e problemas com dados e situações reais.
   * Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
 
-### Módulo - II (Estatística descomplicada com R )
+### Módulo - II (Estatística descritiva para Data Science com R)
 
-Em desenvolvimento (0%================70%=======100%)
+Em desenvolvimento (0%=================80%======100%)
 
-### Módulo - III (Introdução à probabilidade com R)
+### Módulo - III (Introdução à probabilidade para Data Science com R)
 
 Em desenvolvimento (0%====10%===================100%)
 
-### Módulo - VI  (Testes de hipóteses com R)
+### Módulo - VI (Testes de hipóteses para Data Science com R)
 
 Em desenvolvimento (0%==5%======================100%)
 
-### Módulo - V   (Modelagem estatística com R)
+### Módulo - V (Modelagem estatística para Data Science com R)
 
 Em desenvolvimento (0%=1%=======================100%)
 

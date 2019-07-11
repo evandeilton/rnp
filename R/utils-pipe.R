@@ -12,14 +12,14 @@ NULL
 
 #' Extras do stats para estatistica
 #'
-#' @name "ex1"
+# @name "ex1"
 # @export
-#' @importFrom "stats" "IQR" "addmargins" "chisq.test" "cor" "median" "na.exclude" "na.omit" "quantile" "sd"
+#' @importFrom "stats" "IQR" "addmargins" "chisq.test" "cor" "median" "na.exclude" "na.omit" "quantile" "sd" "weighted.mean"
 NULL
 
 #' Extras do utils install.packages
 #'
-#' @name "ex2"
+# @name "ex2"
 # @export
 #' @importFrom "utils" "install.packages"
 NULL

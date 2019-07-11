@@ -676,3 +676,227 @@ rnp_correlacao <- function (base, digits = 4) {
   cors <- cors[order(cors$x, -abs(cors$pearson)),]
   return(cors)
 }
+
+#' Media aritmetica simples e ponderada
+#' @details Esta funcao e um atalho para as funcoes \code{\link{mean}} e \code{\link{weighted.mean}}
+#' que calculam respectivamente as medias simples e ponderada. Caso seja passado um vetor de pesos e
+#' ele contenha missing e o argumento remove.na for TRUE constuimos um data.frame e removemos os
+#' NA's na mesma posicao que aparecem nos dois vetores.
+#' @param x vetor numerico.
+#' @param peso vetor de pesos. Se informado, calcula a media ponderada  .
+#' @param remove.na Se TRUE remove NA's do vetor x e/ou dos pesos.
+#' @return numerico
+#' @author LOPES, J. E.
+#' @examples
+#' require(rnp)
+#' x <- c(2,2,5)
+#' p <- c(3,5,NA)
+#' media_aritmetica(x)
+#' media_aritmetica(x, p)
+#' media_aritmetica(x, p, remove.na = TRUE)
+#' @export
+media_aritmetica <- function(x, peso = NULL, remove.na = TRUE){
+  if(missing(x)) stop("Informe um vetor numerico")
+  if(remove.na && !is.null(peso)){
+    aux <- na.exclude(data.frame(x = x, peso = peso))
+    x <- aux$x
+    peso <- aux$peso
+  } else if(remove.na) {
+    x <- na.exclude(x)
+  } else {
+    x
+  }
+  ma <- c()
+  ma <- if(!is.null(peso)){
+    weighted.mean(x = x, w = peso, na.rm = remove.na)
+  } else {
+    mean(x = x, na.rm = remove.na)
+  }
+  return(ma)
+}
+
+#' Media geometrica simples e ponderada
+#' @details Esta funcao calcula respectivamente as medias geometricas simples e ponderada.
+#' Caso seja passado um vetor de pesos e ele contenha missing e o argumento remove.na
+#' for TRUE constuimos um data.frame e removemos os NA's na mesma posicao que aparecem
+#' nos dois vetores.
+#' @param x vetor numerico.
+#' @param peso vetor de pesos. Se informado, calcula a media ponderada  .
+#' @param remove.na Se TRUE remove NA's do vetor x e/ou dos pesos.
+#' @return numerico
+#' @author LOPES, J. E.
+#' @examples
+#' require(rnp)
+#' x <- c(2,2,5)
+#' p <- c(3,5,NA)
+#' media_geometrica(x)
+#' media_geometrica(x, p)
+#' media_geometrica(x, p, remove.na = TRUE)
+#' @export
+media_geometrica <- function(x, peso = NULL, remove.na = TRUE) {
+  if(missing(x)) stop("Informe um vetor numerico positivo")
+  if(remove.na && !is.null(peso)){
+    aux <- na.exclude(data.frame(x = x, peso = peso))
+    x <- aux$x
+    peso <- aux$peso
+  } else if(remove.na) {
+    x <- na.exclude(x)
+  } else {
+    x
+  }
+
+  n <- length(x)
+  mg <- c()
+
+  if(!is.null(peso)){
+    if(length(peso) != n) stop("O vetor de pesos precisar ser do tamanho do vetor x")
+    if(sum(x > 0, na.rm = TRUE) >= 0) {
+      mg <- exp((1/(sum(peso, na.rm = remove.na)))*sum(peso*log(x), na.rm = remove.na))
+    } else {
+      cat("Media geomterica tem sentido apenas para numeros positivos!\n")
+    }
+  } else {
+    if(sum(x > 0, na.rm = TRUE) >= 0) {
+      mg <- exp((1/n)*sum(log(x), na.rm = remove.na))
+    } else {
+      cat("Media geomterica tem sentido apenas para numeros positivos!\n")
+    }
+  }
+  return(mg)
+}
+
+#' Media hamonica simples e ponderada
+#' @details Esta funcao calcula respectivamente as medias harmonicas simples e ponderada.
+#' Caso seja passado um vetor de pesos e ele contenha missing e o argumento remove.na
+#' for TRUE constuimos um data.frame e removemos os NA's na mesma posicao que aparecem
+#' nos dois vetores.
+#' @param x vetor numerico.
+#' @param peso vetor de pesos. Se informado, calcula a media ponderada  .
+#' @param remove.na Se TRUE remove NA's do vetor x e/ou dos pesos.
+#' @return numerico
+#' @author LOPES, J. E.
+#' @examples
+#' require(rnp)
+#' x <- c(2,2,5)
+#' p <- c(3,5,NA)
+#' media_harmonica(x)
+#' media_harmonica(x, p)
+#' media_harmonica(x, p, remove.na = TRUE)
+#' @export
+media_harmonica <- function(x, peso = NULL, remove.na = TRUE) {
+  if(missing(x)) stop("Informe um vetor numerico positivo")
+
+  if(remove.na && !is.null(peso)){
+    aux <- na.exclude(data.frame(x = x, peso = peso))
+    x <- aux$x
+    peso <- aux$peso
+  } else if(remove.na) {
+    x <- na.exclude(x)
+  } else {
+    x
+  }
+  n <- length(x)
+  mh <- c()
+
+  if(!is.null(peso)){
+    if(length(peso) != n) {
+      stop("O vetor de pesos precisar ser do tamanho do vetor x")
+    } else {
+      mh <- (sum(peso * x^(-1), na.rm = remove.na) / (sum(peso, na.rm = remove.na)))^(-1)
+    }
+  } else {
+    mh <- (sum(x^(-1)) / length(x))^(-1)
+  }
+  return(mh)
+}
+
+
+#' Calcula medias de varios tipos
+#'
+#' @description Esta funcao e uma chamada master paras as funcoes \code{\link{media_aritmetica}},
+#' \code{\link{media_geometrica}} e \code{\link{media_harmonica}}. Serve para calcular médias
+#' de vetores numéricos e de matrizes/data.frames formados por colunas numericas.
+#' @details Atraves desta funcao e possivel calcular medias aritmeticas, geometricas e harmonicas
+#' simples e ponderadas. Se for passado uma matriz ela varre tdoas as colunas e determina as medias
+#' para cada variavel. Se for passado argumento peso, as medias sao ponderadas pelos seus respectivos
+#' pesos. No caso de matrizes, a matriz de peso precisa ter as mesmas dimensoes da matriz de origem
+#' e o mesmo tipo de dados.
+#' Quando existir peso, o nome das colunas do data.frame serao nomeadas como: media_ap, media_gp e media_hp.
+#' Caso contrario, media_a, media_g e media_h.
+#' @param x Vetor, matrix ou data.frame de dados numericos
+#' @param peso Opcional. Vetor, matrix ou data.frame de dados numericos com pesos com as mesmas
+#' caracteristcias de comprimento ou dimensoes do argumento x
+#' @param remove.na Se TRUE remove os NA's, caso existam nos dados
+#' @return Vetor ou data.frame com as medias de uma ou mais variaveis. No caso de data.frames, a
+#' saida e um data.frame com quatro colunas, sendo uma o nome das variaveis e as outras tres as
+#' colunas de medias aritmetica, geometrica e harmonica respectivamente. No caso de vetor numerico,
+#' a saida e um data.frame simples com tres colunas e uma linha contendo as medias.
+#' @author LOPES, J. E.
+#' @examples
+#' require(rnp)
+#' # Exemplos com vetores
+#' x <- mtcars$mpg;x[3:5] <- NA
+#' p <- mtcars$cyl;p[5:7] <- NA
+#' rnp_media(x = x, peso = NULL, remove.na = TRUE)
+#' rnp_media(x = x, peso = NULL, remove.na = FALSE)
+#' rnp_media(x = x, peso = p, remove.na = TRUE)
+#' rnp_media(x = x, peso = p, remove.na = FALSE)
+#' # Exemplos com matrizes (de mesmo tipo)
+#' X <- mtcars
+#' Y <- data.frame(matrix(runif(prod(dim(mtcars)), 5, 10), nrow = nrow(mtcars), ncol = ncol(mtcars)));
+#' class(X); class(Y)
+#' names(Y) <- names(X)
+#' dim(X) == dim(Y)
+#' rnp_media(X)
+#' rnp_media(X, Y)
+#' # Com dados reais da base rnp::dm_ies
+#' X <- as.data.frame(rnp::dm_ies)
+#' X <- X[,c(sapply(X, class) %in% c("integer", "numeric"))]
+#' rnp_media(X[,-c(1:6)])
+#' a <- sapply(X[,-c(1:6)], mean)
+#' b <- rnp_media(X[,-c(1:6)])$media_a
+#' all(a == b)
+#' @export
+rnp_media <- function(x, peso = NULL, remove.na = TRUE){
+
+  aux <- function(x, peso, remove.na) {
+    c(media_aritmetica(x, peso, remove.na),
+      media_geometrica(x, peso, remove.na),
+      media_harmonica(x, peso, remove.na))
+  }
+  out <- if(is.null(peso)){
+    if(is.null(dim(x))){
+      o <- data.frame(rbind(aux(x = x, peso = peso, remove.na = remove.na)))
+      names(o) <- c("media_a","media_g","media_h")
+      o
+    } else {
+      o <- sapply(x, function(i){
+        rbind(aux(x = i, peso = peso, remove.na = remove.na))
+      })
+      o <- data.frame(variavel = row.names(t(o)), as.data.frame.matrix(t(o)), stringsAsFactors = FALSE)
+      names(o)[-1] <- c("media_a","media_g","media_h")
+      rownames(o) <- NULL
+      o
+    }
+  } else {
+    if(is.null(dim(x)) && is.null(dim(peso))){
+      o <- data.frame(rbind(aux(x = x, peso = peso, remove.na = remove.na)))
+      names(o) <- c("media_ap","media_gp","media_hp")
+      o
+    } else if(all(dim(x) == dim(peso))){
+      x <- data.frame(x, stringsAsFactors = FALSE)
+      peso <- data.frame(peso, stringsAsFactors = FALSE)
+      o <- sapply(seq_along(names(x)), function(i){
+        rbind(aux(x = x[,i], peso = peso[,i], remove.na = remove.na))
+      })
+      o <- data.frame(variavel = row.names(t(x)), as.data.frame.matrix(t(o)), stringsAsFactors = FALSE)
+      names(o)[-1] <- c("media_ap","media_gp","media_hp")
+      rownames(o) <- NULL
+      o
+    } else {
+      stop(cat("No caso de media ponderada, para matriz ou data.frame, os dois objetos precisam ter os mesmo nomes para cada variavel x e para cada peso. Verifique seus dados!\n"))
+    }
+  }
+  return(out)
+}
+
