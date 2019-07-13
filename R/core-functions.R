@@ -765,7 +765,7 @@ media_geometrica <- function(x, peso = NULL, remove.na = TRUE) {
   return(mg)
 }
 
-#' Media hamonica simples e ponderada
+#' Media harmonica simples e ponderada
 #' @details Esta funcao calcula respectivamente as medias harmonicas simples e ponderada.
 #' Caso seja passado um vetor de pesos e ele contenha missing e o argumento remove.na
 #' for TRUE constuimos um data.frame e removemos os NA's na mesma posicao que aparecem
