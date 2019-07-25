@@ -1,27 +1,15 @@
-#' Pipe operator
+#' Operador pipe e outros recursos
 #'
-#' See \code{magrittr::\link[magrittr]{\%>\%}} for details.
+#' Veja \code{magrittr::\link[magrittr]{\%>\%}} para mais detalhes.
 #'
 #' @name %>%
 #' @rdname pipe
 #' @keywords internal
 #' @export
 #' @importFrom magrittr %>%
-#' @usage lhs \%>\% rhs
-NULL
-
-#' Extras do stats para estatistica
-#'
-# @name "ex1"
-# @export
 #' @importFrom "stats" "IQR" "addmargins" "chisq.test" "cor" "median" "na.exclude" "na.omit" "quantile" "sd" "weighted.mean"
-NULL
-
-#' Extras do utils install.packages
-#'
-# @name "ex2"
-# @export
 #' @importFrom "utils" "install.packages"
+#' @usage lhs \%>\% rhs
 NULL
 
 # variaveis globais

@@ -181,17 +181,43 @@ rnp_read <- function(base, sep = "|", dec = ".", encoding = "Latin-1", nrows = I
 
 #' Extrai atributos de um objeto
 #' @param obj qualquer objeto em R
+#' @param ests Se TRUE, retorna estatisticas do vetor ou das variaveis
 #' @return data.frame com lista de atributos
 #' @author LOPES, J. E
 #' @export
-rnp_atributos <- function(obj) {
+rnp_atributos <- function(obj, ests = FALSE) {
   o <- data.frame(classeBase  = paste0(class(obj)[1], collapse = "|"),
                   comprimento = if (is.null(dim(obj))) length(obj) else paste(dim(obj)[1], "linhas e", dim(obj)[2], "colunas"),
                   variaveis   =   if (is.null(dim(obj))) 0 else paste0(colnames(obj)),
                   classeVars  = if (is.null(dim(obj))) 0 else sapply(obj, class)
                   )
   rownames(o) <- NULL
-  return(o)
+  if(ests) {
+    logico <- c("numeric","integer","ts","xts","zoo")
+    p1 <- p2 <- c(variaveis = NA, Nmis = NA, Min = NA, Q1 = NA, Media = NA, Mediana = NA, Q3 = NA, Max = NA, DevPad = NA, IQR = NA, cv = NA)
+    a <- if(is.null(dim(obj)) & class(obj)[1] %in% logico){
+      cbind(o, t(rnp_summary(obj))[,-c(1,2)])
+    } else if(is.null(dim(obj)) & !class(obj)[1] %in% logico){
+      cbind(o, Nmis = sum(is.na(obj)))
+    } else if (!is.null(dim(obj))){
+      num <- names(obj)[ sapply(obj, class) %in% logico]
+      cha <- names(obj)[!sapply(obj, class) %in% logico]
+      if(length(num) > 0){
+        p1  <- rnp_summary_all(obj[,num])
+        p1  <- data.frame(variaveis = names(p1), t(p1)[,-c(1,2)])
+      }
+      if(length(cha) > 0){
+        p2  <- sapply(obj[,cha], function(i) sum(is.na(i) | i %in% c(NULL, NaN, NA, -Inf, +Inf)))
+        p2  <- data.frame(variaveis = names(p2), Nmis = p2)
+      }
+      merge(o, rbind(p1, p2), by = "variaveis")
+    } else {
+      o
+    }
+    return(a)
+  } else {
+    return(o)
+  }
 }
 
 #' Aplica classes na base do INEP correspondente
