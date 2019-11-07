@@ -153,10 +153,22 @@ rnp_summary <- function(x, digits = 4) {
 #' @export
 rnp_summary_all <- function(base){
   cl <- sapply(base, function(x) class(x)[1])
-  nu <- cl[which(cl %in% c("numeric","integer"))]
-  sa <- sapply(base[,names(nu)], function(x) rnp_summary(x))
-  sa <- as.data.frame(sa)
-  return(sa)
+  nu <- cl[which( cl %in% c("numeric","integer","ts","xts","mts"))]
+  ca <- cl[which(!cl %in% c("numeric","integer","ts","xts","mts"))]
+  p1 <- p2 <- NULL
+  if(length(cl) > 0){
+    p1 <- do.call("rbind",
+                  lapply(names(nu), function(i) {
+                    data.frame(variavel = i, t(rnp_summary(base[,i])), stringsAsFactors = FALSE)
+                  }))
+  }
+  if(length(ca) > 0){
+    p2 <- do.call("rbind",
+                  lapply(names(ca), FUN = function(i) {
+                    data.frame(variavel = i, rnp_freq(base[,i]), stringsAsFactors = FALSE)
+                    }))
+  }
+  return(list(num = p1, cat = p2))
 }
 
 
@@ -203,12 +215,12 @@ rnp_atributos <- function(obj, ests = FALSE) {
       num <- names(obj)[ sapply(obj, class) %in% logico]
       cha <- names(obj)[!sapply(obj, class) %in% logico]
       if(length(num) > 0){
-        p1  <- rnp_summary_all(obj[,num])
+        p1  <- rnp_summary_all(obj[,num])[[1]]
         p1  <- data.frame(variaveis = names(p1), t(p1)[,-c(1,2)])
       }
       if(length(cha) > 0){
         p2  <- sapply(obj[,cha], function(i) sum(is.na(i) | i %in% c(NULL, NaN, NA, -Inf, +Inf)))
-        p2  <- data.frame(variaveis = names(p2), Nmis = p2)
+        p2  <- data.frame(variaveis = names(p2), Nmis = p2, Min = NA, Q1 = NA, Media = NA, Mediana = NA, Q3 = NA, Max = NA, DevPad = NA, IQR = NA, cv = NA)
       }
       merge(o, rbind(p1, p2), by = "variaveis")
     } else {

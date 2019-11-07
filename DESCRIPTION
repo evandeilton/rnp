@@ -1,13 +1,13 @@
 Package: rnp
 Title: R NA PRATICA - Pacote de recursos extras
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person(given = "José E.",
            family = "Lopes",
            role = c("aut", "cre"),
            email = "evandeilton@gmail.com")
 Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra de funções e recursos para todos os alunos do rnp. Este pacote está em atualização contínua e novos resursos serão adicionados.
-License: GPL-3
+License: GPL-3 | file LICENSE
 Encoding: UTF-8
 Imports:
     dplyr,
@@ -22,7 +22,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-License: GPL-3 | file LICENSE
 VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.1.1
