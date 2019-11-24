@@ -57,7 +57,8 @@ Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de fun�
   if(!require(prettydoc)){
     install.packages("prettydoc")
   }
-  vignette("rnp")
+  
+  vignette("rnp", package = "rnp")
 ```
 
 ## Programa integrado
@@ -86,11 +87,11 @@ Neste módulo o aluno aprenderá:
 
 ### Módulo - II (Estatística descritiva para Data Science com R)
 
-Em desenvolvimento (0%=================80%======100%)
+O curso de Estatística Descritiva para Data Science é uma produção exclusiva do projeto R NA PRÁTICA. Neste curso abordaremos os principais conceitos estatísticos e análise descritiva. O objetivo maior desta parte é revisar os conceitos mais importantes do inicio dos estudos estatísticos tão requisitados para quem trabalha com ciência de dados. Abordaremos a parte conceitual com algumas definições e termos estatísticos, veremos tabelas de frequências, as principais medidas descritivas (média, mediana, desvio padrão e outras). Veremos ainda algumas medidas de correlação e associação e os principais gráficos estatísticos mais utilizados. Para reforçar os conhecimentos, faremos exercícios práticos com apoio do R com foco em bases de dados reais.
 
 ### Módulo - III (Introdução à probabilidade para Data Science com R)
 
-Em desenvolvimento (0%====10%===================100%)
+Em desenvolvimento (0%==5%======================100%)
 
 ### Módulo - VI (Testes de hipóteses para Data Science com R)
 
