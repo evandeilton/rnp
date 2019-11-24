@@ -24,6 +24,13 @@ Calcula tabela de freencia simples. Quando o vetor passado for caractere ou fato
 e quando e passado um vetor numerico, ela utiliza funcao \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
 os dados utilizando os quartis.
 }
+\examples{
+\dontrun{
+require(rnp)
+data(dm_ies)
+rnp_freq(dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA)
+}
+}
 \author{
 LOPES, J. E
 }

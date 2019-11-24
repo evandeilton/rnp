@@ -19,6 +19,17 @@ Sumario estatistico geral
 Calcula estatisticas descritivas para todos os vetores numpericos de uma base de dados.
 Se tiver variaveis categoricas, a funcao os ignora.
 }
+\examples{
+\dontrun{
+require(rnp)
+data(dm_ies)
+tmp <- rnp_summary_all(dm_ies$VL_RECEITA_PROPRIA)
+# Variaveis numericas
+head(tmp$num)
+# Variaveis categoricas
+head(tmp$cat)
+}
+}
 \author{
 LOPES, J. E
 }

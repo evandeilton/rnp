@@ -6,6 +6,12 @@
 #' e quando e passado um vetor numerico, ela utiliza funcao \code{\link{cut}} com apoio de  \code{\link{quantile}} para categorizar
 #' os dados utilizando os quartis.
 #' @return data.frame
+#' @examples
+#' \dontrun{
+#' require(rnp)
+#' data(dm_ies)
+#' rnp_freq(dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA)
+#' }
 #' @author LOPES, J. E
 #' @export
 rnp_freq <- function(x, sortd = FALSE, digits = 4){
@@ -47,6 +53,12 @@ rnp_freq <- function(x, sortd = FALSE, digits = 4){
 #' @param percents se TRUE, retorna tambem os percentuais de linha e de colunas.
 #' @details faz tabela de dupla entrada com base em dois vetores de entrada.
 #' @return data.frame
+#' @examples
+#' \dontrun{
+#' require(rnp)
+#' data(dm_ies)
+#' rnp_2freq(dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA, dm_ies$DESC_TP_MODALIDADE_ENSINO)
+#' }
 #' @author LOPES, J. E
 #' @export
 rnp_2freq <- function(x, y, digits = 4, percents = FALSE){
@@ -127,6 +139,13 @@ rnp_2freq <- function(x, y, digits = 4, percents = FALSE){
 #' @details Calcula estatisticas descritivas de um vetor numerico informado
 #' @return Vetor nomeado
 #' @author LOPES, J. E
+#' @examples
+#' \dontrun{
+#' require(rnp)
+#' data(dm_ies)
+#' rnp_summary(dm_ies$VL_RECEITA_PROPRIA)
+#' sapply(mtcars, rnp_summary)
+#' }
 #' @export
 rnp_summary <- function(x, digits = 4) {
   o <- c(N        = length(x),
@@ -150,6 +169,16 @@ rnp_summary <- function(x, digits = 4) {
 #' Se tiver variaveis categoricas, a funcao os ignora.
 #' @return data.frame com as estatisticas por variaveis.
 #' @author LOPES, J. E
+#' @examples
+#' \dontrun{
+#' require(rnp)
+#' data(dm_ies)
+#' tmp <- rnp_summary_all(dm_ies$VL_RECEITA_PROPRIA)
+#' # Variaveis numericas
+#' head(tmp$num)
+#' # Variaveis categoricas
+#' head(tmp$cat)
+#' }
 #' @export
 rnp_summary_all <- function(base){
   cl <- sapply(base, function(x) class(x)[1])
@@ -652,6 +681,9 @@ rnp_load_packages <- function(pacotes =  c("tidyverse","lubridate", "magrittr","
 #' @param y variavel dois
 #' @param ... argumentos passados para a funcao \code{\link{chisq.test}}
 #' @author LOPES, J. E.
+#' @examples
+#' require(rnp)
+#' rnp_associacao(dm_ies$DESC_TP_ORGANIZACAO_ACADEMICA, dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA)
 #' @export
 rnp_associacao <- function(x, y, ...){
   oo <- table(x, y)
@@ -681,6 +713,8 @@ rnp_associacao <- function(x, y, ...){
 #' @return Um data.frame com cinco colunas onde as duas primeiras sao as combinacoes
 #' aos pares de cada uma das variaveis e as tres ultimas sao as correlacoes de
 #' Pearson, Spearman e Kendal respectivamente.
+#' @examples
+#' rnp_correlacao(mtcars)
 #' @export
 rnp_correlacao <- function (base, digits = 4) {
   if(missing(base)) {

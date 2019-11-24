@@ -27,6 +27,9 @@ e Kendal.
 E possivel que existam variaveis nao numerias em sua base de dados. Neste caso,
 elas serao eliminadas. Para mais detalhes veja \code{\link{cor}}.
 }
+\examples{
+rnp_correlacao(mtcars)
+}
 \author{
 LOPES, J. E.
 }

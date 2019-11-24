@@ -4,9 +4,17 @@
 \alias{rnp_read}
 \title{Leitura rapida de bases de dados}
 \usage{
-rnp_read(base, sep = "|", dec = ".", encoding = "Latin-1",
-  nrows = Inf, verbose = TRUE, showProgress = TRUE, select = NULL,
-  ...)
+rnp_read(
+  base,
+  sep = "|",
+  dec = ".",
+  encoding = "Latin-1",
+  nrows = Inf,
+  verbose = TRUE,
+  showProgress = TRUE,
+  select = NULL,
+  ...
+)
 }
 \arguments{
 \item{base}{Local e nome com a extensao da base de dados de entrada}

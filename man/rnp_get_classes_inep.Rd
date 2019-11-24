@@ -4,8 +4,7 @@
 \alias{rnp_get_classes_inep}
 \title{Obtem as classes das variaveis censo INEP}
 \usage{
-rnp_get_classes_inep(caminho, aba = 1, pula_linha = 1,
-  retorna_lista = FALSE)
+rnp_get_classes_inep(caminho, aba = 1, pula_linha = 1, retorna_lista = FALSE)
 }
 \arguments{
 \item{caminho}{caminho do arquivo Excel do dicionario de dados do INEP}

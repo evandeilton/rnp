@@ -1,11 +1,11 @@
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  %\VignetteEngine{knitr::rmarkdown}
 #  <style>
 #    body{text-align: justify}
 #  </style>
 #  
 
-## ---- eval=FALSE, echo=TRUE----------------------------------------------
+## ---- eval=FALSE, echo=TRUE---------------------------------------------------
 #    # Se não tiver o devtools, instalar.
 #    if(!require(devtools)){
 #      install.packages("devtools")

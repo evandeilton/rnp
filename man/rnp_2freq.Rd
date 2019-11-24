@@ -24,6 +24,13 @@ Tabela de frequencias dupla entrada
 \details{
 faz tabela de dupla entrada com base em dois vetores de entrada.
 }
+\examples{
+\dontrun{
+require(rnp)
+data(dm_ies)
+rnp_2freq(dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA, dm_ies$DESC_TP_MODALIDADE_ENSINO)
+}
+}
 \author{
 LOPES, J. E
 }

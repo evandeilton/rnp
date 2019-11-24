@@ -20,6 +20,14 @@ Sumario estatistico
 \details{
 Calcula estatisticas descritivas de um vetor numerico informado
 }
+\examples{
+\dontrun{
+require(rnp)
+data(dm_ies)
+rnp_summary(dm_ies$VL_RECEITA_PROPRIA)
+sapply(mtcars, rnp_summary)
+}
+}
 \author{
 LOPES, J. E
 }

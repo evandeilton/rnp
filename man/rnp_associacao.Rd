@@ -18,6 +18,10 @@ Recebe dois vetores categoricos de tamanhos iguais e calcula as estatisticas
 Qui-quadrado, V de Cramer e o coeficiante de contingencia para a tabela de contingencia
 das duas variaveis criada pela funcao \code{\link{table}}.
 }
+\examples{
+require(rnp)
+rnp_associacao(dm_ies$DESC_TP_ORGANIZACAO_ACADEMICA, dm_ies$DESC_TP_CATEGORIA_ADMINISTRATIVA)
+}
 \author{
 LOPES, J. E.
 }
