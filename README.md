@@ -27,7 +27,6 @@ devtools::install_github("evandeilton/rnp")
 
 # Carregar o pacote
 require("rnp")
-vignette("rnp")
 ```
 
 ### Bugs
