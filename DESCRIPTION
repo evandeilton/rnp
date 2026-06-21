@@ -31,6 +31,9 @@ Imports:
     glue,
     grDevices,
     magrittr,
+    MASS,
+    mgcv,
+    nlme,
     purrr,
     Rcpp (>= 1.0.0),
     readr,
@@ -48,7 +51,6 @@ LinkingTo:
     RcppArmadillo
 Suggests:
     knitr,
-    MASS,
     readxl,
     rmarkdown,
     testthat (>= 3.0.0)

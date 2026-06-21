@@ -1,0 +1,136 @@
+---
+title: "9. Modelos lineares generalizados e extensões"
+output: rmarkdown::html_vignette
+bibliography: referencias.bib
+vignette: >
+  %\VignetteIndexEntry{9. Modelos lineares generalizados e extensões}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+```
+
+A regressão linear pressupõe resposta contínua e normal. Muitas variáveis não
+são assim: contagens, proporções, respostas ordinais. Os **modelos lineares
+generalizados** (GLM) estendem a regressão a respostas da família exponencial,
+ligando a média ao preditor linear por uma função de ligação $g$
+[@mccullagh1989; @paula2013]:
+
+$$g(\mu) = \eta = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p, \qquad \mu = E[Y].$$
+
+## GLM para contagens (Poisson)
+
+Para contagens, usa-se a família Poisson com ligação log, de modo que $e^{\beta_j}$
+é a **razão de taxas** (IRR). Modelando o número de rupturas de fios em teares:
+
+```{r glm}
+g <- rnp_glm(breaks ~ wool + tension, data = warpbreaks, familia = "poisson")
+g$coeficientes
+```
+
+O coeficiente de `tensionH` ($-0{,}52$) indica que tensão alta multiplica a taxa
+de rupturas por $e^{-0{,}52} \approx 0{,}59$ (redução de 41%).
+
+### Verificando a adequação
+
+O modelo Poisson supõe $\operatorname{Var}(Y) = \mu$. Quando a variância excede a
+média, há **superdispersão**, e os erros-padrão ficam subestimados. A dispersão é
+estimada por $\hat\phi = \frac{1}{n-p}\sum r_{P,i}^2$:
+
+```{r diag}
+rnp_glm_diagnosticos(g$objeto)$testes
+```
+
+A dispersão de **4,3** (muito acima de 1) denuncia forte superdispersão: o modelo
+Poisson é inadequado aqui.
+
+## Binomial negativa: corrigindo a superdispersão
+
+A binomial negativa acrescenta um parâmetro $\theta$ que acomoda a variância
+extra, $\operatorname{Var}(Y) = \mu + \mu^2/\theta$. Com os dados de ausências
+escolares `MASS::quine`:
+
+```{r nb}
+nb <- rnp_binomial_negativa(Days ~ Sex + Age, data = MASS::quine)
+nb$theta
+```
+
+O $\hat\theta = `r round(rnp_binomial_negativa(Days ~ Sex + Age, MASS::quine)$theta, 2)`$
+é pequeno, confirmando a superdispersão; quanto menor $\theta$, maior a variância
+extra em relação à Poisson.
+
+## Resposta ordinal: odds proporcionais
+
+Para respostas em categorias ordenadas (baixa < média < alta satisfação), o
+modelo de **odds proporcionais** modela as probabilidades acumuladas:
+
+$$\operatorname{logit}\big(P(Y \le j)\big) = \zeta_j - x^\top\beta.$$
+
+```{r ordinal}
+rnp_regressao_ordinal(Sat ~ Infl + Type, data = MASS::housing,
+                      pesos = MASS::housing$Freq)$coeficientes
+```
+
+A razão de chances de `InflHigh` é $3{,}4$: morar onde se percebe alta influência
+sobre a gestão multiplica por 3,4 a chance de estar em uma categoria de
+satisfação superior.
+
+## Modelos mistos: dados agrupados
+
+Quando há medidas repetidas ou agrupamento (alunos em escolas, medidas em
+indivíduos), as observações não são independentes. O **modelo misto** separa a
+variação em efeitos fixos e aleatórios:
+$y_{ij} = x_{ij}^\top\beta + b_i + \varepsilon_{ij}$. Usando o crescimento dental
+`nlme::Orthodont`:
+
+```{r misto}
+mm <- rnp_modelo_misto(distance ~ age, data = nlme::Orthodont,
+                       aleatorio = ~ 1 | Subject)
+mm$variancia
+```
+
+A **correlação intraclasse** (ICC) de $0{,}69$ indica que 69% da variância está
+*entre* indivíduos — ignorar esse agrupamento (ajustando um modelo comum)
+subestimaria os erros-padrão.
+
+## Modelos aditivos (GAM): relações não-lineares
+
+Quando o efeito de um preditor não é linear, o **GAM** o substitui por uma função
+suave $f_j$ estimada dos dados [@wood2017]:
+
+$$g(\mu) = \beta_0 + f_1(x_1) + \dots + f_p(x_p).$$
+
+Com os dados clássicos de aceleração em colisão de motocicleta `MASS::mcycle`:
+
+```{r gam}
+gm <- rnp_gam(accel ~ s(times), data = MASS::mcycle)
+gm$suaves
+```
+
+Os graus de liberdade efetivos (`edf`) de **8,7** revelam uma relação fortemente
+não-linear — um polinômio de baixa ordem jamais a capturaria. O efeito suave:
+
+```{r gam-grafico, fig.alt="Efeito suave do GAM"}
+rnp_grafico_efeitos(gm)
+```
+
+## Síntese
+
+| Situação | Função | Família/modelo |
+|----------|--------|----------------|
+| Contagens | `rnp_glm` | Poisson (log) |
+| Contagens superdispersas | `rnp_binomial_negativa` | binomial negativa |
+| Resposta binária | `rnp_glm` | binomial (logit) |
+| Resposta ordinal | `rnp_regressao_ordinal` | odds proporcionais |
+| Dados agrupados | `rnp_modelo_misto` | efeitos mistos |
+| Efeito não-linear | `rnp_gam` | aditivo (suavizadores) |
+
+O diagnóstico é central: foi a dispersão estimada que revelou a inadequação do
+Poisson e motivou a binomial negativa.
+
+## Referências
