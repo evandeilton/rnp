@@ -1,0 +1,203 @@
+# 6. Dados Categoricos e Metodos Nao-Parametricos
+
+## Quando os dados nao sao numeros — ou nao sao normais
+
+Boa parte da estatistica de livro-texto assume variaveis continuas e
+normais. A realidade frequentemente entrega **categorias** (sexo,
+fumante/nao-fumante, aprovado/reprovado) ou distribuicoes **torcidas**
+que invalidam o teste t. Esta vinheta cobre as duas saidas: a analise de
+dados categoricos e os metodos **nao-parametricos**, que trocam
+suposicoes de distribuicao por raciocinio sobre postos e contagens.
+
+Usaremos [`MASS::birthwt`](https://rdrr.io/pkg/MASS/man/birthwt.html):
+dados reais de 189 nascimentos, com peso do bebe, tabagismo da mae,
+hipertensao e outros fatores.
+
+``` r
+
+dados <- MASS::birthwt
+dados$fumante <- factor(ifelse(dados$smoke == 1, "Sim", "Nao"))
+dados$baixo_peso <- factor(ifelse(dados$low == 1, "Sim", "Nao"))
+```
+
+## Tabelas de contingencia: o ponto de partida
+
+Toda analise de duas categoricas comeca por uma tabela cruzada. A
+`rnp_tabela_contingencia` entrega frequencias absolutas e relativas
+(total, linha, coluna) num formato tidy:
+
+``` r
+
+rnp_tabela_contingencia(dados$fumante, dados$baixo_peso, tipo = "fr_linha")
+#> # A tibble: 2 × 4
+#>   categoria   Nao   Sim Total
+#>   <chr>     <dbl> <dbl> <dbl>
+#> 1 Nao       0.748 0.252     1
+#> 2 Sim       0.595 0.405     1
+```
+
+A frequencia *por linha* responde a pergunta certa: **dentre as
+fumantes, que proporcao teve bebe de baixo peso?** Comparar essa
+proporcao entre fumantes e nao-fumantes e o cerne da analise.
+
+## Teste qui-quadrado: ha associacao?
+
+O teste qui-quadrado de independencia confronta as contagens observadas
+com as **esperadas sob independencia** (se tabagismo e peso fossem
+nao-relacionados):
+
+``` r
+
+rnp_teste_qui_quadrado(dados$fumante, dados$baixo_peso)
+#> # A tibble: 1 × 5
+#>   estatistica    gl p_valor v_cramer metodo       
+#>         <dbl> <int>   <dbl>    <dbl> <chr>        
+#> 1        4.92     1  0.0265    0.161 independencia
+```
+
+O **V de Cramer** complementa o p-valor com o que ele esconde: o
+*tamanho* da associacao (0 = nenhuma, 1 = perfeita). Lembre-se —
+significancia nao e forca. Com amostra grande, associacoes triviais
+ficam “significativas”.
+
+## Quando o n e pequeno: teste exato de Fisher
+
+O qui-quadrado depende de uma aproximacao que falha quando as celulas
+tem poucas contagens (regra pratica: alguma esperada \< 5). Ai entra o
+**teste exato de Fisher**, que calcula a probabilidade exata pela
+distribuicao hipergeometrica:
+
+``` r
+
+tab <- table(dados$fumante, dados$baixo_peso)
+rnp_teste_fisher(tab)
+#> # A tibble: 1 × 4
+#>   p_valor odds_ratio ic_inf ic_sup
+#>     <dbl>      <dbl>  <dbl>  <dbl>
+#> 1  0.0362       2.01   1.03   3.96
+```
+
+Para tabelas 2x2, o Fisher tambem reporta o **odds ratio** e seu
+intervalo de confianca.
+
+## Odds ratio versus risco relativo: nao confunda
+
+Esta e uma das distincoes mais importantes — e mais atropeladas — da
+epidemiologia.
+
+``` r
+
+rnp_odds_ratio(tab)
+#> # A tibble: 1 × 5
+#>   odds_ratio ic_inf ic_sup log_or ep_log
+#>        <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#> 1       2.02   1.08   3.78  0.704  0.320
+rnp_risco_relativo(tab)
+#> # A tibble: 1 × 5
+#>   risco_relativo ic_inf ic_sup risco_expostos risco_nao_expostos
+#>            <dbl>  <dbl>  <dbl>          <dbl>              <dbl>
+#> 1           1.26   1.01   1.56          0.748              0.595
+```
+
+- **Risco relativo (RR)**: razao de *probabilidades*. “Fumantes tem RR
+  vezes mais **chance** (no sentido de risco) de bebe com baixo peso.”
+  Intuitivo, mas so estimavel em estudos prospectivos (coorte).
+- **Odds ratio (OR)**: razao de *odds* (chances). Menos intuitivo, mas e
+  o que se estima em estudos caso-controle e o que sai da regressao
+  logistica.
+
+Armadilha classica: para desfechos **raros**, OR $`\approx`$ RR. Para
+desfechos **comuns**, o OR **exagera** o RR — reportar um OR de 3 como
+“tres vezes mais risco” e um erro que aparece ate na imprensa.
+
+## Concordancia entre avaliadores: Kappa de Cohen
+
+Dois medicos classificam as mesmas radiografias. Eles concordam? A
+concordancia bruta engana, porque parte dela ocorreria **por acaso**. O
+**Kappa de Cohen** desconta o acaso:
+
+``` r
+
+medico1 <- c("normal", "alterado", "normal", "alterado", "normal", "alterado", "normal")
+medico2 <- c("normal", "alterado", "normal", "normal",   "normal", "alterado", "alterado")
+rnp_kappa(medico1, medico2)
+#> # A tibble: 1 × 3
+#>   kappa concordancia_observada concordancia_esperada
+#>   <dbl>                  <dbl>                 <dbl>
+#> 1 0.417                  0.714                 0.510
+```
+
+Kappa = 1 e concordancia perfeita; 0 e o nivel do acaso; valores acima
+de 0,6 costumam ser considerados “boa” concordancia. Comparar
+`concordancia_observada` com `concordancia_esperada` mostra exatamente
+quanto o acaso contribuiu.
+
+## Metodos nao-parametricos: abandonando a normalidade
+
+Quando a variavel resposta e numerica mas **nao** normal (assimetrica,
+ordinal, com outliers), o teste t e a ANOVA ficam suspeitos. Os metodos
+nao-parametricos trabalham com **postos** (ranks) em vez de valores,
+dispensando a suposicao de normalidade.
+
+Primeiro, a normalidade do peso e mesmo questionavel?
+
+``` r
+
+rnp_teste_normalidade(dados$bwt, metodo = "shapiro")
+#> # A tibble: 1 × 3
+#>   estatistica p_valor metodo 
+#>         <dbl>   <dbl> <chr>  
+#> 1       0.992   0.435 shapiro
+```
+
+### Mann-Whitney: o “teste t” dos postos
+
+Para comparar duas amostras independentes (peso do bebe entre fumantes e
+nao), o **teste de Mann-Whitney** (Wilcoxon de soma de postos) e a
+alternativa robusta ao teste t:
+
+``` r
+
+peso_fum <- dados$bwt[dados$fumante == "Sim"]
+peso_nao <- dados$bwt[dados$fumante == "Nao"]
+rnp_mann_whitney(peso_fum, peso_nao)
+#> # A tibble: 1 × 4
+#>   estatistica p_valor metodo                                         alternativa
+#>         <dbl>   <dbl> <chr>                                          <chr>      
+#> 1       3260.  0.0068 Wilcoxon rank sum test with continuity correc… bilateral
+```
+
+### Kruskal-Wallis: a “ANOVA” dos postos
+
+Para comparar **mais de dois** grupos (peso por raca, por exemplo), o
+**Kruskal-Wallis** generaliza o Mann-Whitney — e a ANOVA
+nao-parametrica:
+
+``` r
+
+rnp_kruskal(dados$bwt, factor(dados$race))
+#> # A tibble: 1 × 4
+#>   estatistica    gl p_valor metodo        
+#>         <dbl> <int>   <dbl> <chr>         
+#> 1        8.52     2  0.0141 kruskal-wallis
+```
+
+Regra de bolso: prefira o teste parametrico quando os pressupostos valem
+(ele tem mais **poder**); recorra ao nao-parametrico quando a
+normalidade e duvidosa, a amostra e pequena ou os dados sao ordinais.
+Trocar poder por robustez e uma decisao consciente, nao um default.
+
+## Sintese
+
+| Situacao | Ferramenta | Cuidado |
+|----|----|----|
+| Associacao entre categoricas | `rnp_teste_qui_quadrado` | significancia != forca (veja V de Cramer) |
+| Tabela 2x2 com n pequeno | `rnp_teste_fisher` | use quando esperadas \< 5 |
+| Medir risco | `rnp_odds_ratio`, `rnp_risco_relativo` | OR != RR em desfechos comuns |
+| Concordancia | `rnp_kappa` | desconte o acaso |
+| Comparar 2 grupos nao-normais | `rnp_mann_whitney` | menos poder que o t |
+| Comparar k grupos nao-normais | `rnp_kruskal` | ANOVA dos postos |
+
+A escolha entre metodos parametricos e nao-parametricos envolve um
+compromisso: os primeiros tem mais poder quando os pressupostos valem;
+os segundos sao mais robustos quando a normalidade e duvidosa.
