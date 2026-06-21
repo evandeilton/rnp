@@ -124,7 +124,19 @@ rnp_sobrevivencia_parametrica(Surv(time, status) ~ age + sexo, dados,
 
 O coeficiente positivo de `sexoFeminino` ($0{,}38$, $p = 0{,}003$) indica que ser
 mulher *acelera* (prolonga) o tempo de sobrevida — coerente com o achado de Cox.
-A escolha entre AFT e Cox e entre distribuições pode ser guiada pelo AIC.
+
+Qual distribuição descreve melhor os tempos? Comparamos pelo **AIC** (menor é
+melhor):
+
+```{r aic}
+dists <- c("weibull", "lognormal", "loglogistic", "exponential")
+sapply(dists, function(d)
+  rnp_sobrevivencia_parametrica(Surv(time, status) ~ age + sexo, dados, d)$aic)
+```
+
+A **Weibull** tem o menor AIC (2302), sendo a escolha preferível entre as quatro
+— resultado típico em confiabilidade, pois sua taxa de falha flexível acomoda o
+desgaste.
 
 ## Síntese
 
@@ -140,5 +152,36 @@ A escolha entre AFT e Cox e entre distribuições pode ser guiada pelo AIC.
 
 A censura é o que distingue esta área: toda a maquinaria existe para extrair
 informação de observações *incompletas*.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `survival::lung`, `survival::veteran` e
+`survival::ovarian`.
+
+1. Estime a curva de Kaplan-Meier global de `lung` e obtenha a sobrevida mediana
+   (`rnp_kaplan_meier`).
+2. Estratifique a curva pelo estado funcional `ph.ecog` e visualize-a
+   (`rnp_grafico_sobrevivencia`).
+3. Compare as curvas por sexo com o teste log-rank (`rnp_log_rank`).
+4. Refaça a comparação com o teste de Gehan-Wilcoxon (`rho = 1`) e veja se a
+   conclusão muda.
+5. Estime o risco acumulado de Nelson-Aalen e relacione-o com $-\log \hat{S}(t)$
+   (`rnp_nelson_aalen`).
+6. Ajuste um modelo de Cox com `age`, `sex` e `ph.karno`; interprete as razões de
+   risco (`rnp_cox`).
+7. Verifique a hipótese de riscos proporcionais (`rnp_cox_diagnosticos`).
+8. Calcule o risco relativo predito para perfis de 50 e 70 anos
+   (`rnp_cox_risco_relativo`).
+9. Ajuste um modelo AFT Weibull e compare o AIC com lognormal e exponencial
+   (`rnp_sobrevivencia_parametrica`).
+10. Construa a tábua de vida atuarial de `lung` em intervalos de 200 dias
+    (`rnp_tabela_vida`).
+11. Em `veteran`, compare a sobrevida entre os tipos de tratamento (`trt`) por
+    log-rank.
+12. Ajuste um Cox em `veteran` com `karno` e `celltype` e identifique o fator de
+    maior risco.
+13. Em `ovarian`, estime a curva de Kaplan-Meier por grupo de tratamento (`rx`).
+14. Compare a concordância (C de Harrell) de dois modelos de Cox com diferentes
+    covariáveis (`rnp_cox`).
 
 ## Referências

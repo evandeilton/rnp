@@ -134,6 +134,26 @@ A **AUC** de `r round(rnp_curva_roc(MASS::Pima.tr$type, predict(glm(type~glu+bmi
 é a probabilidade de o modelo ranquear um caso positivo acima de um negativo
 tomados ao acaso (0,5 = aleatório; 1 = perfeito) — uma discriminação boa.
 
+## Predição: intervalo de confiança versus de predição
+
+Há duas perguntas distintas ao prever. *Qual o valor médio de `medv` para todos os
+bairros com $rm = 6$ e $lstat = 10$?* — responde-se com o **intervalo de
+confiança** da média. *Qual será o valor de **um** bairro específico?* — pede o
+**intervalo de predição**, mais largo, pois inclui também a variabilidade
+irredutível $\sigma$ em torno da média:
+
+```{r predicao}
+fit <- lm(medv ~ rm + lstat, data = MASS::Boston)
+novos <- data.frame(rm = c(6, 7), lstat = c(10, 5))
+rnp_predicao(fit, novos, tipo = "confianca")   # média da resposta
+rnp_predicao(fit, novos, tipo = "predicao")     # nova observação
+```
+
+Para o primeiro bairro, o IC da média é estreito ($[22{,}1;\,23{,}4]$), mas o de
+predição é amplo ($[11{,}9;\,33{,}7]$). Confundir os dois — usar o IC da média para
+prever um caso individual — subestima gravemente a incerteza, um erro comum em
+engenharia preditiva.
+
 ## Síntese
 
 | Etapa | Função | Pergunta |
@@ -142,8 +162,40 @@ tomados ao acaso (0,5 = aleatório; 1 = perfeito) — uma discriminação boa.
 | Diagnosticar | `rnp_grafico_residuos` | os pressupostos valem? |
 | Colinearidade | `rnp_vif` | os preditores são redundantes? |
 | Regularizar | `rnp_regressao_ridge/_lasso` | vale trocar viés por variância? |
+| Prever | `rnp_predicao` | IC da média ou intervalo de predição? |
 | Classificar | `rnp_logistic`, `rnp_curva_roc` | quão bem separa as classes? |
 
 O ajuste é o começo; o essencial é examinar se os pressupostos se sustentam.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `MASS::Boston`, `mtcars`, `cars` e `trees`.
+
+1. Ajuste `medv ~ rm + lstat + crim` e interprete o coeficiente de `rm`
+   (`rnp_regressao`).
+2. Qual a fração da variância explicada ($R^2$)? Compare com o $R^2$ ajustado.
+3. Avalie os pressupostos do modelo pelos gráficos de resíduos
+   (`rnp_grafico_residuos`).
+4. Aplique os testes formais de normalidade, homocedasticidade e autocorrelação
+   (`rnp_regressao_diagnosticos`).
+5. Calcule o VIF de um modelo com `rm`, `tax`, `rad` e `age`; há colinearidade?
+   (`rnp_vif`).
+6. Ajuste uma regressão ridge e uma lasso ao mesmo modelo; o lasso zera algum
+   coeficiente? (`rnp_regressao_ridge`, `rnp_regressao_lasso`).
+7. Encontre o $\lambda$ ótimo variando a penalização e observando os coeficientes.
+8. Em `cars`, ajuste `dist ~ speed` linear e polinomial de grau 2; qual ajusta
+   melhor? (`rnp_regressao_polinomial`).
+9. Aplique a transformação de Box-Cox a `medv ~ rm + lstat`; qual o $\lambda$
+   ótimo? (`rnp_box_cox`).
+10. Para um bairro com `rm = 6.5` e `lstat = 8`, calcule o IC da média e o
+    intervalo de predição (`rnp_predicao`).
+11. Ajuste uma regressão de Poisson a uma variável de contagem
+    (`rnp_regressao_poisson`).
+12. Ajuste a regressão logística `am ~ wt + hp` em `mtcars` e interprete as razões
+    de chances (`rnp_logistic`).
+13. Trace a curva ROC e calcule a AUC do modelo anterior (`rnp_curva_roc`).
+14. Construa a matriz de confusão para um limiar de 0,5 (`rnp_matriz_confusao`).
+15. Ajuste uma regressão robusta a dados com um outlier inserido e compare com os
+    mínimos quadrados (`rnp_regressao_robusta`).
 
 ## Referências

@@ -56,6 +56,18 @@ rnp_log_verossimilhanca(function(mu) sum(dnorm(x, mu, sd(x), log = TRUE)),
                         intervalo = c(31, 35))
 ```
 
+### Método dos momentos
+
+Uma alternativa mais simples iguala os momentos amostrais aos teóricos. Para a
+Normal, ele coincide com a EMV; para outras famílias, fornece um ponto de partida:
+
+```{r mm}
+rnp_metodo_momentos(dados$bmi, dist = "norm")
+```
+
+A EMV costuma ser mais **eficiente** (menor variância assintótica), mas o método
+dos momentos é útil quando a verossimilhança é difícil de maximizar.
+
 ## Intervalo de confiança
 
 Para a média de uma Normal com variância desconhecida, o IC de nível $1-\alpha$ é
@@ -121,21 +133,34 @@ rnp_ic_bootstrap(dados$bmi, estatistica = "mediana", B = 1000, tipo = "percentil
 O IC percentil para a mediana do IMC é $[31{,}6;\,33{,}9]$, obtido sem qualquer
 suposição de normalidade.
 
-## Teste de permutação
+## Comparação de dois grupos
 
-Diabéticas e não-diabéticas diferem na glicose? Em vez de confiar no TCL, o
-**teste de permutação** constrói a distribuição nula embaralhando os rótulos dos
-grupos sob $H_0$:
+Diabéticas e não-diabéticas diferem na glicose? O **teste t para duas amostras**
+(versão de Welch, que não assume variâncias iguais) compara as médias, e o IC
+para a diferença quantifica a magnitude:
 
-```{r perm}
+```{r duas-amostras}
 g1 <- dados$glu[dados$type == "Yes"]
 g0 <- dados$glu[dados$type == "No"]
+rnp_teste_t(g1, g0)
+rnp_ic_diff_medias(g1, g0)
+```
+
+A diferença é de **32 mg/dL** (145 contra 113), com IC de 95% $[23{,}4;\,40{,}5]$
+e $p < 0{,}0001$: associação forte e claramente significativa.
+
+## Teste de permutação
+
+E se a normalidade for duvidosa? O **teste de permutação** dispensa o TCL,
+construindo a distribuição nula por reamostragem dos rótulos sob $H_0$:
+
+```{r perm}
 rnp_teste_permutacao(g1, g0, B = 2000)
 ```
 
-A diferença observada nas médias de glicose é de cerca de **32 mg/dL** (145 contra
-113), com $p < 0{,}001$: a associação entre glicose e diabetes é claramente
-significativa.
+A diferença observada e o p-valor coincidem com os do teste t — quando os
+pressupostos valem, paramétrico e não-paramétrico concordam, e a concordância
+reforça a conclusão.
 
 ## Síntese
 
@@ -149,5 +174,42 @@ significativa.
 
 Mais do que calcular cada quantidade, vale entender o que ela significa — e o que
 não diz.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `MASS::Pima.tr`, `mtcars`, `sleep` e `chickwts`.
+
+1. Estime, por máxima verossimilhança, os parâmetros de uma Normal ajustada a
+   `mtcars$mpg` (`rnp_emv`).
+2. Estime os mesmos parâmetros pelo método dos momentos e compare
+   (`rnp_metodo_momentos`).
+3. Calcule a informação de Fisher e o erro-padrão da média do IMC em
+   `MASS::Pima.tr` (`rnp_informacao_fisher`).
+4. Construa o IC de 95% e de 99% para a média de `mtcars$mpg`; o de 99% é mais
+   largo? Por quê? (`rnp_ic_media`).
+5. Teste se a pressão arterial média (`MASS::Pima.tr$bp`) difere de 70
+   (`rnp_teste_t`).
+6. Compare a média de `mpg` entre câmbio manual e automático em `mtcars`, com
+   teste t de duas amostras (`rnp_teste_t`).
+7. Construa o IC para a diferença de médias do exercício anterior
+   (`rnp_ic_diff_medias`).
+8. O conjunto `sleep` é pareado (mesmos indivíduos). Teste o efeito do
+   medicamento com teste t pareado (`rnp_teste_t`, `pareado = TRUE`).
+9. Refaça a comparação de `mpg` (manual vs automático) por teste de permutação e
+   compare o p-valor (`rnp_teste_permutacao`).
+10. Estime o IC bootstrap percentil para a **mediana** de `mtcars$hp`
+    (`rnp_ic_bootstrap`).
+11. Compare os métodos `percentil`, `basico` e `bca` para o IC bootstrap da média
+    de `mtcars$wt` (`rnp_ic_bootstrap`).
+12. Calcule o IC de 95% para a variância de `mtcars$qsec` (`rnp_ic_variancia`).
+13. Determine o tamanho de amostra para detectar $d = 0{,}3$ com poder de 0,80
+    (`rnp_tamanho_amostra_teste`) e trace a curva de poder (`rnp_poder_teste`).
+14. Teste a normalidade de `chickwts$weight` por três métodos
+    (`rnp_teste_normalidade`).
+15. Aplique o teste de Wald aos coeficientes de uma regressão logística
+    (`rnp_teste_wald`) e o teste da razão de verossimilhanças entre dois modelos
+    aninhados (`rnp_teste_razao_veross`).
+16. Atualize uma priori Beta(1,1) com 8 sucessos em 10 ensaios e obtenha o
+    intervalo de credibilidade (`rnp_bayes_conjugada`).
 
 ## Referências

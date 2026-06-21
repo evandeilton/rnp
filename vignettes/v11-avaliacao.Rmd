@@ -114,6 +114,21 @@ Uma $\text{RV}^+$ de 4,0 significa que um resultado positivo é 4 vezes mais
 provável em quem tem a doença — multiplicando as chances *a priori*, conecta-se
 diretamente ao Teorema de Bayes da vinheta 2.
 
+## E para regressão?
+
+Quando a resposta é contínua, as métricas mudam: o **RMSE** penaliza erros
+grandes (mesma unidade da resposta), o **MAE** é mais robusto, o **MAPE** dá o
+erro percentual e o **R²** mede a variância explicada:
+
+```{r reg}
+fit <- lm(medv ~ rm + lstat, data = MASS::Boston)
+rnp_metricas_regressao(MASS::Boston$medv, fitted(fit))
+```
+
+O RMSE de 5,5 (mil dólares) e o MAPE de 21% quantificam o erro típico do modelo
+de preços. Como em classificação, nenhuma métrica isolada basta — RMSE e MAE
+contam histórias diferentes quando há *outliers*.
+
 ## Síntese
 
 | Pergunta | Função | Métrica |
@@ -127,5 +142,31 @@ diretamente ao Teorema de Bayes da vinheta 2.
 
 Nenhuma métrica isolada conta a história toda: a escolha depende do custo dos
 erros e do equilíbrio das classes.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `MASS::Pima.tr`, `MASS::Boston` e `mtcars`. Para os
+classificadores, gere as probabilidades com `glm(..., family = binomial())`.
+
+1. Ajuste `type ~ glu + bmi + age` em `MASS::Pima.tr` e calcule todas as métricas
+   de classificação para o limiar 0,5 (`rnp_metricas_classificacao`).
+2. Compare o F1 com a acurácia: por que diferem em dados desbalanceados?
+3. Calcule o escore de Brier e o escore de habilidade do modelo (`rnp_brier`).
+4. Avalie a calibração com o teste de Hosmer-Lemeshow (`rnp_calibracao`).
+5. Calcule a estatística KS de separação (`rnp_ks_classificador`).
+6. Construa a curva precisão-revocação e obtenha a AUC-PR
+   (`rnp_curva_precisao_revocacao`).
+7. Construa as curvas de lift e de ganho acumulado (`rnp_curva_lift`,
+   `rnp_curva_ganho`).
+8. Compare, pelo teste de DeLong, o modelo completo com um que usa só `glu`
+   (`rnp_comparar_roc`).
+9. Calcule a sensibilidade, a especificidade e as razões de verossimilhança
+   (`rnp_acuracia_diagnostica`).
+10. Ajuste `medv ~ rm + lstat` em `MASS::Boston` e calcule RMSE, MAE, MAPE e R²
+    (`rnp_metricas_regressao`).
+11. Compare as métricas de regressão entre um modelo simples e um múltiplo.
+12. Insira um *outlier* na resposta e observe o impacto sobre RMSE versus MAE.
+13. Construa a matriz de custo para um classificador em que o falso negativo
+    custa o triplo do falso positivo (`rnp_matriz_custo`).
 
 ## Referências
