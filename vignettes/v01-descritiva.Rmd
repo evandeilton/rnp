@@ -136,4 +136,35 @@ Descrever a variabilidade — e checar a normalidade antes de assumi-la — é o
 alicerce sobre o qual se constrói a inferência. O próximo passo, entender *por que*
 a média amostral se comporta de forma previsível, leva à **probabilidade**.
 
+## Exercícios
+
+Resolva computacionalmente com o `rnp`, usando os conjuntos `morley`, `mtcars`,
+`trees`, `faithful` e `airquality`.
+
+1. Calcule média, mediana e desvio-padrão de `mtcars$mpg` (`rnp_descritiva`).
+2. O consumo `mtcars$mpg` é assimétrico? Calcule $g_1$ e $g_2$ (`rnp_momentos`).
+3. Compare o coeficiente de variação de `mtcars$mpg` e `mtcars$hp`: qual grandeza
+   varia mais, em termos relativos? (`rnp_descritiva`).
+4. Calcule as quatro médias (aritmética, geométrica, harmônica, quadrática) de
+   `c(2, 4, 8, 16)` e verifique a desigualdade entre elas (`rnp_medias`).
+5. Construa a tabela de frequências de `mtcars$cyl` (`rnp_tabela_frequencia`).
+6. Agrupe `mtcars$mpg` em classes pela regra de Sturges (`rnp_tabela_classes`).
+7. Identifique os *outliers* de `mtcars$hp` pelo critério de Tukey
+   (`rnp_outliers`).
+8. A variável `trees$Volume` é Normal? Use o gráfico de probabilidade normal
+   (`rnp_grafico_qq`) e o teste de Shapiro-Wilk (`rnp_teste_normalidade`).
+9. Construa um box plot de `mpg` por número de cilindros e descreva as diferenças
+   (`rnp_grafico_boxplot`).
+10. Verifique a regra empírica (68-95-99,7) para `mtcars$qsec`.
+11. Construa a tabela de contingência entre `cyl` e `gear`
+    (`rnp_tabela_contingencia`).
+12. O histograma de `faithful$waiting` sugere quantas modas?
+    (`rnp_grafico_histograma`).
+13. Calcule os momentos de `airquality$Wind` (removendo NA): a variável é
+    simétrica? (`rnp_momentos`).
+14. Resuma a estrutura de `airquality` (`rnp_estrutura`): quantas variáveis têm
+    valores faltantes e em que proporção?
+15. Compare a precisão (desvio-padrão) entre os cinco experimentos de `morley`:
+    qual foi o mais preciso? (`rnp_descritiva_by`).
+
 ## Referências
