@@ -13,3 +13,4 @@ src/*.rds
 
 # Site pkgdown (gerado pelo CI)
 docs/
+docs
