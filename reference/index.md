@@ -46,6 +46,8 @@ Medidas-resumo, momentos, frequencias e graficos exploratorios.
   : Matriz de dispersao
 - [`rnp_grafico_distribuicao()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_distribuicao.md)
   : Grafico de uma distribuicao de probabilidade
+- [`rnp_grafico_efeitos()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_efeitos.md)
+  : Grafico de efeitos parciais
 - [`rnp_grafico_histograma()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_histograma.md)
   : Grafico de histograma
 - [`rnp_grafico_qq()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_qq.md)
@@ -287,6 +289,25 @@ Linear, regularizada, robusta, logistica e diagnosticos.
   : Correlacao parcial
 - [`rnp_correlacao_teste()`](https://evandeilton.github.io/rnp/reference/rnp_correlacao_teste.md)
   : Correlacao com teste de hipotese
+
+## Modelos Lineares Generalizados e Extensoes
+
+GLM, binomial negativa, ordinal, misto e aditivo (GAM).
+
+- [`rnp_glm()`](https://evandeilton.github.io/rnp/reference/rnp_glm.md)
+  : Modelo linear generalizado (GLM)
+- [`rnp_glm_diagnosticos()`](https://evandeilton.github.io/rnp/reference/rnp_glm_diagnosticos.md)
+  : Diagnostico de GLM
+- [`rnp_binomial_negativa()`](https://evandeilton.github.io/rnp/reference/rnp_binomial_negativa.md)
+  : Regressao binomial negativa
+- [`rnp_regressao_ordinal()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_ordinal.md)
+  : Regressao ordinal (odds proporcionais)
+- [`rnp_modelo_misto()`](https://evandeilton.github.io/rnp/reference/rnp_modelo_misto.md)
+  : Modelo linear de efeitos mistos
+- [`rnp_gam()`](https://evandeilton.github.io/rnp/reference/rnp_gam.md)
+  : Modelo aditivo generalizado (GAM)
+- [`rnp_grafico_efeitos()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_efeitos.md)
+  : Grafico de efeitos parciais
 
 ## ANOVA e Experimental
 

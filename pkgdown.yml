@@ -11,7 +11,8 @@ articles:
   v06-categoricos: v06-categoricos.html
   v07-sobrevivencia: v07-sobrevivencia.html
   v08-series-arima: v08-series-arima.html
-last_built: 2026-06-21T20:11Z
+  v09-glm-gam: v09-glm-gam.html
+last_built: 2026-06-21T20:20Z
 urls:
   reference: https://evandeilton.github.io/rnp/reference
   article: https://evandeilton.github.io/rnp/articles

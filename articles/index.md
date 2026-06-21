@@ -20,3 +20,5 @@
   sobrevivência](https://evandeilton.github.io/rnp/articles/v07-sobrevivencia.md):
 - [8. Séries temporais: modelos ARIMA e
   SARIMA](https://evandeilton.github.io/rnp/articles/v08-series-arima.md):
+- [9. Modelos lineares generalizados e
+  extensões](https://evandeilton.github.io/rnp/articles/v09-glm-gam.md):

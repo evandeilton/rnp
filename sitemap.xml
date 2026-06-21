@@ -12,6 +12,7 @@
 <url><loc>https://evandeilton.github.io/rnp/articles/v06-categoricos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v07-sobrevivencia.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v08-series-arima.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/articles/v09-glm-gam.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/authors.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/index.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/news/index.html</loc></url>
@@ -39,6 +40,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_auto_arima.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bayes.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bayes_conjugada.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_binomial_negativa.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_biplot.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bootstrap.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bootstrap_parametrico.html</loc></url>
@@ -84,8 +86,11 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_esperanca_condicional.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_esperanca_var.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_estrutura.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_gam.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_get_classes_inep.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_get_inep_censo.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_glm.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_glm_diagnosticos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_acf.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_barras.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_boxplot.html</loc></url>
@@ -94,6 +99,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_dispersao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_dispersao_matriz.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_distribuicao.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_efeitos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_histograma.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_qq.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_grafico_residuos.html</loc></url>
@@ -130,6 +136,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_media_movel.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_medias.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_metodo_momentos.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_modelo_misto.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_momentos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_monte_carlo.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_na_summary.html</loc></url>
@@ -155,6 +162,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_lasso.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_multinomial.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_nao_linear.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_ordinal.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_poisson.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_polinomial.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_regressao_ponderada.html</loc></url>
