@@ -1,105 +1,89 @@
 ---
-title: "R NA PRÁTICA - Pacote de recursos extras"
-date: "`r Sys.Date()`"
-output:
-  prettydoc::html_pretty:
-  theme: cayman
-  highlight: github
+title: "Introducao ao rnp"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{R NA PRÁTICA - Pacote de recursos extras}
+  %\VignetteIndexEntry{Introducao ao rnp}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-    \usepackage[utf8]{inputenc}
 ---
 
-```{r, echo=FALSE, eval=FALSE}
-%\VignetteEngine{knitr::rmarkdown}
-<style> 
-  body{text-align: justify}
-</style>
-
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
 ```
 
-# Introdução
+## O que e o `rnp`
 
-R é uma das linguagens que mais cresce atualmente no mundo da programação científica. Esta linguagem tem sido uma das mais requisitadas por empresas, centros de pesquisa e por recrutadores das áreas de analytics e data science. Isso graças ao poder de processamento, aos recursos e à sua capacidade de expansão. R é uma linguagem científica, cross-plataforma, orientada a objetos, free e open source com uma comunidade de desenvolvedores e colaboradores global extremamente ativa.
+O `rnp` (do projeto **R NA PRATICA**) e um pacote didatico e de producao que
+reune mais de **180 funcoes** cobrindo as ementas dos tres primeiros anos de um
+bacharelado em Estatistica: descritiva, probabilidade, inferencia, regressao,
+multivariada, series temporais, dados categoricos e pre-processamento.
 
-## R NA PRÁTICA
+Tres compromissos guiam o projeto:
 
-O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis. A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade para _Data Science_.
+- **Didatico e correto** — documentacao e mensagens em portugues, saidas em
+  `tibble`, graficos em `ggplot2`.
+- **Rapido** — lacos pesados e algebra matricial rodam em **C++**
+  (Rcpp/RcppArmadillo), com 12 nucleos verificados contra a referencia do R.
+- **Enxuto** — depende apenas de R base, tidyverse, tidymodels e Rcpp.
 
-## O pacote `rnp`
+## Instalacao
 
-Muitas funções estão sendo criadas à medida em que o projeto ganha volume e os novos módulos vão sendo escritos. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github. Este é o pacote `rnp`.
-
-Materiais como funções, algumas bases de dados e documentos disponibilizados aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
-
-## Bugs
-
-Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de função, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos atender nas próximas atualizações do pacote.
-
-### Instalação do pacote
-
-```{r, eval=FALSE, echo=TRUE}
-  # Se não tiver o devtools, instalar.
-  if(!require(devtools)){
-    install.packages("devtools")
-  }
-
-  # Instalar o rnp
-  devtools::install_github("evandeilton/rnp")
-  
-  # Carregar o pacote
-  require("rnp")
-  ?rnp::rnp_tabela_frequencia
-  
-  # Vinheta
-  # Se não tiver o prettydoc, a vinheta não roda
-  if(!require(prettydoc)){
-    install.packages("prettydoc")
-  }
-  
-  vignette("rnp", package = "rnp")
+```{r instalar, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("evandeilton/rnp")
 ```
 
-## Programa integrado
+## Um tour de cinco minutos
 
-O R NA PRATICA engloba cinco módulos. O primeiro já está completo e disponível. Os demais estão em fase de desenvolvimento:
- 
-  * Módulo - I   (Data Wrangling com R para Ciência de Dados)
-  * Módulo - II  (Estatística descritiva para Data Science com R)
-  * Módulo - III (Introdução à probabilidade para Data Science com R)
-  * Módulo - VI  (Testes de hipóteses para Data Science com R)
-  * Módulo - V   (Modelagem estatística para Data Science com R)
+Toda funcao analitica retorna um `tibble`, pronto para o pipe.
 
-### Módulo - I (Data Wrangling com R para Ciência de Dados)
+### Descritiva
 
-Neste módulo exploramos o conceito Data Wrangling que é um tanto genérico em nosso português brasileiro, mas poderia ser traduzido como disputa/briga/luta de dados. Esta disputa está intimamente ligada ao processo de transformação de dados para obter conhecimento e isso inclui: obtenção, transformação, limpeza, agregação, visualização e criação de bases limpas para fins de Analytics na Ciência de Dados.
+```{r descritiva}
+library(rnp)
+rnp_descritiva(airquality$Temp)
+```
 
-Neste módulo o aluno aprenderá:
-<https://www.udemy.com/r-na-pratica-ciencia-de-dados/>
+### Inferencia
 
-  * Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
-  * Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
-  * Dominará a criação de códigos otimizados em R com o moderno operador pipe "%>%" e os pacotes do tidyverse;   
-  * Terá domínio sobre o processo de obtenção de conhecimento a partir de dados passando pelo ciclo de análise de situação problema, obtenção de dados, preparação, análise, visualização e comunicação de resultados com R Markdown;   
-  * Será capaz de resolver cases de estudo e problemas com dados e situações reais.
-  * Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
+```{r inferencia}
+rnp_ic_media(airquality$Temp)
+rnp_teste_t(airquality$Temp, mu = 75)
+```
 
-### Módulo - II (Estatística descritiva para Data Science com R)
+### Regressao
 
-O curso de Estatística Descritiva para Data Science é uma produção exclusiva do projeto R NA PRÁTICA. Neste curso abordaremos os principais conceitos estatísticos e análise descritiva. O objetivo maior desta parte é revisar os conceitos mais importantes do inicio dos estudos estatísticos tão requisitados para quem trabalha com ciência de dados. Abordaremos a parte conceitual com algumas definições e termos estatísticos, veremos tabelas de frequências, as principais medidas descritivas (média, mediana, desvio padrão e outras). Veremos ainda algumas medidas de correlação e associação e os principais gráficos estatísticos mais utilizados. Para reforçar os conhecimentos, faremos exercícios práticos com apoio do R com foco em bases de dados reais.
+```{r regressao}
+fit <- rnp_regressao(mpg ~ wt + hp, data = mtcars)
+fit$coeficientes
+```
 
-### Módulo - III (Introdução à probabilidade para Data Science com R)
+### Visualizacao
 
-Em desenvolvimento (0%==5%======================100%)
+```{r grafico, fig.alt="Dispersao de mpg vs peso"}
+rnp_grafico_dispersao(mtcars, x = "wt", y = "mpg")
+```
 
-### Módulo - VI (Testes de hipóteses para Data Science com R)
+## Por onde continuar
 
-Em desenvolvimento (0%==5%======================100%)
+O pacote acompanha seis tutoriais que percorrem a progressao 1o -> 3o ano, com
+dados reais e enfase conceitual (interpretacao e armadilhas, nao apenas codigo):
 
-### Módulo - V (Modelagem estatística para Data Science com R)
+1. **Estatistica Descritiva e Analise Exploratoria**
+2. **Probabilidade, Distribuicoes e os Teoremas Fundamentais** (Bayes, LGN, TCL)
+3. **Inferencia Estatistica** (p-valor, IC, bootstrap, poder)
+4. **Regressao Linear e Modelagem** (projecao, pressupostos, regularizacao)
+5. **Analise Multivariada** (PCA, cluster, LDA, Hotelling)
+6. **Dados Categoricos e Metodos Nao-Parametricos**
 
-Em desenvolvimento (0%=1%=======================100%)
+```{r vinhetas, eval = FALSE}
+browseVignettes("rnp")
+```
 
----
+## Reportar problemas
 
+Bugs e sugestoes de novas funcoes sao bem-vindos nas
+[issues](https://github.com/evandeilton/rnp/issues) do projeto.
