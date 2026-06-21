@@ -248,66 +248,259 @@ histograma das médias adere à Normal. É esse resultado que sustenta os
 intervalos de confiança e as cartas de controle da próxima vinheta.</p>
 </div>
 <div class="section level2">
+<h2 id="da-probabilidade-à-inferência">Da probabilidade à inferência<a class="anchor" aria-label="anchor" href="#da-probabilidade-%C3%A0-infer%C3%AAncia"></a>
+</h2>
+<p>Os teoremas-limite abrem a porta da <strong>inferência</strong>: usar
+uma amostra para estimar parâmetros desconhecidos da população <span class="citation">(Montgomery and Runger 2021)</span>. Retomamos as 100
+medições de Michelson (<code>morley</code>).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="va">morley</span><span class="op">$</span><span class="va">Speed</span>     <span class="co"># velocidade da luz - 299000 (km/s)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="estimação-pontual">Estimação pontual<a class="anchor" aria-label="anchor" href="#estima%C3%A7%C3%A3o-pontual"></a>
+</h3>
+<p>Um <strong>estimador</strong> é uma função da amostra que aponta um
+valor para o parâmetro. Um bom estimador é <em>não-viesado</em>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">E[\hat\theta] = \theta</annotation></semantics></math>)
+e <em>eficiente</em> (variância mínima). O método de <strong>máxima
+verossimilhança</strong> escolhe os parâmetros que tornam os dados
+observados mais prováveis:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ll</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">th</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">th</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">th</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_emv.html">rnp_emv</a></span><span class="op">(</span><span class="va">ll</span>, inicio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">800</span>, <span class="fl">80</span><span class="op">)</span>, nomes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"media"</span>, <span class="st">"desvio"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">estimativas</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
+<span><span class="co">#&gt;   parametro estimativa erro_padrao     z ic_inf ic_sup</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> media          852.         7.86 108.   837.   868. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> desvio          78.6        5.56  14.1   67.7   89.5</span></span></code></pre></div>
+<p>A média e o desvio estimados
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>852</mn><mo>,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\hat\mu = 852{,}4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>78</mn><mo>,</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">\hat\sigma = 78{,}6</annotation></semantics></math>)
+vêm com seus erros-padrão, obtidos da informação de Fisher.</p>
+</div>
+<div class="section level3">
+<h3 id="intervalos-de-confiança">Intervalos de confiança<a class="anchor" aria-label="anchor" href="#intervalos-de-confian%C3%A7a"></a>
+</h3>
+<p>Uma estimativa pontual não comunica a incerteza; o <strong>intervalo
+de confiança</strong> sim. Para a média de uma Normal com variância
+desconhecida (usando a distribuição
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>±</mo><msub><mi>t</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mspace width="0.167em"></mspace><mfrac><mi>s</mi><msqrt><mi>n</mi></msqrt></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\bar{x} \pm t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}.</annotation></semantics></math></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_media.html">rnp_ic_media</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;   media erro_padrao limite_inferior limite_superior     n nivel_confianca</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  852.        7.90            837.            868.   100            0.95</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: distribuicao &lt;chr&gt;</span></span></span></code></pre></div>
+<p>O IC de 95% é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>836</mn><mo>,</mo><mn>7</mn><mo>;</mo><mspace width="0.222em"></mspace><mn>868</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[836{,}7;\ 868{,}1]</annotation></semantics></math>
+km/s (acima de 299000). O valor moderno, codificado, é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>792</mn><mo>,</mo><mn>458</mn></mrow><annotation encoding="application/x-tex">792{,}458</annotation></semantics></math>
+— <strong>fora</strong> do intervalo, o que já sinaliza um erro
+sistemático. Há ICs para outros parâmetros:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_variancia.html">rnp_ic_variancia</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>                         <span class="co"># variância (qui-quadrado)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   variancia limite_inferior limite_superior     n    gl</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     <span style="text-decoration: underline;">6</span>243.           <span style="text-decoration: underline;">4</span>812.           <span style="text-decoration: underline;">8</span>424.   100    99</span></span>
+<span><span class="fu"><a href="../reference/rnp_ic_proporcao.html">rnp_ic_proporcao</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">200</span>, method <span class="op">=</span> <span class="st">"wilson"</span><span class="op">)</span>  <span class="co"># proporção: 12 defeitos em 200</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   proporcao limite_inferior limite_superior metodo     n</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      0.06          0.034<span style="text-decoration: underline;">7</span>           0.102 wilson   200</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="testes-de-hipóteses">Testes de hipóteses<a class="anchor" aria-label="anchor" href="#testes-de-hip%C3%B3teses"></a>
+</h3>
+<p>Um teste confronta uma afirmação
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>)
+com os dados. O procedimento de Montgomery: formular
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>1</mn></msub><annotation encoding="application/x-tex">H_1</annotation></semantics></math>,
+calcular uma estatística de teste, e decidir pelo p-valor, ciente dos
+erros tipo I
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>,
+rejeitar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
+verdadeira) e tipo II
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>).
+Michelson estava <strong>enviesado</strong>? Testamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mspace width="-0.167em"></mspace><mo>:</mo><mi>μ</mi><mo>=</mo><mn>792</mn><mo>,</mo><mn>458</mn></mrow><annotation encoding="application/x-tex">H_0\!:\mu = 792{,}458</annotation></semantics></math>
+(o valor moderno) com a estatística
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>/</mi><msqrt><mi>n</mi></msqrt><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">t = (\bar{x} - \mu_0)/(s/\sqrt{n})</annotation></semantics></math>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_teste_t.html">rnp_teste_t</a></span><span class="op">(</span><span class="va">v</span>, mu <span class="op">=</span> <span class="fl">792.458</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">#&gt;   estatistica    gl p_valor media_x media_y  diff ic_inf ic_sup hipotese_nula</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        7.59    99       0    852.      <span style="color: #BB0000;">NA</span>  59.9   837.   868.          792.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: alternativa &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>7</mn><mo>,</mo><mn>59</mn></mrow><annotation encoding="application/x-tex">t = 7{,}59</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>,</mo><mn>0001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0{,}0001</annotation></semantics></math>,
+rejeita-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>:
+as medições de 1879 tinham um <strong>viés sistemático de ~60
+km/s</strong> — um erro de exatidão, não de acaso. Para proporções (uma
+linha que produz 6% de defeitos atende à meta de no máximo 10%?):</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_teste_z_proporcao.html">rnp_teste_z_proporcao</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">200</span>, p0 <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
+<span><span class="co">#&gt;   estatistica p_valor proporcao    p0 erro_padrao ic_inf ic_sup     n</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       -<span style="color: #BB0000;">1.89</span>  0.059<span style="text-decoration: underline;">3</span>      0.06   0.1      0.021<span style="text-decoration: underline;">2</span> 0.027<span style="text-decoration: underline;">1</span> 0.092<span style="text-decoration: underline;">9</span>   200</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: alternativa &lt;chr&gt;</span></span></span></code></pre></div>
+<p>O p-valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>06</mn></mrow><annotation encoding="application/x-tex">0{,}06</annotation></semantics></math>
+não permite, a 5%, concluir que a taxa real está abaixo de 10% — a
+amostra é pequena demais para essa decisão.</p>
+</div>
+<div class="section level3">
+<h3 id="planejamento-poder-e-tamanho-de-amostra">Planejamento: poder e tamanho de amostra<a class="anchor" aria-label="anchor" href="#planejamento-poder-e-tamanho-de-amostra"></a>
+</h3>
+<p>Quantas medições seriam necessárias para detectar um efeito médio
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">d = 0{,}5</annotation></semantics></math>)
+com 80% de poder? Planejar isso <em>antes</em> de coletar evita estudos
+inconclusivos:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_tamanho_amostra_teste.html">rnp_tamanho_amostra_teste</a></span><span class="op">(</span>efeito <span class="op">=</span> <span class="fl">0.5</span>, poder <span class="op">=</span> <span class="fl">0.8</span>, tipo <span class="op">=</span> <span class="st">"uma"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   efeito poder_alvo alpha     n poder_obtido</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    0.5        0.8  0.05    34        0.808</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
 <colgroup>
-<col width="43%">
-<col width="25%">
-<col width="30%">
+<col width="42%">
+<col width="36%">
+<col width="20%">
 </colgroup>
 <thead><tr class="header">
-<th>Fenômeno de engenharia</th>
-<th>Distribuição</th>
-<th>Parâmetro-chave</th>
+<th>Fenômeno / objetivo</th>
+<th>Ferramenta <code>rnp</code>
+</th>
+<th>Conceito</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>Defeitos por unidade</td>
+<td><code>rnp_distribuicao_poisson</code></td>
 <td>Poisson</td>
-<td>taxa
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-</td>
 </tr>
 <tr class="even">
-<td>Sucessos em
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-ensaios</td>
-<td>Binomial</td>
-<td>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-</td>
+<td>Tempo de vida</td>
+<td><code>rnp_distribuicao_exponencial/_weibull</code></td>
+<td>confiabilidade</td>
 </tr>
 <tr class="odd">
-<td>Tempo até falha aleatória</td>
-<td>Exponencial</td>
-<td>taxa
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-(sem memória)</td>
+<td>Estimar parâmetro</td>
+<td><code>rnp_emv</code></td>
+<td>máxima verossimilhança</td>
 </tr>
 <tr class="even">
-<td>Tempo até falha por desgaste</td>
-<td>Weibull</td>
-<td>forma
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>,
-escala
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>
-</td>
+<td>Quantificar incerteza</td>
+<td><code>rnp_ic_media/_variancia/_proporcao</code></td>
+<td>intervalo de confiança</td>
 </tr>
 <tr class="odd">
-<td>Erros de medição</td>
-<td>Normal</td>
+<td>Decidir sobre afirmação</td>
 <td>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+<code>rnp_teste_t</code>, <code>rnp_teste_z_proporcao</code>
 </td>
+<td>teste de hipótese</td>
+</tr>
+<tr class="even">
+<td>Planejar o estudo</td>
+<td><code>rnp_tamanho_amostra_teste</code></td>
+<td>poder</td>
 </tr>
 </tbody>
 </table>
-<p>Conhecer o <em>mecanismo</em> (defeito, falha aleatória, desgaste)
-guia a escolha da distribuição — e os teoremas-limite conectam a
-probabilidade à inferência.</p>
+<p>Da probabilidade que descreve o mecanismo à inferência que decide a
+partir de dados, o caminho é contínuo — e os teoremas-limite são a
+ponte.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva computacionalmente com o <code>rnp</code>. Use os conjuntos
+indicados (<code>morley</code>, <code>mtcars</code>, <code>trees</code>,
+<code>faithful</code>).</p>
+<ol style="list-style-type: decimal">
+<li>Calcule
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>≤</mo><mn>2</mn><mo>,</mo><mn>5</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Z \le 2{,}5)</annotation></semantics></math>
+e o quantil
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mrow><mn>0</mn><mo>,</mo><mn>975</mn></mrow></msub><annotation encoding="application/x-tex">z_{0{,}975}</annotation></semantics></math>
+da Normal padrão (<code>rnp_distribuicao_normal</code>).</li>
+<li>Em 10 ensaios com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">p = 0{,}2</annotation></semantics></math>,
+obtenha
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X = 3)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≤</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X \le 3)</annotation></semantics></math>
+(<code>rnp_distribuicao_binomial</code>).</li>
+<li>Para uma Poisson com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\lambda = 3</annotation></semantics></math>,
+calcule
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≥</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X \ge 2)</annotation></semantics></math>
+(<code>rnp_distribuicao_poisson</code>).</li>
+<li>Um sistema tem 3 componentes independentes com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>95</mn></mrow><annotation encoding="application/x-tex">R = 0{,}95</annotation></semantics></math>.
+Calcule a confiabilidade em série e em paralelo (regra da
+multiplicação).</li>
+<li>Dois fornecedores entregam 60% e 40% das peças, com 2% e 5% de
+defeito. Dada uma peça defeituosa, qual a probabilidade de cada
+fornecedor? (<code>rnp_bayes</code>).</li>
+<li>Um componente tem MTBF de 500 h (exponencial). Calcule
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>&gt;</mo><mn>200</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(T &gt; 200)</annotation></semantics></math>
+e verifique a propriedade sem memória
+(<code>rnp_distribuicao_exponencial</code>).</li>
+<li>Para uma Weibull com forma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">1{,}5</annotation></semantics></math>
+e escala
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2000</mn><annotation encoding="application/x-tex">2000</annotation></semantics></math>,
+obtenha a confiabilidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mn>1000</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">R(1000)</annotation></semantics></math>
+(<code>rnp_distribuicao_weibull</code>).</li>
+<li>Obtenha
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[X]</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\operatorname{Var}[X]</annotation></semantics></math>
+de uma Poisson com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">\lambda = 5</annotation></semantics></math>
+(<code>rnp_esperanca_var</code>).</li>
+<li>Demonstre o TCL partindo de uma distribuição uniforme
+(<code>rnp_tcl_simulacao</code>).</li>
+<li>Construa o IC de 95% para a média de <code>mtcars$mpg</code>
+(<code>rnp_ic_media</code>).</li>
+<li>Teste se a média de <code>mtcars$mpg</code> difere de 22 km/L
+(<code>rnp_teste_t</code>).</li>
+<li>Calcule o IC de 95% para a variância de <code>mtcars$wt</code>
+(<code>rnp_ic_variancia</code>).</li>
+<li>Estime o IC para a proporção de 18 defeituosos em 250 peças
+(<code>rnp_ic_proporcao</code>, método de Wilson).</li>
+<li>Teste se a proporção 18/250 difere de 10%
+(<code>rnp_teste_z_proporcao</code>).</li>
+<li>Ajuste uma distribuição exponencial a
+<code>faithful$eruptions</code> e avalie o ajuste
+(<code>rnp_ajuste_distribuicao</code>).</li>
+<li>Determine o tamanho de amostra para detectar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">d = 0{,}4</annotation></semantics></math>
+com poder de 0,90 (<code>rnp_tamanho_amostra_teste</code>).</li>
+<li>Estime
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><msup><mi>e</mi><mrow><mi>−</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></msup><mspace width="0.167em"></mspace><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int_0^1 e^{-x^2}\,dx</annotation></semantics></math>
+por Monte Carlo (<code>rnp_monte_carlo</code>).</li>
+<li>Aplique o Teorema de Bayes (forma de partição) a um teste
+diagnóstico com prevalência 2%, sensibilidade 95% e especificidade 90%
+(<code>rnp_bayes</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

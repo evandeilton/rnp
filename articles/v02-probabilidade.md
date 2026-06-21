@@ -183,19 +183,186 @@ Partindo de tempos de falha exponenciais (fortemente assimétricos), o
 histograma das médias adere à Normal. É esse resultado que sustenta os
 intervalos de confiança e as cartas de controle da próxima vinheta.
 
+## Da probabilidade à inferência
+
+Os teoremas-limite abrem a porta da **inferência**: usar uma amostra
+para estimar parâmetros desconhecidos da população (Montgomery and
+Runger 2021). Retomamos as 100 medições de Michelson (`morley`).
+
+``` r
+
+v <- morley$Speed     # velocidade da luz - 299000 (km/s)
+```
+
+### Estimação pontual
+
+Um **estimador** é uma função da amostra que aponta um valor para o
+parâmetro. Um bom estimador é *não-viesado* ($`E[\hat\theta] = \theta`$)
+e *eficiente* (variância mínima). O método de **máxima verossimilhança**
+escolhe os parâmetros que tornam os dados observados mais prováveis:
+
+``` r
+
+ll <- function(th) sum(dnorm(v, th[1], th[2], log = TRUE))
+rnp_emv(ll, inicio = c(800, 80), nomes = c("media", "desvio"))$estimativas
+#> # A tibble: 2 × 6
+#>   parametro estimativa erro_padrao     z ic_inf ic_sup
+#>   <chr>          <dbl>       <dbl> <dbl>  <dbl>  <dbl>
+#> 1 media          852.         7.86 108.   837.   868. 
+#> 2 desvio          78.6        5.56  14.1   67.7   89.5
+```
+
+A média e o desvio estimados ($`\hat\mu = 852{,}4`$,
+$`\hat\sigma = 78{,}6`$) vêm com seus erros-padrão, obtidos da
+informação de Fisher.
+
+### Intervalos de confiança
+
+Uma estimativa pontual não comunica a incerteza; o **intervalo de
+confiança** sim. Para a média de uma Normal com variância desconhecida
+(usando a distribuição $`t`$):
+
+``` math
+\bar{x} \pm t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}.
+```
+
+``` r
+
+rnp_ic_media(v)
+#> # A tibble: 1 × 7
+#>   media erro_padrao limite_inferior limite_superior     n nivel_confianca
+#>   <dbl>       <dbl>           <dbl>           <dbl> <dbl>           <dbl>
+#> 1  852.        7.90            837.            868.   100            0.95
+#> # ℹ 1 more variable: distribuicao <chr>
+```
+
+O IC de 95% é $`[836{,}7;\ 868{,}1]`$ km/s (acima de 299000). O valor
+moderno, codificado, é $`792{,}458`$ — **fora** do intervalo, o que já
+sinaliza um erro sistemático. Há ICs para outros parâmetros:
+
+``` r
+
+rnp_ic_variancia(v)                         # variância (qui-quadrado)
+#> # A tibble: 1 × 5
+#>   variancia limite_inferior limite_superior     n    gl
+#>       <dbl>           <dbl>           <dbl> <int> <int>
+#> 1     6243.           4812.           8424.   100    99
+rnp_ic_proporcao(12, 200, method = "wilson")  # proporção: 12 defeitos em 200
+#> # A tibble: 1 × 5
+#>   proporcao limite_inferior limite_superior metodo     n
+#>       <dbl>           <dbl>           <dbl> <chr>  <dbl>
+#> 1      0.06          0.0347           0.102 wilson   200
+```
+
+### Testes de hipóteses
+
+Um teste confronta uma afirmação ($`H_0`$) com os dados. O procedimento
+de Montgomery: formular $`H_0`$ e $`H_1`$, calcular uma estatística de
+teste, e decidir pelo p-valor, ciente dos erros tipo I ($`\alpha`$,
+rejeitar $`H_0`$ verdadeira) e tipo II ($`\beta`$). Michelson estava
+**enviesado**? Testamos $`H_0\!:\mu = 792{,}458`$ (o valor moderno) com
+a estatística $`t = (\bar{x} - \mu_0)/(s/\sqrt{n})`$:
+
+``` r
+
+rnp_teste_t(v, mu = 792.458)
+#> # A tibble: 1 × 10
+#>   estatistica    gl p_valor media_x media_y  diff ic_inf ic_sup hipotese_nula
+#>         <dbl> <dbl>   <dbl>   <dbl>   <dbl> <dbl>  <dbl>  <dbl>         <dbl>
+#> 1        7.59    99       0    852.      NA  59.9   837.   868.          792.
+#> # ℹ 1 more variable: alternativa <chr>
+```
+
+Com $`t = 7{,}59`$ e $`p < 0{,}0001`$, rejeita-se $`H_0`$: as medições
+de 1879 tinham um **viés sistemático de ~60 km/s** — um erro de
+exatidão, não de acaso. Para proporções (uma linha que produz 6% de
+defeitos atende à meta de no máximo 10%?):
+
+``` r
+
+rnp_teste_z_proporcao(12, 200, p0 = 0.10)
+#> # A tibble: 1 × 9
+#>   estatistica p_valor proporcao    p0 erro_padrao ic_inf ic_sup     n
+#>         <dbl>   <dbl>     <dbl> <dbl>       <dbl>  <dbl>  <dbl> <dbl>
+#> 1       -1.89  0.0593      0.06   0.1      0.0212 0.0271 0.0929   200
+#> # ℹ 1 more variable: alternativa <chr>
+```
+
+O p-valor de $`0{,}06`$ não permite, a 5%, concluir que a taxa real está
+abaixo de 10% — a amostra é pequena demais para essa decisão.
+
+### Planejamento: poder e tamanho de amostra
+
+Quantas medições seriam necessárias para detectar um efeito médio
+($`d = 0{,}5`$) com 80% de poder? Planejar isso *antes* de coletar evita
+estudos inconclusivos:
+
+``` r
+
+rnp_tamanho_amostra_teste(efeito = 0.5, poder = 0.8, tipo = "uma")
+#> # A tibble: 1 × 5
+#>   efeito poder_alvo alpha     n poder_obtido
+#>    <dbl>      <dbl> <dbl> <int>        <dbl>
+#> 1    0.5        0.8  0.05    34        0.808
+```
+
 ## Síntese
 
-| Fenômeno de engenharia | Distribuição | Parâmetro-chave |
+| Fenômeno / objetivo | Ferramenta `rnp` | Conceito |
 |----|----|----|
-| Defeitos por unidade | Poisson | taxa $`\lambda`$ |
-| Sucessos em $`n`$ ensaios | Binomial | $`n`$, $`p`$ |
-| Tempo até falha aleatória | Exponencial | taxa $`\lambda`$ (sem memória) |
-| Tempo até falha por desgaste | Weibull | forma $`\beta`$, escala $`\delta`$ |
-| Erros de medição | Normal | $`\mu`$, $`\sigma`$ |
+| Defeitos por unidade | `rnp_distribuicao_poisson` | Poisson |
+| Tempo de vida | `rnp_distribuicao_exponencial/_weibull` | confiabilidade |
+| Estimar parâmetro | `rnp_emv` | máxima verossimilhança |
+| Quantificar incerteza | `rnp_ic_media/_variancia/_proporcao` | intervalo de confiança |
+| Decidir sobre afirmação | `rnp_teste_t`, `rnp_teste_z_proporcao` | teste de hipótese |
+| Planejar o estudo | `rnp_tamanho_amostra_teste` | poder |
 
-Conhecer o *mecanismo* (defeito, falha aleatória, desgaste) guia a
-escolha da distribuição — e os teoremas-limite conectam a probabilidade
-à inferência.
+Da probabilidade que descreve o mecanismo à inferência que decide a
+partir de dados, o caminho é contínuo — e os teoremas-limite são a
+ponte.
+
+## Exercícios
+
+Resolva computacionalmente com o `rnp`. Use os conjuntos indicados
+(`morley`, `mtcars`, `trees`, `faithful`).
+
+1.  Calcule $`P(Z \le 2{,}5)`$ e o quantil $`z_{0{,}975}`$ da Normal
+    padrão (`rnp_distribuicao_normal`).
+2.  Em 10 ensaios com $`p = 0{,}2`$, obtenha $`P(X = 3)`$ e
+    $`P(X \le 3)`$ (`rnp_distribuicao_binomial`).
+3.  Para uma Poisson com $`\lambda = 3`$, calcule $`P(X \ge 2)`$
+    (`rnp_distribuicao_poisson`).
+4.  Um sistema tem 3 componentes independentes com $`R = 0{,}95`$.
+    Calcule a confiabilidade em série e em paralelo (regra da
+    multiplicação).
+5.  Dois fornecedores entregam 60% e 40% das peças, com 2% e 5% de
+    defeito. Dada uma peça defeituosa, qual a probabilidade de cada
+    fornecedor? (`rnp_bayes`).
+6.  Um componente tem MTBF de 500 h (exponencial). Calcule
+    $`P(T > 200)`$ e verifique a propriedade sem memória
+    (`rnp_distribuicao_exponencial`).
+7.  Para uma Weibull com forma $`1{,}5`$ e escala $`2000`$, obtenha a
+    confiabilidade $`R(1000)`$ (`rnp_distribuicao_weibull`).
+8.  Obtenha $`E[X]`$ e $`\operatorname{Var}[X]`$ de uma Poisson com
+    $`\lambda = 5`$ (`rnp_esperanca_var`).
+9.  Demonstre o TCL partindo de uma distribuição uniforme
+    (`rnp_tcl_simulacao`).
+10. Construa o IC de 95% para a média de `mtcars$mpg` (`rnp_ic_media`).
+11. Teste se a média de `mtcars$mpg` difere de 22 km/L (`rnp_teste_t`).
+12. Calcule o IC de 95% para a variância de `mtcars$wt`
+    (`rnp_ic_variancia`).
+13. Estime o IC para a proporção de 18 defeituosos em 250 peças
+    (`rnp_ic_proporcao`, método de Wilson).
+14. Teste se a proporção 18/250 difere de 10% (`rnp_teste_z_proporcao`).
+15. Ajuste uma distribuição exponencial a `faithful$eruptions` e avalie
+    o ajuste (`rnp_ajuste_distribuicao`).
+16. Determine o tamanho de amostra para detectar $`d = 0{,}4`$ com poder
+    de 0,90 (`rnp_tamanho_amostra_teste`).
+17. Estime $`\int_0^1 e^{-x^2}\,dx`$ por Monte Carlo
+    (`rnp_monte_carlo`).
+18. Aplique o Teorema de Bayes (forma de partição) a um teste
+    diagnóstico com prevalência 2%, sensibilidade 95% e especificidade
+    90% (`rnp_bayes`).
 
 ## Referências
 

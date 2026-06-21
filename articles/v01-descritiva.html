@@ -292,6 +292,53 @@ exatidão × precisão</td>
 entender <em>por que</em> a média amostral se comporta de forma
 previsível, leva à <strong>probabilidade</strong>.</p>
 </div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva computacionalmente com o <code>rnp</code>, usando os
+conjuntos <code>morley</code>, <code>mtcars</code>, <code>trees</code>,
+<code>faithful</code> e <code>airquality</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Calcule média, mediana e desvio-padrão de <code>mtcars$mpg</code>
+(<code>rnp_descritiva</code>).</li>
+<li>O consumo <code>mtcars$mpg</code> é assimétrico? Calcule
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mn>1</mn></msub><annotation encoding="application/x-tex">g_1</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mn>2</mn></msub><annotation encoding="application/x-tex">g_2</annotation></semantics></math>
+(<code>rnp_momentos</code>).</li>
+<li>Compare o coeficiente de variação de <code>mtcars$mpg</code> e
+<code>mtcars$hp</code>: qual grandeza varia mais, em termos relativos?
+(<code>rnp_descritiva</code>).</li>
+<li>Calcule as quatro médias (aritmética, geométrica, harmônica,
+quadrática) de <code>c(2, 4, 8, 16)</code> e verifique a desigualdade
+entre elas (<code>rnp_medias</code>).</li>
+<li>Construa a tabela de frequências de <code>mtcars$cyl</code>
+(<code>rnp_tabela_frequencia</code>).</li>
+<li>Agrupe <code>mtcars$mpg</code> em classes pela regra de Sturges
+(<code>rnp_tabela_classes</code>).</li>
+<li>Identifique os <em>outliers</em> de <code>mtcars$hp</code> pelo
+critério de Tukey (<code>rnp_outliers</code>).</li>
+<li>A variável <code>trees$Volume</code> é Normal? Use o gráfico de
+probabilidade normal (<code>rnp_grafico_qq</code>) e o teste de
+Shapiro-Wilk (<code>rnp_teste_normalidade</code>).</li>
+<li>Construa um box plot de <code>mpg</code> por número de cilindros e
+descreva as diferenças (<code>rnp_grafico_boxplot</code>).</li>
+<li>Verifique a regra empírica (68-95-99,7) para
+<code>mtcars$qsec</code>.</li>
+<li>Construa a tabela de contingência entre <code>cyl</code> e
+<code>gear</code> (<code>rnp_tabela_contingencia</code>).</li>
+<li>O histograma de <code>faithful$waiting</code> sugere quantas modas?
+(<code>rnp_grafico_histograma</code>).</li>
+<li>Calcule os momentos de <code>airquality$Wind</code> (removendo NA):
+a variável é simétrica? (<code>rnp_momentos</code>).</li>
+<li>Resuma a estrutura de <code>airquality</code>
+(<code>rnp_estrutura</code>): quantas variáveis têm valores faltantes e
+em que proporção?</li>
+<li>Compare a precisão (desvio-padrão) entre os cinco experimentos de
+<code>morley</code>: qual foi o mais preciso?
+(<code>rnp_descritiva_by</code>).</li>
+</ol>
+</div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
 </h2>
