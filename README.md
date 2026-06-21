@@ -1,85 +1,98 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rnp <img src="man/figures/logo.png" align="right" height="120" alt="" />
+# rnp
 
 <!-- badges: start -->
-[![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/evandeilton/rnp)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Version](https://img.shields.io/badge/version-3.0.0-orange.svg)](https://github.com/evandeilton/rnp)
 <!-- badges: end -->
 
-> O **canivete suico do estatistico**: um pacote didatico e de producao que cobre
-> as ementas dos tres primeiros anos de um bacharelado em Estatistica, com
-> nucleos de alto desempenho em C++ (Rcpp/RcppArmadillo) e saidas tidy.
+## R NA PRÁTICA
 
-O `rnp` (do projeto **R NA PRATICA**) reune mais de **180 funcoes** de estatistica
-descritiva, probabilidade, inferencia, regressao, analise multivariada, series
-temporais, dados categoricos e pre-processamento. Todas com documentacao e
-mensagens em **portugues**, saidas em `tibble` e graficos em `ggplot2`.
+O **R NA PRÁTICA** surgiu com o desejo de ajudar a disseminar a linguagem R como
+ferramenta de apoio ao estudo de estatística e ciência de dados, para pessoas de
+todos os níveis. Com o tempo, o projeto cresceu e passou a abranger a própria
+programação em R, a estatística e a probabilidade aplicadas à análise de dados.
 
-## Filosofia de projeto
+## O pacote `rnp`
 
-- **Didatico e correto.** Cada funcao foi pensada para ensinar *e* para produzir.
-  As vinhetas tratam a estatistica como um professor faria — conceito,
-  interpretacao e armadilhas, nao apenas codigo.
-- **Rapido.** Lacos pesados e algebra matricial rodam em **C++** (12 nucleos
-  Rcpp/RcppArmadillo, verificados numericamente contra a referencia do R).
-- **Enxuto.** Depende apenas de **R base + tidyverse + tidymodels + Rcpp**. Sem
-  cipoal de dependencias.
-- **Consistente.** Prefixo `rnp_`, saidas tidy, validacao de argumentos clara.
+À medida que o projeto ganhou volume, muitas funções foram sendo escritas. Para
+condensar esse material em um lugar de fácil consulta, surgiu a ideia de
+empacotá-lo. É o pacote `rnp`.
 
-## Instalacao
+O pacote reúne funções que cobrem os temas tratados nos primeiros anos de um curso
+de estatística — análise descritiva, probabilidade, inferência, regressão,
+análise multivariada, séries temporais, amostragem e dados categóricos. As
+funções analíticas retornam saídas em formato `tibble` e os gráficos são feitos
+com `ggplot2`. As rotinas que exigem mais cálculo (distâncias, álgebra matricial,
+reamostragem) são escritas em C++ com `Rcpp` e `RcppArmadillo`. Toda a
+documentação e as mensagens estão em português.
+
+O `rnp` depende apenas do R base, do `tidyverse`, do `tidymodels` e do `Rcpp`,
+evitando uma cadeia extensa de dependências externas.
+
+## Instalação
 
 ``` r
-# install.packages("devtools")
+# Se ainda não tiver o devtools, instale-o
+if (!require(devtools)) install.packages("devtools")
+
+# Instalar o rnp
 devtools::install_github("evandeilton/rnp")
+
+# Carregar
+library(rnp)
 ```
 
-## Exemplo rapido
+## Uso
+
+As funções seguem a convenção de nome `rnp_<area>_<metodo>()` e devolvem
+`tibble`, prontas para o pipe.
 
 ``` r
 library(rnp)
 
-# Estatistica descritiva completa numa linha
+# Estatística descritiva
 rnp_descritiva(airquality$Ozone)
 
-# Intervalo de confianca e teste de hipotese
+# Intervalo de confiança e teste de hipótese
 rnp_ic_media(airquality$Temp)
 rnp_teste_t(airquality$Temp, mu = 75)
 
-# Regressao com diagnosticos
+# Regressão
 fit <- rnp_regressao(medv ~ rm + lstat, data = MASS::Boston)
 fit$coeficientes
 
-# PCA e visualizacao
+# Componentes principais
 p <- rnp_pca(iris[, 1:4])
 rnp_biplot(p)
 ```
 
-## Funcoes por ementa
+## Funções por área
 
 <details>
-<summary><b>1. Descritiva e Exploratoria</b></summary>
+<summary><b>Descritiva e exploratória</b></summary>
 
 `rnp_descritiva()`, `rnp_descritiva_by()`, `rnp_momentos()`, `rnp_quantis()`,
 `rnp_skewness()`, `rnp_kurtosis()`, `rnp_outliers()`, `rnp_medias()`,
 `rnp_tabela_frequencia()`, `rnp_tabela_classes()`, `rnp_tabela_contingencia()`,
-`rnp_estrutura()`, e graficos `rnp_grafico_histograma/_boxplot/_dispersao/_violino/_qq/_barras()`.
+`rnp_estrutura()`, e os gráficos `rnp_grafico_histograma/_boxplot/_dispersao/_violino/_qq/_barras()`.
 </details>
 
 <details>
-<summary><b>2. Probabilidade e Distribuicoes</b></summary>
+<summary><b>Probabilidade e distribuições</b></summary>
 
-`rnp_distribuicao_*()` (normal, exp, gama, beta, uniforme, t, qui-quadrado, F,
-binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuicao()`,
-`rnp_bayes()`, `rnp_distribuicao_conjunta()`, `rnp_esperanca_condicional()`,
-`rnp_lei_grandes_numeros()`, `rnp_tcl_simulacao()`, `rnp_cadeia_markov()`,
-`rnp_monte_carlo()`, `rnp_simula_inversao()`, `rnp_ajuste_distribuicao()`.
+`rnp_distribuicao_*()` (normal, exponencial, gama, beta, uniforme, t,
+qui-quadrado, F, binomial, Poisson, lognormal, Weibull, multinomial),
+`rnp_grafico_distribuicao()`, `rnp_bayes()`, `rnp_distribuicao_conjunta()`,
+`rnp_esperanca_condicional()`, `rnp_lei_grandes_numeros()`, `rnp_tcl_simulacao()`,
+`rnp_cadeia_markov()`, `rnp_monte_carlo()`, `rnp_simula_inversao()`,
+`rnp_ajuste_distribuicao()`.
 </details>
 
 <details>
-<summary><b>3. Inferencia</b></summary>
+<summary><b>Inferência</b></summary>
 
 `rnp_emv()`, `rnp_metodo_momentos()`, `rnp_informacao_fisher()`,
 `rnp_ic_media/_proporcao/_variancia/_diff_medias()`, `rnp_teste_t/_z_media/_z_proporcao()`,
@@ -90,7 +103,7 @@ binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuica
 </details>
 
 <details>
-<summary><b>4. Regressao e Modelagem</b></summary>
+<summary><b>Regressão e modelagem</b></summary>
 
 `rnp_regressao()`, `rnp_regressao_diagnosticos()`, `rnp_grafico_residuos()`,
 `rnp_vif()`, `rnp_predicao()`, `rnp_regressao_polinomial/_ponderada/_stepwise()`,
@@ -100,7 +113,7 @@ binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuica
 </details>
 
 <details>
-<summary><b>5. Multivariada</b></summary>
+<summary><b>Multivariada</b></summary>
 
 `rnp_pca()`, `rnp_biplot()`, `rnp_matriz_correlacao()`, `rnp_grafico_correlograma()`,
 `rnp_kmeans()`, `rnp_kmedoids()`, `rnp_cluster_hierarquico()`, `rnp_grafico_dendrograma()`,
@@ -110,7 +123,7 @@ binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuica
 </details>
 
 <details>
-<summary><b>6. Series Temporais</b></summary>
+<summary><b>Séries temporais</b></summary>
 
 `rnp_ts_decomposicao()`, `rnp_media_movel()`, `rnp_suavizacao_exponencial()`,
 `rnp_ts_acf()`, `rnp_ts_pacf()`, `rnp_ts_diferenciacao()`, `rnp_ts_ljung_box()`,
@@ -118,7 +131,7 @@ binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuica
 </details>
 
 <details>
-<summary><b>7. Categoricos, Experimental e Pre-processamento</b></summary>
+<summary><b>Categóricos, experimental e pré-processamento</b></summary>
 
 `rnp_teste_fisher()`, `rnp_odds_ratio()`, `rnp_risco_relativo()`, `rnp_kappa()`,
 `rnp_kruskal()`, `rnp_mann_whitney()`, `rnp_wilcoxon()`, `rnp_anova()`,
@@ -127,37 +140,28 @@ binomial, poisson, lognormal, weibull, multinomial...), `rnp_grafico_distribuica
 `rnp_discretiza()`, `rnp_dummy()`.
 </details>
 
-## Vinhetas (tutoriais)
+## Tutoriais
 
-O pacote acompanha seis tutoriais que percorrem a progressao 1o -> 3o ano,
-com dados reais e enfase conceitual:
+O pacote acompanha seis tutoriais que acompanham a progressão típica de um curso
+de estatística, com dados reais e ênfase na interpretação dos resultados:
 
-1. **Estatistica Descritiva e Analise Exploratoria**
-2. **Probabilidade, Distribuicoes e os Teoremas Fundamentais** (Bayes, LGN, TCL)
-3. **Inferencia Estatistica** (p-valor, IC, bootstrap, poder)
-4. **Regressao Linear e Modelagem** (projecao, pressupostos, regularizacao)
-5. **Analise Multivariada** (PCA, cluster, LDA, Hotelling)
-6. **Dados Categoricos e Metodos Nao-Parametricos**
+1. Estatística descritiva e análise exploratória
+2. Probabilidade, distribuições e os teoremas fundamentais
+3. Inferência estatística
+4. Regressão linear e modelagem
+5. Análise multivariada
+6. Dados categóricos e métodos não-paramétricos
 
 ``` r
 browseVignettes("rnp")
 ```
 
-## Desempenho (C++)
+## Bugs e sugestões
 
-Doze nucleos compilados via Rcpp/RcppArmadillo aceleram as operacoes mais
-pesadas, todos validados contra a referencia do R (tolerancia ~1e-8): distancias,
-covariancia/correlacao, OLS por QR, momentos, cadeias de Markov, reamostragem
-(bootstrap/jackknife/permutacao), regularizacao (ridge/elastic net), regressao
-robusta (IRLS), silhueta, series temporais (ACF/PACF) e imputacao kNN.
+Caso encontre algum problema ou queira sugerir a inclusão de funções, abra uma
+_issue_ [aqui](https://github.com/evandeilton/rnp/issues) para que possamos
+atender nas próximas atualizações.
 
-## Sobre o projeto R NA PRATICA
+## Licença
 
-O **R NA PRATICA** nasceu para disseminar o R como ferramenta de ensino de
-ciencia de dados e estatistica. O pacote `rnp` condensa esses recursos num lugar
-unico, de facil consulta e instalacao.
-
-## Licenca
-
-GPL-3. Contribuicoes e relatos de bugs sao bem-vindos em
-[issues](https://github.com/evandeilton/rnp/issues).
+GPL-3.

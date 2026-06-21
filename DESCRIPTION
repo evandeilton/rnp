@@ -7,12 +7,14 @@ Authors@R:
            family = "Lopes",
            role = c("aut", "cre"),
            email = "evandeilton@gmail.com")
-Description: Conjunto abrangente de funções estatísticas para
-    análise descritiva, inferencial, multivariada e de séries temporais,
-    com foco didático e em performance. Inclui tabelas de frequência,
-    medidas de tendência central e dispersão, testes de hipóteses,
-    regressão, ANOVA, distribuições de probabilidade, amostragem,
-    visualização ggplot2 e ferramentas para dados do censo INEP.
+Description: Reúne funções estatísticas usadas no projeto R NA PRÁTICA,
+    organizadas por área: análise descritiva, probabilidade, inferência,
+    regressão, análise multivariada, séries temporais, amostragem e dados
+    categóricos. As funções analíticas retornam saídas em formato tibble e os
+    gráficos são construídos com ggplot2. Rotinas numericamente intensivas são
+    implementadas em C++ por meio de Rcpp e RcppArmadillo. Inclui ainda
+    ferramentas para leitura e tratamento dos microdados do censo do ensino
+    superior do INEP.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3

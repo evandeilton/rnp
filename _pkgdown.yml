@@ -11,9 +11,9 @@ template:
     code_font:
       google: JetBrains Mono
 home:
-  title: rnp - O canivete suico do estatistico
+  title: rnp - Recursos estatisticos do projeto R NA PRATICA
   description: |
-    Pacote didatico e de producao com mais de 180 funcoes de estatistica, nucleos em C++ (Rcpp/RcppArmadillo) e saidas tidy, em portugues.
+    Funcoes de estatistica descritiva, probabilidade, inferencia, regressao, multivariada e series temporais, com saidas tidy e rotinas em C++, em portugues.
 navbar:
   structure:
     left:
