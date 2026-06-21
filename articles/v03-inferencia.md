@@ -1,29 +1,29 @@
-# 3. Inferencia Estatistica
+# 3. Inferência estatística
 
-## Dos dados a populacao
-
-Inferencia e o salto do que observamos (a amostra) para o que queremos
-saber (a populacao). E o curso mais importante de um bacharelado em
-estatistica, e tambem o mais mal-interpretado. Usaremos
+A inferência vai da amostra à população (Casella and Berger 2002;
+Bolfarine and Sandoval 1998). Usamos
 [`MASS::Pima.tr`](https://rdrr.io/pkg/MASS/man/Pima.tr.html): dados
-reais de 200 mulheres da etnia Pima, com medidas clinicas e diagnostico
+reais de 200 mulheres da etnia Pima, com medidas clínicas e diagnóstico
 de diabetes.
 
 ``` r
 
 dados <- MASS::Pima.tr
-rnp_descritiva(dados$bmi)[c("n_validos", "media", "desvio", "se_media")]
-#> # A tibble: 1 × 4
-#>   n_validos media desvio se_media
-#>       <dbl> <dbl>  <dbl>    <dbl>
-#> 1       200  32.3   6.13    0.434
 ```
 
-## Estimacao pontual: dois caminhos
+## Estimação pontual por máxima verossimilhança
 
-Estimar um parametro pontualmente pode ser feito por **maxima
-verossimilhanca** (EMV) — o valor que torna os dados observados mais
-provaveis — ou pelo **metodo dos momentos**. Para o IMC, supondo Normal:
+Dada uma amostra de uma densidade $`f(x;\theta)`$, a **verossimilhança**
+e a **log-verossimilhança** são
+
+``` math
+L(\theta) = \prod_{i=1}^{n} f(x_i;\theta), \qquad
+  \ell(\theta) = \sum_{i=1}^{n} \log f(x_i;\theta),
+```
+
+e o estimador de máxima verossimilhança é
+$`\hat\theta = \arg\max_\theta \ell(\theta)`$. Para o índice de massa
+corporal (IMC), supondo Normal:
 
 ``` r
 
@@ -37,10 +37,16 @@ rnp_emv(ll, inicio = c(30, 5), nomes = c("media", "desvio"))$estimativas
 #> 2 desvio          6.11       0.306  20.0   5.52   6.71
 ```
 
-A EMV nao da apenas o estimador: a curvatura da log-verossimilhanca no
-maximo (a **informacao de Fisher**) fornece o erro-padrao. Quanto mais
-“afilada” a verossimilhanca, mais informacao os dados trazem e menor a
-incerteza:
+A EMV da média é 32.31. O erro-padrão vem da curvatura de $`\ell`$ no
+máximo, medida pela **informação de Fisher**:
+
+``` math
+I(\theta) = -E\!\left[\frac{\partial^2 \ell}{\partial \theta^2}\right], \qquad
+  \widehat{\operatorname{Var}}(\hat\theta) \approx I(\hat\theta)^{-1}.
+```
+
+Quanto mais afilada a log-verossimilhança, mais informação os dados
+trazem e menor a incerteza:
 
 ``` r
 
@@ -48,10 +54,17 @@ rnp_log_verossimilhanca(function(mu) sum(dnorm(x, mu, sd(x), log = TRUE)),
                         intervalo = c(31, 35))
 ```
 
-![Log-verossimilhanca da
-media](v03-inferencia_files/figure-html/logveross-1.png)
+![Log-verossimilhança da média do
+IMC](v03-inferencia_files/figure-html/logveross-1.png)
 
-## Intervalo de confianca: o que ele *realmente* significa
+## Intervalo de confiança
+
+Para a média de uma Normal com variância desconhecida, o IC de nível
+$`1-\alpha`$ é
+
+``` math
+\bar{x} \pm t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}.
+```
 
 ``` r
 
@@ -63,19 +76,16 @@ rnp_ic_media(dados$bmi)
 #> # ℹ 1 more variable: distribuicao <chr>
 ```
 
-Aqui mora a interpretacao mais distorcida da estatistica. Um IC de 95%
-para a media **NAO** significa “ha 95% de probabilidade de a media
-verdadeira estar neste intervalo”. A media verdadeira e uma constante
-fixa — ou esta, ou nao esta.
+O IC de 95% é $`[31{,}5;\,33{,}2]`$. A interpretação **frequentista**
+correta: se o estudo fosse repetido muitas vezes, 95% dos intervalos
+assim construídos conteriam a média verdadeira. A confiança está no
+*procedimento*, não neste intervalo particular — não é “95% de
+probabilidade de a média estar aqui”.
 
-A interpretacao **frequentista correta**: se repetissemos o estudo
-muitas vezes e construissemos um IC a cada vez, **95% desses
-intervalos** conteriam a media verdadeira. A confianca esta no
-*procedimento*, nao neste intervalo particular.
+## Teste de hipóteses e o p-valor
 
-## Teste de hipoteses e o p-valor
-
-Sera que o IMC medio dessa populacao difere de 30 (limiar de obesidade)?
+O IMC médio difere de 30 (limiar de obesidade)? A estatística do teste
+$`t`$ é $`t = (\bar{x} - \mu_0)/(s/\sqrt{n})`$:
 
 ``` r
 
@@ -87,32 +97,19 @@ rnp_teste_t(dados$bmi, mu = 30)
 #> # ℹ 1 more variable: alternativa <chr>
 ```
 
-Agora o conceito mais escorregadio de todos. O **p-valor** e:
+Com $`t = 5.33`$ e 199 graus de liberdade, $`p < 0{,}0001`$: rejeita-se
+$`H_0\!:\mu = 30`$. O **p-valor** é a probabilidade de observar uma
+estatística tão ou mais extrema que a obtida, *supondo $`H_0`$
+verdadeira*. Ele **não** é a probabilidade de $`H_0`$ ser verdadeira,
+nem mede o tamanho do efeito. Toda decisão convive com dois erros: o
+**tipo I** ($`\alpha`$, rejeitar $`H_0`$ verdadeira) e o **tipo II**
+($`\beta`$, não rejeitar $`H_0`$ falsa).
 
-> a probabilidade de observar uma estatistica tao ou mais extrema que a
-> obtida, **supondo H0 verdadeira**.
+## Poder e tamanho de amostra
 
-O que o p-valor **NAO** e:
-
-- *Nao* e a probabilidade de H0 ser verdadeira.
-- *Nao* e a probabilidade de o resultado ter sido “sorte”.
-- Um p \< 0,05 *nao* mede o tamanho nem a importancia do efeito — apenas
-  a evidencia contra H0.
-
-E os dois tipos de erro que rondam toda decisao:
-
-- **Erro tipo I** ($`\alpha`$): rejeitar H0 sendo ela verdadeira (falso
-  positivo).
-- **Erro tipo II** ($`\beta`$): nao rejeitar H0 sendo ela falsa (falso
-  negativo).
-
-## Poder: a face esquecida do teste
-
-O **poder** ($`1-\beta`$) e a probabilidade de detectar um efeito que
-existe de fato. Estudos com pouco poder produzem tanto falsos negativos
-quanto achados “significativos” que nao se replicam. Quantos sujeitos
-precisamos para detectar um efeito medio (d de Cohen = 0,5) com 80% de
-poder?
+O **poder** $`1-\beta`$ é a probabilidade de detectar um efeito real.
+Quantas observações são necessárias para detectar um efeito médio (d de
+Cohen $`= 0{,}5`$) com 80% de poder, em duas amostras?
 
 ``` r
 
@@ -123,26 +120,27 @@ rnp_tamanho_amostra_teste(efeito = 0.5, poder = 0.8, tipo = "duas")
 #> 1    0.5        0.8  0.05    64        0.802
 ```
 
-A curva de poder mostra o trade-off entre tamanho amostral e capacidade
-de deteccao:
+São necessárias **64** observações por grupo. A curva de poder mostra o
+compromisso entre $`n`$ e a capacidade de detecção:
 
 ``` r
 
 rnp_poder_teste(efeito = 0.5, n = 30, tipo = "duas")$grafico
 ```
 
-![Curva de poder](v03-inferencia_files/figure-html/poder-1.png)
+![Curva de poder do teste
+t](v03-inferencia_files/figure-html/poder-1.png)
 
-Calcular o poder e o tamanho de amostra **antes** de coletar os dados e
-parte do bom planejamento de um estudo, e ajuda a evitar tanto falsos
-negativos quanto achados que nao se replicam.
+Calcular poder e tamanho de amostra *antes* da coleta é parte do bom
+planejamento, e ajuda a evitar tanto falsos negativos quanto achados que
+não se replicam.
 
-## Quando nao ha formula: o bootstrap
+## Bootstrap: inferência sem fórmula fechada
 
-Para a media, o erro-padrao tem formula fechada ($`s/\sqrt{n}`$). Mas e
-para a **mediana**, ou para um quantil? O **bootstrap** de Efron resolve
-por reamostragem: reamostra-se a propria amostra com reposicao milhares
-de vezes e observa-se a variabilidade da estatistica.
+Para a média, o erro-padrão tem forma fechada ($`s/\sqrt{n}`$). Para a
+**mediana**, não. O **bootstrap** (Efron and Tibshirani 1993) reamostra
+a própria amostra com reposição e observa a variabilidade da
+estatística:
 
 ``` r
 
@@ -153,16 +151,14 @@ rnp_ic_bootstrap(dados$bmi, estatistica = "mediana", B = 1000, tipo = "percentil
 #> 1       32.8            31.6            33.8 percentil  0.95
 ```
 
-Nenhuma suposicao de normalidade foi feita. O bootstrap e util
-justamente para estatisticas cuja distribuicao amostral nao tem uma
-forma fechada conhecida.
+O IC percentil para a mediana do IMC é $`[31{,}6;\,33{,}9]`$, obtido sem
+qualquer suposição de normalidade.
 
-## Comparando grupos sem assumir normalidade: permutacao
+## Teste de permutação
 
-Diabeticas e nao-diabeticas diferem na glicose? Em vez de confiar no
-TCL, o **teste de permutacao** constroi a distribuicao nula embaralhando
-os rotulos — inferencia exata, baseada apenas na troca de etiquetas sob
-H0:
+Diabéticas e não-diabéticas diferem na glicose? Em vez de confiar no
+TCL, o **teste de permutação** constrói a distribuição nula embaralhando
+os rótulos dos grupos sob $`H_0`$:
 
 ``` r
 
@@ -175,15 +171,30 @@ rnp_teste_permutacao(g1, g0, B = 2000)
 #> 1           32.0       0  2000 bilateral
 ```
 
-## Sintese
+A diferença observada nas médias de glicose é de cerca de **32 mg/dL**
+(145 contra 113), com $`p < 0{,}001`$: a associação entre glicose e
+diabetes é claramente significativa.
 
-| Conceito | O que e | Erro comum |
+## Síntese
+
+| Conceito | O que é | Erro comum |
 |----|----|----|
-| Verossimilhanca | plausibilidade dos dados sob $`\theta`$ | confundir com probabilidade de $`\theta`$ |
-| IC de 95% | 95% dos intervalos cobririam o parametro | “95% de chance de estar aqui” |
-| p-valor | P(dados \| H0) | “P(H0 \| dados)” |
-| Poder | P(detectar efeito real) | ignora-lo no planejamento |
-| Bootstrap | EP por reamostragem | so usar quando ha formula |
+| Verossimilhança | plausibilidade dos dados sob $`\theta`$ | confundir com probabilidade de $`\theta`$ |
+| IC de 95% | 95% dos intervalos cobririam o parâmetro | “95% de chance de estar aqui” |
+| p-valor | $`P(\text{dados} \mid H_0)`$ | $`P(H_0 \mid \text{dados})`$ |
+| Poder | $`P(\text{detectar efeito real})`$ | ignorá-lo no planejamento |
+| Bootstrap | EP por reamostragem | usar só quando há fórmula |
 
-Mais do que calcular cada uma dessas quantidades, vale entender o que
-cada uma significa — e o que ela nao diz.
+Mais do que calcular cada quantidade, vale entender o que ela significa
+— e o que não diz.
+
+## Referências
+
+Bolfarine, Heleno, and Mónica C. Sandoval. 1998. *Introdução à
+Inferência Estatística*. SBM.
+
+Casella, George, and Roger L. Berger. 2002. *Statistical Inference*. 2nd
+ed. Duxbury.
+
+Efron, Bradley, and Robert J. Tibshirani. 1993. *An Introduction to the
+Bootstrap*. Chapman & Hall.

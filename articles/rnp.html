@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Introducao ao rnp • rnp</title>
+<title>Introdução ao rnp • rnp</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Inter-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introducao ao rnp">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introdução ao rnp">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -36,12 +36,12 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutoriais" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutoriais</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutoriais">
-<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e Exploratoria</a></li>
-    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e Teoremas Fundamentais</a></li>
-    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferencia Estatistica</a></li>
-    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressao e Modelagem</a></li>
-    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Analise Multivariada</a></li>
-    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categoricos e Nao-Parametricos</a></li>
+<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e exploratória</a></li>
+    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e teoremas fundamentais</a></li>
+    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferência estatística</a></li>
+    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressão e modelagem</a></li>
+    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Análise multivariada</a></li>
+    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categóricos e não-paramétricos</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Introducao ao rnp</h1>
+      <h1>Introdução ao rnp</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/evandeilton/rnp/blob/master/vignettes/rnp.Rmd" class="external-link"><code>vignettes/rnp.Rmd</code></a></small>
@@ -82,47 +82,42 @@
     
     
 <div class="section level2">
-<h2 id="o-que-e-o-rnp">O que e o <code>rnp</code><a class="anchor" aria-label="anchor" href="#o-que-e-o-rnp"></a>
+<h2 id="o-que-é-o-rnp">O que é o <code>rnp</code><a class="anchor" aria-label="anchor" href="#o-que-%C3%A9-o-rnp"></a>
 </h2>
-<p>O <code>rnp</code> (do projeto <strong>R NA PRATICA</strong>) e um
-pacote didatico e de producao que reune mais de <strong>180
-funcoes</strong> cobrindo as ementas dos tres primeiros anos de um
-bacharelado em Estatistica: descritiva, probabilidade, inferencia,
-regressao, multivariada, series temporais, dados categoricos e
-pre-processamento.</p>
-<p>Tres compromissos guiam o projeto:</p>
+<p>O <code>rnp</code> (do projeto <strong>R NA PRÁTICA</strong>) reúne
+mais de <strong>180 funções</strong> que cobrem os temas tratados nos
+primeiros anos de um curso de estatística: descritiva, probabilidade,
+inferência, regressão, análise multivariada, séries temporais, dados
+categóricos e pré-processamento.</p>
+<p>Três escolhas orientam o projeto:</p>
 <ul>
 <li>
-<strong>Didatico e correto</strong> — documentacao e mensagens em
-portugues, saidas em <code>tibble</code>, graficos em
-<code>ggplot2</code>.</li>
+<strong>Saídas tidy</strong> — as funções analíticas retornam
+<code>tibble</code> e os gráficos usam <code>ggplot2</code>;
+documentação e mensagens em português.</li>
 <li>
-<strong>Rapido</strong> — lacos pesados e algebra matricial rodam em
-<strong>C++</strong> (Rcpp/RcppArmadillo), com 12 nucleos verificados
-contra a referencia do R.</li>
+<strong>Desempenho</strong> — rotinas numericamente intensivas são
+escritas em C++ (Rcpp/RcppArmadillo) e conferidas contra as funções
+equivalentes do R.</li>
 <li>
-<strong>Enxuto</strong> — depende apenas de R base, tidyverse,
+<strong>Poucas dependências</strong> — apenas R base, tidyverse,
 tidymodels e Rcpp.</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="instalacao">Instalacao<a class="anchor" aria-label="anchor" href="#instalacao"></a>
+<h2 id="instalação">Instalação<a class="anchor" aria-label="anchor" href="#instala%C3%A7%C3%A3o"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"evandeilton/rnp"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="um-tour-de-cinco-minutos">Um tour de cinco minutos<a class="anchor" aria-label="anchor" href="#um-tour-de-cinco-minutos"></a>
+<h2 id="um-tour-rápido">Um tour rápido<a class="anchor" aria-label="anchor" href="#um-tour-r%C3%A1pido"></a>
 </h2>
-<p>Toda funcao analitica retorna um <code>tibble</code>, pronto para o
+<p>Toda função analítica retorna um <code>tibble</code>, pronto para o
 pipe.</p>
-<div class="section level3">
-<h3 id="descritiva">Descritiva<a class="anchor" aria-label="anchor" href="#descritiva"></a>
-</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/evandeilton/rnp" class="external-link">rnp</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 21</span></span></span>
 <span><span class="co">#&gt;       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -130,10 +125,6 @@ pipe.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: q1 &lt;dbl&gt;, q3 &lt;dbl&gt;, max &lt;dbl&gt;, amplitude &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   iqr &lt;dbl&gt;, cv &lt;dbl&gt;, se_media &lt;dbl&gt;, ic_inf &lt;dbl&gt;, ic_sup &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   assimetria &lt;dbl&gt;, curtose &lt;dbl&gt;</span></span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="inferencia">Inferencia<a class="anchor" aria-label="anchor" href="#inferencia"></a>
-</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_media.html">rnp_ic_media</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
@@ -147,49 +138,39 @@ pipe.</p>
 <span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        3.77   152  0.000<span style="text-decoration: underline;">2</span>    77.9      <span style="color: #BB0000;">NA</span>  2.88   76.4   79.4            75</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: alternativa &lt;chr&gt;</span></span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="regressao">Regressao<a class="anchor" aria-label="anchor" href="#regressao"></a>
-</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_regressao.html">rnp_regressao</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="va">fit</span><span class="op">$</span><span class="va">coeficientes</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao.html">rnp_regressao</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span><span class="op">$</span><span class="va">coeficientes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">#&gt;   termo       estimativa erro_padrao estatistica_t p_valor  ic_inf  ic_sup</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)    37.2          1.60          23.3   0      34.0    40.5   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> wt             -<span style="color: #BB0000;">3.88</span>         0.633         -<span style="color: #BB0000;">6.13</span>  0      -<span style="color: #BB0000;">5.17</span>   -<span style="color: #BB0000;">2.58</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> hp             -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">8</span>       0.009         -<span style="color: #BB0000;">3.52</span>  0.001<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.050</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">3</span></span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="visualizacao">Visualizacao<a class="anchor" aria-label="anchor" href="#visualizacao"></a>
-</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_dispersao.html">rnp_grafico_dispersao</a></span><span class="op">(</span><span class="va">mtcars</span>, x <span class="op">=</span> <span class="st">"wt"</span>, y <span class="op">=</span> <span class="st">"mpg"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rnp_files/figure-html/grafico-1.png" class="r-plt" alt="Dispersao de mpg vs peso" width="672"></p>
-</div>
+<p><img src="rnp_files/figure-html/grafico-1.png" class="r-plt" alt="Dispersão de consumo versus peso" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="por-onde-continuar">Por onde continuar<a class="anchor" aria-label="anchor" href="#por-onde-continuar"></a>
 </h2>
-<p>O pacote acompanha seis tutoriais que percorrem a progressao 1o -&gt;
-3o ano, com dados reais e enfase conceitual (interpretacao e armadilhas,
-nao apenas codigo):</p>
+<p>O pacote acompanha seis tutoriais que seguem a progressão típica de
+um curso de estatística, com dados reais e ênfase na interpretação dos
+resultados:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Estatistica Descritiva e Analise Exploratoria</strong></li>
+<li><strong>Estatística descritiva e análise exploratória</strong></li>
 <li>
-<strong>Probabilidade, Distribuicoes e os Teoremas
-Fundamentais</strong> (Bayes, LGN, TCL)</li>
+<strong>Probabilidade, distribuições e os teoremas
+fundamentais</strong> (Bayes, LGN, TCL)</li>
 <li>
-<strong>Inferencia Estatistica</strong> (p-valor, IC, bootstrap,
+<strong>Inferência estatística</strong> (p-valor, IC, bootstrap,
 poder)</li>
 <li>
-<strong>Regressao Linear e Modelagem</strong> (projecao,
-pressupostos, regularizacao)</li>
+<strong>Regressão linear e modelagem</strong> (projeção,
+pressupostos, regularização)</li>
 <li>
-<strong>Analise Multivariada</strong> (PCA, cluster, LDA,
+<strong>Análise multivariada</strong> (PCA, agrupamento, LDA,
 Hotelling)</li>
-<li><strong>Dados Categoricos e Metodos Nao-Parametricos</strong></li>
+<li><strong>Dados categóricos e métodos não-paramétricos</strong></li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"rnp"</span><span class="op">)</span></span></code></pre></div>
@@ -197,7 +178,7 @@ Hotelling)</li>
 <div class="section level2">
 <h2 id="reportar-problemas">Reportar problemas<a class="anchor" aria-label="anchor" href="#reportar-problemas"></a>
 </h2>
-<p>Bugs e sugestoes de novas funcoes sao bem-vindos nas <a href="https://github.com/evandeilton/rnp/issues" class="external-link">issues</a> do
+<p>Bugs e sugestões de novas funções são bem-vindos nas <a href="https://github.com/evandeilton/rnp/issues" class="external-link">issues</a> do
 projeto.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -1,24 +1,16 @@
-# 5. Analise Multivariada
+# 5. Análise multivariada
 
-## Quando as variaveis nao vivem sozinhas
-
-Ate aqui olhamos uma ou duas variaveis por vez. O mundo real e
-**multidimensional**: um floricultor mede quatro dimensoes de cada flor,
-um banco dezenas de indicadores por cliente. A analise multivariada
-estuda a *estrutura conjunta* — correlacoes, agrupamentos e direcoes de
-maior variacao. E o ponto em que a **algebra linear** cobra a fatura:
-autovalores, autovetores e projecoes deixam de ser abstracoes e viram
-ferramentas.
-
-Usaremos o classico `iris` — medidas reais de 150 flores de tres
-especies, coletadas por Edgar Anderson e imortalizadas por Fisher em
-1936.
+A análise multivariada estuda a estrutura *conjunta* de várias variáveis
+— correlações, agrupamentos e direções de maior variação. É onde a
+álgebra linear (autovalores, autovetores, projeções) vira ferramenta
+estatística (Johnson and Wichern 2007; Mingoti 2005). Usamos o clássico
+`iris`: quatro medidas de 150 flores de três espécies, coletadas por
+Anderson e analisadas por Fisher (1936).
 
 ``` r
 
 X <- iris[, 1:4]
-mc <- rnp_matriz_correlacao(X)
-mc$matriz
+rnp_matriz_correlacao(X)$matriz
 #>              Sepal.Length Sepal.Width Petal.Length Petal.Width
 #> Sepal.Length       1.0000     -0.1176       0.8718      0.8179
 #> Sepal.Width       -0.1176      1.0000      -0.4284     -0.3661
@@ -26,31 +18,24 @@ mc$matriz
 #> Petal.Width        0.8179     -0.3661       0.9629      1.0000
 ```
 
-``` r
+As pétalas (comprimento e largura) têm correlação de $`0{,}96`$ —
+carregam informação quase redundante. É essa redundância que a PCA
+explora.
 
-rnp_grafico_correlograma(X)
+## Componentes principais
+
+A PCA encontra direções ortogonais que maximizam a variância. São os
+**autovetores** da matriz de covariância $`\Sigma`$, e os
+**autovalores** são as variâncias ao longo delas:
+
+``` math
+\Sigma v_j = \lambda_j v_j, \qquad
+  \text{proporção explicada por } j = \frac{\lambda_j}{\sum_k \lambda_k}.
 ```
 
-![Correlograma das medidas de
-iris](v05-multivariada_files/figure-html/correlograma-1.png)
-
-Petalas (comprimento e largura) sao fortemente correlacionadas —
-carregam informacao redundante. Essa redundancia e justamente o que a
-PCA explora.
-
-## PCA: a decomposicao espectral da covariancia
-
-A **Analise de Componentes Principais** encontra novas direcoes
-(combinacoes lineares das variaveis originais) que (i) sao ortogonais
-entre si e (ii) capturam o maximo de variancia possivel.
-Matematicamente, **os componentes sao os autovetores da matriz de
-covariancia, e os autovalores sao as variancias ao longo deles**. PCA
-*e* decomposicao espectral — nada mais.
-
 ``` r
 
-pca <- rnp_pca(X)
-pca$variancia
+rnp_pca(X)$variancia
 #> # A tibble: 4 × 4
 #>   componente variancia percentual acumulada
 #>   <chr>          <dbl>      <dbl>     <dbl>
@@ -60,30 +45,30 @@ pca$variancia
 #> 4 PC4           0.0207     0.0052     1
 ```
 
-A coluna `acumulada` e a chave: os dois primeiros componentes ja
-explicam ~96% da variacao das quatro medidas. Reduzimos de 4 para 2
-dimensoes perdendo quase nada — a essencia da reducao de
-dimensionalidade.
-
-O **biplot** sobrepoe as observacoes (pontos) e as variaveis (vetores)
-no mesmo plano:
+Os dois primeiros componentes explicam **95,8%** da variação
+($`72{,}3\%`$ e $`22{,}9\%`$): reduzimos de quatro para duas dimensões
+perdendo quase nada. O **biplot** sobrepõe observações (pontos) e
+variáveis (vetores):
 
 ``` r
 
-rnp_biplot(pca)
+rnp_biplot(rnp_pca(X))
 ```
 
 ![Biplot da PCA de
 iris](v05-multivariada_files/figure-html/biplot-1.png)
 
-Vetores que apontam na mesma direcao sao correlacionados; o comprimento
-indica quanto a variavel pesa nos componentes. Veja como as petalas
-dominam o primeiro componente.
+Vetores na mesma direção indicam variáveis correlacionadas; o
+comprimento mede o peso da variável nos componentes.
 
-## Agrupamento: encontrando estrutura sem rotulos
+## Agrupamento
 
-E se nao soubessemos as especies? O **cluster** busca grupos naturais. O
-**k-means** particiona minimizando a variancia intragrupo:
+O **k-médias** particiona as observações minimizando a soma de quadrados
+intragrupo,
+
+``` math
+\min_{C_1,\dots,C_k} \sum_{j=1}^{k} \sum_{i \in C_j} \lVert x_i - \mu_j \rVert^2.
+```
 
 ``` r
 
@@ -95,63 +80,54 @@ km$metricas
 #> 1      139.       457.    0.767     3   150
 ```
 
-Mas k-means assume grupos esfericos e e sensivel a outliers. O
-**k-medoids** (PAM) usa observacoes reais como centros — mais robusto. E
-o **cluster hierarquico** nao exige fixar $`k`$ de antemao, construindo
-uma arvore de fusoes:
+A razão $`\text{between\_ss}/\text{total\_ss} = 0.767`$ indica que 77%
+da variação total está *entre* os grupos — uma separação boa. Para
+agrupamentos hierárquicos, o dendrograma mostra a sequência de fusões; o
+k-medoids (PAM) é uma alternativa robusta a *outliers*.
 
-``` r
+### Validação pela silhueta
 
-ch <- rnp_cluster_hierarquico(X, k = 3)
-rnp_grafico_dendrograma(ch)
+Escolher o número de grupos é delicado. A **silhueta** compara, para
+cada ponto, a dissimilaridade ao próprio grupo ($`a_i`$) e ao vizinho
+mais próximo ($`b_i`$):
+
+``` math
+s(i) = \frac{b_i - a_i}{\max(a_i,\,b_i)} \in [-1, 1].
 ```
 
-![Dendrograma de iris](v05-multivariada_files/figure-html/hier-1.png)
-
-A altura de cada fusao no dendrograma indica a dissimilaridade — cortes
-baixos unem o que e parecido.
-
-### Quantos grupos? A silhueta decide
-
-Escolher $`k`$ e a pergunta mais delicada do clustering. A **silhueta**
-mede, para cada ponto, quao bem ele pertence ao seu grupo versus ao
-vizinho mais proximo (varia de -1 a 1):
-
 ``` r
 
-sil <- rnp_silhueta(X, km$clusters$cluster)
-sil$media
+rnp_silhueta(X, km$clusters$cluster)$media
 #> [1] 0.5062
 ```
 
-Silhueta media alta (proxima de 1) indica grupos coesos e bem separados.
-E um criterio *interno* — nao precisa dos rotulos verdadeiros — para
-validar o numero de clusters.
+A silhueta média de 0.51 indica grupos razoavelmente coesos e separados
+— um critério *interno*, que dispensa os rótulos verdadeiros.
 
-## Classificacao supervisionada: LDA
+## Classificação supervisionada: análise discriminante
 
-Quando os rotulos sao conhecidos, a **Analise Discriminante Linear**
-busca as combinacoes lineares que *maximizam a separacao entre classes*
-relativa a variacao dentro delas (a razao de Fisher). E prima da PCA,
-mas com um objetivo diferente: PCA maximiza variancia total, LDA
-maximiza separabilidade.
+Quando os rótulos são conhecidos, a **LDA** busca as combinações
+lineares que maximizam a separação entre classes relativa à variação
+interna (a razão de Fisher). Ao contrário da PCA, que maximiza a
+variância total, a LDA maximiza a *separabilidade*:
 
 ``` r
 
-lda <- rnp_lda(Species ~ ., iris)
-lda$acuracia
+rnp_lda(Species ~ ., iris)$acuracia
 #> [1] 0.98
 ```
 
-Com apenas duas funcoes discriminantes, a LDA separa as tres especies
-com alta acuracia — Fisher escolheu bem seu exemplo.
+Com as quatro medidas, a LDA classifica as três espécies com **98%** de
+acerto no conjunto de treino.
 
-## Testes multivariados de medias
+## Testes de médias multivariadas
 
-O teste t compara a media de *uma* variavel. E quando queremos comparar
-o **vetor de medias** de varias variaveis ao mesmo tempo? O **T2 de
-Hotelling** e a generalizacao multivariada do teste t para duas
-amostras:
+Para comparar o *vetor* de médias de dois grupos, o **$`T^2`$ de
+Hotelling** generaliza o teste $`t`$:
+
+``` math
+T^2 = \frac{n_1 n_2}{n_1 + n_2}\,(\bar{x}_1 - \bar{x}_2)^\top S_p^{-1} (\bar{x}_1 - \bar{x}_2).
+```
 
 ``` r
 
@@ -162,9 +138,9 @@ rnp_hotelling(iris[1:50, 1:4], iris[51:100, 1:4])
 #> 1 2581.          625.     4    95       0
 ```
 
-Para mais de dois grupos, a **MANOVA** estende a ANOVA, testando se os
-vetores de media diferem entre as especies (estatisticas de Wilks e
-Pillai):
+O $`T^2`$ enorme ($`p < 0{,}001`$) confirma que setosa e versicolor
+diferem nas médias. Para mais de dois grupos, a **MANOVA** estende a
+ANOVA (estatísticas de Wilks e Pillai):
 
 ``` r
 
@@ -176,20 +152,29 @@ rnp_manova(cbind(Sepal.Length, Petal.Length) ~ Species, iris)
 #> 2 Pillai      0.988     71.8       0
 ```
 
-Fazer um teste multivariado em vez de varios testes univariados
-**controla o erro tipo I global** e captura correlacoes entre as
-respostas — duas vantagens que o “teste a teste” perde.
+O lambda de Wilks de $`0{,}04`$ (próximo de zero, $`p < 0{,}001`$)
+indica forte separação entre as espécies. Fazer um teste multivariado,
+em vez de vários univariados, controla o erro tipo I global e aproveita
+as correlações entre as respostas.
 
-## Sintese
+## Síntese
 
-| Objetivo | Metodo | Ideia central |
+| Objetivo | Função | Ideia central |
 |----|----|----|
-| Reduzir dimensao | `rnp_pca` + `rnp_biplot` | autovetores da covariancia |
+| Reduzir dimensão | `rnp_pca`, `rnp_biplot` | autovetores de $`\Sigma`$ |
 | Achar grupos | `rnp_kmeans`, `rnp_cluster_hierarquico` | minimizar dissimilaridade interna |
-| Validar grupos | `rnp_silhueta` | coesao vs separacao |
-| Classificar (com rotulo) | `rnp_lda` | razao de Fisher |
-| Comparar vetores de media | `rnp_hotelling`, `rnp_manova` | generalizam t e ANOVA |
+| Validar grupos | `rnp_silhueta` | coesão versus separação |
+| Classificar | `rnp_lda` | razão de Fisher |
+| Comparar médias | `rnp_hotelling`, `rnp_manova` | generalizam $`t`$ e ANOVA |
 
-Muitos desses metodos repousam sobre a mesma base de algebra linear —
-autovalores, autovetores e projecoes —, o que ajuda a ver as semelhancas
-entre eles.
+Muitos desses métodos repousam sobre a mesma base — autovalores,
+autovetores e projeções —, o que ajuda a enxergar as semelhanças entre
+eles.
+
+## Referências
+
+Johnson, Richard A., and Dean W. Wichern. 2007. *Applied Multivariate
+Statistical Analysis*. 6th ed. Pearson.
+
+Mingoti, Sueli A. 2005. *Análise de Dados Através de métodos de
+Estatística Multivariada*. Editora UFMG.

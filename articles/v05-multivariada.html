@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>5. Analise Multivariada • rnp</title>
+<title>5. Análise multivariada • rnp</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Inter-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="5. Analise Multivariada">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="5. Análise multivariada">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -36,12 +36,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutoriais" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutoriais</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutoriais">
-<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e Exploratoria</a></li>
-    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e Teoremas Fundamentais</a></li>
-    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferencia Estatistica</a></li>
-    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressao e Modelagem</a></li>
-    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Analise Multivariada</a></li>
-    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categoricos e Nao-Parametricos</a></li>
+<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e exploratória</a></li>
+    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e teoremas fundamentais</a></li>
+    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferência estatística</a></li>
+    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressão e modelagem</a></li>
+    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Análise multivariada</a></li>
+    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categóricos e não-paramétricos</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>5. Analise Multivariada</h1>
+      <h1>5. Análise multivariada</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/evandeilton/rnp/blob/master/vignettes/v05-multivariada.Rmd" class="external-link"><code>vignettes/v05-multivariada.Rmd</code></a></small>
@@ -81,47 +81,36 @@
 
     
     
-<div class="section level2">
-<h2 id="quando-as-variaveis-nao-vivem-sozinhas">Quando as variaveis nao vivem sozinhas<a class="anchor" aria-label="anchor" href="#quando-as-variaveis-nao-vivem-sozinhas"></a>
-</h2>
-<p>Ate aqui olhamos uma ou duas variaveis por vez. O mundo real e
-<strong>multidimensional</strong>: um floricultor mede quatro dimensoes
-de cada flor, um banco dezenas de indicadores por cliente. A analise
-multivariada estuda a <em>estrutura conjunta</em> — correlacoes,
-agrupamentos e direcoes de maior variacao. E o ponto em que a
-<strong>algebra linear</strong> cobra a fatura: autovalores, autovetores
-e projecoes deixam de ser abstracoes e viram ferramentas.</p>
-<p>Usaremos o classico <code>iris</code> — medidas reais de 150 flores
-de tres especies, coletadas por Edgar Anderson e imortalizadas por
-Fisher em 1936.</p>
+<p>A análise multivariada estuda a estrutura <em>conjunta</em> de várias
+variáveis — correlações, agrupamentos e direções de maior variação. É
+onde a álgebra linear (autovalores, autovetores, projeções) vira
+ferramenta estatística <span class="citation">(Johnson and Wichern 2007;
+Mingoti 2005)</span>. Usamos o clássico <code>iris</code>: quatro
+medidas de 150 flores de três espécies, coletadas por Anderson e
+analisadas por Fisher (1936).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
-<span><span class="va">mc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_matriz_correlacao.html">rnp_matriz_correlacao</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="va">mc</span><span class="op">$</span><span class="va">matriz</span></span>
+<span><span class="fu"><a href="../reference/rnp_matriz_correlacao.html">rnp_matriz_correlacao</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">$</span><span class="va">matriz</span></span>
 <span><span class="co">#&gt;              Sepal.Length Sepal.Width Petal.Length Petal.Width</span></span>
 <span><span class="co">#&gt; Sepal.Length       1.0000     -0.1176       0.8718      0.8179</span></span>
 <span><span class="co">#&gt; Sepal.Width       -0.1176      1.0000      -0.4284     -0.3661</span></span>
 <span><span class="co">#&gt; Petal.Length       0.8718     -0.4284       1.0000      0.9629</span></span>
 <span><span class="co">#&gt; Petal.Width        0.8179     -0.3661       0.9629      1.0000</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_correlograma.html">rnp_grafico_correlograma</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
-<p><img src="v05-multivariada_files/figure-html/correlograma-1.png" class="r-plt" alt="Correlograma das medidas de iris" width="672"></p>
-<p>Petalas (comprimento e largura) sao fortemente correlacionadas —
-carregam informacao redundante. Essa redundancia e justamente o que a
-PCA explora.</p>
-</div>
+<p>As pétalas (comprimento e largura) têm correlação de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>96</mn></mrow><annotation encoding="application/x-tex">0{,}96</annotation></semantics></math>
+— carregam informação quase redundante. É essa redundância que a PCA
+explora.</p>
 <div class="section level2">
-<h2 id="pca-a-decomposicao-espectral-da-covariancia">PCA: a decomposicao espectral da covariancia<a class="anchor" aria-label="anchor" href="#pca-a-decomposicao-espectral-da-covariancia"></a>
+<h2 id="componentes-principais">Componentes principais<a class="anchor" aria-label="anchor" href="#componentes-principais"></a>
 </h2>
-<p>A <strong>Analise de Componentes Principais</strong> encontra novas
-direcoes (combinacoes lineares das variaveis originais) que (i) sao
-ortogonais entre si e (ii) capturam o maximo de variancia possivel.
-Matematicamente, <strong>os componentes sao os autovetores da matriz de
-covariancia, e os autovalores sao as variancias ao longo deles</strong>.
-PCA <em>e</em> decomposicao espectral — nada mais.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_pca.html">rnp_pca</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="va">pca</span><span class="op">$</span><span class="va">variancia</span></span>
+<p>A PCA encontra direções ortogonais que maximizam a variância. São os
+<strong>autovetores</strong> da matriz de covariância
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>,
+e os <strong>autovalores</strong> são as variâncias ao longo delas:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><msub><mi>v</mi><mi>j</mi></msub><mo>=</mo><msub><mi>λ</mi><mi>j</mi></msub><msub><mi>v</mi><mi>j</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><mrow><mtext mathvariant="normal">proporção explicada por </mtext><mspace width="0.333em"></mspace></mrow><mi>j</mi><mo>=</mo><mfrac><msub><mi>λ</mi><mi>j</mi></msub><mrow><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>λ</mi><mi>k</mi></msub></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\Sigma v_j = \lambda_j v_j, \qquad
+  \text{proporção explicada por } j = \frac{\lambda_j}{\sum_k \lambda_k}.</annotation></semantics></math></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_pca.html">rnp_pca</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">$</span><span class="va">variancia</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
 <span><span class="co">#&gt;   componente variancia percentual acumulada</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -129,104 +118,107 @@ PCA <em>e</em> decomposicao espectral — nada mais.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> PC2           0.914      0.228      0.958</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> PC3           0.147      0.036<span style="text-decoration: underline;">7</span>     0.995</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> PC4           0.020<span style="text-decoration: underline;">7</span>     0.005<span style="text-decoration: underline;">2</span>     1</span></span></code></pre></div>
-<p>A coluna <code>acumulada</code> e a chave: os dois primeiros
-componentes ja explicam ~96% da variacao das quatro medidas. Reduzimos
-de 4 para 2 dimensoes perdendo quase nada — a essencia da reducao de
-dimensionalidade.</p>
-<p>O <strong>biplot</strong> sobrepoe as observacoes (pontos) e as
-variaveis (vetores) no mesmo plano:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_biplot.html">rnp_biplot</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></span></code></pre></div>
+<p>Os dois primeiros componentes explicam <strong>95,8%</strong> da
+variação
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72</mn><mo>,</mo><mn>3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">72{,}3\%</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mo>,</mo><mn>9</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">22{,}9\%</annotation></semantics></math>):
+reduzimos de quatro para duas dimensões perdendo quase nada. O
+<strong>biplot</strong> sobrepõe observações (pontos) e variáveis
+(vetores):</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_biplot.html">rnp_biplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/rnp_pca.html">rnp_pca</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v05-multivariada_files/figure-html/biplot-1.png" class="r-plt" alt="Biplot da PCA de iris" width="672"></p>
-<p>Vetores que apontam na mesma direcao sao correlacionados; o
-comprimento indica quanto a variavel pesa nos componentes. Veja como as
-petalas dominam o primeiro componente.</p>
+<p>Vetores na mesma direção indicam variáveis correlacionadas; o
+comprimento mede o peso da variável nos componentes.</p>
 </div>
 <div class="section level2">
-<h2 id="agrupamento-encontrando-estrutura-sem-rotulos">Agrupamento: encontrando estrutura sem rotulos<a class="anchor" aria-label="anchor" href="#agrupamento-encontrando-estrutura-sem-rotulos"></a>
+<h2 id="agrupamento">Agrupamento<a class="anchor" aria-label="anchor" href="#agrupamento"></a>
 </h2>
-<p>E se nao soubessemos as especies? O <strong>cluster</strong> busca
-grupos naturais. O <strong>k-means</strong> particiona minimizando a
-variancia intragrupo:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>O <strong>k-médias</strong> particiona as observações minimizando a
+soma de quadrados intragrupo,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mi mathvariant="normal">min</mi><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>C</mi><mi>k</mi></msub></mrow></munder><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>k</mi></munderover><munder><mo>∑</mo><mrow><mi>i</mi><mo>∈</mo><msub><mi>C</mi><mi>j</mi></msub></mrow></munder><msup><mrow><mo stretchy="true" form="prefix">‖</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>μ</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">‖</mo></mrow><mn>2</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">\min_{C_1,\dots,C_k} \sum_{j=1}^{k} \sum_{i \in C_j} \lVert x_i - \mu_j \rVert^2.</annotation></semantics></math></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">km</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_kmeans.html">rnp_kmeans</a></span><span class="op">(</span><span class="va">X</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">km</span><span class="op">$</span><span class="va">metricas</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   wss_total between_ss ratio_ss     k  nobs</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      139.       457.    0.767     3   150</span></span></code></pre></div>
-<p>Mas k-means assume grupos esfericos e e sensivel a outliers. O
-<strong>k-medoids</strong> (PAM) usa observacoes reais como centros —
-mais robusto. E o <strong>cluster hierarquico</strong> nao exige fixar
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-de antemao, construindo uma arvore de fusoes:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_cluster_hierarquico.html">rnp_cluster_hierarquico</a></span><span class="op">(</span><span class="va">X</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/rnp_grafico_dendrograma.html">rnp_grafico_dendrograma</a></span><span class="op">(</span><span class="va">ch</span><span class="op">)</span></span></code></pre></div>
-<p><img src="v05-multivariada_files/figure-html/hier-1.png" class="r-plt" alt="Dendrograma de iris" width="672"></p>
-<p>A altura de cada fusao no dendrograma indica a dissimilaridade —
-cortes baixos unem o que e parecido.</p>
+<p>A razão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">between_ss</mtext><mi>/</mi><mtext mathvariant="normal">total_ss</mtext><mo>=</mo><mn>0.767</mn></mrow><annotation encoding="application/x-tex">\text{between\_ss}/\text{total\_ss} = 0.767</annotation></semantics></math>
+indica que 77% da variação total está <em>entre</em> os grupos — uma
+separação boa. Para agrupamentos hierárquicos, o dendrograma mostra a
+sequência de fusões; o k-medoids (PAM) é uma alternativa robusta a
+<em>outliers</em>.</p>
 <div class="section level3">
-<h3 id="quantos-grupos-a-silhueta-decide">Quantos grupos? A silhueta decide<a class="anchor" aria-label="anchor" href="#quantos-grupos-a-silhueta-decide"></a>
+<h3 id="validação-pela-silhueta">Validação pela silhueta<a class="anchor" aria-label="anchor" href="#valida%C3%A7%C3%A3o-pela-silhueta"></a>
 </h3>
-<p>Escolher
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-e a pergunta mais delicada do clustering. A <strong>silhueta</strong>
-mede, para cada ponto, quao bem ele pertence ao seu grupo versus ao
-vizinho mais proximo (varia de -1 a 1):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_silhueta.html">rnp_silhueta</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">km</span><span class="op">$</span><span class="va">clusters</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
-<span><span class="va">sil</span><span class="op">$</span><span class="va">media</span></span>
+<p>Escolher o número de grupos é delicado. A <strong>silhueta</strong>
+compara, para cada ponto, a dissimilaridade ao próprio grupo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>i</mi></msub><annotation encoding="application/x-tex">a_i</annotation></semantics></math>)
+e ao vizinho mais próximo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mi>i</mi></msub><annotation encoding="application/x-tex">b_i</annotation></semantics></math>):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><msub><mi>b</mi><mi>i</mi></msub><mo>−</mo><msub><mi>a</mi><mi>i</mi></msub></mrow><mrow><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.167em"></mspace><msub><mi>b</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">s(i) = \frac{b_i - a_i}{\max(a_i,\,b_i)} \in [-1, 1].</annotation></semantics></math></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_silhueta.html">rnp_silhueta</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">km</span><span class="op">$</span><span class="va">clusters</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">$</span><span class="va">media</span></span>
 <span><span class="co">#&gt; [1] 0.5062</span></span></code></pre></div>
-<p>Silhueta media alta (proxima de 1) indica grupos coesos e bem
-separados. E um criterio <em>interno</em> — nao precisa dos rotulos
-verdadeiros — para validar o numero de clusters.</p>
+<p>A silhueta média de 0.51 indica grupos razoavelmente coesos e
+separados — um critério <em>interno</em>, que dispensa os rótulos
+verdadeiros.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="classificacao-supervisionada-lda">Classificacao supervisionada: LDA<a class="anchor" aria-label="anchor" href="#classificacao-supervisionada-lda"></a>
+<h2 id="classificação-supervisionada-análise-discriminante">Classificação supervisionada: análise discriminante<a class="anchor" aria-label="anchor" href="#classifica%C3%A7%C3%A3o-supervisionada-an%C3%A1lise-discriminante"></a>
 </h2>
-<p>Quando os rotulos sao conhecidos, a <strong>Analise Discriminante
-Linear</strong> busca as combinacoes lineares que <em>maximizam a
-separacao entre classes</em> relativa a variacao dentro delas (a razao
-de Fisher). E prima da PCA, mas com um objetivo diferente: PCA maximiza
-variancia total, LDA maximiza separabilidade.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_lda.html">rnp_lda</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">iris</span><span class="op">)</span></span>
-<span><span class="va">lda</span><span class="op">$</span><span class="va">acuracia</span></span>
+<p>Quando os rótulos são conhecidos, a <strong>LDA</strong> busca as
+combinações lineares que maximizam a separação entre classes relativa à
+variação interna (a razão de Fisher). Ao contrário da PCA, que maximiza
+a variância total, a LDA maximiza a <em>separabilidade</em>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_lda.html">rnp_lda</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">iris</span><span class="op">)</span><span class="op">$</span><span class="va">acuracia</span></span>
 <span><span class="co">#&gt; [1] 0.98</span></span></code></pre></div>
-<p>Com apenas duas funcoes discriminantes, a LDA separa as tres especies
-com alta acuracia — Fisher escolheu bem seu exemplo.</p>
+<p>Com as quatro medidas, a LDA classifica as três espécies com
+<strong>98%</strong> de acerto no conjunto de treino.</p>
 </div>
 <div class="section level2">
-<h2 id="testes-multivariados-de-medias">Testes multivariados de medias<a class="anchor" aria-label="anchor" href="#testes-multivariados-de-medias"></a>
+<h2 id="testes-de-médias-multivariadas">Testes de médias multivariadas<a class="anchor" aria-label="anchor" href="#testes-de-m%C3%A9dias-multivariadas"></a>
 </h2>
-<p>O teste t compara a media de <em>uma</em> variavel. E quando queremos
-comparar o <strong>vetor de medias</strong> de varias variaveis ao mesmo
-tempo? O <strong>T2 de Hotelling</strong> e a generalizacao multivariada
-do teste t para duas amostras:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Para comparar o <em>vetor</em> de médias de dois grupos, o
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>T</mi><mn>2</mn></msup><annotation encoding="application/x-tex">T^2</annotation></semantics></math>
+de Hotelling</strong> generaliza o teste
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>T</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><msub><mi>n</mi><mn>1</mn></msub><msub><mi>n</mi><mn>2</mn></msub></mrow><mrow><msub><mi>n</mi><mn>1</mn></msub><mo>+</mo><msub><mi>n</mi><mn>2</mn></msub></mrow></mfrac><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mn>1</mn></msub><mo>−</mo><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mn>2</mn></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>⊤</mi></msup><msubsup><mi>S</mi><mi>p</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mn>1</mn></msub><mo>−</mo><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">T^2 = \frac{n_1 n_2}{n_1 + n_2}\,(\bar{x}_1 - \bar{x}_2)^\top S_p^{-1} (\bar{x}_1 - \bar{x}_2).</annotation></semantics></math></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_hotelling.html">rnp_hotelling</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">iris</span><span class="op">[</span><span class="fl">51</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;      t2 estatistica_f   gl1   gl2 p_valor</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">2</span>581.          625.     4    95       0</span></span></code></pre></div>
-<p>Para mais de dois grupos, a <strong>MANOVA</strong> estende a ANOVA,
-testando se os vetores de media diferem entre as especies (estatisticas
-de Wilks e Pillai):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>O
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>T</mi><mn>2</mn></msup><annotation encoding="application/x-tex">T^2</annotation></semantics></math>
+enorme
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>,</mo><mn>001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0{,}001</annotation></semantics></math>)
+confirma que setosa e versicolor diferem nas médias. Para mais de dois
+grupos, a <strong>MANOVA</strong> estende a ANOVA (estatísticas de Wilks
+e Pillai):</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_manova.html">rnp_manova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span><span class="op">)</span> <span class="op">~</span> <span class="va">Species</span>, <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
 <span><span class="co">#&gt;   teste  estatistica aprox_f p_valor</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Wilks       0.039<span style="text-decoration: underline;">9</span>   293.        0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Pillai      0.988     71.8       0</span></span></code></pre></div>
-<p>Fazer um teste multivariado em vez de varios testes univariados
-<strong>controla o erro tipo I global</strong> e captura correlacoes
-entre as respostas — duas vantagens que o “teste a teste” perde.</p>
+<p>O lambda de Wilks de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>04</mn></mrow><annotation encoding="application/x-tex">0{,}04</annotation></semantics></math>
+(próximo de zero,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>,</mo><mn>001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0{,}001</annotation></semantics></math>)
+indica forte separação entre as espécies. Fazer um teste multivariado,
+em vez de vários univariados, controla o erro tipo I global e aproveita
+as correlações entre as respostas.</p>
 </div>
 <div class="section level2">
-<h2 id="sintese">Sintese<a class="anchor" aria-label="anchor" href="#sintese"></a>
+<h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
 <colgroup>
@@ -236,16 +228,18 @@ entre as respostas — duas vantagens que o “teste a teste” perde.</p>
 </colgroup>
 <thead><tr class="header">
 <th>Objetivo</th>
-<th>Metodo</th>
+<th>Função</th>
 <th>Ideia central</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Reduzir dimensao</td>
+<td>Reduzir dimensão</td>
 <td>
-<code>rnp_pca</code> + <code>rnp_biplot</code>
+<code>rnp_pca</code>, <code>rnp_biplot</code>
 </td>
-<td>autovetores da covariancia</td>
+<td>autovetores de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+</td>
 </tr>
 <tr class="even">
 <td>Achar grupos</td>
@@ -257,25 +251,42 @@ entre as respostas — duas vantagens que o “teste a teste” perde.</p>
 <tr class="odd">
 <td>Validar grupos</td>
 <td><code>rnp_silhueta</code></td>
-<td>coesao vs separacao</td>
+<td>coesão versus separação</td>
 </tr>
 <tr class="even">
-<td>Classificar (com rotulo)</td>
+<td>Classificar</td>
 <td><code>rnp_lda</code></td>
-<td>razao de Fisher</td>
+<td>razão de Fisher</td>
 </tr>
 <tr class="odd">
-<td>Comparar vetores de media</td>
+<td>Comparar médias</td>
 <td>
 <code>rnp_hotelling</code>, <code>rnp_manova</code>
 </td>
-<td>generalizam t e ANOVA</td>
+<td>generalizam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+e ANOVA</td>
 </tr>
 </tbody>
 </table>
-<p>Muitos desses metodos repousam sobre a mesma base de algebra linear —
-autovalores, autovetores e projecoes —, o que ajuda a ver as semelhancas
-entre eles.</p>
+<p>Muitos desses métodos repousam sobre a mesma base — autovalores,
+autovetores e projeções —, o que ajuda a enxergar as semelhanças entre
+eles.</p>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-johnson2007" class="csl-entry">
+Johnson, Richard A., and Dean W. Wichern. 2007. <em>Applied Multivariate
+Statistical Analysis</em>. 6th ed. Pearson.
+</div>
+<div id="ref-mingoti2005" class="csl-entry">
+Mingoti, Sueli A. 2005. <em>An<span>á</span>lise de Dados
+Atrav<span>é</span>s de m<span>é</span>todos de Estat<span>í</span>stica
+Multivariada</em>. Editora UFMG.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

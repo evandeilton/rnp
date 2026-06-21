@@ -1,23 +1,21 @@
-# Introducao ao rnp
+# Introdução ao rnp
 
-## O que e o `rnp`
+## O que é o `rnp`
 
-O `rnp` (do projeto **R NA PRATICA**) e um pacote didatico e de producao
-que reune mais de **180 funcoes** cobrindo as ementas dos tres primeiros
-anos de um bacharelado em Estatistica: descritiva, probabilidade,
-inferencia, regressao, multivariada, series temporais, dados categoricos
-e pre-processamento.
+O `rnp` (do projeto **R NA PRÁTICA**) reúne mais de **180 funções** que
+cobrem os temas tratados nos primeiros anos de um curso de estatística:
+descritiva, probabilidade, inferência, regressão, análise multivariada,
+séries temporais, dados categóricos e pré-processamento.
 
-Tres compromissos guiam o projeto:
+Três escolhas orientam o projeto:
 
-- **Didatico e correto** — documentacao e mensagens em portugues, saidas
-  em `tibble`, graficos em `ggplot2`.
-- **Rapido** — lacos pesados e algebra matricial rodam em **C++**
-  (Rcpp/RcppArmadillo), com 12 nucleos verificados contra a referencia
-  do R.
-- **Enxuto** — depende apenas de R base, tidyverse, tidymodels e Rcpp.
+- **Saídas tidy** — as funções analíticas retornam `tibble` e os
+  gráficos usam `ggplot2`; documentação e mensagens em português.
+- **Desempenho** — rotinas numericamente intensivas são escritas em C++
+  (Rcpp/RcppArmadillo) e conferidas contra as funções equivalentes do R.
+- **Poucas dependências** — apenas R base, tidyverse, tidymodels e Rcpp.
 
-## Instalacao
+## Instalação
 
 ``` r
 
@@ -25,15 +23,12 @@ Tres compromissos guiam o projeto:
 devtools::install_github("evandeilton/rnp")
 ```
 
-## Um tour de cinco minutos
+## Um tour rápido
 
-Toda funcao analitica retorna um `tibble`, pronto para o pipe.
-
-### Descritiva
+Toda função analítica retorna um `tibble`, pronto para o pipe.
 
 ``` r
 
-library(rnp)
 rnp_descritiva(airquality$Temp)
 #> # A tibble: 1 × 21
 #>       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min
@@ -43,8 +38,6 @@ rnp_descritiva(airquality$Temp)
 #> #   iqr <dbl>, cv <dbl>, se_media <dbl>, ic_inf <dbl>, ic_sup <dbl>,
 #> #   assimetria <dbl>, curtose <dbl>
 ```
-
-### Inferencia
 
 ``` r
 
@@ -62,12 +55,9 @@ rnp_teste_t(airquality$Temp, mu = 75)
 #> # ℹ 1 more variable: alternativa <chr>
 ```
 
-### Regressao
-
 ``` r
 
-fit <- rnp_regressao(mpg ~ wt + hp, data = mtcars)
-fit$coeficientes
+rnp_regressao(mpg ~ wt + hp, data = mtcars)$coeficientes
 #> # A tibble: 3 × 7
 #>   termo       estimativa erro_padrao estatistica_t p_valor  ic_inf  ic_sup
 #>   <chr>            <dbl>       <dbl>         <dbl>   <dbl>   <dbl>   <dbl>
@@ -76,29 +66,27 @@ fit$coeficientes
 #> 3 hp             -0.0318       0.009         -3.52  0.0015 -0.0502 -0.0133
 ```
 
-### Visualizacao
-
 ``` r
 
 rnp_grafico_dispersao(mtcars, x = "wt", y = "mpg")
 ```
 
-![Dispersao de mpg vs peso](rnp_files/figure-html/grafico-1.png)
+![Dispersão de consumo versus peso](rnp_files/figure-html/grafico-1.png)
 
 ## Por onde continuar
 
-O pacote acompanha seis tutoriais que percorrem a progressao 1o -\> 3o
-ano, com dados reais e enfase conceitual (interpretacao e armadilhas,
-nao apenas codigo):
+O pacote acompanha seis tutoriais que seguem a progressão típica de um
+curso de estatística, com dados reais e ênfase na interpretação dos
+resultados:
 
-1.  **Estatistica Descritiva e Analise Exploratoria**
-2.  **Probabilidade, Distribuicoes e os Teoremas Fundamentais** (Bayes,
+1.  **Estatística descritiva e análise exploratória**
+2.  **Probabilidade, distribuições e os teoremas fundamentais** (Bayes,
     LGN, TCL)
-3.  **Inferencia Estatistica** (p-valor, IC, bootstrap, poder)
-4.  **Regressao Linear e Modelagem** (projecao, pressupostos,
-    regularizacao)
-5.  **Analise Multivariada** (PCA, cluster, LDA, Hotelling)
-6.  **Dados Categoricos e Metodos Nao-Parametricos**
+3.  **Inferência estatística** (p-valor, IC, bootstrap, poder)
+4.  **Regressão linear e modelagem** (projeção, pressupostos,
+    regularização)
+5.  **Análise multivariada** (PCA, agrupamento, LDA, Hotelling)
+6.  **Dados categóricos e métodos não-paramétricos**
 
 ``` r
 
@@ -107,5 +95,5 @@ browseVignettes("rnp")
 
 ## Reportar problemas
 
-Bugs e sugestoes de novas funcoes sao bem-vindos nas
+Bugs e sugestões de novas funções são bem-vindos nas
 [issues](https://github.com/evandeilton/rnp/issues) do projeto.

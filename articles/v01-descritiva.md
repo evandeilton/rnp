@@ -1,22 +1,15 @@
-# 1. Estatistica Descritiva e Analise Exploratoria
+# 1. Estatística descritiva e análise exploratória
 
-## Antes de qualquer modelo, *olhe* os dados
-
-John Tukey, que cunhou o termo *Analise Exploratoria de Dados* (EDA),
-dizia que “o maior valor de um grafico e quando ele nos forca a notar o
-que jamais esperavamos ver”. A estatistica descritiva nao e um preludio
-menor da inferencia: e onde se aprende a **enxergar** a forma, o centro,
-a dispersao e as anomalias de uma variavel antes de assumir qualquer
-modelo.
-
-Usaremos o conjunto `airquality` — medicoes diarias reais de qualidade
-do ar em Nova York no verao de 1973 (radiacao solar, vento, temperatura
-e ozonio).
+A análise descritiva resume um conjunto de dados por meio de poucas
+medidas e de gráficos, antes de qualquer modelagem. Mais do que um
+preâmbulo, é a etapa em que se reconhece a forma, o centro, a dispersão
+e as anomalias de cada variável (Tukey 1977; Bussab and Morettin 2017).
+Usamos o conjunto `airquality` — medições diárias reais de qualidade do
+ar em Nova York no verão de 1973.
 
 ``` r
 
-dados <- airquality
-rnp_estrutura(dados)
+rnp_estrutura(airquality)
 #> # A tibble: 6 × 5
 #>   variavel classe      n n_faltantes p_faltantes
 #>   <chr>    <chr>   <int>       <int>       <dbl>
@@ -28,15 +21,23 @@ rnp_estrutura(dados)
 #> 6 Day      integer   153           0      0
 ```
 
-Repare que `Ozone` e `Solar.R` tem valores faltantes. A coluna
-`p_faltantes` quantifica o problema — algo que **toda** analise honesta
-reporta antes de prosseguir.
+As colunas `Ozone` e `Solar.R` têm dados faltantes; `Ozone` perde 37 das
+153 observações. Reportar essa lacuna é parte de qualquer análise
+honesta.
 
-## Medidas de tendencia central: qual “centro”?
+## Medidas de posição
+
+A **média aritmética** e a **mediana** estimam o “centro”, mas respondem
+de formas diferentes a valores extremos:
+
+``` math
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \qquad
+  \text{med}(x) = x_{(\lceil n/2 \rceil)}.
+```
 
 ``` r
 
-rnp_descritiva(dados$Ozone)
+rnp_descritiva(airquality$Ozone)
 #> # A tibble: 1 × 21
 #>       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min
 #>   <dbl>     <dbl>       <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl>     <dbl> <dbl>
@@ -46,24 +47,25 @@ rnp_descritiva(dados$Ozone)
 #> #   assimetria <dbl>, curtose <dbl>
 ```
 
-A funcao
-[`rnp_descritiva()`](https://evandeilton.github.io/rnp/reference/rnp_descritiva.md)
-entrega o panorama completo numa linha. O ponto pedagogico central esta
-na comparacao **media (42.1) versus mediana (31.5)**: a media e maior
-que a mediana. Isso e a assinatura de uma distribuicao **assimetrica a
-direita** — poucos dias de ozonio muito alto puxam a media para cima,
-enquanto a mediana, sendo um quantil, resiste a esses extremos.
+Para o ozônio, a média (42.1) supera a mediana (31.5). Esse descompasso
+é a assinatura de uma distribuição **assimétrica à direita**: alguns
+dias de ozônio muito alto puxam a média, enquanto a mediana, por ser um
+quantil, resiste. A regra prática segue daí: em distribuições
+assimétricas ou com *outliers*, a mediana descreve melhor o valor típico
+— é por isso que se reporta a renda *mediana* de uma população, não a
+média.
 
-Na pratica:
+### As três médias clássicas
 
-- **Distribuicao simetrica** -\> media e mediana coincidem; use a media.
-- **Distribuicao assimetrica ou com outliers** -\> a mediana descreve
-  melhor o “tipico”. E por isso que se reporta a **renda mediana**,
-  nunca a media.
+Para dados positivos valem três médias, com aplicações distintas:
 
-### As tres medias e quando cada uma faz sentido
+``` math
+\bar{x}_g = \Big(\textstyle\prod_{i=1}^{n} x_i\Big)^{1/n}, \qquad
+  \bar{x}_h = \frac{n}{\sum_{i=1}^{n} 1/x_i},
+```
 
-Nem toda media e a aritmetica. O pacote calcula as quatro classicas:
+e sempre se ordenam por $`\bar{x}_h \le \bar{x}_g \le \bar{x}`$(Bussab
+and Morettin 2017).
 
 ``` r
 
@@ -77,70 +79,72 @@ rnp_medias(c(2, 8, 32))
 #> 4 quadratica 19.1
 ```
 
-- **Aritmetica**: para grandezas que se somam (alturas, notas).
-- **Geometrica**: para **taxas de crescimento** e fatores
-  multiplicativos (um investimento que rende +100% e depois -50% tem
-  media geometrica 0%, nao 25%).
-- **Harmonica**: para **razoes** como velocidade media de um percurso
-  (km/h) ou P/L de uma carteira.
+A média **geométrica** é a correta para fatores multiplicativos: um
+investimento que rende $`+100\%`$ e depois $`-50\%`$ tem média
+geométrica nula, não $`+25\%`$. A **harmônica** vale para razões
+(velocidade média de um percurso, em km/h).
 
-A desigualdade
-$`\text{harmonica} \le \text{geometrica} \le \text{aritmetica}`$ vale
-sempre para valores positivos — verifique acima.
+## Medidas de dispersão
 
-## Dispersao: o centro nao conta a historia toda
+O centro não descreve a variabilidade. A **variância amostral** e o
+**desvio-padrão** medem o espalhamento na escala dos dados; o
+**coeficiente de variação** mede a dispersão *relativa* e adimensional:
 
-Duas turmas podem ter a mesma media 6,0 e realidades opostas: uma com
-todos proximos de 6, outra polarizada entre 2 e 10. A **dispersao** mede
-isso.
+``` math
+s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad
+  \text{CV} = \frac{s}{\bar{x}}.
+```
 
 ``` r
 
-rnp_descritiva(dados$Wind)[c("desvio", "iqr", "cv")]
+rnp_descritiva(airquality$Wind)[c("desvio", "iqr", "cv")]
 #> # A tibble: 1 × 3
 #>   desvio   iqr    cv
 #>    <dbl> <dbl> <dbl>
 #> 1   3.52   4.1 0.354
 ```
 
-- **Desvio-padrao**: dispersao na mesma unidade da variavel.
-- **IQR** (amplitude interquartilica): dispersao *robusta*, imune a
-  outliers.
-- **Coeficiente de variacao (CV = DP/media)**: dispersao **relativa**,
-  adimensional. So tem sentido para variaveis de razao com media
-  positiva (nunca para temperatura em Celsius!). Permite comparar a
-  variabilidade de grandezas em escalas diferentes.
+O vento tem $`\text{CV} \approx 0.35`$, isto é, o desvio-padrão equivale
+a cerca de 35% da média. O CV só faz sentido para variáveis de razão com
+média positiva — nunca para temperatura em graus Celsius, cujo zero é
+arbitrário. O **IQR** $`= Q_3 - Q_1`$ é uma medida de dispersão
+*robusta*, imune a extremos.
 
-## Momentos: a forma da distribuicao
+## Forma da distribuição: assimetria e curtose
 
-Media e variancia sao o 1o e o 2o momentos. O 3o e o 4o descrevem a
-**forma**:
+Os momentos centrais de ordem 3 e 4 descrevem a forma. Com
+$`m_k = \frac{1}{n}\sum (x_i-\bar x)^k`$, definem-se o coeficiente de
+**assimetria** e a **curtose em excesso**:
+
+``` math
+g_1 = \frac{m_3}{m_2^{3/2}}, \qquad g_2 = \frac{m_4}{m_2^{2}} - 3.
+```
 
 ``` r
 
-m <- rnp_momentos(dados$Temp)
-m$resumo
+rnp_momentos(airquality$Temp)$resumo
 #> # A tibble: 1 × 6
 #>   media variancia desvio_padrao assimetria curtose_excesso     n
 #>   <dbl>     <dbl>         <dbl>      <dbl>           <dbl> <dbl>
 #> 1  77.9      89.6          9.47     -0.374          -0.429   153
 ```
 
-- **Assimetria (skewness)**: mede o desequilibrio das caudas. Positiva =
-  cauda longa a direita; negativa = a esquerda; ~0 = simetrica.
-- **Curtose em excesso**: compara o peso das caudas com a Normal (cuja
-  curtose em excesso e 0). Positiva (leptocurtica) = caudas pesadas,
-  mais outliers do que a Normal preveria. **Cuidado com o mito**:
-  curtose mede peso de cauda, nao “quao pontuda” e a distribuicao.
+A temperatura tem $`g_1 = -0.37`$ (quase simétrica, leve cauda à
+esquerda) e $`g_2 = -0.43`$ (**platicúrtica**: caudas mais leves que a
+Normal). Já o ozônio é fortemente assimétrico ($`g_1 \approx 1{,}24`$) e
+**leptocúrtico** ($`g_2 \approx 1{,}29`$), coerente com a presença de
+valores extremos. A curtose mede o **peso das caudas** em relação à
+Normal ($`g_2 = 0`$), e não o quão “pontuda” é a distribuição — um
+equívoco comum.
 
-## Tabelas de frequencia
+## Tabelas de frequência
 
-Para variaveis discretas ou agrupadas, a tabela de frequencias organiza
-a informacao. Para o mes (categorica):
+Para uma variável discreta, a tabela de frequências organiza contagens
+absolutas e relativas, simples e acumuladas:
 
 ``` r
 
-rnp_tabela_frequencia(dados$Month)
+rnp_tabela_frequencia(airquality$Month)
 #> # A tibble: 5 × 5
 #>   categoria    fa    fr fa_acumulada fr_acumulada
 #>   <chr>     <int> <dbl>        <int>        <dbl>
@@ -151,26 +155,34 @@ rnp_tabela_frequencia(dados$Month)
 #> 5 9            30 0.196          153        1
 ```
 
-Para uma continua, agrupamos em classes (a regra de Sturges escolhe o
-numero de classes automaticamente):
+Os cinco meses (maio a setembro) têm 30 ou 31 dias, distribuídos de
+forma quase uniforme. Para variáveis contínuas, agrupamos em classes; o
+número de classes pela regra de Sturges é $`k = 1 + \log_2 n`$(Sturges
+1926):
 
 ``` r
 
-head(rnp_tabela_classes(dados$Temp, regra = "sturges"), 4)
-#> # A tibble: 4 × 8
+head(rnp_tabela_classes(airquality$Temp, regra = "sturges"), 3)
+#> # A tibble: 3 × 8
 #>   classe      lim_inf lim_sup ponto_medio    fa     fr fa_acumulada fr_acumulada
 #>   <chr>         <dbl>   <dbl>       <dbl> <int>  <dbl>        <int>        <dbl>
 #> 1 [56,60.6]      56      60.6        58.3     8 0.0523            8       0.0523
 #> 2 (60.6,65.1]    60.6    65.1        62.8    10 0.0654           18       0.118 
-#> 3 (65.1,69.7]    65.1    69.7        67.4    14 0.0915           32       0.209 
-#> 4 (69.7,74.2]    69.7    74.2        71.9    16 0.105            48       0.314
+#> 3 (65.1,69.7]    65.1    69.7        67.4    14 0.0915           32       0.209
 ```
 
-## Deteccao de outliers: dois criterios, duas filosofias
+## Detecção de *outliers*
+
+Dois critérios, com filosofias opostas. O de **Tukey** marca como
+*outlier* o que cai fora das cercas
+$`[\,Q_1 - 1{,}5\,\text{IQR},\; Q_3 + 1{,}5\,\text{IQR}\,]`$; é robusto,
+pois usa quantis. O do **escore-z** marca $`|z_i| > k`$, com
+$`z_i = (x_i - \bar{x})/s`$; é frágil, porque média e desvio já foram
+inflados pelos próprios extremos.
 
 ``` r
 
-rnp_outliers(dados$Ozone, method = "iqr")
+rnp_outliers(airquality$Ozone, method = "iqr")
 #> # A tibble: 2 × 2
 #>   indice valor
 #>    <int> <int>
@@ -178,61 +190,54 @@ rnp_outliers(dados$Ozone, method = "iqr")
 #> 2    117   168
 ```
 
-- **Criterio de Tukey (IQR)**: marca como outlier o que cai fora de
-  $`[Q_1 - 1{,}5\,\text{IQR},\; Q_3 + 1{,}5\,\text{IQR}]`$. **Robusto**
-  — usa quantis, nao se deixa contaminar pelos proprios extremos.
-- **Criterio z-score**: marca o que esta a mais de $`k`$ desvios da
-  media. **Fragil** em distribuicoes assimetricas, porque media e DP ja
-  foram inflados pelos outliers que se quer detectar.
+O critério de Tukey acusa os dias nas posições 62 e 117, com ozônio de
+135 e 168 — exatamente os responsáveis pela assimetria observada. Em uma
+distribuição tão assimétrica, o critério do IQR é o mais defensável.
 
-Para `Ozone`, assimetrica, o criterio IQR e o mais defensavel.
+## A exploração gráfica
 
-## A EDA grafica
-
-Numeros resumem; graficos revelam. O histograma mostra a forma:
+Os números resumem; os gráficos revelam. O histograma exibe a forma, o
+boxplot sintetiza os cinco números de Tukey por grupo, e o gráfico Q-Q
+confronta os dados com a Normal teórica.
 
 ``` r
 
-rnp_grafico_histograma(dados, "Ozone", bins = 20)
+rnp_grafico_histograma(airquality, "Ozone", bins = 20)
 ```
 
-![Histograma do ozonio](v01-descritiva_files/figure-html/hist-1.png)
-
-A assimetria a direita que diagnosticamos pelos numeros agora salta aos
-olhos. O **boxplot** comprime os cinco numeros de Tukey e expoe outliers
-por grupo:
+![Histograma do ozônio](v01-descritiva_files/figure-html/hist-1.png)
 
 ``` r
 
-rnp_grafico_boxplot(dados, x = "Month", y = "Ozone")
+rnp_grafico_qq(airquality$Ozone)
 ```
 
-![Boxplot de ozonio por
-mes](v01-descritiva_files/figure-html/boxplot-1.png)
+![Gráfico quantil-quantil do
+ozônio](v01-descritiva_files/figure-html/qq-1.png)
 
-O **grafico Q-Q** confronta os dados com a Normal teorica — pontos fora
-da reta denunciam o afastamento da normalidade:
+A curvatura sistemática no Q-Q confirma o afastamento da normalidade já
+diagnosticado pelos números — justificativa, mais adiante, para
+transformar a variável ou recorrer a métodos robustos.
 
-``` r
+## Síntese
 
-rnp_grafico_qq(dados$Ozone)
-```
+| Pergunta | Função | Medida |
+|----|----|----|
+| Qual o centro típico? | `rnp_descritiva`, `rnp_medias` | média, mediana |
+| Quanto varia? | `rnp_descritiva` | desvio, IQR, CV |
+| Qual a forma? | `rnp_momentos` | $`g_1`$, $`g_2`$ |
+| Há anomalias? | `rnp_outliers` | cercas de Tukey |
+| Como é a distribuição? | `rnp_grafico_*` | histograma, boxplot, Q-Q |
 
-![QQ-plot do ozonio](v01-descritiva_files/figure-html/qq-1.png)
+Entender *por que* a média amostral se comporta como observamos conduz à
+**probabilidade**, tema da próxima vinheta.
 
-A curvatura sistematica confirma: `Ozone` **nao** e normal. Esse
-diagnostico visual e o que justifica, mais adiante, transformar a
-variavel ou usar metodos robustos.
+## Referências
 
-## Sintese
+Bussab, Wilton O., and Pedro A. Morettin. 2017. *Estatística básica*.
+9th ed. Saraiva.
 
-| Pergunta               | Ferramenta `rnp`                            |
-|------------------------|---------------------------------------------|
-| Qual o centro tipico?  | `rnp_descritiva` (media vs mediana)         |
-| Quanto varia?          | desvio, IQR, CV                             |
-| Qual a forma?          | `rnp_momentos` (assimetria, curtose)        |
-| Ha anomalias?          | `rnp_outliers`                              |
-| Como e a distribuicao? | `rnp_grafico_histograma`, `_boxplot`, `_qq` |
+Sturges, Herbert A. 1926. “The Choice of a Class Interval.” *Journal of
+the American Statistical Association* 21 (153): 65–66.
 
-O proximo passo natural — entender *por que* a media amostral se
-comporta como se comporta — nos leva a **probabilidade** (vinheta 2).
+Tukey, John W. 1977. *Exploratory Data Analysis*. Addison-Wesley.

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>4. Regressao Linear e Modelagem • rnp</title>
+<title>4. Regressão linear e modelagem • rnp</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Inter-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="4. Regressao Linear e Modelagem">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="4. Regressão linear e modelagem">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -36,12 +36,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutoriais" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutoriais</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutoriais">
-<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e Exploratoria</a></li>
-    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e Teoremas Fundamentais</a></li>
-    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferencia Estatistica</a></li>
-    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressao e Modelagem</a></li>
-    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Analise Multivariada</a></li>
-    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categoricos e Nao-Parametricos</a></li>
+<li><a class="dropdown-item" href="../articles/v01-descritiva.html">1. Descritiva e exploratória</a></li>
+    <li><a class="dropdown-item" href="../articles/v02-probabilidade.html">2. Probabilidade e teoremas fundamentais</a></li>
+    <li><a class="dropdown-item" href="../articles/v03-inferencia.html">3. Inferência estatística</a></li>
+    <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressão e modelagem</a></li>
+    <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Análise multivariada</a></li>
+    <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categóricos e não-paramétricos</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>4. Regressao Linear e Modelagem</h1>
+      <h1>4. Regressão linear e modelagem</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/evandeilton/rnp/blob/master/vignettes/v04-regressao.Rmd" class="external-link"><code>vignettes/v04-regressao.Rmd</code></a></small>
@@ -81,31 +81,25 @@
 
     
     
-<div class="section level2">
-<h2 id="regressao-e-geometria">Regressao e geometria<a class="anchor" aria-label="anchor" href="#regressao-e-geometria"></a>
-</h2>
-<p>Uma forma util de enxergar a regressao linear e como <strong>projecao
-ortogonal</strong>. O vetor de respostas
+<p>A regressão linear modela a esperança de uma resposta como função de
+preditores. Geometricamente, ela é a <strong>projeção ortogonal</strong>
+de
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-vive num espaco de
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-dimensoes; o modelo projeta
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-sobre o subespaco gerado pelas colunas de
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>.
-Os coeficientes de minimos quadrados sao as coordenadas dessa projecao,
-e os residuos sao a parte de
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-ortogonal ao subespaco. E por isso que os residuos sao
-nao-correlacionados com os preditores: nao por acaso, mas por construcao
-geometrica.</p>
-<p>Usaremos <code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code>: 506 bairros de Boston com o valor
-mediano dos imoveis (<code>medv</code>) e 13 caracteristicas reais.</p>
+sobre o espaço gerado pelas colunas de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>:
+a solução de mínimos quadrados e os valores ajustados são</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>β</mi><mo accent="true">̂</mo></mover><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mi>⊤</mi></msup><mi>X</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><msup><mi>X</mi><mi>⊤</mi></msup><mi>y</mi><mo>,</mo><mspace width="2.0em"></mspace><mover><mi>y</mi><mo accent="true">̂</mo></mover><mo>=</mo><mi>X</mi><mover><mi>β</mi><mo accent="true">̂</mo></mover><mo>,</mo></mrow><annotation encoding="application/x-tex">\hat{\beta} = (X^\top X)^{-1} X^\top y, \qquad \hat{y} = X\hat{\beta},</annotation></semantics></math></p>
+<p>e os resíduos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mi>y</mi><mo>−</mo><mover><mi>y</mi><mo accent="true">̂</mo></mover></mrow><annotation encoding="application/x-tex">e = y - \hat{y}</annotation></semantics></math>
+ficam ortogonais a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+por construção — daí serem não-correlacionados com os preditores <span class="citation">(Montgomery et al. 2012)</span>. Usamos
+<code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code>: 506 bairros de Boston, com o valor mediano
+dos imóveis (<code>medv</code>, em milhares de dólares).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dados</span> <span class="op">&lt;-</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">Boston</a></span></span></code></pre></div>
-</div>
 <div class="section level2">
-<h2 id="ajuste-e-leitura-dos-coeficientes">Ajuste e leitura dos coeficientes<a class="anchor" aria-label="anchor" href="#ajuste-e-leitura-dos-coeficientes"></a>
+<h2 id="ajuste-e-interpretação-dos-coeficientes">Ajuste e interpretação dos coeficientes<a class="anchor" aria-label="anchor" href="#ajuste-e-interpreta%C3%A7%C3%A3o-dos-coeficientes"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_regressao.html">rnp_regressao</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span> <span class="op">+</span> <span class="va">crim</span>, data <span class="op">=</span> <span class="va">dados</span><span class="op">)</span></span>
@@ -117,57 +111,48 @@ mediano dos imoveis (<code>medv</code>) e 13 caracteristicas reais.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rm               5.22       0.442         11.8    0       4.35   6.09 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> lstat           -<span style="color: #BB0000;">0.578</span>      0.047<span style="text-decoration: underline;">7</span>       -<span style="color: #BB0000;">12.1</span>    0      -<span style="color: #BB0000;">0.672</span> -<span style="color: #BB0000;">0.485</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> crim            -<span style="color: #BB0000;">0.103</span>      0.032         -<span style="color: #BB0000;">3.21</span>   0.001<span style="text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.166</span> -<span style="color: #BB0000;">0.04</span></span></span></code></pre></div>
-<p>Cada coeficiente e o efeito <strong>parcial</strong> do preditor: a
-variacao esperada em <code>medv</code> por unidade do preditor,
-<em>mantidos os demais constantes</em>. Por exemplo, o coeficiente de
-<code>rm</code> (numero medio de comodos) diz quanto o valor sobe por
-comodo adicional, controlando criminalidade e status socioeconomico.
-Esse “controle” e exatamente o que a regressao multipla oferece e a
-correlacao simples nao.</p>
+<p>Cada coeficiente é o efeito <strong>parcial</strong> do preditor,
+mantidos os demais constantes. O coeficiente de <code>rm</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>5</mn><mo>,</mo><mn>22</mn></mrow><annotation encoding="application/x-tex">\approx 5{,}22</annotation></semantics></math>
+indica que cada cômodo adicional eleva o valor mediano em cerca de US$ 5
+200, controlando criminalidade e status socioeconômico;
+<code>lstat</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mi>−</mi><mn>0</mn><mo>,</mo><mn>58</mn></mrow><annotation encoding="application/x-tex">\approx -0{,}58</annotation></semantics></math>
+mostra que bairros com mais população de baixa renda valem menos. Esse
+“controle” é o que a regressão múltipla oferece e a correlação simples
+não.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span><span class="op">$</span><span class="va">modelo</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
 <span><span class="co">#&gt;      r2 r2_ajustado f_statistic f_pvalor sigma gl_residuos  nobs</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.646       0.644        305.        0  5.49         502   506</span></span></code></pre></div>
-<p>O <strong>R-quadrado</strong> e a fracao da variancia de
-<code>medv</code> explicada pelo modelo — geometricamente, o quanto da
-“energia” de
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-caiu dentro do subespaco. O <strong>R-ajustado</strong> penaliza
-preditores inuteis: ao contrario do R2 cru, ele <em>pode cair</em>
-quando se adiciona ruido. A estatistica F testa o modelo como um todo
-contra o modelo nulo (so o intercepto).</p>
+<p>O <strong>coeficiente de determinação</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>−</mo><msub><mtext mathvariant="normal">SQ</mtext><mtext mathvariant="normal">res</mtext></msub><mi>/</mi><msub><mtext mathvariant="normal">SQ</mtext><mtext mathvariant="normal">tot</mtext></msub></mrow><annotation encoding="application/x-tex">R^2 = 1 - \text{SQ}_{\text{res}}/\text{SQ}_{\text{tot}}</annotation></semantics></math>
+vale
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.646</mn><annotation encoding="application/x-tex">0.646</annotation></semantics></math>:
+o modelo explica cerca de 65% da variância de <code>medv</code>. O
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>R</mi><mn>2</mn></msup><annotation encoding="application/x-tex">R^2</annotation></semantics></math>
+ajustado penaliza preditores inúteis, e a estatística
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+testa o modelo contra o nulo (só intercepto).</p>
 </div>
 <div class="section level2">
-<h2 id="pressupostos-o-modelo-so-vale-se-eles-valerem">Pressupostos: o modelo so vale se eles valerem<a class="anchor" aria-label="anchor" href="#pressupostos-o-modelo-so-vale-se-eles-valerem"></a>
+<h2 id="pressupostos-e-diagnóstico">Pressupostos e diagnóstico<a class="anchor" aria-label="anchor" href="#pressupostos-e-diagn%C3%B3stico"></a>
 </h2>
-<p>Regressao linear nao e magica; ela repousa sobre quatro pilares.
-<strong>Violar os pressupostos invalida os erros-padrao, os ICs e os
-p-valores</strong> — os coeficientes podem ate continuar uteis, mas a
-inferencia sobre eles desaba. Os diagnosticos graficos sao o exame
-medico do modelo:</p>
+<p>A inferência (erros-padrão, ICs, p-valores) depende de quatro
+pressupostos: linearidade, homocedasticidade, normalidade dos resíduos e
+independência. <strong>Violá-los invalida a inferência</strong>, ainda
+que os coeficientes sigam úteis. Os gráficos de diagnóstico são o exame
+do modelo:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_grafico_residuos.html">rnp_grafico_residuos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span> <span class="op">+</span> <span class="va">crim</span>, <span class="va">dados</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">g</span><span class="op">$</span><span class="va">residuo_ajustado</span></span></code></pre></div>
-<p><img src="v04-regressao_files/figure-html/diag-1.png" class="r-plt" alt="Painel de diagnostico de residuos" width="672"></p>
-<ul>
-<li>
-<strong>Residuos vs ajustados</strong> (acima): testa
-<strong>linearidade</strong> e <strong>homocedasticidade</strong>.
-Queremos uma nuvem sem padrao em torno de zero. Um funil indica
-variancia nao-constante; uma curva indica nao-linearidade.</li>
-<li>
-<strong>Q-Q dos residuos</strong>: testa a
-<strong>normalidade</strong> dos residuos (necessaria para os ICs em
-amostras pequenas).</li>
-<li>
-<strong>Escala-locacao</strong>: reforca o exame da
-homocedasticidade.</li>
-<li>
-<strong>Residuos vs leverage</strong>: identifica pontos
-<strong>influentes</strong> que sozinhos podem dominar o ajuste.</li>
-</ul>
+<p><img src="v04-regressao_files/figure-html/diag-1.png" class="r-plt" alt="Resíduos versus valores ajustados" width="672"></p>
+<p>Queremos uma nuvem sem padrão em torno de zero. Um formato de funil
+indica <strong>heterocedasticidade</strong>; uma curvatura,
+<strong>não-linearidade</strong>. Os testes formais complementam o exame
+visual:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao_diagnosticos.html">rnp_regressao_diagnosticos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span>, <span class="va">dados</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">testes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
@@ -176,17 +161,18 @@ homocedasticidade.</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> shapiro-wilk (residuos)       0.910       0 Rejeita normalidade             </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> breusch-pagan                75.6         0 Heterocedasticidade             </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> durbin-watson                 0.834      <span style="color: #BB0000;">NA</span> Possivel autocorrelacao positiva</span></span></code></pre></div>
-<p>Os testes formais (Shapiro nos residuos, Breusch-Pagan para
-heterocedasticidade, Durbin-Watson para autocorrelacao) complementam o
-olho.</p>
 </div>
 <div class="section level2">
-<h2 id="multicolinearidade-quando-os-preditores-brigam">Multicolinearidade: quando os preditores brigam<a class="anchor" aria-label="anchor" href="#multicolinearidade-quando-os-preditores-brigam"></a>
+<h2 id="multicolinearidade">Multicolinearidade<a class="anchor" aria-label="anchor" href="#multicolinearidade"></a>
 </h2>
-<p>Se dois preditores carregam quase a mesma informacao, o modelo nao
-consegue separar seus efeitos — os erros-padrao explodem e os
-coeficientes ficam instaveis. O <strong>VIF</strong> (fator de inflacao
-de variancia) detecta isso:</p>
+<p>Quando preditores carregam informação redundante, os erros-padrão se
+inflam. O <strong>fator de inflação de variância</strong> mede isso a
+partir do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>R</mi><mi>j</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">R_j^2</annotation></semantics></math>
+da regressão do preditor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+sobre os demais:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="normal">VIF</mtext><mi>j</mi></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><msubsup><mi>R</mi><mi>j</mi><mn>2</mn></msubsup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{VIF}_j = \frac{1}{1 - R_j^2}.</annotation></semantics></math></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_vif.html">rnp_vif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span> <span class="op">+</span> <span class="va">tax</span> <span class="op">+</span> <span class="va">rad</span>, <span class="va">dados</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
@@ -196,37 +182,25 @@ de variancia) detecta isso:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> lstat  2.10 baixa        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tax    6.38 moderada     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> rad    5.98 moderada</span></span></code></pre></div>
-<p>Regra pratica: VIF &gt; 5 e preocupante, &gt; 10 e grave.
-<code>tax</code> e <code>rad</code> (acesso a rodovias e imposto
-predial) costumam ser colineares em Boston — faz sentido economico.</p>
+<p><code>tax</code> e <code>rad</code> (imposto predial e acesso a
+rodovias) têm VIF próximo de 6 (“moderada”) — são, de fato,
+correlacionados em Boston. Como regra, VIF
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">&gt; 5</annotation></semantics></math>
+merece atenção e VIF
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">&gt; 10</annotation></semantics></math>
+é grave.</p>
 </div>
 <div class="section level2">
-<h2 id="o-trade-off-vies-variancia-regressao-penalizada">O trade-off vies-variancia: regressao penalizada<a class="anchor" aria-label="anchor" href="#o-trade-off-vies-variancia-regressao-penalizada"></a>
+<h2 id="regularização-o-compromisso-viés-variância">Regularização: o compromisso viés-variância<a class="anchor" aria-label="anchor" href="#regulariza%C3%A7%C3%A3o-o-compromisso-vi%C3%A9s-vari%C3%A2ncia"></a>
 </h2>
-<p>Quando ha muitos preditores ou multicolinearidade, abrir mao de um
-pouco de imparcialidade pode reduzir muito a variancia — e melhorar a
-predicao. Essa e a ideia da <strong>regularizacao</strong>, e o
-trade-off vies-variancia em acao.</p>
-<ul>
-<li>
-<strong>Ridge</strong> (L2) encolhe todos os coeficientes em direcao
-a zero, domando a multicolinearidade sem zerar ninguem.</li>
-<li>
-<strong>Lasso</strong> (L1) zera coeficientes irrelevantes, fazendo
-<strong>selecao de variaveis</strong>.</li>
-</ul>
+<p>Com muitos preditores ou colinearidade, aceitar um pequeno viés pode
+reduzir muito a variância e melhorar a predição. A
+<strong>ridge</strong> (L2) encolhe os coeficientes; o
+<strong>lasso</strong> (L1) ainda zera os irrelevantes, fazendo seleção
+de variáveis <span class="citation">(Hastie et al. 2009)</span>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mtext mathvariant="normal">ridge</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mi>⊤</mi></msup><mi>X</mi><mo>+</mo><mi>λ</mi><mi>I</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><msup><mi>X</mi><mi>⊤</mi></msup><mi>y</mi><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mtext mathvariant="normal">lasso</mtext></msub><mo>=</mo><mrow><mi mathvariant="normal">arg</mi><mo>⁡</mo></mrow><munder><mi mathvariant="normal">min</mi><mi>β</mi></munder><mo stretchy="false" form="postfix">∥</mo><mi>y</mi><mo>−</mo><mi>X</mi><mi>β</mi><msup><mo stretchy="false" form="postfix">∥</mo><mn>2</mn></msup><mo>+</mo><mi>λ</mi><mo stretchy="false" form="postfix">∥</mo><mi>β</mi><msub><mo stretchy="false" form="postfix">∥</mo><mn>1</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1} X^\top y, \qquad
+  \hat\beta_{\text{lasso}} = \arg\min_\beta \|y - X\beta\|^2 + \lambda \|\beta\|_1.</annotation></semantics></math></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao_ridge.html">rnp_regressao_ridge</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span> <span class="op">+</span> <span class="va">crim</span> <span class="op">+</span> <span class="va">tax</span> <span class="op">+</span> <span class="va">rad</span>, <span class="va">dados</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
-<span><span class="co">#&gt;   termo       estimativa</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)     1.07  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rm              5.09  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> lstat          -<span style="color: #BB0000;">0.536</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> crim           -<span style="color: #BB0000;">0.087</span><span style="color: #BB0000; text-decoration: underline;">1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> tax            -<span style="color: #BB0000;">0.012</span><span style="color: #BB0000; text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rad             0.169</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao_lasso.html">rnp_regressao_lasso</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span> <span class="op">+</span> <span class="va">crim</span> <span class="op">+</span> <span class="va">tax</span> <span class="op">+</span> <span class="va">rad</span>, <span class="va">dados</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
 <span><span class="co">#&gt;   termo       estimativa</span></span>
@@ -237,37 +211,27 @@ a zero, domando a multicolinearidade sem zerar ninguem.</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> crim           -<span style="color: #BB0000;">0.028</span><span style="color: #BB0000; text-decoration: underline;">9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> tax            -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> rad             0</span></span></code></pre></div>
-<p>Note como o lasso zera preditores fracos — algo que o minimos
-quadrados comum jamais faz. O parametro
+<p>Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">\lambda = 0{,}5</annotation></semantics></math>,
+o lasso <strong>zera</strong> o coeficiente de <code>rad</code>,
+descartando-o do modelo — algo que os mínimos quadrados nunca fazem. O
+parâmetro
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
-controla a intensidade da penalidade: e o dial do trade-off.</p>
+é o controle do compromisso entre viés e variância.</p>
 </div>
 <div class="section level2">
-<h2 id="robustez-a-outliers">Robustez a outliers<a class="anchor" aria-label="anchor" href="#robustez-a-outliers"></a>
+<h2 id="resposta-binária-regressão-logística">Resposta binária: regressão logística<a class="anchor" aria-label="anchor" href="#resposta-bin%C3%A1ria-regress%C3%A3o-log%C3%ADstica"></a>
 </h2>
-<p>Minimos quadrados eleva os residuos ao quadrado — logo, um unico
-outlier pode sequestrar a reta. A <strong>regressao robusta</strong>
-(M-estimadores via IRLS) reduz o peso de observacoes aberrantes:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao_robusta.html">rnp_regressao_robusta</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span>, <span class="va">dados</span>, metodo <span class="op">=</span> <span class="st">"huber"</span><span class="op">)</span><span class="op">$</span><span class="va">coeficientes</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
-<span><span class="co">#&gt;   termo       estimativa</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)     -<span style="color: #BB0000;">5.68</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> rm               5.61 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> lstat           -<span style="color: #BB0000;">0.604</span></span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="quando-a-resposta-e-binaria-regressao-logistica">Quando a resposta e binaria: regressao logistica<a class="anchor" aria-label="anchor" href="#quando-a-resposta-e-binaria-regressao-logistica"></a>
-</h2>
-<p>Nem toda resposta e continua. Para classificar (doente/sadio,
-aprovado/reprovado) usa-se a <strong>regressao logistica</strong>, que
-modela a <em>chance</em> (odds) do evento. Voltando aos dados de
+<p>Para classificar, modela-se a <em>chance</em> (odds) do evento pela
+função logito,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">logit</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mfrac><mi>p</mi><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac><mo>=</mo><mi>X</mi><mi>β</mi></mrow><annotation encoding="application/x-tex">\operatorname{logit}(p) = \log\frac{p}{1-p} = X\beta</annotation></semantics></math>,
+de modo que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><msub><mi>β</mi><mi>j</mi></msub></msup><annotation encoding="application/x-tex">e^{\beta_j}</annotation></semantics></math>
+é a <strong>razão de chances</strong>. Voltando aos dados de
 diabetes:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pima</span> <span class="op">&lt;-</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">Pima.tr</a></span></span>
-<span><span class="va">log_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_logistic.html">rnp_logistic</a></span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">glu</span> <span class="op">+</span> <span class="va">bmi</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">pima</span><span class="op">)</span></span>
-<span><span class="va">log_fit</span><span class="op">$</span><span class="va">coeficientes</span></span>
+<span><span class="fu"><a href="../reference/rnp_logistic.html">rnp_logistic</a></span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">glu</span> <span class="op">+</span> <span class="va">bmi</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">pima</span><span class="op">)</span><span class="op">$</span><span class="va">coeficientes</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
 <span><span class="co">#&gt;   termo    estimativa erro_padrao estatistica_z p_valor odds_ratio ic_inf ic_sup</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -275,41 +239,39 @@ diabetes:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> glu          0.030<span style="text-decoration: underline;">9</span>      0.006<span style="text-decoration: underline;">4</span>          4.78  0          1.03     1.02 1.04  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> bmi          0.091<span style="text-decoration: underline;">9</span>      0.032<span style="text-decoration: underline;">2</span>          2.85  0.004<span style="text-decoration: underline;">4</span>     1.10     1.03 1.17  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> age          0.052<span style="text-decoration: underline;">6</span>      0.017           3.10  0.002      1.05     1.02 1.09</span></span></code></pre></div>
-<p>O <code>odds_ratio</code> (=
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><mi>β</mi></msup><annotation encoding="application/x-tex">e^\beta</annotation></semantics></math>)
-e a leitura natural: um OR de 1,03 para <code>glu</code> significa que
-cada unidade de glicose multiplica a chance de diabetes por 1,03. A
-qualidade da classificacao se mede pela <strong>curva ROC</strong> e sua
-area (AUC):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>A razão de chances de <code>glu</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>1</mn><mo>,</mo><mn>03</mn></mrow><annotation encoding="application/x-tex">\approx 1{,}03</annotation></semantics></math>
+significa que cada unidade de glicose multiplica a chance de diabetes
+por 1,03, controlando IMC e idade. A qualidade da classificação é medida
+pela área sob a curva ROC:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">glu</span> <span class="op">+</span> <span class="va">bmi</span> <span class="op">+</span> <span class="va">age</span>, <span class="va">pima</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
-<span><span class="va">roc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_curva_roc.html">rnp_curva_roc</a></span><span class="op">(</span><span class="va">pima</span><span class="op">$</span><span class="va">type</span>, <span class="va">prob</span>, positivo <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span></span>
-<span><span class="va">roc</span><span class="op">$</span><span class="va">auc</span></span>
+<span><span class="fu"><a href="../reference/rnp_curva_roc.html">rnp_curva_roc</a></span><span class="op">(</span><span class="va">pima</span><span class="op">$</span><span class="va">type</span>, <span class="va">prob</span>, positivo <span class="op">=</span> <span class="st">"Yes"</span><span class="op">)</span><span class="op">$</span><span class="va">auc</span></span>
 <span><span class="co">#&gt; [1] 0.8355</span></span></code></pre></div>
-<p>A <strong>AUC</strong> e a probabilidade de o modelo ranquear um caso
-positivo acima de um negativo escolhidos ao acaso. AUC = 0,5 e moeda
-jogada; 1,0 e perfeito.</p>
+<p>A <strong>AUC</strong> de 0.84 é a probabilidade de o modelo ranquear
+um caso positivo acima de um negativo tomados ao acaso (0,5 = aleatório;
+1 = perfeito) — uma discriminação boa.</p>
 </div>
 <div class="section level2">
-<h2 id="sintese">Sintese<a class="anchor" aria-label="anchor" href="#sintese"></a>
+<h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="39%">
-<col width="35%">
+<col width="28%">
+<col width="32%">
+<col width="40%">
 </colgroup>
 <thead><tr class="header">
 <th>Etapa</th>
-<th>Ferramenta</th>
+<th>Função</th>
 <th>Pergunta</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>Ajustar</td>
 <td><code>rnp_regressao</code></td>
-<td>os coeficientes fazem sentido teorico?</td>
+<td>os coeficientes fazem sentido teórico?</td>
 </tr>
 <tr class="even">
 <td>Diagnosticar</td>
@@ -319,24 +281,38 @@ jogada; 1,0 e perfeito.</p>
 <tr class="odd">
 <td>Colinearidade</td>
 <td><code>rnp_vif</code></td>
-<td>os preditores sao redundantes?</td>
+<td>os preditores são redundantes?</td>
 </tr>
 <tr class="even">
 <td>Regularizar</td>
 <td><code>rnp_regressao_ridge/_lasso</code></td>
-<td>vale trocar vies por variancia?</td>
+<td>vale trocar viés por variância?</td>
 </tr>
 <tr class="odd">
 <td>Classificar</td>
 <td>
-<code>rnp_logistic</code> + <code>rnp_curva_roc</code>
+<code>rnp_logistic</code>, <code>rnp_curva_roc</code>
 </td>
-<td>quao bem separa as classes?</td>
+<td>quão bem separa as classes?</td>
 </tr>
 </tbody>
 </table>
-<p>O ajuste e apenas o comeco: a parte mais importante e examinar se os
-pressupostos se sustentam e se o modelo descreve bem os dados.</p>
+<p>O ajuste é o começo; o essencial é examinar se os pressupostos se
+sustentam.</p>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hastie2009" class="csl-entry">
+Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2009. <em>The
+Elements of Statistical Learning</em>. 2nd ed. Springer.
+</div>
+<div id="ref-montgomery2012" class="csl-entry">
+Montgomery, Douglas C., Elizabeth A. Peck, and G. Geoffrey Vining. 2012.
+<em>Introduction to Linear Regression Analysis</em>. 5th ed. Wiley.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

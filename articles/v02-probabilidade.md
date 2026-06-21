@@ -1,47 +1,34 @@
-# 2. Probabilidade, Distribuicoes e os Teoremas Fundamentais
+# 2. Probabilidade, distribuições e os teoremas fundamentais
 
-## A ponte entre o acaso e os dados
+A probabilidade descreve a incerteza *antes* de observar os dados; a
+inferência inverte o sentido, indo dos dados às causas. Esta vinheta
+trata dos conceitos que sustentam essa transição: **distribuições**, o
+**Teorema de Bayes** e os dois teoremas-limite (Ross 2010; Magalhães and
+Lima 2015).
 
-Probabilidade e a linguagem que descreve a incerteza *antes* de observar
-os dados; a estatistica inverte a seta, indo dos dados as causas. Esta
-vinheta trata dos conceitos centrais dessa transicao: as
-**distribuicoes**, o **Teorema de Bayes**, a **Lei dos Grandes Numeros**
-e o **Teorema Central do Limite**.
+## Distribuições e seus momentos
 
-## Distribuicoes de probabilidade
+Uma variável aleatória $`X`$ é descrita por sua distribuição. A
+esperança e a variância — primeiro momento e segundo momento central —
+resumem centro e dispersão:
 
-Uma variavel aleatoria e descrita por sua distribuicao. O `rnp` oferece
-uma familia consistente de funcoes `rnp_distribuicao_*`, todas com os
-quatro verbos classicos: `d` (densidade/massa), `p` (acumulada), `q`
-(quantil), `r` (amostra).
+``` math
+E[X] = \sum_x x\,p(x) \;\; \text{(discreta)}, \qquad
+  \operatorname{Var}[X] = E[X^2] - (E[X])^2.
+```
+
+As funções `rnp_distribuicao_*` oferecem os quatro verbos usuais: `d`
+(densidade/massa), `p` (acumulada), `q` (quantil) e `r` (amostra).
 
 ``` r
 
-# P(Z <= 1.96) para a Normal padrao
-rnp_distribuicao_normal("p", q = 1.96)
+rnp_distribuicao_normal("p", q = 1.96)   # P(Z <= 1.96)
 #> [1] 0.9750021
 ```
 
-Visualizar a forma e meio caminho para entende-la:
-
-``` r
-
-rnp_grafico_distribuicao("norm", mean = 0, sd = 1)
-```
-
-![Densidade e acumulada da
-normal](v02-probabilidade_files/figure-html/grafico-dist-1.png)
-
-Cada distribuicao modela um mecanismo gerador:
-
-| Distribuicao | Modela | Exemplo |
-|----|----|----|
-| Binomial | nº de sucessos em $`n`$ ensaios | acertos em prova de multipla escolha |
-| Poisson | contagens em intervalo fixo | chamadas por hora num call center |
-| Normal | soma de muitos efeitos pequenos | erro de medicao |
-| Exponencial | tempo ate o proximo evento | tempo entre falhas |
-
-A esperanca e a variancia teoricas saem direto dos parametros:
+O valor 0.975 é a área acumulada até $`1{,}96`$ na Normal padrão, que
+delimita 95% da massa central. Para distribuições nomeadas, a esperança
+e a variância saem dos parâmetros:
 
 ``` r
 
@@ -52,23 +39,39 @@ rnp_esperanca_var("binom", size = 10, prob = 0.3)
 #> 1 binom                3       2.1   1.45
 ```
 
-## Teorema de Bayes: a falacia da taxa-base
+Confere com as fórmulas da Binomial, $`E[X] = np = 3`$ e
+$`\operatorname{Var}[X] = np(1-p) = 2{,}1`$. Cada distribuição modela um
+mecanismo: a Binomial conta sucessos em $`n`$ ensaios; a Poisson,
+ocorrências num intervalo; a Exponencial, tempos de espera; a Normal, a
+soma de muitos efeitos pequenos.
 
-Poucos resultados sao tao contraintuitivos — e tao importantes — quanto
-Bayes. Considere um teste para uma doenca rara:
+``` r
 
-- Prevalencia: **1%** da populacao tem a doenca.
-- Sensibilidade: o teste acerta **99%** dos doentes.
-- Especificidade: **95%** (logo, 5% de falsos positivos).
+rnp_grafico_distribuicao("norm", mean = 0, sd = 1)
+```
 
-Pergunta: **uma pessoa testou positivo. Qual a probabilidade de estar
-doente?** A intuicao grita “99%”. A conta diz outra coisa:
+![Densidade e acumulada da Normal
+padrão](v02-probabilidade_files/figure-html/grafico-dist-1.png)
+
+## Teorema de Bayes e a falácia da taxa-base
+
+Para hipóteses $`H_1,\dots,H_k`$ mutuamente exclusivas e exaustivas, e
+uma evidência $`E`$, a probabilidade *a posteriori* é
+
+``` math
+P(H_i \mid E) = \frac{P(E \mid H_i)\,P(H_i)}{\sum_{j} P(E \mid H_j)\,P(H_j)}.
+```
+
+Considere um teste para uma doença rara: prevalência de 1%,
+sensibilidade de 99% e especificidade de 95% (logo, 5% de falsos
+positivos). Uma pessoa testa positivo — qual a probabilidade de estar
+doente?
 
 ``` r
 
 rnp_bayes(
   priori          = c(doente = 0.01, sadio = 0.99),
-  verossimilhanca = c(0.99, 0.05)   # P(+ | doente), P(+ | sadio)
+  verossimilhanca = c(0.99, 0.05)
 )
 #> # A tibble: 2 × 5
 #>   hipotese priori verossimilhanca conjunta posteriori
@@ -77,58 +80,65 @@ rnp_bayes(
 #> 2 sadio      0.99            0.05   0.0495      0.833
 ```
 
-A probabilidade *a posteriori* de estar doente e de apenas **~17%**! O
-motivo: os sadios sao tao numerosos (99%) que seus 5% de falsos
-positivos *inundam* os verdadeiros positivos. Ignorar a prevalencia (a
-“taxa-base”) e um erro classico — de medicos a juris. Bayes nos obriga a
-combinar a evidencia (o teste) com o que ja sabiamos (a priori).
+Apenas **16,7%**. A intuição que aponta “99%” ignora a *taxa-base*: como
+99% da população é saudável, seus 5% de falsos positivos superam, em
+número, os verdadeiros positivos. Bayes obriga a combinar a evidência (o
+teste) com o conhecimento prévio (a prevalência) — um raciocínio que
+vale da medicina ao direito.
 
-## Lei dos Grandes Numeros: por que a media estabiliza
+## Lei dos Grandes Números
 
-A LGN garante que a **media amostral converge para a media
-populacional** a medida que $`n`$ cresce. Nao e fe — e teorema. Vamos
-*ver* isso para o lancamento de um dado honesto (media teorica 3,5):
+A LGN garante que a média amostral converge para a média populacional,
+$`\bar{X}_n \to \mu`$, à medida que $`n`$ cresce. Simulando o lançamento
+de um dado honesto ($`\mu = 3{,}5`$):
 
 ``` r
 
 rnp_lei_grandes_numeros(function(n) sample(1:6, n, TRUE), media_teorica = 3.5)
 ```
 
-![Convergencia da media
+![Convergência da média
 amostral](v02-probabilidade_files/figure-html/lgn-1.png)
 
-A media acumulada oscila muito no inicio e vai se “colando” a linha
-vermelha. **E por isso que cassinos lucram e pesquisas eleitorais
-funcionam**: no agregado, o acaso individual se cancela.
+A média acumulada oscila no início e estabiliza em torno de $`3{,}5`$. É
+esse resultado que torna previsíveis, no agregado, fenômenos
+individualmente aleatórios.
 
 ## Teorema Central do Limite
 
-Se a LGN diz *para onde* a media vai, o TCL diz **como** ela chega la: a
-distribuicao da media amostral padronizada tende a uma **Normal**,
-*qualquer que seja a distribuicao de origem* (com variancia finita). E
-essa propriedade que explica a presenca da Normal em tantos contextos e
-que sustenta boa parte da inferencia (intervalos de confianca, testes t
-e z) mesmo quando os dados brutos nao sao normais.
+Se a LGN diz *para onde* a média vai, o TCL diz **como** ela chega lá: a
+média amostral padronizada converge em distribuição para a Normal
+padrão, *independentemente* da distribuição de origem (com variância
+finita),
 
-Vamos partir de uma distribuicao deliberadamente **assimetrica**
-(exponencial) e observar a media de amostras de tamanho 30:
+``` math
+\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{\;d\;} N(0,1).
+```
+
+Partindo de uma Exponencial (assimétrica), observamos a média de 2000
+amostras de tamanho 30:
 
 ``` r
 
 rnp_tcl_simulacao(function(n) rexp(n), n = 30, n_amostras = 2000)
 ```
 
-![Demonstracao do TCL](v02-probabilidade_files/figure-html/tcl-1.png)
+![Demonstração do Teorema Central do
+Limite](v02-probabilidade_files/figure-html/tcl-1.png)
 
-O histograma das medias — partindo de algo nada normal — adere a curva
-Normal sobreposta. E esse resultado que autoriza tratar a media amostral
-como aproximadamente Normal, base de praticamente todos os intervalos de
-confianca da vinheta 3.
+O histograma das médias adere à curva Normal sobreposta. Esse é o
+resultado que autoriza tratar a média amostral como aproximadamente
+Normal — base de quase todos os intervalos de confiança da próxima
+vinheta.
 
-## Simulacao de Monte Carlo
+## Integração por Monte Carlo
 
-Quando a conta analitica e dificil, simula-se. Para estimar
-$`\int_0^1 x^2\,dx = 1/3`$:
+Quando a integral é difícil de obter analiticamente, estima-se por
+amostragem: para $`U_i \sim \text{Unif}(a,b)`$,
+
+``` math
+\int_a^b g(x)\,dx \approx (b - a)\,\frac{1}{n}\sum_{i=1}^{n} g(U_i).
+```
 
 ``` r
 
@@ -139,15 +149,16 @@ rnp_monte_carlo(function(x) x^2, limites = c(0, 1), n = 1e5)
 #> 1      0.334      0.0009  0.333  0.336 100000
 ```
 
-A estimativa cerca o valor verdadeiro (1/3) e ainda fornece um
-**erro-padrao** e um IC — Monte Carlo nao da apenas um numero, da uma
-medida da sua propria incerteza.
+A estimativa cerca o valor exato
+$`\int_0^1 x^2\,dx = 1/3 \approx 0{,}3333`$, e o método ainda fornece um
+erro-padrão e um intervalo de confiança — ou seja, uma medida da própria
+incerteza.
 
-## Ajustando uma distribuicao a dados reais
+## Ajustando uma distribuição a dados reais
 
-O conjunto `faithful` traz tempos reais de erupcao do geiser Old
-Faithful. Sera que os *intervalos de espera* seguem alguma distribuicao
-conhecida? Ajustamos por maxima verossimilhanca e medimos a qualidade:
+O conjunto `faithful` registra tempos de espera entre erupções do gêiser
+Old Faithful. Ajustamos uma Normal por máxima verossimilhança e
+avaliamos o ajuste pela estatística de Kolmogorov-Smirnov:
 
 ``` r
 
@@ -158,17 +169,27 @@ rnp_ajuste_distribuicao(faithful$waiting, dist = "norm")$qualidade
 #> 1     -1095. 2195. 2202.          0.152   272
 ```
 
-A estatistica de Kolmogorov-Smirnov e o AIC quantificam o ajuste.
-(Spoiler: a espera do Old Faithful e na verdade **bimodal** — um unico
-ajuste Normal nao captura isso, o que se ve num histograma. Bom lembrete
-de que ajustar e sempre *confrontar* o modelo com os dados, nunca
-confiar cegamente num numero.)
+A estatística KS de 0.15 é alta: a espera do Old Faithful é, na verdade,
+**bimodal** (erupções curtas e longas), e uma única Normal não captura
+isso. O exemplo lembra que ajustar é sempre *confrontar* o modelo com os
+dados, nunca confiar cegamente num número.
 
-## Sintese
+## Síntese
 
-- **Distribuicoes** sao modelos de mecanismos geradores; conheca o
-  mecanismo antes de escolher a distribuicao.
-- **Bayes** combina evidencia e conhecimento previo; ignorar a taxa-base
+- **Distribuições** modelam mecanismos geradores; conheça o mecanismo
+  antes de escolher a distribuição.
+- **Bayes** combina evidência e conhecimento prévio; ignorar a taxa-base
   engana.
-- **LGN** garante que medias estabilizam; **TCL** garante que elas viram
-  Normais — a fundacao de toda a inferencia que vem a seguir.
+- **LGN** garante que médias estabilizam; o **TCL** garante que elas se
+  tornam aproximadamente Normais — a fundação da inferência (Casella and
+  Berger 2002).
+
+## Referências
+
+Casella, George, and Roger L. Berger. 2002. *Statistical Inference*. 2nd
+ed. Duxbury.
+
+Magalhães, Marcos N., and Antonio C. P. Lima. 2015. *Noções de
+Probabilidade e Estatística*. 7th ed. Edusp.
+
+Ross, Sheldon M. 2010. *A First Course in Probability*. 8th ed. Pearson.
