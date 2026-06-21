@@ -25,6 +25,8 @@
     <li><a class="dropdown-item" href="../articles/v04-regressao.html">4. Regressão e modelagem</a></li>
     <li><a class="dropdown-item" href="../articles/v05-multivariada.html">5. Análise multivariada</a></li>
     <li><a class="dropdown-item" href="../articles/v06-categoricos.html">6. Categóricos e não-paramétricos</a></li>
+    <li><a class="dropdown-item" href="../articles/v07-sobrevivencia.html">7. Análise de sobrevivência</a></li>
+    <li><a class="dropdown-item" href="../articles/v08-series-arima.html">8. Séries temporais (ARIMA/SARIMA)</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -231,6 +233,13 @@
 
         </dt>
         <dd>Grafico de serie temporal</dd>
+
+        <dt>
+
+          <code><a href="rnp_grafico_sobrevivencia.html">rnp_grafico_sobrevivencia()</a></code>
+
+        </dt>
+        <dd>Curva de Kaplan-Meier (grafico)</dd>
 
         <dt>
 
@@ -1201,6 +1210,78 @@
         </dt>
         <dd>Teste de normalidade multivariada (Mardia)</dd>
       </dl></div><div class="section level2">
+      <h2 id="analise-de-sobrevivencia">Analise de Sobrevivencia<a class="anchor" aria-label="anchor" href="#analise-de-sobrevivencia"></a></h2>
+
+      <div class="section-desc"><p>Kaplan-Meier, log-rank, Cox e modelos parametricos.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="rnp_kaplan_meier.html">rnp_kaplan_meier()</a></code>
+
+        </dt>
+        <dd>Estimador de Kaplan-Meier</dd>
+
+        <dt>
+
+          <code><a href="rnp_grafico_sobrevivencia.html">rnp_grafico_sobrevivencia()</a></code>
+
+        </dt>
+        <dd>Curva de Kaplan-Meier (grafico)</dd>
+
+        <dt>
+
+          <code><a href="rnp_log_rank.html">rnp_log_rank()</a></code>
+
+        </dt>
+        <dd>Teste log-rank</dd>
+
+        <dt>
+
+          <code><a href="rnp_nelson_aalen.html">rnp_nelson_aalen()</a></code>
+
+        </dt>
+        <dd>Risco acumulado de Nelson-Aalen</dd>
+
+        <dt>
+
+          <code><a href="rnp_cox.html">rnp_cox()</a></code>
+
+        </dt>
+        <dd>Modelo de Cox de riscos proporcionais</dd>
+
+        <dt>
+
+          <code><a href="rnp_cox_diagnosticos.html">rnp_cox_diagnosticos()</a></code>
+
+        </dt>
+        <dd>Diagnostico da hipotese de riscos proporcionais</dd>
+
+        <dt>
+
+          <code><a href="rnp_cox_risco_relativo.html">rnp_cox_risco_relativo()</a></code>
+
+        </dt>
+        <dd>Risco relativo predito pelo modelo de Cox</dd>
+
+        <dt>
+
+          <code><a href="rnp_sobrevivencia_parametrica.html">rnp_sobrevivencia_parametrica()</a></code>
+
+        </dt>
+        <dd>Modelo parametrico de sobrevivencia (AFT)</dd>
+
+        <dt>
+
+          <code><a href="rnp_tabela_vida.html">rnp_tabela_vida()</a></code>
+
+        </dt>
+        <dd>Tabela de vida atuarial</dd>
+      </dl></div><div class="section level2">
       <h2 id="series-temporais">Series Temporais<a class="anchor" aria-label="anchor" href="#series-temporais"></a></h2>
 
 
@@ -1212,10 +1293,45 @@
 
       <dl><dt>
 
+          <code><a href="rnp_arima.html">rnp_arima()</a></code>
+
+        </dt>
+        <dd>Ajuste de modelo ARIMA</dd>
+
+        <dt>
+
+          <code><a href="rnp_sarima.html">rnp_sarima()</a></code>
+
+        </dt>
+        <dd>Ajuste de modelo SARIMA (ARIMA sazonal)</dd>
+
+        <dt>
+
+          <code><a href="rnp_auto_arima.html">rnp_auto_arima()</a></code>
+
+        </dt>
+        <dd>Selecao automatica de ordem ARIMA</dd>
+
+        <dt>
+
           <code><a href="rnp_ts_acf.html">rnp_ts_acf()</a></code>
 
         </dt>
         <dd>Funcao de autocorrelacao (ACF)</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_adf.html">rnp_ts_adf()</a></code>
+
+        </dt>
+        <dd>Teste de Dickey-Fuller aumentado (ADF)</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_ccf.html">rnp_ts_ccf()</a></code>
+
+        </dt>
+        <dd>Funcao de correlacao cruzada (CCF)</dd>
 
         <dt>
 
@@ -1233,10 +1349,24 @@
 
         <dt>
 
+          <code><a href="rnp_ts_garch.html">rnp_ts_garch()</a></code>
+
+        </dt>
+        <dd>Modelo de volatilidade GARCH(1,1)</dd>
+
+        <dt>
+
           <code><a href="rnp_ts_holt_winters.html">rnp_ts_holt_winters()</a></code>
 
         </dt>
         <dd>Suavizacao de Holt-Winters</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_kpss.html">rnp_ts_kpss()</a></code>
+
+        </dt>
+        <dd>Teste KPSS de estacionariedade</dd>
 
         <dt>
 
@@ -1258,6 +1388,27 @@
 
         </dt>
         <dd>Periodograma (analise espectral)</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_previsao.html">rnp_ts_previsao()</a></code>
+
+        </dt>
+        <dd>Previsao a partir de modelo ARIMA/SARIMA</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_residuos.html">rnp_ts_residuos()</a></code>
+
+        </dt>
+        <dd>Diagnostico de residuos de modelo de series</dd>
+
+        <dt>
+
+          <code><a href="rnp_ts_var.html">rnp_ts_var()</a></code>
+
+        </dt>
+        <dd>Autorregressao vetorial (VAR)</dd>
 
         <dt>
 

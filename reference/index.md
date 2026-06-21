@@ -54,6 +54,8 @@ Medidas-resumo, momentos, frequencias e graficos exploratorios.
   : Painel de diagnostico de residuos
 - [`rnp_grafico_serie()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_serie.md)
   : Grafico de serie temporal
+- [`rnp_grafico_sobrevivencia()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_sobrevivencia.md)
+  : Curva de Kaplan-Meier (grafico)
 - [`rnp_grafico_violino()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_violino.md)
   : Grafico de violino
 - [`rnp_tema_rnp()`](https://evandeilton.github.io/rnp/reference/rnp_tema_rnp.md)
@@ -342,22 +344,65 @@ PCA, cluster, discriminante e testes multivariados.
 - [`rnp_normalidade_multivariada()`](https://evandeilton.github.io/rnp/reference/rnp_normalidade_multivariada.md)
   : Teste de normalidade multivariada (Mardia)
 
+## Analise de Sobrevivencia
+
+Kaplan-Meier, log-rank, Cox e modelos parametricos.
+
+- [`rnp_kaplan_meier()`](https://evandeilton.github.io/rnp/reference/rnp_kaplan_meier.md)
+  : Estimador de Kaplan-Meier
+- [`rnp_grafico_sobrevivencia()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_sobrevivencia.md)
+  : Curva de Kaplan-Meier (grafico)
+- [`rnp_log_rank()`](https://evandeilton.github.io/rnp/reference/rnp_log_rank.md)
+  : Teste log-rank
+- [`rnp_nelson_aalen()`](https://evandeilton.github.io/rnp/reference/rnp_nelson_aalen.md)
+  : Risco acumulado de Nelson-Aalen
+- [`rnp_cox()`](https://evandeilton.github.io/rnp/reference/rnp_cox.md)
+  : Modelo de Cox de riscos proporcionais
+- [`rnp_cox_diagnosticos()`](https://evandeilton.github.io/rnp/reference/rnp_cox_diagnosticos.md)
+  : Diagnostico da hipotese de riscos proporcionais
+- [`rnp_cox_risco_relativo()`](https://evandeilton.github.io/rnp/reference/rnp_cox_risco_relativo.md)
+  : Risco relativo predito pelo modelo de Cox
+- [`rnp_sobrevivencia_parametrica()`](https://evandeilton.github.io/rnp/reference/rnp_sobrevivencia_parametrica.md)
+  : Modelo parametrico de sobrevivencia (AFT)
+- [`rnp_tabela_vida()`](https://evandeilton.github.io/rnp/reference/rnp_tabela_vida.md)
+  : Tabela de vida atuarial
+
 ## Series Temporais
 
+- [`rnp_arima()`](https://evandeilton.github.io/rnp/reference/rnp_arima.md)
+  : Ajuste de modelo ARIMA
+- [`rnp_sarima()`](https://evandeilton.github.io/rnp/reference/rnp_sarima.md)
+  : Ajuste de modelo SARIMA (ARIMA sazonal)
+- [`rnp_auto_arima()`](https://evandeilton.github.io/rnp/reference/rnp_auto_arima.md)
+  : Selecao automatica de ordem ARIMA
 - [`rnp_ts_acf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_acf.md)
   : Funcao de autocorrelacao (ACF)
+- [`rnp_ts_adf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_adf.md)
+  : Teste de Dickey-Fuller aumentado (ADF)
+- [`rnp_ts_ccf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_ccf.md)
+  : Funcao de correlacao cruzada (CCF)
 - [`rnp_ts_decomposicao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_decomposicao.md)
   : Decomposicao de serie temporal
 - [`rnp_ts_diferenciacao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_diferenciacao.md)
   : Diferenciacao de serie
+- [`rnp_ts_garch()`](https://evandeilton.github.io/rnp/reference/rnp_ts_garch.md)
+  : Modelo de volatilidade GARCH(1,1)
 - [`rnp_ts_holt_winters()`](https://evandeilton.github.io/rnp/reference/rnp_ts_holt_winters.md)
   : Suavizacao de Holt-Winters
+- [`rnp_ts_kpss()`](https://evandeilton.github.io/rnp/reference/rnp_ts_kpss.md)
+  : Teste KPSS de estacionariedade
 - [`rnp_ts_ljung_box()`](https://evandeilton.github.io/rnp/reference/rnp_ts_ljung_box.md)
   : Teste de Ljung-Box (autocorrelacao)
 - [`rnp_ts_pacf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_pacf.md)
   : Funcao de autocorrelacao parcial (PACF)
 - [`rnp_ts_periodograma()`](https://evandeilton.github.io/rnp/reference/rnp_ts_periodograma.md)
   : Periodograma (analise espectral)
+- [`rnp_ts_previsao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_previsao.md)
+  : Previsao a partir de modelo ARIMA/SARIMA
+- [`rnp_ts_residuos()`](https://evandeilton.github.io/rnp/reference/rnp_ts_residuos.md)
+  : Diagnostico de residuos de modelo de series
+- [`rnp_ts_var()`](https://evandeilton.github.io/rnp/reference/rnp_ts_var.md)
+  : Autorregressao vetorial (VAR)
 - [`rnp_media_movel()`](https://evandeilton.github.io/rnp/reference/rnp_media_movel.md)
   : Media movel
 - [`rnp_suavizacao_exponencial()`](https://evandeilton.github.io/rnp/reference/rnp_suavizacao_exponencial.md)

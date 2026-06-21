@@ -33,5 +33,5 @@ rnp_wilcoxon(rnorm(20, 5), rnorm(20, 5.2))
 #> # A tibble: 1 × 4
 #>   estatistica p_valor metodo                          alternativa
 #>         <dbl>   <dbl> <chr>                           <chr>      
-#> 1          84   0.452 Wilcoxon signed rank exact test bilateral  
+#> 1          88   0.546 Wilcoxon signed rank exact test bilateral  
 ```
