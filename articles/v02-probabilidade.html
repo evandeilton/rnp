@@ -86,185 +86,237 @@
 
     
     
-<p>A probabilidade descreve a incerteza <em>antes</em> de observar os
-dados; a inferência inverte o sentido, indo dos dados às causas. Esta
-vinheta trata dos conceitos que sustentam essa transição:
-<strong>distribuições</strong>, o <strong>Teorema de Bayes</strong> e os
-dois teoremas-limite <span class="citation">(Ross 2010; Magalhães and
-Lima 2015)</span>.</p>
+<p>Em engenharia, a probabilidade modela a incerteza de falhas, defeitos
+e variações de processo <span class="citation">(Montgomery and Runger
+2021)</span>. Esta vinheta vai dos fundamentos — axiomas, probabilidade
+condicional, Teorema de Bayes — às distribuições mais usadas em
+confiabilidade e controle de qualidade, fechando com os
+teoremas-limite.</p>
 <div class="section level2">
-<h2 id="distribuições-e-seus-momentos">Distribuições e seus momentos<a class="anchor" aria-label="anchor" href="#distribui%C3%A7%C3%B5es-e-seus-momentos"></a>
+<h2 id="axiomas-e-regras">Axiomas e regras<a class="anchor" aria-label="anchor" href="#axiomas-e-regras"></a>
 </h2>
-<p>Uma variável aleatória
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
-é descrita por sua distribuição. A esperança e a variância — primeiro
-momento e segundo momento central — resumem centro e dispersão:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><munder><mo>∑</mo><mi>x</mi></munder><mi>x</mi><mspace width="0.167em"></mspace><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mtext mathvariant="normal">(discreta)</mtext><mo>,</mo><mspace width="2.0em"></mspace><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msup><mi>X</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">]</mo><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">E[X] = \sum_x x\,p(x) \;\; \text{(discreta)}, \qquad
-  \operatorname{Var}[X] = E[X^2] - (E[X])^2.</annotation></semantics></math></p>
-<p>As funções <code>rnp_distribuicao_*</code> oferecem os quatro verbos
-usuais: <code>d</code> (densidade/massa), <code>p</code> (acumulada),
-<code>q</code> (quantil) e <code>r</code> (amostra).</p>
+<p>Um experimento aleatório tem um <strong>espaço amostral</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>.
+A probabilidade de um evento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+satisfaz os axiomas de Kolmogorov:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>≤</mo><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∪</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.222em"></mspace><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> se </mtext><mspace width="0.333em"></mspace></mrow><mi>A</mi><mo>∩</mo><mi>B</mi><mo>=</mo><mi>⌀</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">0 \le P(A) \le 1, \qquad P(S) = 1, \qquad
+  P(A \cup B) = P(A) + P(B) \ \text{ se } A \cap B = \varnothing.</annotation></semantics></math></p>
+<p>A <strong>probabilidade condicional</strong> e a <strong>regra da
+multiplicação</strong> são</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∣</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∣</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad
+  P(A \cap B) = P(A \mid B)\,P(B).</annotation></semantics></math></p>
+<p>Dois eventos são <strong>independentes</strong> quando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(A \cap B) = P(A)\,P(B)</annotation></semantics></math>.</p>
+<div class="section level3">
+<h3 id="aplicação-confiabilidade-de-sistemas">Aplicação: confiabilidade de sistemas<a class="anchor" aria-label="anchor" href="#aplica%C3%A7%C3%A3o-confiabilidade-de-sistemas"></a>
+</h3>
+<p>Considere dois componentes independentes, cada um com confiabilidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">0{,}9</annotation></semantics></math>.
+Em um sistema em <strong>série</strong>, ambos precisam funcionar; em
+<strong>paralelo</strong> (redundância), basta um:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mtext mathvariant="normal">série</mtext></msub><mo>=</mo><munder><mo>∏</mo><mi>i</mi></munder><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><mn>9</mn><mo>×</mo><mn>0</mn><mo>,</mo><mn>9</mn><mo>=</mo><mn>0</mn><mo>,</mo><mn>81</mn><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>R</mi><mtext mathvariant="normal">paralelo</mtext></msub><mo>=</mo><mn>1</mn><mo>−</mo><munder><mo>∏</mo><mi>i</mi></munder><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo>,</mo><msup><mn>1</mn><mn>2</mn></msup><mo>=</mo><mn>0</mn><mo>,</mo><mn>99</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">R_{\text{série}} = \prod_i R_i = 0{,}9 \times 0{,}9 = 0{,}81, \qquad
+  R_{\text{paralelo}} = 1 - \prod_i (1 - R_i) = 1 - 0{,}1^2 = 0{,}99.</annotation></semantics></math></p>
+<p>A redundância eleva a confiabilidade de 0,81 para 0,99 — o cálculo
+direto da independência justifica decisões de projeto.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="probabilidade-total-e-teorema-de-bayes">Probabilidade total e Teorema de Bayes<a class="anchor" aria-label="anchor" href="#probabilidade-total-e-teorema-de-bayes"></a>
+</h2>
+<p>Quando o espaço se particiona em causas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>A</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">A_1,\dots,A_k</annotation></semantics></math>,
+a <strong>probabilidade total</strong> de um evento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>∣</mo><msub><mi>A</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(B) = \sum_i P(B \mid A_i)\,P(A_i)</annotation></semantics></math>,
+e o <strong>Teorema de Bayes</strong> inverte a relação:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>i</mi></msub><mo>∣</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>∣</mo><msub><mi>A</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><mrow><munder><mo>∑</mo><mi>j</mi></munder><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>∣</mo><msub><mi>A</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">P(A_i \mid B) = \frac{P(B \mid A_i)\,P(A_i)}{\sum_j P(B \mid A_j)\,P(A_j)}.</annotation></semantics></math></p>
+<p>Exemplo clássico de manufatura: três máquinas produzem 20%, 30% e 50%
+das peças, com taxas de defeito de 5%, 3% e 1%. Uma peça saiu
+<strong>defeituosa</strong> — de qual máquina ela provavelmente
+veio?</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_distribuicao_normal.html">rnp_distribuicao_normal</a></span><span class="op">(</span><span class="st">"p"</span>, q <span class="op">=</span> <span class="fl">1.96</span><span class="op">)</span>   <span class="co"># P(Z &lt;= 1.96)</span></span>
-<span><span class="co">#&gt; [1] 0.9750021</span></span></code></pre></div>
-<p>O valor 0.975 é a área acumulada até
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>96</mn></mrow><annotation encoding="application/x-tex">1{,}96</annotation></semantics></math>
-na Normal padrão, que delimita 95% da massa central. Para distribuições
-nomeadas, a esperança e a variância saem dos parâmetros:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_bayes.html">rnp_bayes</a></span><span class="op">(</span></span>
+<span>  priori          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>M1 <span class="op">=</span> <span class="fl">0.20</span>, M2 <span class="op">=</span> <span class="fl">0.30</span>, M3 <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span>,</span>
+<span>  verossimilhanca <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;   hipotese priori verossimilhanca conjunta posteriori</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> M1          0.2            0.05    0.01       0.417</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> M2          0.3            0.03    0.009      0.375</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> M3          0.5            0.01    0.005      0.208</span></span></code></pre></div>
+<p>A probabilidade total de defeito é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>024</mn></mrow><annotation encoding="application/x-tex">0{,}024</annotation></semantics></math>
+(a soma da coluna <code>conjunta</code>). Dado o defeito, a máquina
+<strong>M1</strong> é a origem mais provável (42%), apesar de produzir
+só 20% das peças — porque sua taxa de defeito é a maior. Bayes rastreia
+o defeito até a fonte.</p>
+</div>
+<div class="section level2">
+<h2 id="distribuições-para-contagens-poisson">Distribuições para contagens: Poisson<a class="anchor" aria-label="anchor" href="#distribui%C3%A7%C3%B5es-para-contagens-poisson"></a>
+</h2>
+<p>O número de defeitos por unidade de produto (falhas num fio,
+partículas num wafer) segue tipicamente a <strong>Poisson</strong>, com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>e</mi><mrow><mi>−</mi><mi>λ</mi></mrow></msup><msup><mi>λ</mi><mi>x</mi></msup><mi>/</mi><mi>x</mi><mi>!</mi></mrow><annotation encoding="application/x-tex">P(X = x) = e^{-\lambda}\lambda^x/x!</annotation></semantics></math>
+e a propriedade marcante
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>λ</mi></mrow><annotation encoding="application/x-tex">E[X] = \operatorname{Var}[X] = \lambda</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_esperanca_var.html">rnp_esperanca_var</a></span><span class="op">(</span><span class="st">"binom"</span>, size <span class="op">=</span> <span class="fl">10</span>, prob <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_esperanca_var.html">rnp_esperanca_var</a></span><span class="op">(</span><span class="st">"pois"</span>, lambda <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
 <span><span class="co">#&gt;   distribuicao esperanca variancia desvio</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> binom                3       2.1   1.45</span></span></code></pre></div>
-<p>Confere com as fórmulas da Binomial,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>n</mi><mi>p</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">E[X] = np = 3</annotation></semantics></math>
-e
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>n</mi><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>2</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\operatorname{Var}[X] = np(1-p) = 2{,}1</annotation></semantics></math>.
-Cada distribuição modela um mecanismo: a Binomial conta sucessos em
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-ensaios; a Poisson, ocorrências num intervalo; a Exponencial, tempos de
-espera; a Normal, a soma de muitos efeitos pequenos.</p>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pois                 4         4      2</span></span></code></pre></div>
+<p>Para um processo com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\lambda = 4</annotation></semantics></math>
+defeitos por unidade, a probabilidade de no máximo 2 defeitos e de pelo
+menos 1 são:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_distribuicao.html">rnp_grafico_distribuicao</a></span><span class="op">(</span><span class="st">"norm"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="v02-probabilidade_files/figure-html/grafico-dist-1.png" class="r-plt" alt="Densidade e acumulada da Normal padrão" width="672"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_distribuicao_poisson.html">rnp_distribuicao_poisson</a></span><span class="op">(</span><span class="st">"p"</span>, q <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>        <span class="co"># P(X &lt;= 2)</span></span>
+<span><span class="co">#&gt; [1] 0.2381033</span></span>
+<span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="../reference/rnp_distribuicao_poisson.html">rnp_distribuicao_poisson</a></span><span class="op">(</span><span class="st">"p"</span>, q <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>    <span class="co"># P(X &gt;= 1)</span></span>
+<span><span class="co">#&gt; [1] 0.9816844</span></span></code></pre></div>
+<p>Apenas 24% das unidades têm 2 defeitos ou menos, e 98% têm ao menos
+um — um processo que precisa de melhoria.</p>
 </div>
 <div class="section level2">
-<h2 id="teorema-de-bayes-e-a-falácia-da-taxa-base">Teorema de Bayes e a falácia da taxa-base<a class="anchor" aria-label="anchor" href="#teorema-de-bayes-e-a-fal%C3%A1cia-da-taxa-base"></a>
+<h2 id="distribuições-para-tempo-de-vida-exponencial-e-weibull">Distribuições para tempo de vida: exponencial e Weibull<a class="anchor" aria-label="anchor" href="#distribui%C3%A7%C3%B5es-para-tempo-de-vida-exponencial-e-weibull"></a>
 </h2>
-<p>Para hipóteses
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>H</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">H_1,\dots,H_k</annotation></semantics></math>
-mutuamente exclusivas e exaustivas, e uma evidência
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>,
-a probabilidade <em>a posteriori</em> é</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mi>i</mi></msub><mo>∣</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>E</mi><mo>∣</mo><msub><mi>H</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><mrow><munder><mo>∑</mo><mi>j</mi></munder><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>E</mi><mo>∣</mo><msub><mi>H</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">P(H_i \mid E) = \frac{P(E \mid H_i)\,P(H_i)}{\sum_{j} P(E \mid H_j)\,P(H_j)}.</annotation></semantics></math></p>
-<p>Considere um teste para uma doença rara: prevalência de 1%,
-sensibilidade de 99% e especificidade de 95% (logo, 5% de falsos
-positivos). Uma pessoa testa positivo — qual a probabilidade de estar
-doente?</p>
+<p>O tempo até a falha de um componente costuma ser modelado pela
+<strong>exponencial</strong>, cuja densidade é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>λ</mi><msup><mi>e</mi><mrow><mi>−</mi><mi>λ</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex">f(t) = \lambda e^{-\lambda t}</annotation></semantics></math>
+e a confiabilidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>&gt;</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>e</mi><mrow><mi>−</mi><mi>λ</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex">R(t) = P(T &gt; t) = e^{-\lambda t}</annotation></semantics></math>.
+Para um tempo médio entre falhas (MTBF) de 1000 h,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>1000</mn></mrow><annotation encoding="application/x-tex">\lambda = 1/1000</annotation></semantics></math>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_bayes.html">rnp_bayes</a></span><span class="op">(</span></span>
-<span>  priori          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>doente <span class="op">=</span> <span class="fl">0.01</span>, sadio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span>,</span>
-<span>  verossimilhanca <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.05</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
-<span><span class="co">#&gt;   hipotese priori verossimilhanca conjunta posteriori</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> doente     0.01            0.99   0.009<span style="text-decoration: underline;">9</span>      0.167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> sadio      0.99            0.05   0.049<span style="text-decoration: underline;">5</span>      0.833</span></span></code></pre></div>
-<p>Apenas <strong>16,7%</strong>. A intuição que aponta “99%” ignora a
-<em>taxa-base</em>: como 99% da população é saudável, seus 5% de falsos
-positivos superam, em número, os verdadeiros positivos. Bayes obriga a
-combinar a evidência (o teste) com o conhecimento prévio (a prevalência)
-— um raciocínio que vale da medicina ao direito.</p>
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="../reference/rnp_distribuicao_exponencial.html">rnp_distribuicao_exponencial</a></span><span class="op">(</span><span class="st">"p"</span>, q <span class="op">=</span> <span class="fl">1500</span>, taxa <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">1000</span><span class="op">)</span>   <span class="co"># P(T &gt; 1500)</span></span>
+<span><span class="co">#&gt; [1] 0.2231302</span></span></code></pre></div>
+<p>Há 22% de chance de o componente ultrapassar 1500 h. A exponencial é
+<strong>sem memória</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>&gt;</mo><mi>s</mi><mo>+</mo><mi>t</mi><mo>∣</mo><mi>T</mi><mo>&gt;</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>&gt;</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(T &gt; s+t \mid T &gt; s) = P(T &gt; t)</annotation></semantics></math>):
+um componente “não envelhece”, hipótese válida apenas para falhas
+puramente aleatórias.</p>
+<p>Para modelar <strong>desgaste</strong>, a <strong>Weibull</strong> é
+mais realista, pois sua taxa de falha varia no tempo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mspace width="-0.167em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">[</mo><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mi>/</mi><mi>δ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>β</mi></msup><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">R(t) = \exp\!\big[-(t/\delta)^\beta\big]</annotation></semantics></math>.
+Com forma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\beta = 2</annotation></semantics></math>
+(taxa de falha crescente, típica de desgaste) e escala
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">\delta = 1000</annotation></semantics></math>:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="../reference/rnp_distribuicao_weibull.html">rnp_distribuicao_weibull</a></span><span class="op">(</span><span class="st">"p"</span>, q <span class="op">=</span> <span class="fl">800</span>, forma <span class="op">=</span> <span class="fl">2</span>, escala <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>  <span class="co"># R(800)</span></span>
+<span><span class="co">#&gt; [1] 0.5272924</span></span></code></pre></div>
+<p>A confiabilidade em 800 h é de 53%. O parâmetro de forma distingue os
+regimes:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta &lt; 1</annotation></semantics></math>
+(mortalidade infantil),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta = 1</annotation></semantics></math>
+(falhas aleatórias, equivale à exponencial) e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta &gt; 1</annotation></semantics></math>
+(desgaste) — a “curva da banheira” da confiabilidade.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_distribuicao.html">rnp_grafico_distribuicao</a></span><span class="op">(</span><span class="st">"weibull"</span>, shape <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v02-probabilidade_files/figure-html/grafico-1.png" class="r-plt" alt="Densidade da Weibull" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="lei-dos-grandes-números">Lei dos Grandes Números<a class="anchor" aria-label="anchor" href="#lei-dos-grandes-n%C3%BAmeros"></a>
 </h2>
-<p>A LGN garante que a média amostral converge para a média
-populacional,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>X</mi><mo accent="true">‾</mo></mover><mi>n</mi></msub><mo>→</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">\bar{X}_n \to \mu</annotation></semantics></math>,
-à medida que
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-cresce. Simulando o lançamento de um dado honesto
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>3</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">\mu = 3{,}5</annotation></semantics></math>):</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_lei_grandes_numeros.html">rnp_lei_grandes_numeros</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="va">n</span>, <span class="cn">TRUE</span><span class="op">)</span>, media_teorica <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span></span></code></pre></div>
+<p>Estimativas de engenharia melhoram com mais dados. A LGN garante que
+a média amostral converge para a média verdadeira,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>X</mi><mo accent="true">‾</mo></mover><mi>n</mi></msub><mo>→</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">\bar{X}_n \to \mu</annotation></semantics></math>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_lei_grandes_numeros.html">rnp_lei_grandes_numeros</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="va">n</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">1000</span><span class="op">)</span>, media_teorica <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v02-probabilidade_files/figure-html/lgn-1.png" class="r-plt" alt="Convergência da média amostral" width="672"></p>
-<p>A média acumulada oscila no início e estabiliza em torno de
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">3{,}5</annotation></semantics></math>.
-É esse resultado que torna previsíveis, no agregado, fenômenos
-individualmente aleatórios.</p>
+<p>A vida média estimada de uma amostra de componentes estabiliza em
+torno do MTBF verdadeiro conforme o número de ensaios cresce.</p>
 </div>
 <div class="section level2">
 <h2 id="teorema-central-do-limite">Teorema Central do Limite<a class="anchor" aria-label="anchor" href="#teorema-central-do-limite"></a>
 </h2>
-<p>Se a LGN diz <em>para onde</em> a média vai, o TCL diz
-<strong>como</strong> ela chega lá: a média amostral padronizada
-converge em distribuição para a Normal padrão,
-<em>independentemente</em> da distribuição de origem (com variância
-finita),</p>
+<p>O TCL é a razão de a Normal aparecer em tantos contextos de
+engenharia: a média de muitas medições (ou a soma de muitos erros
+pequenos) é aproximadamente Normal, <em>qualquer que seja</em> a
+distribuição de origem,</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mover><mi>X</mi><mo accent="true">‾</mo></mover><mi>n</mi></msub><mo>−</mo><mi>μ</mi></mrow><mrow><mi>σ</mi><mi>/</mi><msqrt><mi>n</mi></msqrt></mrow></mfrac><mover><mo>→</mo><mrow><mspace width="0.278em"></mspace><mi>d</mi><mspace width="0.278em"></mspace></mrow></mover><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{\;d\;} N(0,1).</annotation></semantics></math></p>
-<p>Partindo de uma Exponencial (assimétrica), observamos a média de 2000
-amostras de tamanho 30:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_tcl_simulacao.html">rnp_tcl_simulacao</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">30</span>, n_amostras <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v02-probabilidade_files/figure-html/tcl-1.png" class="r-plt" alt="Demonstração do Teorema Central do Limite" width="672"></p>
-<p>O histograma das médias adere à curva Normal sobreposta. Esse é o
-resultado que autoriza tratar a média amostral como aproximadamente
-Normal — base de quase todos os intervalos de confiança da próxima
-vinheta.</p>
-</div>
-<div class="section level2">
-<h2 id="integração-por-monte-carlo">Integração por Monte Carlo<a class="anchor" aria-label="anchor" href="#integra%C3%A7%C3%A3o-por-monte-carlo"></a>
-</h2>
-<p>Quando a integral é difícil de obter analiticamente, estima-se por
-amostragem: para
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mi>i</mi></msub><mo>∼</mo><mtext mathvariant="normal">Unif</mtext><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">U_i \sim \text{Unif}(a,b)</annotation></semantics></math>,</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mi>a</mi><mi>b</mi></msubsup><mi>g</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>d</mi><mi>x</mi><mo>≈</mo><mo stretchy="false" form="prefix">(</mo><mi>b</mi><mo>−</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>g</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>U</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">\int_a^b g(x)\,dx \approx (b - a)\,\frac{1}{n}\sum_{i=1}^{n} g(U_i).</annotation></semantics></math></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_monte_carlo.html">rnp_monte_carlo</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span>, limites <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">1e5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">#&gt;   estimativa erro_padrao ic_inf ic_sup      n</span></span>
-<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      0.334      0.000<span style="text-decoration: underline;">9</span>  0.333  0.336 <span style="text-decoration: underline;">100</span>000</span></span></code></pre></div>
-<p>A estimativa cerca o valor exato
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><msup><mi>x</mi><mn>2</mn></msup><mspace width="0.167em"></mspace><mi>d</mi><mi>x</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo>≈</mo><mn>0</mn><mo>,</mo><mn>3333</mn></mrow><annotation encoding="application/x-tex">\int_0^1 x^2\,dx = 1/3 \approx 0{,}3333</annotation></semantics></math>,
-e o método ainda fornece um erro-padrão e um intervalo de confiança — ou
-seja, uma medida da própria incerteza.</p>
-</div>
-<div class="section level2">
-<h2 id="ajustando-uma-distribuição-a-dados-reais">Ajustando uma distribuição a dados reais<a class="anchor" aria-label="anchor" href="#ajustando-uma-distribui%C3%A7%C3%A3o-a-dados-reais"></a>
-</h2>
-<p>O conjunto <code>faithful</code> registra tempos de espera entre
-erupções do gêiser Old Faithful. Ajustamos uma Normal por máxima
-verossimilhança e avaliamos o ajuste pela estatística de
-Kolmogorov-Smirnov:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ajuste_distribuicao.html">rnp_ajuste_distribuicao</a></span><span class="op">(</span><span class="va">faithful</span><span class="op">$</span><span class="va">waiting</span>, dist <span class="op">=</span> <span class="st">"norm"</span><span class="op">)</span><span class="op">$</span><span class="va">qualidade</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">#&gt;   log_veross   aic   bic ks_estatistica     n</span></span>
-<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     -<span style="color: #BB0000; text-decoration: underline;">1</span><span style="color: #BB0000;">095.</span> <span style="text-decoration: underline;">2</span>195. <span style="text-decoration: underline;">2</span>202.          0.152   272</span></span></code></pre></div>
-<p>A estatística KS de 0.15 é alta: a espera do Old Faithful é, na
-verdade, <strong>bimodal</strong> (erupções curtas e longas), e uma
-única Normal não captura isso. O exemplo lembra que ajustar é sempre
-<em>confrontar</em> o modelo com os dados, nunca confiar cegamente num
-número.</p>
+<p>Partindo de tempos de falha exponenciais (fortemente assimétricos), o
+histograma das médias adere à Normal. É esse resultado que sustenta os
+intervalos de confiança e as cartas de controle da próxima vinheta.</p>
 </div>
 <div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
-<ul>
-<li>
-<strong>Distribuições</strong> modelam mecanismos geradores; conheça
-o mecanismo antes de escolher a distribuição.</li>
-<li>
-<strong>Bayes</strong> combina evidência e conhecimento prévio;
-ignorar a taxa-base engana.</li>
-<li>
-<strong>LGN</strong> garante que médias estabilizam; o
-<strong>TCL</strong> garante que elas se tornam aproximadamente Normais
-— a fundação da inferência <span class="citation">(Casella and Berger
-2002)</span>.</li>
-</ul>
+<table class="table">
+<colgroup>
+<col width="43%">
+<col width="25%">
+<col width="30%">
+</colgroup>
+<thead><tr class="header">
+<th>Fenômeno de engenharia</th>
+<th>Distribuição</th>
+<th>Parâmetro-chave</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Defeitos por unidade</td>
+<td>Poisson</td>
+<td>taxa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+</td>
+</tr>
+<tr class="even">
+<td>Sucessos em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+ensaios</td>
+<td>Binomial</td>
+<td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+</td>
+</tr>
+<tr class="odd">
+<td>Tempo até falha aleatória</td>
+<td>Exponencial</td>
+<td>taxa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+(sem memória)</td>
+</tr>
+<tr class="even">
+<td>Tempo até falha por desgaste</td>
+<td>Weibull</td>
+<td>forma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>,
+escala
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>
+</td>
+</tr>
+<tr class="odd">
+<td>Erros de medição</td>
+<td>Normal</td>
+<td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Conhecer o <em>mecanismo</em> (defeito, falha aleatória, desgaste)
+guia a escolha da distribuição — e os teoremas-limite conectam a
+probabilidade à inferência.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-casella2002" class="csl-entry">
-Casella, George, and Roger L. Berger. 2002. <em>Statistical
-Inference</em>. 2nd ed. Duxbury.
-</div>
-<div id="ref-magalhaes2015" class="csl-entry">
-Magalhães, Marcos N., and Antonio C. P. Lima. 2015.
-<em>No<span>ç</span><span>õ</span>es de Probabilidade e
-Estat<span>í</span>stica</em>. 7th ed. Edusp.
-</div>
-<div id="ref-ross2010" class="csl-entry">
-Ross, Sheldon M. 2010. <em>A First Course in Probability</em>. 8th ed.
-Pearson.
+<div id="ref-montgomery2021" class="csl-entry">
+Montgomery, Douglas C., and George C. Runger. 2021.
+<em>Estat<span>í</span>stica Aplicada e Probabilidade Para
+Engenheiros</em>. 7th ed. LTC.
 </div>
 </div>
 </div>

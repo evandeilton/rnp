@@ -1,122 +1,175 @@
 # 2. Probabilidade, distribuições e os teoremas fundamentais
 
-A probabilidade descreve a incerteza *antes* de observar os dados; a
-inferência inverte o sentido, indo dos dados às causas. Esta vinheta
-trata dos conceitos que sustentam essa transição: **distribuições**, o
-**Teorema de Bayes** e os dois teoremas-limite (Ross 2010; Magalhães and
-Lima 2015).
+Em engenharia, a probabilidade modela a incerteza de falhas, defeitos e
+variações de processo (Montgomery and Runger 2021). Esta vinheta vai dos
+fundamentos — axiomas, probabilidade condicional, Teorema de Bayes — às
+distribuições mais usadas em confiabilidade e controle de qualidade,
+fechando com os teoremas-limite.
 
-## Distribuições e seus momentos
+## Axiomas e regras
 
-Uma variável aleatória $`X`$ é descrita por sua distribuição. A
-esperança e a variância — primeiro momento e segundo momento central —
-resumem centro e dispersão:
-
-``` math
-E[X] = \sum_x x\,p(x) \;\; \text{(discreta)}, \qquad
-  \operatorname{Var}[X] = E[X^2] - (E[X])^2.
-```
-
-As funções `rnp_distribuicao_*` oferecem os quatro verbos usuais: `d`
-(densidade/massa), `p` (acumulada), `q` (quantil) e `r` (amostra).
-
-``` r
-
-rnp_distribuicao_normal("p", q = 1.96)   # P(Z <= 1.96)
-#> [1] 0.9750021
-```
-
-O valor 0.975 é a área acumulada até $`1{,}96`$ na Normal padrão, que
-delimita 95% da massa central. Para distribuições nomeadas, a esperança
-e a variância saem dos parâmetros:
-
-``` r
-
-rnp_esperanca_var("binom", size = 10, prob = 0.3)
-#> # A tibble: 1 × 4
-#>   distribuicao esperanca variancia desvio
-#>   <chr>            <dbl>     <dbl>  <dbl>
-#> 1 binom                3       2.1   1.45
-```
-
-Confere com as fórmulas da Binomial, $`E[X] = np = 3`$ e
-$`\operatorname{Var}[X] = np(1-p) = 2{,}1`$. Cada distribuição modela um
-mecanismo: a Binomial conta sucessos em $`n`$ ensaios; a Poisson,
-ocorrências num intervalo; a Exponencial, tempos de espera; a Normal, a
-soma de muitos efeitos pequenos.
-
-``` r
-
-rnp_grafico_distribuicao("norm", mean = 0, sd = 1)
-```
-
-![Densidade e acumulada da Normal
-padrão](v02-probabilidade_files/figure-html/grafico-dist-1.png)
-
-## Teorema de Bayes e a falácia da taxa-base
-
-Para hipóteses $`H_1,\dots,H_k`$ mutuamente exclusivas e exaustivas, e
-uma evidência $`E`$, a probabilidade *a posteriori* é
+Um experimento aleatório tem um **espaço amostral** $`S`$. A
+probabilidade de um evento $`A`$ satisfaz os axiomas de Kolmogorov:
 
 ``` math
-P(H_i \mid E) = \frac{P(E \mid H_i)\,P(H_i)}{\sum_{j} P(E \mid H_j)\,P(H_j)}.
+0 \le P(A) \le 1, \qquad P(S) = 1, \qquad
+  P(A \cup B) = P(A) + P(B) \ \text{ se } A \cap B = \varnothing.
 ```
 
-Considere um teste para uma doença rara: prevalência de 1%,
-sensibilidade de 99% e especificidade de 95% (logo, 5% de falsos
-positivos). Uma pessoa testa positivo — qual a probabilidade de estar
-doente?
+A **probabilidade condicional** e a **regra da multiplicação** são
+
+``` math
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad
+  P(A \cap B) = P(A \mid B)\,P(B).
+```
+
+Dois eventos são **independentes** quando $`P(A \cap B) = P(A)\,P(B)`$.
+
+### Aplicação: confiabilidade de sistemas
+
+Considere dois componentes independentes, cada um com confiabilidade
+$`0{,}9`$. Em um sistema em **série**, ambos precisam funcionar; em
+**paralelo** (redundância), basta um:
+
+``` math
+R_{\text{série}} = \prod_i R_i = 0{,}9 \times 0{,}9 = 0{,}81, \qquad
+  R_{\text{paralelo}} = 1 - \prod_i (1 - R_i) = 1 - 0{,}1^2 = 0{,}99.
+```
+
+A redundância eleva a confiabilidade de 0,81 para 0,99 — o cálculo
+direto da independência justifica decisões de projeto.
+
+## Probabilidade total e Teorema de Bayes
+
+Quando o espaço se particiona em causas $`A_1,\dots,A_k`$, a
+**probabilidade total** de um evento $`B`$ é
+$`P(B) = \sum_i P(B \mid A_i)\,P(A_i)`$, e o **Teorema de Bayes**
+inverte a relação:
+
+``` math
+P(A_i \mid B) = \frac{P(B \mid A_i)\,P(A_i)}{\sum_j P(B \mid A_j)\,P(A_j)}.
+```
+
+Exemplo clássico de manufatura: três máquinas produzem 20%, 30% e 50%
+das peças, com taxas de defeito de 5%, 3% e 1%. Uma peça saiu
+**defeituosa** — de qual máquina ela provavelmente veio?
 
 ``` r
 
 rnp_bayes(
-  priori          = c(doente = 0.01, sadio = 0.99),
-  verossimilhanca = c(0.99, 0.05)
+  priori          = c(M1 = 0.20, M2 = 0.30, M3 = 0.50),
+  verossimilhanca = c(0.05, 0.03, 0.01)
 )
-#> # A tibble: 2 × 5
+#> # A tibble: 3 × 5
 #>   hipotese priori verossimilhanca conjunta posteriori
 #>   <chr>     <dbl>           <dbl>    <dbl>      <dbl>
-#> 1 doente     0.01            0.99   0.0099      0.167
-#> 2 sadio      0.99            0.05   0.0495      0.833
+#> 1 M1          0.2            0.05    0.01       0.417
+#> 2 M2          0.3            0.03    0.009      0.375
+#> 3 M3          0.5            0.01    0.005      0.208
 ```
 
-Apenas **16,7%**. A intuição que aponta “99%” ignora a *taxa-base*: como
-99% da população é saudável, seus 5% de falsos positivos superam, em
-número, os verdadeiros positivos. Bayes obriga a combinar a evidência (o
-teste) com o conhecimento prévio (a prevalência) — um raciocínio que
-vale da medicina ao direito.
+A probabilidade total de defeito é $`0{,}024`$ (a soma da coluna
+`conjunta`). Dado o defeito, a máquina **M1** é a origem mais provável
+(42%), apesar de produzir só 20% das peças — porque sua taxa de defeito
+é a maior. Bayes rastreia o defeito até a fonte.
 
-## Lei dos Grandes Números
+## Distribuições para contagens: Poisson
 
-A LGN garante que a média amostral converge para a média populacional,
-$`\bar{X}_n \to \mu`$, à medida que $`n`$ cresce. Simulando o lançamento
-de um dado honesto ($`\mu = 3{,}5`$):
+O número de defeitos por unidade de produto (falhas num fio, partículas
+num wafer) segue tipicamente a **Poisson**, com
+$`P(X = x) = e^{-\lambda}\lambda^x/x!`$ e a propriedade marcante
+$`E[X] = \operatorname{Var}[X] = \lambda`$.
 
 ``` r
 
-rnp_lei_grandes_numeros(function(n) sample(1:6, n, TRUE), media_teorica = 3.5)
+rnp_esperanca_var("pois", lambda = 4)
+#> # A tibble: 1 × 4
+#>   distribuicao esperanca variancia desvio
+#>   <chr>            <dbl>     <dbl>  <dbl>
+#> 1 pois                 4         4      2
+```
+
+Para um processo com $`\lambda = 4`$ defeitos por unidade, a
+probabilidade de no máximo 2 defeitos e de pelo menos 1 são:
+
+``` r
+
+rnp_distribuicao_poisson("p", q = 2, lambda = 4)        # P(X <= 2)
+#> [1] 0.2381033
+1 - rnp_distribuicao_poisson("p", q = 0, lambda = 4)    # P(X >= 1)
+#> [1] 0.9816844
+```
+
+Apenas 24% das unidades têm 2 defeitos ou menos, e 98% têm ao menos um —
+um processo que precisa de melhoria.
+
+## Distribuições para tempo de vida: exponencial e Weibull
+
+O tempo até a falha de um componente costuma ser modelado pela
+**exponencial**, cuja densidade é $`f(t) = \lambda e^{-\lambda t}`$ e a
+confiabilidade $`R(t) = P(T > t) = e^{-\lambda t}`$. Para um tempo médio
+entre falhas (MTBF) de 1000 h, $`\lambda = 1/1000`$:
+
+``` r
+
+1 - rnp_distribuicao_exponencial("p", q = 1500, taxa = 1/1000)   # P(T > 1500)
+#> [1] 0.2231302
+```
+
+Há 22% de chance de o componente ultrapassar 1500 h. A exponencial é
+**sem memória** ($`P(T > s+t \mid T > s) = P(T > t)`$): um componente
+“não envelhece”, hipótese válida apenas para falhas puramente
+aleatórias.
+
+Para modelar **desgaste**, a **Weibull** é mais realista, pois sua taxa
+de falha varia no tempo: $`R(t) = \exp\!\big[-(t/\delta)^\beta\big]`$.
+Com forma $`\beta = 2`$ (taxa de falha crescente, típica de desgaste) e
+escala $`\delta = 1000`$:
+
+``` r
+
+1 - rnp_distribuicao_weibull("p", q = 800, forma = 2, escala = 1000)  # R(800)
+#> [1] 0.5272924
+```
+
+A confiabilidade em 800 h é de 53%. O parâmetro de forma distingue os
+regimes: $`\beta < 1`$ (mortalidade infantil), $`\beta = 1`$ (falhas
+aleatórias, equivale à exponencial) e $`\beta > 1`$ (desgaste) — a
+“curva da banheira” da confiabilidade.
+
+``` r
+
+rnp_grafico_distribuicao("weibull", shape = 2, scale = 1000)
+```
+
+![Densidade da
+Weibull](v02-probabilidade_files/figure-html/grafico-1.png)
+
+## Lei dos Grandes Números
+
+Estimativas de engenharia melhoram com mais dados. A LGN garante que a
+média amostral converge para a média verdadeira, $`\bar{X}_n \to \mu`$:
+
+``` r
+
+rnp_lei_grandes_numeros(function(n) rexp(n, rate = 1/1000), media_teorica = 1000)
 ```
 
 ![Convergência da média
 amostral](v02-probabilidade_files/figure-html/lgn-1.png)
 
-A média acumulada oscila no início e estabiliza em torno de $`3{,}5`$. É
-esse resultado que torna previsíveis, no agregado, fenômenos
-individualmente aleatórios.
+A vida média estimada de uma amostra de componentes estabiliza em torno
+do MTBF verdadeiro conforme o número de ensaios cresce.
 
 ## Teorema Central do Limite
 
-Se a LGN diz *para onde* a média vai, o TCL diz **como** ela chega lá: a
-média amostral padronizada converge em distribuição para a Normal
-padrão, *independentemente* da distribuição de origem (com variância
-finita),
+O TCL é a razão de a Normal aparecer em tantos contextos de engenharia:
+a média de muitas medições (ou a soma de muitos erros pequenos) é
+aproximadamente Normal, *qualquer que seja* a distribuição de origem,
 
 ``` math
 \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{\;d\;} N(0,1).
 ```
-
-Partindo de uma Exponencial (assimétrica), observamos a média de 2000
-amostras de tamanho 30:
 
 ``` r
 
@@ -126,70 +179,25 @@ rnp_tcl_simulacao(function(n) rexp(n), n = 30, n_amostras = 2000)
 ![Demonstração do Teorema Central do
 Limite](v02-probabilidade_files/figure-html/tcl-1.png)
 
-O histograma das médias adere à curva Normal sobreposta. Esse é o
-resultado que autoriza tratar a média amostral como aproximadamente
-Normal — base de quase todos os intervalos de confiança da próxima
-vinheta.
-
-## Integração por Monte Carlo
-
-Quando a integral é difícil de obter analiticamente, estima-se por
-amostragem: para $`U_i \sim \text{Unif}(a,b)`$,
-
-``` math
-\int_a^b g(x)\,dx \approx (b - a)\,\frac{1}{n}\sum_{i=1}^{n} g(U_i).
-```
-
-``` r
-
-rnp_monte_carlo(function(x) x^2, limites = c(0, 1), n = 1e5)
-#> # A tibble: 1 × 5
-#>   estimativa erro_padrao ic_inf ic_sup      n
-#>        <dbl>       <dbl>  <dbl>  <dbl>  <dbl>
-#> 1      0.334      0.0009  0.333  0.336 100000
-```
-
-A estimativa cerca o valor exato
-$`\int_0^1 x^2\,dx = 1/3 \approx 0{,}3333`$, e o método ainda fornece um
-erro-padrão e um intervalo de confiança — ou seja, uma medida da própria
-incerteza.
-
-## Ajustando uma distribuição a dados reais
-
-O conjunto `faithful` registra tempos de espera entre erupções do gêiser
-Old Faithful. Ajustamos uma Normal por máxima verossimilhança e
-avaliamos o ajuste pela estatística de Kolmogorov-Smirnov:
-
-``` r
-
-rnp_ajuste_distribuicao(faithful$waiting, dist = "norm")$qualidade
-#> # A tibble: 1 × 5
-#>   log_veross   aic   bic ks_estatistica     n
-#>        <dbl> <dbl> <dbl>          <dbl> <int>
-#> 1     -1095. 2195. 2202.          0.152   272
-```
-
-A estatística KS de 0.15 é alta: a espera do Old Faithful é, na verdade,
-**bimodal** (erupções curtas e longas), e uma única Normal não captura
-isso. O exemplo lembra que ajustar é sempre *confrontar* o modelo com os
-dados, nunca confiar cegamente num número.
+Partindo de tempos de falha exponenciais (fortemente assimétricos), o
+histograma das médias adere à Normal. É esse resultado que sustenta os
+intervalos de confiança e as cartas de controle da próxima vinheta.
 
 ## Síntese
 
-- **Distribuições** modelam mecanismos geradores; conheça o mecanismo
-  antes de escolher a distribuição.
-- **Bayes** combina evidência e conhecimento prévio; ignorar a taxa-base
-  engana.
-- **LGN** garante que médias estabilizam; o **TCL** garante que elas se
-  tornam aproximadamente Normais — a fundação da inferência (Casella and
-  Berger 2002).
+| Fenômeno de engenharia | Distribuição | Parâmetro-chave |
+|----|----|----|
+| Defeitos por unidade | Poisson | taxa $`\lambda`$ |
+| Sucessos em $`n`$ ensaios | Binomial | $`n`$, $`p`$ |
+| Tempo até falha aleatória | Exponencial | taxa $`\lambda`$ (sem memória) |
+| Tempo até falha por desgaste | Weibull | forma $`\beta`$, escala $`\delta`$ |
+| Erros de medição | Normal | $`\mu`$, $`\sigma`$ |
+
+Conhecer o *mecanismo* (defeito, falha aleatória, desgaste) guia a
+escolha da distribuição — e os teoremas-limite conectam a probabilidade
+à inferência.
 
 ## Referências
 
-Casella, George, and Roger L. Berger. 2002. *Statistical Inference*. 2nd
-ed. Duxbury.
-
-Magalhães, Marcos N., and Antonio C. P. Lima. 2015. *Noções de
-Probabilidade e Estatística*. 7th ed. Edusp.
-
-Ross, Sheldon M. 2010. *A First Course in Probability*. 8th ed. Pearson.
+Montgomery, Douglas C., and George C. Runger. 2021. *Estatística
+Aplicada e Probabilidade Para Engenheiros*. 7th ed. LTC.

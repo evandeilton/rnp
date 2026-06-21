@@ -1,243 +1,178 @@
 # 1. Estatística descritiva e análise exploratória
 
-A análise descritiva resume um conjunto de dados por meio de poucas
-medidas e de gráficos, antes de qualquer modelagem. Mais do que um
-preâmbulo, é a etapa em que se reconhece a forma, o centro, a dispersão
-e as anomalias de cada variável (Tukey 1977; Bussab and Morettin 2017).
-Usamos o conjunto `airquality` — medições diárias reais de qualidade do
-ar em Nova York no verão de 1973.
+Toda medida de engenharia traz **variabilidade**: dois corpos de prova
+do mesmo lote rompem a cargas diferentes, duas medições da mesma peça
+discordam na terceira casa. A estatística existe para descrever e domar
+essa variação (Montgomery and Runger 2021). A análise descritiva é o
+primeiro passo — resumir os dados por medidas e gráficos antes de
+qualquer inferência.
+
+Usaremos um marco da metrologia: as **100 medições da velocidade da
+luz** feitas por Michelson em 1879 (`morley`), registradas como o valor
+em km/s menos 299 000 (Michelson 1882).
 
 ``` r
 
-rnp_estrutura(airquality)
-#> # A tibble: 6 × 5
-#>   variavel classe      n n_faltantes p_faltantes
-#>   <chr>    <chr>   <int>       <int>       <dbl>
-#> 1 Ozone    integer   153          37      0.242 
-#> 2 Solar.R  integer   153           7      0.0458
-#> 3 Wind     numeric   153           0      0     
-#> 4 Temp     integer   153           0      0     
-#> 5 Month    integer   153           0      0     
-#> 6 Day      integer   153           0      0
-```
-
-As colunas `Ozone` e `Solar.R` têm dados faltantes; `Ozone` perde 37 das
-153 observações. Reportar essa lacuna é parte de qualquer análise
-honesta.
-
-## Medidas de posição
-
-A **média aritmética** e a **mediana** estimam o “centro”, mas respondem
-de formas diferentes a valores extremos:
-
-``` math
-\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \qquad
-  \text{med}(x) = x_{(\lceil n/2 \rceil)}.
-```
-
-``` r
-
-rnp_descritiva(airquality$Ozone)
+medicoes <- morley$Speed   # km/s, subtraído de 299000
+rnp_descritiva(medicoes)
 #> # A tibble: 1 × 21
 #>       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min
 #>   <dbl>     <dbl>       <dbl> <dbl> <dbl>   <dbl> <dbl>  <dbl>     <dbl> <dbl>
-#> 1   153       116          37  4887  42.1    31.5    23   33.0     1088.     1
+#> 1   100       100           0 85240  852.     850   880   79.0     6243.   620
 #> # ℹ 11 more variables: q1 <dbl>, q3 <dbl>, max <dbl>, amplitude <dbl>,
 #> #   iqr <dbl>, cv <dbl>, se_media <dbl>, ic_inf <dbl>, ic_sup <dbl>,
 #> #   assimetria <dbl>, curtose <dbl>
 ```
 
-Para o ozônio, a média (42.1) supera a mediana (31.5). Esse descompasso
-é a assinatura de uma distribuição **assimétrica à direita**: alguns
-dias de ozônio muito alto puxam a média, enquanto a mediana, por ser um
-quantil, resiste. A regra prática segue daí: em distribuições
-assimétricas ou com *outliers*, a mediana descreve melhor o valor típico
-— é por isso que se reporta a renda *mediana* de uma população, não a
-média.
+## Exatidão e precisão
 
-### As três médias clássicas
-
-Para dados positivos valem três médias, com aplicações distintas:
+A média das medições corresponde a uma velocidade estimada de
+2.99852^{5} km/s, enquanto o valor moderno é 299 792 km/s. Essa
+diferença sistemática de cerca de 60 km/s é um **viés** (erro de
+exatidão), distinto da dispersão aleatória (a **precisão**). Engenheiros
+separam os dois: a média localiza o centro; o desvio-padrão mede o
+espalhamento.
 
 ``` math
-\bar{x}_g = \Big(\textstyle\prod_{i=1}^{n} x_i\Big)^{1/n}, \qquad
-  \bar{x}_h = \frac{n}{\sum_{i=1}^{n} 1/x_i},
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \qquad
+  s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2.
 ```
 
-e sempre se ordenam por $`\bar{x}_h \le \bar{x}_g \le \bar{x}`$(Bussab
-and Morettin 2017).
+O divisor $`n-1`$ (os **graus de liberdade**) torna $`s^2`$ um estimador
+não-viesado da variância populacional: como os desvios em torno de
+$`\bar{x}`$ somam zero, apenas $`n-1`$ deles são livres.
 
 ``` r
 
-rnp_medias(c(2, 8, 32))
-#> # A tibble: 4 × 2
-#>   tipo       valor
-#>   <chr>      <dbl>
-#> 1 aritmetica 14   
-#> 2 geometrica  8   
-#> 3 harmonica   4.57
-#> 4 quadratica 19.1
-```
-
-A média **geométrica** é a correta para fatores multiplicativos: um
-investimento que rende $`+100\%`$ e depois $`-50\%`$ tem média
-geométrica nula, não $`+25\%`$. A **harmônica** vale para razões
-(velocidade média de um percurso, em km/h).
-
-## Medidas de dispersão
-
-O centro não descreve a variabilidade. A **variância amostral** e o
-**desvio-padrão** medem o espalhamento na escala dos dados; o
-**coeficiente de variação** mede a dispersão *relativa* e adimensional:
-
-``` math
-s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad
-  \text{CV} = \frac{s}{\bar{x}}.
-```
-
-``` r
-
-rnp_descritiva(airquality$Wind)[c("desvio", "iqr", "cv")]
-#> # A tibble: 1 × 3
-#>   desvio   iqr    cv
-#>    <dbl> <dbl> <dbl>
-#> 1   3.52   4.1 0.354
-```
-
-O vento tem $`\text{CV} \approx 0.35`$, isto é, o desvio-padrão equivale
-a cerca de 35% da média. O CV só faz sentido para variáveis de razão com
-média positiva — nunca para temperatura em graus Celsius, cujo zero é
-arbitrário. O **IQR** $`= Q_3 - Q_1`$ é uma medida de dispersão
-*robusta*, imune a extremos.
-
-## Forma da distribuição: assimetria e curtose
-
-Os momentos centrais de ordem 3 e 4 descrevem a forma. Com
-$`m_k = \frac{1}{n}\sum (x_i-\bar x)^k`$, definem-se o coeficiente de
-**assimetria** e a **curtose em excesso**:
-
-``` math
-g_1 = \frac{m_3}{m_2^{3/2}}, \qquad g_2 = \frac{m_4}{m_2^{2}} - 3.
-```
-
-``` r
-
-rnp_momentos(airquality$Temp)$resumo
+rnp_momentos(medicoes)$resumo
 #> # A tibble: 1 × 6
 #>   media variancia desvio_padrao assimetria curtose_excesso     n
 #>   <dbl>     <dbl>         <dbl>      <dbl>           <dbl> <dbl>
-#> 1  77.9      89.6          9.47     -0.374          -0.429   153
+#> 1  852.     6243.          79.0    -0.0183           0.264   100
 ```
 
-A temperatura tem $`g_1 = -0.37`$ (quase simétrica, leve cauda à
-esquerda) e $`g_2 = -0.43`$ (**platicúrtica**: caudas mais leves que a
-Normal). Já o ozônio é fortemente assimétrico ($`g_1 \approx 1{,}24`$) e
-**leptocúrtico** ($`g_2 \approx 1{,}29`$), coerente com a presença de
-valores extremos. A curtose mede o **peso das caudas** em relação à
-Normal ($`g_2 = 0`$), e não o quão “pontuda” é a distribuição — um
-equívoco comum.
+A assimetria praticamente nula ($`g_1 \approx 0`$) e a curtose próxima
+da Normal sugerem uma distribuição simétrica — coerente com erros de
+medição aleatórios.
 
-## Tabelas de frequência
+## A regra empírica
 
-Para uma variável discreta, a tabela de frequências organiza contagens
-absolutas e relativas, simples e acumuladas:
+Para dados aproximadamente Normais, a regra empírica afirma que cerca de
+68%, 95% e 99,7% das observações caem a 1, 2 e 3 desvios-padrão da
+média. Verificando:
 
 ``` r
 
-rnp_tabela_frequencia(airquality$Month)
-#> # A tibble: 5 × 5
-#>   categoria    fa    fr fa_acumulada fr_acumulada
-#>   <chr>     <int> <dbl>        <int>        <dbl>
-#> 1 5            31 0.203           31        0.203
-#> 2 6            30 0.196           61        0.399
-#> 3 7            31 0.203           92        0.601
-#> 4 8            31 0.203          123        0.804
-#> 5 9            30 0.196          153        1
+m <- mean(medicoes); s <- sd(medicoes)
+sapply(1:3, function(k) round(mean(abs(medicoes - m) <= k * s) * 100, 1))
+#> [1]  67  97 100
 ```
 
-Os cinco meses (maio a setembro) têm 30 ou 31 dias, distribuídos de
-forma quase uniforme. Para variáveis contínuas, agrupamos em classes; o
-número de classes pela regra de Sturges é $`k = 1 + \log_2 n`$(Sturges
-1926):
+Os valores observados (67%, 97%, 100%) acompanham de perto os teóricos
+(68,3%, 95,4%, 99,7%) — forte indício de normalidade, que justificará,
+adiante, o uso de intervalos de confiança e testes baseados na Normal.
+
+## Histograma e box plot
+
+O histograma exibe a forma da distribuição:
 
 ``` r
 
-head(rnp_tabela_classes(airquality$Temp, regra = "sturges"), 3)
-#> # A tibble: 3 × 8
-#>   classe      lim_inf lim_sup ponto_medio    fa     fr fa_acumulada fr_acumulada
-#>   <chr>         <dbl>   <dbl>       <dbl> <int>  <dbl>        <int>        <dbl>
-#> 1 [56,60.6]      56      60.6        58.3     8 0.0523            8       0.0523
-#> 2 (60.6,65.1]    60.6    65.1        62.8    10 0.0654           18       0.118 
-#> 3 (65.1,69.7]    65.1    69.7        67.4    14 0.0915           32       0.209
+rnp_grafico_histograma(morley, "Speed", bins = 12)
 ```
 
-## Detecção de *outliers*
+![Histograma das medições de velocidade da
+luz](v01-descritiva_files/figure-html/hist-1.png)
 
-Dois critérios, com filosofias opostas. O de **Tukey** marca como
-*outlier* o que cai fora das cercas
-$`[\,Q_1 - 1{,}5\,\text{IQR},\; Q_3 + 1{,}5\,\text{IQR}\,]`$; é robusto,
-pois usa quantis. O do **escore-z** marca $`|z_i| > k`$, com
-$`z_i = (x_i - \bar{x})/s`$; é frágil, porque média e desvio já foram
-inflados pelos próprios extremos.
+Michelson conduziu **cinco experimentos** de 20 medições. Comparando-os
+pelo box plot, revela-se algo que a média global esconde:
 
 ``` r
 
-rnp_outliers(airquality$Ozone, method = "iqr")
-#> # A tibble: 2 × 2
+morley$Experimento <- factor(morley$Expt)
+rnp_grafico_boxplot(morley, x = "Experimento", y = "Speed")
+```
+
+![Box plot por
+experimento](v01-descritiva_files/figure-html/boxplot-1.png)
+
+O primeiro experimento é sistematicamente mais alto (média 909 contra
+~830 nos demais): um **viés entre execuções**, típico de problemas de
+calibração. Detectar diferenças entre grupos é o embrião da análise de
+variância (ANOVA).
+
+## O gráfico de probabilidade normal
+
+A ferramenta que o engenheiro usa para *decidir* se um conjunto de dados
+é Normal é o **gráfico de probabilidade normal**: ele confronta os
+quantis amostrais com os teóricos da Normal. Se os pontos se alinham
+sobre a reta, a hipótese de normalidade se sustenta (Montgomery and
+Runger 2021).
+
+``` r
+
+rnp_grafico_qq(medicoes)
+```
+
+![Gráfico de probabilidade
+normal](v01-descritiva_files/figure-html/qq-1.png)
+
+Os pontos seguem a reta de perto, sem curvatura sistemática — o teste de
+Shapiro-Wilk confirma ($`p = 0.51`$, não se rejeita a normalidade). Isso
+autoriza modelar as medições como Normais.
+
+## Dispersão relativa e robustez
+
+| Medida | Fórmula | Quando usar |
+|----|----|----|
+| Desvio-padrão | $`s`$ | dispersão na unidade dos dados |
+| IQR | $`Q_3 - Q_1`$ | dispersão robusta a *outliers* |
+| Coef. de variação | $`\text{CV} = s/\bar{x}`$ | comparar variabilidade de escalas diferentes |
+
+``` r
+
+rnp_descritiva(medicoes)[c("desvio", "iqr", "cv")]
+#> # A tibble: 1 × 3
+#>   desvio   iqr     cv
+#>    <dbl> <dbl>  <dbl>
+#> 1   79.0    85 0.0927
+```
+
+O CV de 0.093 indica que o desvio-padrão é cerca de 9% da média — boa
+precisão para os instrumentos de 1879. Para detectar valores
+discrepantes, o critério de Tukey (cercas a $`1{,}5\,\text{IQR}`$) é o
+mais defensável por ser robusto:
+
+``` r
+
+rnp_outliers(medicoes, method = "iqr")
+#> # A tibble: 3 × 2
 #>   indice valor
 #>    <int> <int>
-#> 1     62   135
-#> 2    117   168
+#> 1      4  1070
+#> 2     14   650
+#> 3     47   620
 ```
-
-O critério de Tukey acusa os dias nas posições 62 e 117, com ozônio de
-135 e 168 — exatamente os responsáveis pela assimetria observada. Em uma
-distribuição tão assimétrica, o critério do IQR é o mais defensável.
-
-## A exploração gráfica
-
-Os números resumem; os gráficos revelam. O histograma exibe a forma, o
-boxplot sintetiza os cinco números de Tukey por grupo, e o gráfico Q-Q
-confronta os dados com a Normal teórica.
-
-``` r
-
-rnp_grafico_histograma(airquality, "Ozone", bins = 20)
-```
-
-![Histograma do ozônio](v01-descritiva_files/figure-html/hist-1.png)
-
-``` r
-
-rnp_grafico_qq(airquality$Ozone)
-```
-
-![Gráfico quantil-quantil do
-ozônio](v01-descritiva_files/figure-html/qq-1.png)
-
-A curvatura sistemática no Q-Q confirma o afastamento da normalidade já
-diagnosticado pelos números — justificativa, mais adiante, para
-transformar a variável ou recorrer a métodos robustos.
 
 ## Síntese
 
-| Pergunta | Função | Medida |
+| Pergunta de engenharia | Função | Conceito |
 |----|----|----|
-| Qual o centro típico? | `rnp_descritiva`, `rnp_medias` | média, mediana |
-| Quanto varia? | `rnp_descritiva` | desvio, IQR, CV |
-| Qual a forma? | `rnp_momentos` | $`g_1`$, $`g_2`$ |
-| Há anomalias? | `rnp_outliers` | cercas de Tukey |
-| Como é a distribuição? | `rnp_grafico_*` | histograma, boxplot, Q-Q |
+| Qual o valor central e a dispersão? | `rnp_descritiva` | média, $`s`$, exatidão × precisão |
+| Qual a forma? | `rnp_momentos` | assimetria, curtose |
+| Os dados são Normais? | `rnp_grafico_qq` | gráfico de probabilidade normal |
+| Há diferença entre execuções? | `rnp_grafico_boxplot` | comparação de grupos |
+| Há medições discrepantes? | `rnp_outliers` | cercas de Tukey |
 
-Entender *por que* a média amostral se comporta como observamos conduz à
-**probabilidade**, tema da próxima vinheta.
+Descrever a variabilidade — e checar a normalidade antes de assumi-la —
+é o alicerce sobre o qual se constrói a inferência. O próximo passo,
+entender *por que* a média amostral se comporta de forma previsível,
+leva à **probabilidade**.
 
 ## Referências
 
-Bussab, Wilton O., and Pedro A. Morettin. 2017. *Estatística básica*.
-9th ed. Saraiva.
+Michelson, Albert A. 1882. “Experimental Determination of the Velocity
+of Light.” *Astronomical Papers* 1: 109–45.
 
-Sturges, Herbert A. 1926. “The Choice of a Class Interval.” *Journal of
-the American Statistical Association* 21 (153): 65–66.
-
-Tukey, John W. 1977. *Exploratory Data Analysis*. Addison-Wesley.
+Montgomery, Douglas C., and George C. Runger. 2021. *Estatística
+Aplicada e Probabilidade Para Engenheiros*. 7th ed. LTC.

@@ -86,265 +86,224 @@
 
     
     
-<p>A análise descritiva resume um conjunto de dados por meio de poucas
-medidas e de gráficos, antes de qualquer modelagem. Mais do que um
-preâmbulo, é a etapa em que se reconhece a forma, o centro, a dispersão
-e as anomalias de cada variável <span class="citation">(Tukey 1977;
-Bussab and Morettin 2017)</span>. Usamos o conjunto
-<code>airquality</code> — medições diárias reais de qualidade do ar em
-Nova York no verão de 1973.</p>
+<p>Toda medida de engenharia traz <strong>variabilidade</strong>: dois
+corpos de prova do mesmo lote rompem a cargas diferentes, duas medições
+da mesma peça discordam na terceira casa. A estatística existe para
+descrever e domar essa variação <span class="citation">(Montgomery and
+Runger 2021)</span>. A análise descritiva é o primeiro passo — resumir
+os dados por medidas e gráficos antes de qualquer inferência.</p>
+<p>Usaremos um marco da metrologia: as <strong>100 medições da
+velocidade da luz</strong> feitas por Michelson em 1879
+(<code>morley</code>), registradas como o valor em km/s menos 299 000
+<span class="citation">(Michelson 1882)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_estrutura.html">rnp_estrutura</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   variavel classe      n n_faltantes p_faltantes</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Ozone    integer   153          37      0.242 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Solar.R  integer   153           7      0.045<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Wind     numeric   153           0      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Temp     integer   153           0      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Month    integer   153           0      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Day      integer   153           0      0</span></span></code></pre></div>
-<p>As colunas <code>Ozone</code> e <code>Solar.R</code> têm dados
-faltantes; <code>Ozone</code> perde 37 das 153 observações. Reportar
-essa lacuna é parte de qualquer análise honesta.</p>
-<div class="section level2">
-<h2 id="medidas-de-posição">Medidas de posição<a class="anchor" aria-label="anchor" href="#medidas-de-posi%C3%A7%C3%A3o"></a>
-</h2>
-<p>A <strong>média aritmética</strong> e a <strong>mediana</strong>
-estimam o “centro”, mas respondem de formas diferentes a valores
-extremos:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><mtext mathvariant="normal">med</mtext><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>x</mi><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">⌈</mo><mi>n</mi><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">⌉</mo><mo stretchy="false" form="postfix">)</mo></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \qquad
-  \text{med}(x) = x_{(\lceil n/2 \rceil)}.</annotation></semantics></math></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Ozone</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">medicoes</span> <span class="op">&lt;-</span> <span class="va">morley</span><span class="op">$</span><span class="va">Speed</span>   <span class="co"># km/s, subtraído de 299000</span></span>
+<span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 21</span></span></span>
 <span><span class="co">#&gt;       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   153       116          37  <span style="text-decoration: underline;">4</span>887  42.1    31.5    23   33.0     <span style="text-decoration: underline;">1</span>088.     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   100       100           0 <span style="text-decoration: underline;">85</span>240  852.     850   880   79.0     <span style="text-decoration: underline;">6</span>243.   620</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: q1 &lt;dbl&gt;, q3 &lt;dbl&gt;, max &lt;dbl&gt;, amplitude &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   iqr &lt;dbl&gt;, cv &lt;dbl&gt;, se_media &lt;dbl&gt;, ic_inf &lt;dbl&gt;, ic_sup &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   assimetria &lt;dbl&gt;, curtose &lt;dbl&gt;</span></span></span></code></pre></div>
-<p>Para o ozônio, a média (42.1) supera a mediana (31.5). Esse
-descompasso é a assinatura de uma distribuição <strong>assimétrica à
-direita</strong>: alguns dias de ozônio muito alto puxam a média,
-enquanto a mediana, por ser um quantil, resiste. A regra prática segue
-daí: em distribuições assimétricas ou com <em>outliers</em>, a mediana
-descreve melhor o valor típico — é por isso que se reporta a renda
-<em>mediana</em> de uma população, não a média.</p>
-<div class="section level3">
-<h3 id="as-três-médias-clássicas">As três médias clássicas<a class="anchor" aria-label="anchor" href="#as-tr%C3%AAs-m%C3%A9dias-cl%C3%A1ssicas"></a>
-</h3>
-<p>Para dados positivos valem três médias, com aplicações distintas:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mi>g</mi></msub><mo>=</mo><mo minsize="180%" maxsize="180%" stretchy="true" form="prefix">(</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><msup><mo minsize="180%" maxsize="180%" stretchy="true" form="postfix">)</mo><mrow><mn>1</mn><mi>/</mi><mi>n</mi></mrow></msup><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mi>h</mi></msub><mo>=</mo><mfrac><mi>n</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mn>1</mn><mi>/</mi><msub><mi>x</mi><mi>i</mi></msub></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\bar{x}_g = \Big(\textstyle\prod_{i=1}^{n} x_i\Big)^{1/n}, \qquad
-  \bar{x}_h = \frac{n}{\sum_{i=1}^{n} 1/x_i},</annotation></semantics></math></p>
-<p>e sempre se ordenam por
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mi>h</mi></msub><mo>≤</mo><msub><mover><mi>x</mi><mo accent="true">‾</mo></mover><mi>g</mi></msub><mo>≤</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\bar{x}_h \le \bar{x}_g \le \bar{x}</annotation></semantics></math><span class="citation">(Bussab and Morettin 2017)</span>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_medias.html">rnp_medias</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">8</span>, <span class="fl">32</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
-<span><span class="co">#&gt;   tipo       valor</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aritmetica 14   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> geometrica  8   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> harmonica   4.57</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> quadratica 19.1</span></span></code></pre></div>
-<p>A média <strong>geométrica</strong> é a correta para fatores
-multiplicativos: um investimento que rende
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+100\%</annotation></semantics></math>
-e depois
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>50</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">-50\%</annotation></semantics></math>
-tem média geométrica nula, não
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>25</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">+25\%</annotation></semantics></math>.
-A <strong>harmônica</strong> vale para razões (velocidade média de um
-percurso, em km/h).</p>
-</div>
-</div>
 <div class="section level2">
-<h2 id="medidas-de-dispersão">Medidas de dispersão<a class="anchor" aria-label="anchor" href="#medidas-de-dispers%C3%A3o"></a>
+<h2 id="exatidão-e-precisão">Exatidão e precisão<a class="anchor" aria-label="anchor" href="#exatid%C3%A3o-e-precis%C3%A3o"></a>
 </h2>
-<p>O centro não descreve a variabilidade. A <strong>variância
-amostral</strong> e o <strong>desvio-padrão</strong> medem o
-espalhamento na escala dos dados; o <strong>coeficiente de
-variação</strong> mede a dispersão <em>relativa</em> e adimensional:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>s</mi><mn>2</mn></msup><mo>=</mo><mfrac><mn>1</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>,</mo><mspace width="2.0em"></mspace><mtext mathvariant="normal">CV</mtext><mo>=</mo><mfrac><mi>s</mi><mover><mi>x</mi><mo accent="true">‾</mo></mover></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad
-  \text{CV} = \frac{s}{\bar{x}}.</annotation></semantics></math></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Wind</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desvio"</span>, <span class="st">"iqr"</span>, <span class="st">"cv"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">#&gt;   desvio   iqr    cv</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   3.52   4.1 0.354</span></span></code></pre></div>
-<p>O vento tem
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">CV</mtext><mo>≈</mo><mn>0.35</mn></mrow><annotation encoding="application/x-tex">\text{CV} \approx 0.35</annotation></semantics></math>,
-isto é, o desvio-padrão equivale a cerca de 35% da média. O CV só faz
-sentido para variáveis de razão com média positiva — nunca para
-temperatura em graus Celsius, cujo zero é arbitrário. O
-<strong>IQR</strong>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msub><mi>Q</mi><mn>3</mn></msub><mo>−</mo><msub><mi>Q</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">= Q_3 - Q_1</annotation></semantics></math>
-é uma medida de dispersão <em>robusta</em>, imune a extremos.</p>
-</div>
-<div class="section level2">
-<h2 id="forma-da-distribuição-assimetria-e-curtose">Forma da distribuição: assimetria e curtose<a class="anchor" aria-label="anchor" href="#forma-da-distribui%C3%A7%C3%A3o-assimetria-e-curtose"></a>
-</h2>
-<p>Os momentos centrais de ordem 3 e 4 descrevem a forma. Com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>k</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><mo>∑</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">m_k = \frac{1}{n}\sum (x_i-\bar x)^k</annotation></semantics></math>,
-definem-se o coeficiente de <strong>assimetria</strong> e a
-<strong>curtose em excesso</strong>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>=</mo><mfrac><msub><mi>m</mi><mn>3</mn></msub><msubsup><mi>m</mi><mn>2</mn><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow></msubsup></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>g</mi><mn>2</mn></msub><mo>=</mo><mfrac><msub><mi>m</mi><mn>4</mn></msub><msubsup><mi>m</mi><mn>2</mn><mn>2</mn></msubsup></mfrac><mo>−</mo><mn>3</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">g_1 = \frac{m_3}{m_2^{3/2}}, \qquad g_2 = \frac{m_4}{m_2^{2}} - 3.</annotation></semantics></math></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_momentos.html">rnp_momentos</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span><span class="op">$</span><span class="va">resumo</span></span>
+<p>A média das medições corresponde a uma velocidade estimada de
+2.99852^{5} km/s, enquanto o valor moderno é 299 792 km/s. Essa
+diferença sistemática de cerca de 60 km/s é um <strong>viés</strong>
+(erro de exatidão), distinto da dispersão aleatória (a
+<strong>precisão</strong>). Engenheiros separam os dois: a média
+localiza o centro; o desvio-padrão mede o espalhamento.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><msup><mi>s</mi><mn>2</mn></msup><mo>=</mo><mfrac><mn>1</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \qquad
+  s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2.</annotation></semantics></math></p>
+<p>O divisor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+(os <strong>graus de liberdade</strong>) torna
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>s</mi><mn>2</mn></msup><annotation encoding="application/x-tex">s^2</annotation></semantics></math>
+um estimador não-viesado da variância populacional: como os desvios em
+torno de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>x</mi><mo accent="true">‾</mo></mover><annotation encoding="application/x-tex">\bar{x}</annotation></semantics></math>
+somam zero, apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+deles são livres.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_momentos.html">rnp_momentos</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span><span class="op">$</span><span class="va">resumo</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
 <span><span class="co">#&gt;   media variancia desvio_padrao assimetria curtose_excesso     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  77.9      89.6          9.47     -<span style="color: #BB0000;">0.374</span>          -<span style="color: #BB0000;">0.429</span>   153</span></span></code></pre></div>
-<p>A temperatura tem
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>=</mo><mi>−</mi><mn>0.37</mn></mrow><annotation encoding="application/x-tex">g_1 = -0.37</annotation></semantics></math>
-(quase simétrica, leve cauda à esquerda) e
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>2</mn></msub><mo>=</mo><mi>−</mi><mn>0.43</mn></mrow><annotation encoding="application/x-tex">g_2 = -0.43</annotation></semantics></math>
-(<strong>platicúrtica</strong>: caudas mais leves que a Normal). Já o
-ozônio é fortemente assimétrico
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>≈</mo><mn>1</mn><mo>,</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">g_1 \approx 1{,}24</annotation></semantics></math>)
-e <strong>leptocúrtico</strong>
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>2</mn></msub><mo>≈</mo><mn>1</mn><mo>,</mo><mn>29</mn></mrow><annotation encoding="application/x-tex">g_2 \approx 1{,}29</annotation></semantics></math>),
-coerente com a presença de valores extremos. A curtose mede o
-<strong>peso das caudas</strong> em relação à Normal
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>2</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">g_2 = 0</annotation></semantics></math>),
-e não o quão “pontuda” é a distribuição — um equívoco comum.</p>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  852.     <span style="text-decoration: underline;">6</span>243.          79.0    -<span style="color: #BB0000;">0.018</span><span style="color: #BB0000; text-decoration: underline;">3</span>           0.264   100</span></span></code></pre></div>
+<p>A assimetria praticamente nula
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>≈</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">g_1 \approx 0</annotation></semantics></math>)
+e a curtose próxima da Normal sugerem uma distribuição simétrica —
+coerente com erros de medição aleatórios.</p>
 </div>
 <div class="section level2">
-<h2 id="tabelas-de-frequência">Tabelas de frequência<a class="anchor" aria-label="anchor" href="#tabelas-de-frequ%C3%AAncia"></a>
+<h2 id="a-regra-empírica">A regra empírica<a class="anchor" aria-label="anchor" href="#a-regra-emp%C3%ADrica"></a>
 </h2>
-<p>Para uma variável discreta, a tabela de frequências organiza
-contagens absolutas e relativas, simples e acumuladas:</p>
+<p>Para dados aproximadamente Normais, a regra empírica afirma que cerca
+de 68%, 95% e 99,7% das observações caem a 1, 2 e 3 desvios-padrão da
+média. Verificando:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span>; <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">medicoes</span> <span class="op">-</span> <span class="va">m</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="va">k</span> <span class="op">*</span> <span class="va">s</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  67  97 100</span></span></code></pre></div>
+<p>Os valores observados (67%, 97%, 100%) acompanham de perto os
+teóricos (68,3%, 95,4%, 99,7%) — forte indício de normalidade, que
+justificará, adiante, o uso de intervalos de confiança e testes baseados
+na Normal.</p>
+</div>
+<div class="section level2">
+<h2 id="histograma-e-box-plot">Histograma e box plot<a class="anchor" aria-label="anchor" href="#histograma-e-box-plot"></a>
+</h2>
+<p>O histograma exibe a forma da distribuição:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_histograma.html">rnp_grafico_histograma</a></span><span class="op">(</span><span class="va">morley</span>, <span class="st">"Speed"</span>, bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v01-descritiva_files/figure-html/hist-1.png" class="r-plt" alt="Histograma das medições de velocidade da luz" width="672"></p>
+<p>Michelson conduziu <strong>cinco experimentos</strong> de 20
+medições. Comparando-os pelo box plot, revela-se algo que a média global
+esconde:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">morley</span><span class="op">$</span><span class="va">Experimento</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">morley</span><span class="op">$</span><span class="va">Expt</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_grafico_boxplot.html">rnp_grafico_boxplot</a></span><span class="op">(</span><span class="va">morley</span>, x <span class="op">=</span> <span class="st">"Experimento"</span>, y <span class="op">=</span> <span class="st">"Speed"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v01-descritiva_files/figure-html/boxplot-1.png" class="r-plt" alt="Box plot por experimento" width="672"></p>
+<p>O primeiro experimento é sistematicamente mais alto (média 909 contra
+~830 nos demais): um <strong>viés entre execuções</strong>, típico de
+problemas de calibração. Detectar diferenças entre grupos é o embrião da
+análise de variância (ANOVA).</p>
+</div>
+<div class="section level2">
+<h2 id="o-gráfico-de-probabilidade-normal">O gráfico de probabilidade normal<a class="anchor" aria-label="anchor" href="#o-gr%C3%A1fico-de-probabilidade-normal"></a>
+</h2>
+<p>A ferramenta que o engenheiro usa para <em>decidir</em> se um
+conjunto de dados é Normal é o <strong>gráfico de probabilidade
+normal</strong>: ele confronta os quantis amostrais com os teóricos da
+Normal. Se os pontos se alinham sobre a reta, a hipótese de normalidade
+se sustenta <span class="citation">(Montgomery and Runger
+2021)</span>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_tabela_frequencia.html">rnp_tabela_frequencia</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Month</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
-<span><span class="co">#&gt;   categoria    fa    fr fa_acumulada fr_acumulada</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 5            31 0.203           31        0.203</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6            30 0.196           61        0.399</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 7            31 0.203           92        0.601</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 8            31 0.203          123        0.804</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 9            30 0.196          153        1</span></span></code></pre></div>
-<p>Os cinco meses (maio a setembro) têm 30 ou 31 dias, distribuídos de
-forma quase uniforme. Para variáveis contínuas, agrupamos em classes; o
-número de classes pela regra de Sturges é
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>+</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">k = 1 + \log_2 n</annotation></semantics></math><span class="citation">(Sturges 1926)</span>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/rnp_tabela_classes.html">rnp_tabela_classes</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span>, regra <span class="op">=</span> <span class="st">"sturges"</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">#&gt;   classe      lim_inf lim_sup ponto_medio    fa     fr fa_acumulada fr_acumulada</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> [56,60.6]      56      60.6        58.3     8 0.052<span style="text-decoration: underline;">3</span>            8       0.052<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> (60.6,65.1]    60.6    65.1        62.8    10 0.065<span style="text-decoration: underline;">4</span>           18       0.118 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> (65.1,69.7]    65.1    69.7        67.4    14 0.091<span style="text-decoration: underline;">5</span>           32       0.209</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_qq.html">rnp_grafico_qq</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v01-descritiva_files/figure-html/qq-1.png" class="r-plt" alt="Gráfico de probabilidade normal" width="672"></p>
+<p>Os pontos seguem a reta de perto, sem curvatura sistemática — o teste
+de Shapiro-Wilk confirma
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.51</mn></mrow><annotation encoding="application/x-tex">p = 0.51</annotation></semantics></math>,
+não se rejeita a normalidade). Isso autoriza modelar as medições como
+Normais.</p>
 </div>
 <div class="section level2">
-<h2 id="detecção-de-outliers">Detecção de <em>outliers</em><a class="anchor" aria-label="anchor" href="#detec%C3%A7%C3%A3o-de-outliers"></a>
+<h2 id="dispersão-relativa-e-robustez">Dispersão relativa e robustez<a class="anchor" aria-label="anchor" href="#dispers%C3%A3o-relativa-e-robustez"></a>
 </h2>
-<p>Dois critérios, com filosofias opostas. O de <strong>Tukey</strong>
-marca como <em>outlier</em> o que cai fora das cercas
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mspace width="0.167em"></mspace><msub><mi>Q</mi><mn>1</mn></msub><mo>−</mo><mn>1</mn><mo>,</mo><mn>5</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">IQR</mtext><mo>,</mo><mspace width="0.278em"></mspace><msub><mi>Q</mi><mn>3</mn></msub><mo>+</mo><mn>1</mn><mo>,</mo><mn>5</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">IQR</mtext><mspace width="0.167em"></mspace><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[\,Q_1 - 1{,}5\,\text{IQR},\; Q_3 + 1{,}5\,\text{IQR}\,]</annotation></semantics></math>;
-é robusto, pois usa quantis. O do <strong>escore-z</strong> marca
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>z</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>&gt;</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">|z_i| &gt; k</annotation></semantics></math>,
-com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>z</mi><mi>i</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">z_i = (x_i - \bar{x})/s</annotation></semantics></math>;
-é frágil, porque média e desvio já foram inflados pelos próprios
-extremos.</p>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="30%">
+<col width="43%">
+</colgroup>
+<thead><tr class="header">
+<th>Medida</th>
+<th>Fórmula</th>
+<th>Quando usar</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Desvio-padrão</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math></td>
+<td>dispersão na unidade dos dados</td>
+</tr>
+<tr class="even">
+<td>IQR</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mn>3</mn></msub><mo>−</mo><msub><mi>Q</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">Q_3 - Q_1</annotation></semantics></math></td>
+<td>dispersão robusta a <em>outliers</em>
+</td>
+</tr>
+<tr class="odd">
+<td>Coef. de variação</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">CV</mtext><mo>=</mo><mi>s</mi><mi>/</mi><mover><mi>x</mi><mo accent="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\text{CV} = s/\bar{x}</annotation></semantics></math></td>
+<td>comparar variabilidade de escalas diferentes</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">medicoes</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desvio"</span>, <span class="st">"iqr"</span>, <span class="st">"cv"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   desvio   iqr     cv</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   79.0    85 0.092<span style="text-decoration: underline;">7</span></span></span></code></pre></div>
+<p>O CV de 0.093 indica que o desvio-padrão é cerca de 9% da média — boa
+precisão para os instrumentos de 1879. Para detectar valores
+discrepantes, o critério de Tukey (cercas a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>5</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">IQR</mtext></mrow><annotation encoding="application/x-tex">1{,}5\,\text{IQR}</annotation></semantics></math>)
+é o mais defensável por ser robusto:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_outliers.html">rnp_outliers</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Ozone</span>, method <span class="op">=</span> <span class="st">"iqr"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_outliers.html">rnp_outliers</a></span><span class="op">(</span><span class="va">medicoes</span>, method <span class="op">=</span> <span class="st">"iqr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   indice valor</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     62   135</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    117   168</span></span></code></pre></div>
-<p>O critério de Tukey acusa os dias nas posições 62 e 117, com ozônio
-de 135 e 168 — exatamente os responsáveis pela assimetria observada. Em
-uma distribuição tão assimétrica, o critério do IQR é o mais
-defensável.</p>
-</div>
-<div class="section level2">
-<h2 id="a-exploração-gráfica">A exploração gráfica<a class="anchor" aria-label="anchor" href="#a-explora%C3%A7%C3%A3o-gr%C3%A1fica"></a>
-</h2>
-<p>Os números resumem; os gráficos revelam. O histograma exibe a forma,
-o boxplot sintetiza os cinco números de Tukey por grupo, e o gráfico Q-Q
-confronta os dados com a Normal teórica.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_histograma.html">rnp_grafico_histograma</a></span><span class="op">(</span><span class="va">airquality</span>, <span class="st">"Ozone"</span>, bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
-<p><img src="v01-descritiva_files/figure-html/hist-1.png" class="r-plt" alt="Histograma do ozônio" width="672"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_qq.html">rnp_grafico_qq</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Ozone</span><span class="op">)</span></span></code></pre></div>
-<p><img src="v01-descritiva_files/figure-html/qq-1.png" class="r-plt" alt="Gráfico quantil-quantil do ozônio" width="672"></p>
-<p>A curvatura sistemática no Q-Q confirma o afastamento da normalidade
-já diagnosticado pelos números — justificativa, mais adiante, para
-transformar a variável ou recorrer a métodos robustos.</p>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      4  <span style="text-decoration: underline;">1</span>070</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     14   650</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     47   620</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
 <colgroup>
-<col width="38%">
-<col width="30%">
-<col width="30%">
+<col width="57%">
+<col width="19%">
+<col width="23%">
 </colgroup>
 <thead><tr class="header">
-<th>Pergunta</th>
+<th>Pergunta de engenharia</th>
 <th>Função</th>
-<th>Medida</th>
+<th>Conceito</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Qual o centro típico?</td>
-<td>
-<code>rnp_descritiva</code>, <code>rnp_medias</code>
-</td>
-<td>média, mediana</td>
+<td>Qual o valor central e a dispersão?</td>
+<td><code>rnp_descritiva</code></td>
+<td>média,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
+exatidão × precisão</td>
 </tr>
 <tr class="even">
-<td>Quanto varia?</td>
-<td><code>rnp_descritiva</code></td>
-<td>desvio, IQR, CV</td>
-</tr>
-<tr class="odd">
 <td>Qual a forma?</td>
 <td><code>rnp_momentos</code></td>
-<td>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mn>1</mn></msub><annotation encoding="application/x-tex">g_1</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mn>2</mn></msub><annotation encoding="application/x-tex">g_2</annotation></semantics></math>
-</td>
+<td>assimetria, curtose</td>
+</tr>
+<tr class="odd">
+<td>Os dados são Normais?</td>
+<td><code>rnp_grafico_qq</code></td>
+<td>gráfico de probabilidade normal</td>
 </tr>
 <tr class="even">
-<td>Há anomalias?</td>
+<td>Há diferença entre execuções?</td>
+<td><code>rnp_grafico_boxplot</code></td>
+<td>comparação de grupos</td>
+</tr>
+<tr class="odd">
+<td>Há medições discrepantes?</td>
 <td><code>rnp_outliers</code></td>
 <td>cercas de Tukey</td>
 </tr>
-<tr class="odd">
-<td>Como é a distribuição?</td>
-<td><code>rnp_grafico_*</code></td>
-<td>histograma, boxplot, Q-Q</td>
-</tr>
 </tbody>
 </table>
-<p>Entender <em>por que</em> a média amostral se comporta como
-observamos conduz à <strong>probabilidade</strong>, tema da próxima
-vinheta.</p>
+<p>Descrever a variabilidade — e checar a normalidade antes de assumi-la
+— é o alicerce sobre o qual se constrói a inferência. O próximo passo,
+entender <em>por que</em> a média amostral se comporta de forma
+previsível, leva à <strong>probabilidade</strong>.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-bussab2017" class="csl-entry">
-Bussab, Wilton O., and Pedro A. Morettin. 2017.
-<em>Estat<span>í</span>stica b<span>á</span>sica</em>. 9th ed. Saraiva.
+<div id="ref-michelson1882" class="csl-entry">
+Michelson, Albert A. 1882. <span>“Experimental Determination of the
+Velocity of Light.”</span> <em>Astronomical Papers</em> 1: 109–45.
 </div>
-<div id="ref-sturges1926" class="csl-entry">
-Sturges, Herbert A. 1926. <span>“The Choice of a Class Interval.”</span>
-<em>Journal of the American Statistical Association</em> 21 (153):
-65–66.
-</div>
-<div id="ref-tukey1977" class="csl-entry">
-Tukey, John W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley.
+<div id="ref-montgomery2021" class="csl-entry">
+Montgomery, Douglas C., and George C. Runger. 2021.
+<em>Estat<span>í</span>stica Aplicada e Probabilidade Para
+Engenheiros</em>. 7th ed. LTC.
 </div>
 </div>
 </div>
