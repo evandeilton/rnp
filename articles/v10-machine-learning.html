@@ -258,6 +258,45 @@ sem vazamento, <strong>ajustar</strong>, <strong>validar</strong> por
 CV, <strong>tunar</strong> hiperparâmetros e, só ao final,
 <strong>avaliar</strong> no teste. As funções <code>rnp_ml_*</code>
 tornam esse ciclo direto, preservando o rigor metodológico.</p>
+<p>O fio condutor é o <strong>compromisso viés-variância</strong>: a
+árvore rasa do exemplo anterior é simples mas pode subajustar; a árvore
+cheia é flexível mas pode sobreajustar. A validação cruzada e a tunagem
+existem justamente para encontrar o ponto de equilíbrio que generaliza
+melhor.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code> (requer os pacotes do tidymodels),
+usando <code>iris</code>,
+<code>palmerpenguins</code>/<code>mtcars</code> e
+<code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code>.</p>
+<ol style="list-style-type: decimal">
+<li>Particione <code>iris</code> em 70% treino e 30% teste,
+estratificando por espécie (<code>rnp_ml_particao</code>).</li>
+<li>Crie reamostras de validação cruzada com 5 folds
+(<code>rnp_ml_cv</code>).</li>
+<li>Monte uma receita que normalize os preditores
+(<code>rnp_ml_receita</code>).</li>
+<li>Ajuste uma árvore de decisão e avalie a acurácia no teste
+(<code>rnp_ml_arvore</code>, <code>rnp_ml_ajustar</code>).</li>
+<li>Extraia a importância das variáveis da árvore
+(<code>rnp_ml_importancia</code>).</li>
+<li>Tune o custo de complexidade da árvore por validação cruzada
+(<code>rnp_ml_tunagem</code>).</li>
+<li>Ajuste uma floresta aleatória e compare a acurácia com a da árvore
+(<code>rnp_ml_floresta</code>).</li>
+<li>Ajuste um modelo regularizado (glmnet) para regressão em
+<code>mtcars</code> (<code>rnp_ml_regularizada</code>).</li>
+<li>Compare árvore, floresta e regularizado por validação cruzada
+(<code>rnp_ml_comparar</code>).</li>
+<li>Faça predições para novos dados com o melhor modelo
+(<code>rnp_ml_prever</code>).</li>
+<li>Em <code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code>, treine um classificador para diabetes
+e avalie a AUC no teste.</li>
+<li>Varie a profundidade da árvore (2, 5, 30) e observe o efeito sobre o
+desempenho de treino e teste (sub/sobreajuste).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

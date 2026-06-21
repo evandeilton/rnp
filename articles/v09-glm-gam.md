@@ -69,7 +69,9 @@ nb$theta
 ```
 
 O $`\hat\theta = 1.15`$ é pequeno, confirmando a superdispersão; quanto
-menor $`\theta`$, maior a variância extra em relação à Poisson.
+menor $`\theta`$, maior a variância extra em relação à Poisson. O ganho
+de ajuste é enorme: o AIC cai de **2507** (Poisson) para **1120**
+(binomial negativa) — a NB é claramente o modelo adequado.
 
 ## Resposta ordinal: odds proporcionais
 
@@ -171,6 +173,38 @@ rnp_grafico_efeitos(gm)
 
 O diagnóstico é central: foi a dispersão estimada que revelou a
 inadequação do Poisson e motivou a binomial negativa.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `warpbreaks`,
+[`MASS::quine`](https://rdrr.io/pkg/MASS/man/quine.html),
+[`MASS::housing`](https://rdrr.io/pkg/MASS/man/housing.html),
+[`nlme::Orthodont`](https://rdrr.io/pkg/nlme/man/Orthodont.html) e
+[`MASS::mcycle`](https://rdrr.io/pkg/MASS/man/mcycle.html).
+
+1.  Ajuste um GLM Poisson para `breaks ~ wool + tension` (`rnp_glm`) e
+    interprete as razões de taxas.
+2.  Avalie a dispersão e teste a superdispersão
+    (`rnp_glm_diagnosticos`).
+3.  Ajuste uma binomial negativa a `Days ~ Sex + Age` em `quine` e
+    compare o AIC com o Poisson (`rnp_binomial_negativa`).
+4.  Ajuste um GLM binomial (`am ~ wt + hp`, `mtcars`) e interprete as
+    razões de chances (`rnp_glm`, família binomial).
+5.  Ajuste um modelo de odds proporcionais à satisfação em `housing`
+    (`rnp_regressao_ordinal`).
+6.  Ajuste um modelo misto a `distance ~ age` com intercepto aleatório
+    por sujeito e calcule o ICC (`rnp_modelo_misto`).
+7.  Interprete o ICC: que fração da variância é entre indivíduos?
+8.  Ajuste um GAM `accel ~ s(times)` a
+    [`MASS::mcycle`](https://rdrr.io/pkg/MASS/man/mcycle.html) e leia os
+    graus de liberdade efetivos (`rnp_gam`).
+9.  Visualize o efeito suave estimado (`rnp_grafico_efeitos`).
+10. Compare a deviance explicada do GAM com a de um ajuste linear
+    simples.
+11. Ajuste um GLM Gama (ligação log) a uma variável contínua positiva
+    (`rnp_glm`, família gamma).
+12. Para o modelo Poisson do exercício 1, calcule os resíduos de
+    deviance e verifique padrões (`rnp_glm_diagnosticos`).
 
 ## Referências
 

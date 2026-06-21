@@ -150,6 +150,40 @@ O fluxo de modelagem preditiva é sempre o mesmo (Kuhn and Johnson 2013):
 **avaliar** no teste. As funções `rnp_ml_*` tornam esse ciclo direto,
 preservando o rigor metodológico.
 
+O fio condutor é o **compromisso viés-variância**: a árvore rasa do
+exemplo anterior é simples mas pode subajustar; a árvore cheia é
+flexível mas pode sobreajustar. A validação cruzada e a tunagem existem
+justamente para encontrar o ponto de equilíbrio que generaliza melhor.
+
+## Exercícios
+
+Resolva com o `rnp` (requer os pacotes do tidymodels), usando `iris`,
+`palmerpenguins`/`mtcars` e
+[`MASS::Pima.tr`](https://rdrr.io/pkg/MASS/man/Pima.tr.html).
+
+1.  Particione `iris` em 70% treino e 30% teste, estratificando por
+    espécie (`rnp_ml_particao`).
+2.  Crie reamostras de validação cruzada com 5 folds (`rnp_ml_cv`).
+3.  Monte uma receita que normalize os preditores (`rnp_ml_receita`).
+4.  Ajuste uma árvore de decisão e avalie a acurácia no teste
+    (`rnp_ml_arvore`, `rnp_ml_ajustar`).
+5.  Extraia a importância das variáveis da árvore
+    (`rnp_ml_importancia`).
+6.  Tune o custo de complexidade da árvore por validação cruzada
+    (`rnp_ml_tunagem`).
+7.  Ajuste uma floresta aleatória e compare a acurácia com a da árvore
+    (`rnp_ml_floresta`).
+8.  Ajuste um modelo regularizado (glmnet) para regressão em `mtcars`
+    (`rnp_ml_regularizada`).
+9.  Compare árvore, floresta e regularizado por validação cruzada
+    (`rnp_ml_comparar`).
+10. Faça predições para novos dados com o melhor modelo
+    (`rnp_ml_prever`).
+11. Em [`MASS::Pima.tr`](https://rdrr.io/pkg/MASS/man/Pima.tr.html),
+    treine um classificador para diabetes e avalie a AUC no teste.
+12. Varie a profundidade da árvore (2, 5, 30) e observe o efeito sobre o
+    desempenho de treino e teste (sub/sobreajuste).
+
 ## Referências
 
 Kuhn, Max, and Kjell Johnson. 2013. *Applied Predictive Modeling*.

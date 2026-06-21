@@ -81,9 +81,24 @@ km$metricas
 ```
 
 A razão $`\text{between\_ss}/\text{total\_ss} = 0.767`$ indica que 77%
-da variação total está *entre* os grupos — uma separação boa. Para
-agrupamentos hierárquicos, o dendrograma mostra a sequência de fusões; o
-k-medoids (PAM) é uma alternativa robusta a *outliers*.
+da variação total está *entre* os grupos — uma separação boa.
+
+O **agrupamento hierárquico** não exige fixar $`k`$ de antemão: ele
+constrói uma árvore de fusões sucessivas, o **dendrograma**, em que a
+altura de cada junção mede a dissimilaridade. Cortá-lo a uma altura
+define os grupos.
+
+``` r
+
+ch <- rnp_cluster_hierarquico(X, k = 3)
+rnp_grafico_dendrograma(ch)
+```
+
+![Dendrograma de agrupamento
+hierárquico](v05-multivariada_files/figure-html/dendro-1.png)
+
+O k-medoids (PAM) é uma alternativa robusta a *outliers*, por usar
+observações reais como centros em vez de médias.
 
 ### Validação pela silhueta
 
@@ -170,6 +185,41 @@ as correlações entre as respostas.
 Muitos desses métodos repousam sobre a mesma base — autovalores,
 autovetores e projeções —, o que ajuda a enxergar as semelhanças entre
 eles.
+
+## Exercícios
+
+Resolva com o `rnp`, usando `iris`, `mtcars`, `USArrests` e `swiss`.
+
+1.  Calcule a matriz de correlação de `mtcars` e identifique os pares
+    mais associados (`rnp_matriz_correlacao`).
+2.  Construa o correlograma correspondente (`rnp_grafico_correlograma`).
+3.  Faça a PCA de `USArrests`: quantos componentes explicam 90% da
+    variância? (`rnp_pca`).
+4.  Construa o biplot da PCA e interprete as direções das variáveis
+    (`rnp_biplot`).
+5.  Agrupe `USArrests` em $`k = 4`$ por k-médias e avalie a razão de
+    separação (`rnp_kmeans`).
+6.  Construa o dendrograma do agrupamento hierárquico dos mesmos dados
+    (`rnp_grafico_dendrograma`).
+7.  Compare a silhueta média para $`k = 2, 3, 4`$ e escolha o melhor
+    $`k`$ (`rnp_silhueta`).
+8.  Aplique o k-medoids e compare os grupos com os do k-médias
+    (`rnp_kmedoids`).
+9.  Calcule a matriz de distâncias de Mahalanobis das primeiras 10
+    flores de `iris` (`rnp_distancia`).
+10. Faça o escalonamento multidimensional (MDS) de uma matriz de
+    distâncias e visualize em 2D (`rnp_mds`).
+11. Ajuste uma LDA para classificar as espécies de `iris` e obtenha a
+    acurácia (`rnp_lda`).
+12. Faça uma análise fatorial de `swiss` com 2 fatores
+    (`rnp_analise_fatorial`).
+13. Teste a igualdade dos vetores de média de duas espécies de `iris`
+    pelo $`T^2`$ de Hotelling (`rnp_hotelling`).
+14. Aplique a MANOVA comparando as três espécies (`rnp_manova`).
+15. Teste a normalidade multivariada das quatro medidas de `iris`
+    (`rnp_normalidade_multivariada`).
+16. Calcule a correlação canônica entre as medidas de sépala e de pétala
+    (`rnp_correlacao_canonica`).
 
 ## Referências
 

@@ -60,8 +60,28 @@ defasagem $`B`$ como
 ```
 
 onde $`\phi(B) = 1 - \phi_1 B - \dots - \phi_p B^p`$ e
-$`\theta(B) = 1 + \theta_1 B + \dots + \theta_q B^q`$. A seleção
-automática de ordem por AICc evita a inspeção manual de ACF/PACF:
+$`\theta(B) = 1 + \theta_1 B + \dots + \theta_q B^q`$.
+
+A identificação clássica lê a ordem na **ACF** e na **PACF**: um corte
+abrupto na ACF após o lag $`q`$ sugere MA($`q`$); um corte na PACF após
+o lag $`p`$ sugere AR($`p`$).
+
+``` r
+
+rnp_grafico_acf(lh, tipo = "acf")
+```
+
+![ACF e PACF da série lh](v08-series-arima_files/figure-html/acf-1.png)
+
+``` r
+
+rnp_grafico_acf(lh, tipo = "pacf")
+```
+
+![ACF e PACF da série lh](v08-series-arima_files/figure-html/acf-2.png)
+
+A seleção automática por AICc dispensa essa leitura manual e compara
+muitos candidatos de uma vez:
 
 ``` r
 
@@ -157,6 +177,37 @@ A modelagem Box-Jenkins é um ciclo: **identificar** a ordem
 **diagnosticar** os resíduos e só então **prever**. Cada etapa tem sua
 função no `rnp`, e o diagnóstico de resíduos é o que separa um modelo
 confiável de um ajuste cego.
+
+## Exercícios
+
+Resolva com o `rnp`, usando as séries `AirPassengers`, `lh`, `nottem`,
+`UKgas` e `sunspot.year`.
+
+1.  A série `UKgas` é estacionária? Aplique os testes ADF e KPSS
+    (`rnp_ts_adf`, `rnp_ts_kpss`).
+2.  Estabilize a variância e diferencie até obter estacionariedade
+    (`rnp_ts_diferenciacao`).
+3.  Examine a ACF e a PACF da série diferenciada (`rnp_grafico_acf`).
+4.  Selecione automaticamente a ordem ARIMA de `lh` (`rnp_auto_arima`).
+5.  Ajuste o modelo escolhido e interprete os coeficientes
+    (`rnp_arima`).
+6.  Diagnostique os resíduos pelo teste de Ljung-Box
+    (`rnp_ts_residuos`).
+7.  Ajuste um SARIMA ao log de `AirPassengers` (`rnp_sarima`).
+8.  Faça a previsão de 24 meses com intervalos (`rnp_ts_previsao`).
+9.  Calcule a média móvel de 12 meses de `AirPassengers`
+    (`rnp_media_movel`).
+10. Aplique a suavização exponencial e compare com a média móvel
+    (`rnp_suavizacao_exponencial`).
+11. Decomponha `nottem` em tendência, sazonalidade e ruído
+    (`rnp_ts_decomposicao`).
+12. Aplique o Holt-Winters a `AirPassengers` (`rnp_ts_holt_winters`).
+13. Calcule o periodograma de `sunspot.year` e identifique o período
+    dominante (`rnp_ts_periodograma`).
+14. Ajuste um VAR de ordem 2 a duas séries (`mdeaths`, `fdeaths`) e
+    teste a causalidade de Granger (`rnp_ts_var`).
+15. Simule uma série com volatilidade variável e ajuste um GARCH(1,1)
+    (`rnp_ts_garch`).
 
 ## Referências
 

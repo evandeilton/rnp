@@ -152,7 +152,10 @@ Com os dados de ausências escolares <code><a href="https://rdrr.io/pkg/MASS/man
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mn>1.15</mn></mrow><annotation encoding="application/x-tex">\hat\theta = 1.15</annotation></semantics></math>
 é pequeno, confirmando a superdispersão; quanto menor
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>,
-maior a variância extra em relação à Poisson.</p>
+maior a variância extra em relação à Poisson. O ganho de ajuste é
+enorme: o AIC cai de <strong>2507</strong> (Poisson) para
+<strong>1120</strong> (binomial negativa) — a NB é claramente o modelo
+adequado.</p>
 </div>
 <div class="section level2">
 <h2 id="resposta-ordinal-odds-proporcionais">Resposta ordinal: odds proporcionais<a class="anchor" aria-label="anchor" href="#resposta-ordinal-odds-proporcionais"></a>
@@ -275,6 +278,42 @@ polinômio de baixa ordem jamais a capturaria. O efeito suave:</p>
 </table>
 <p>O diagnóstico é central: foi a dispersão estimada que revelou a
 inadequação do Poisson e motivou a binomial negativa.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code>warpbreaks</code>,
+<code><a href="https://rdrr.io/pkg/MASS/man/quine.html" class="external-link">MASS::quine</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/housing.html" class="external-link">MASS::housing</a></code>,
+<code><a href="https://rdrr.io/pkg/nlme/man/Orthodont.html" class="external-link">nlme::Orthodont</a></code> e <code><a href="https://rdrr.io/pkg/MASS/man/mcycle.html" class="external-link">MASS::mcycle</a></code>.</p>
+<ol style="list-style-type: decimal">
+<li>Ajuste um GLM Poisson para <code>breaks ~ wool + tension</code>
+(<code>rnp_glm</code>) e interprete as razões de taxas.</li>
+<li>Avalie a dispersão e teste a superdispersão
+(<code>rnp_glm_diagnosticos</code>).</li>
+<li>Ajuste uma binomial negativa a <code>Days ~ Sex + Age</code> em
+<code>quine</code> e compare o AIC com o Poisson
+(<code>rnp_binomial_negativa</code>).</li>
+<li>Ajuste um GLM binomial (<code>am ~ wt + hp</code>,
+<code>mtcars</code>) e interprete as razões de chances
+(<code>rnp_glm</code>, família binomial).</li>
+<li>Ajuste um modelo de odds proporcionais à satisfação em
+<code>housing</code> (<code>rnp_regressao_ordinal</code>).</li>
+<li>Ajuste um modelo misto a <code>distance ~ age</code> com intercepto
+aleatório por sujeito e calcule o ICC
+(<code>rnp_modelo_misto</code>).</li>
+<li>Interprete o ICC: que fração da variância é entre indivíduos?</li>
+<li>Ajuste um GAM <code>accel ~ s(times)</code> a
+<code><a href="https://rdrr.io/pkg/MASS/man/mcycle.html" class="external-link">MASS::mcycle</a></code> e leia os graus de liberdade efetivos
+(<code>rnp_gam</code>).</li>
+<li>Visualize o efeito suave estimado
+(<code>rnp_grafico_efeitos</code>).</li>
+<li>Compare a deviance explicada do GAM com a de um ajuste linear
+simples.</li>
+<li>Ajuste um GLM Gama (ligação log) a uma variável contínua positiva
+(<code>rnp_glm</code>, família gamma).</li>
+<li>Para o modelo Poisson do exercício 1, calcule os resíduos de
+deviance e verifique padrões (<code>rnp_glm_diagnosticos</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

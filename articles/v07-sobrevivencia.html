@@ -246,8 +246,18 @@ o modelo de Cox é adequado aqui.</p>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>38</mn></mrow><annotation encoding="application/x-tex">0{,}38</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>003</mn></mrow><annotation encoding="application/x-tex">p = 0{,}003</annotation></semantics></math>)
 indica que ser mulher <em>acelera</em> (prolonga) o tempo de sobrevida —
-coerente com o achado de Cox. A escolha entre AFT e Cox e entre
-distribuições pode ser guiada pelo AIC.</p>
+coerente com o achado de Cox.</p>
+<p>Qual distribuição descreve melhor os tempos? Comparamos pelo
+<strong>AIC</strong> (menor é melhor):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibull"</span>, <span class="st">"lognormal"</span>, <span class="st">"loglogistic"</span>, <span class="st">"exponential"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dists</span>, <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/rnp_sobrevivencia_parametrica.html">rnp_sobrevivencia_parametrica</a></span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sexo</span>, <span class="va">dados</span>, <span class="va">d</span><span class="op">)</span><span class="op">$</span><span class="va">aic</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     weibull   lognormal loglogistic exponential </span></span>
+<span><span class="co">#&gt;    2302.109    2325.500    2313.794    2318.198</span></span></code></pre></div>
+<p>A <strong>Weibull</strong> tem o menor AIC (2302), sendo a escolha
+preferível entre as quatro — resultado típico em confiabilidade, pois
+sua taxa de falha flexível acomoda o desgaste.</p>
 </div>
 <div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
@@ -300,6 +310,44 @@ distribuições pode ser guiada pelo AIC.</p>
 </table>
 <p>A censura é o que distingue esta área: toda a maquinaria existe para
 extrair informação de observações <em>incompletas</em>.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code><a href="https://rdrr.io/pkg/survival/man/lung.html" class="external-link">survival::lung</a></code>,
+<code><a href="https://rdrr.io/pkg/survival/man/veteran.html" class="external-link">survival::veteran</a></code> e <code><a href="https://rdrr.io/pkg/survival/man/ovarian.html" class="external-link">survival::ovarian</a></code>.</p>
+<ol style="list-style-type: decimal">
+<li>Estime a curva de Kaplan-Meier global de <code>lung</code> e obtenha
+a sobrevida mediana (<code>rnp_kaplan_meier</code>).</li>
+<li>Estratifique a curva pelo estado funcional <code>ph.ecog</code> e
+visualize-a (<code>rnp_grafico_sobrevivencia</code>).</li>
+<li>Compare as curvas por sexo com o teste log-rank
+(<code>rnp_log_rank</code>).</li>
+<li>Refaça a comparação com o teste de Gehan-Wilcoxon
+(<code>rho = 1</code>) e veja se a conclusão muda.</li>
+<li>Estime o risco acumulado de Nelson-Aalen e relacione-o com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mover><mi>S</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">-\log \hat{S}(t)</annotation></semantics></math>
+(<code>rnp_nelson_aalen</code>).</li>
+<li>Ajuste um modelo de Cox com <code>age</code>, <code>sex</code> e
+<code>ph.karno</code>; interprete as razões de risco
+(<code>rnp_cox</code>).</li>
+<li>Verifique a hipótese de riscos proporcionais
+(<code>rnp_cox_diagnosticos</code>).</li>
+<li>Calcule o risco relativo predito para perfis de 50 e 70 anos
+(<code>rnp_cox_risco_relativo</code>).</li>
+<li>Ajuste um modelo AFT Weibull e compare o AIC com lognormal e
+exponencial (<code>rnp_sobrevivencia_parametrica</code>).</li>
+<li>Construa a tábua de vida atuarial de <code>lung</code> em intervalos
+de 200 dias (<code>rnp_tabela_vida</code>).</li>
+<li>Em <code>veteran</code>, compare a sobrevida entre os tipos de
+tratamento (<code>trt</code>) por log-rank.</li>
+<li>Ajuste um Cox em <code>veteran</code> com <code>karno</code> e
+<code>celltype</code> e identifique o fator de maior risco.</li>
+<li>Em <code>ovarian</code>, estime a curva de Kaplan-Meier por grupo de
+tratamento (<code>rx</code>).</li>
+<li>Compare a concordância (C de Harrell) de dois modelos de Cox com
+diferentes covariáveis (<code>rnp_cox</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

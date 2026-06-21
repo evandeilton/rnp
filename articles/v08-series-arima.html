@@ -146,10 +146,25 @@ como</p>
 <p>onde
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>ϕ</mi><mn>1</mn></msub><mi>B</mi><mo>−</mo><mi>…</mi><mo>−</mo><msub><mi>ϕ</mi><mi>p</mi></msub><msup><mi>B</mi><mi>p</mi></msup></mrow><annotation encoding="application/x-tex">\phi(B) = 1 - \phi_1 B - \dots - \phi_p B^p</annotation></semantics></math>
 e
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><msub><mi>θ</mi><mn>1</mn></msub><mi>B</mi><mo>+</mo><mi>…</mi><mo>+</mo><msub><mi>θ</mi><mi>q</mi></msub><msup><mi>B</mi><mi>q</mi></msup></mrow><annotation encoding="application/x-tex">\theta(B) = 1 + \theta_1 B + \dots + \theta_q B^q</annotation></semantics></math>.
-A seleção automática de ordem por AICc evita a inspeção manual de
-ACF/PACF:</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><msub><mi>θ</mi><mn>1</mn></msub><mi>B</mi><mo>+</mo><mi>…</mi><mo>+</mo><msub><mi>θ</mi><mi>q</mi></msub><msup><mi>B</mi><mi>q</mi></msup></mrow><annotation encoding="application/x-tex">\theta(B) = 1 + \theta_1 B + \dots + \theta_q B^q</annotation></semantics></math>.</p>
+<p>A identificação clássica lê a ordem na <strong>ACF</strong> e na
+<strong>PACF</strong>: um corte abrupto na ACF após o lag
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+sugere
+MA(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>);
+um corte na PACF após o lag
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+sugere
+AR(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_acf.html">rnp_grafico_acf</a></span><span class="op">(</span><span class="va">lh</span>, tipo <span class="op">=</span> <span class="st">"acf"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v08-series-arima_files/figure-html/acf-1.png" class="r-plt" alt="ACF e PACF da série lh" width="672"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_acf.html">rnp_grafico_acf</a></span><span class="op">(</span><span class="va">lh</span>, tipo <span class="op">=</span> <span class="st">"pacf"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="v08-series-arima_files/figure-html/acf-2.png" class="r-plt" alt="ACF e PACF da série lh" width="672"></p>
+<p>A seleção automática por AICc dispensa essa leitura manual e compara
+muitos candidatos de uma vez:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_auto_arima.html">rnp_auto_arima</a></span><span class="op">(</span><span class="va">lh</span>, max_p <span class="op">=</span> <span class="fl">2</span>, max_d <span class="op">=</span> <span class="fl">1</span>, max_q <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">$</span><span class="va">selecao</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
 <span><span class="co">#&gt;       p     d     q criterio_aicc</span></span>
@@ -175,7 +190,7 @@ o modelo SARIMA acrescenta termos sazonais
 <p>O famoso “modelo airline” de Box-Jenkins é o
 SARIMA<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>1</mn><msub><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msub></mrow><annotation encoding="application/x-tex">(0,1,1)(0,1,1)_{12}</annotation></semantics></math>
 sobre o log da série:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_sarima.html">rnp_sarima</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">AirPassengers</span><span class="op">)</span>, ordem <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>                  sazonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, periodo <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">fit</span><span class="op">$</span><span class="va">coeficientes</span></span>
@@ -193,7 +208,7 @@ significativos.</p>
 <p>Um bom modelo deixa resíduos indistinguíveis de <strong>ruído
 branco</strong>. O teste de <strong>Ljung-Box</strong> verifica ausência
 de autocorrelação:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ts_residuos.html">rnp_ts_residuos</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
 <span><span class="co">#&gt;   teste        estatistica p_valor interpretacao    </span></span>
@@ -211,7 +226,7 @@ de autocorrelação:</p>
 </h2>
 <p>Validado o modelo, projetam-se valores futuros com intervalos de
 predição:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ts_previsao.html">rnp_ts_previsao</a></span><span class="op">(</span><span class="va">fit</span>, h <span class="op">=</span> <span class="fl">24</span><span class="op">)</span><span class="op">$</span><span class="va">grafico</span></span></code></pre></div>
 <p><img src="v08-series-arima_files/figure-html/previsao-1.png" class="r-plt" alt="Previsão SARIMA com intervalos" width="672"></p>
 <p>A faixa cinza representa a incerteza crescente da previsão — quanto
@@ -254,6 +269,46 @@ parâmetros, <strong>diagnosticar</strong> os resíduos e só então
 <strong>prever</strong>. Cada etapa tem sua função no <code>rnp</code>,
 e o diagnóstico de resíduos é o que separa um modelo confiável de um
 ajuste cego.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando as séries
+<code>AirPassengers</code>, <code>lh</code>, <code>nottem</code>,
+<code>UKgas</code> e <code>sunspot.year</code>.</p>
+<ol style="list-style-type: decimal">
+<li>A série <code>UKgas</code> é estacionária? Aplique os testes ADF e
+KPSS (<code>rnp_ts_adf</code>, <code>rnp_ts_kpss</code>).</li>
+<li>Estabilize a variância e diferencie até obter estacionariedade
+(<code>rnp_ts_diferenciacao</code>).</li>
+<li>Examine a ACF e a PACF da série diferenciada
+(<code>rnp_grafico_acf</code>).</li>
+<li>Selecione automaticamente a ordem ARIMA de <code>lh</code>
+(<code>rnp_auto_arima</code>).</li>
+<li>Ajuste o modelo escolhido e interprete os coeficientes
+(<code>rnp_arima</code>).</li>
+<li>Diagnostique os resíduos pelo teste de Ljung-Box
+(<code>rnp_ts_residuos</code>).</li>
+<li>Ajuste um SARIMA ao log de <code>AirPassengers</code>
+(<code>rnp_sarima</code>).</li>
+<li>Faça a previsão de 24 meses com intervalos
+(<code>rnp_ts_previsao</code>).</li>
+<li>Calcule a média móvel de 12 meses de <code>AirPassengers</code>
+(<code>rnp_media_movel</code>).</li>
+<li>Aplique a suavização exponencial e compare com a média móvel
+(<code>rnp_suavizacao_exponencial</code>).</li>
+<li>Decomponha <code>nottem</code> em tendência, sazonalidade e ruído
+(<code>rnp_ts_decomposicao</code>).</li>
+<li>Aplique o Holt-Winters a <code>AirPassengers</code>
+(<code>rnp_ts_holt_winters</code>).</li>
+<li>Calcule o periodograma de <code>sunspot.year</code> e identifique o
+período dominante (<code>rnp_ts_periodograma</code>).</li>
+<li>Ajuste um VAR de ordem 2 a duas séries (<code>mdeaths</code>,
+<code>fdeaths</code>) e teste a causalidade de Granger
+(<code>rnp_ts_var</code>).</li>
+<li>Simule uma série com volatilidade variável e ajuste um GARCH(1,1)
+(<code>rnp_ts_garch</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

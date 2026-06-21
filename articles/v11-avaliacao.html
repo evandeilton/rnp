@@ -220,6 +220,30 @@ quem tem a doença — multiplicando as chances <em>a priori</em>,
 conecta-se diretamente ao Teorema de Bayes da vinheta 2.</p>
 </div>
 <div class="section level2">
+<h2 id="e-para-regressão">E para regressão?<a class="anchor" aria-label="anchor" href="#e-para-regress%C3%A3o"></a>
+</h2>
+<p>Quando a resposta é contínua, as métricas mudam: o
+<strong>RMSE</strong> penaliza erros grandes (mesma unidade da
+resposta), o <strong>MAE</strong> é mais robusto, o
+<strong>MAPE</strong> dá o erro percentual e o <strong>R²</strong> mede
+a variância explicada:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span>, data <span class="op">=</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">Boston</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_metricas_regressao.html">rnp_metricas_regressao</a></span><span class="op">(</span><span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">Boston</a></span><span class="op">$</span><span class="va">medv</span>, <span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 2</span></span></span>
+<span><span class="co">#&gt;   metrica        valor</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> rmse           5.52 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> mae            3.95 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> mape          20.8  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> r2             0.639</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> rmse_relativo  0.245</span></span></code></pre></div>
+<p>O RMSE de 5,5 (mil dólares) e o MAPE de 21% quantificam o erro típico
+do modelo de preços. Como em classificação, nenhuma métrica isolada
+basta — RMSE e MAE contam histórias diferentes quando há
+<em>outliers</em>.</p>
+</div>
+<div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
@@ -273,6 +297,44 @@ conecta-se diretamente ao Teorema de Bayes da vinheta 2.</p>
 </table>
 <p>Nenhuma métrica isolada conta a história toda: a escolha depende do
 custo dos erros e do equilíbrio das classes.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code>,
+<code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code> e <code>mtcars</code>. Para os
+classificadores, gere as probabilidades com
+<code>glm(..., family = binomial())</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Ajuste <code>type ~ glu + bmi + age</code> em
+<code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code> e calcule todas as métricas de classificação
+para o limiar 0,5 (<code>rnp_metricas_classificacao</code>).</li>
+<li>Compare o F1 com a acurácia: por que diferem em dados
+desbalanceados?</li>
+<li>Calcule o escore de Brier e o escore de habilidade do modelo
+(<code>rnp_brier</code>).</li>
+<li>Avalie a calibração com o teste de Hosmer-Lemeshow
+(<code>rnp_calibracao</code>).</li>
+<li>Calcule a estatística KS de separação
+(<code>rnp_ks_classificador</code>).</li>
+<li>Construa a curva precisão-revocação e obtenha a AUC-PR
+(<code>rnp_curva_precisao_revocacao</code>).</li>
+<li>Construa as curvas de lift e de ganho acumulado
+(<code>rnp_curva_lift</code>, <code>rnp_curva_ganho</code>).</li>
+<li>Compare, pelo teste de DeLong, o modelo completo com um que usa só
+<code>glu</code> (<code>rnp_comparar_roc</code>).</li>
+<li>Calcule a sensibilidade, a especificidade e as razões de
+verossimilhança (<code>rnp_acuracia_diagnostica</code>).</li>
+<li>Ajuste <code>medv ~ rm + lstat</code> em <code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code> e
+calcule RMSE, MAE, MAPE e R² (<code>rnp_metricas_regressao</code>).</li>
+<li>Compare as métricas de regressão entre um modelo simples e um
+múltiplo.</li>
+<li>Insira um <em>outlier</em> na resposta e observe o impacto sobre
+RMSE versus MAE.</li>
+<li>Construa a matriz de custo para um classificador em que o falso
+negativo custa o triplo do falso positivo
+(<code>rnp_matriz_custo</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

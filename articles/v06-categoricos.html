@@ -256,6 +256,30 @@ etnia), o <strong>Kruskal-Wallis</strong> generaliza o Mann-Whitney:</p>
 <span><span class="co">#&gt;   estatistica    gl p_valor metodo        </span></span>
 <span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        8.52     2  0.014<span style="text-decoration: underline;">1</span> kruskal-wallis</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="dados-pareados-wilcoxon">Dados pareados: Wilcoxon<a class="anchor" aria-label="anchor" href="#dados-pareados-wilcoxon"></a>
+</h3>
+<p>Quando as duas amostras são <strong>pareadas</strong> (mesmos
+indivíduos medidos duas vezes), o teste apropriado é o de
+<strong>Wilcoxon dos postos sinalizados</strong>, análogo
+não-paramétrico do teste t pareado. No conjunto <code>sleep</code>
+(efeito de dois medicamentos sobre as horas de sono dos mesmos 10
+pacientes):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="va">sleep</span><span class="op">$</span><span class="va">extra</span><span class="op">[</span><span class="va">sleep</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="va">sleep</span><span class="op">$</span><span class="va">extra</span><span class="op">[</span><span class="va">sleep</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="fl">2</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/rnp_wilcoxon.html">rnp_wilcoxon</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">#&gt;   estatistica p_valor metodo                          alternativa</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           0  0.003<span style="text-decoration: underline;">9</span> Wilcoxon signed rank exact test bilateral</span></span></code></pre></div>
+<p>Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>009</mn></mrow><annotation encoding="application/x-tex">p = 0{,}009</annotation></semantics></math>,
+o segundo medicamento aumenta o sono de forma significativa (em média,
+1,6 h a mais). Cada teste não-paramétrico tem seu par paramétrico:
+Mann-Whitney ↔︎ teste t independente, Wilcoxon ↔︎ teste t pareado,
+Kruskal-Wallis ↔︎ ANOVA.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
@@ -323,8 +347,57 @@ grupos</td>
 compromisso: os primeiros têm mais poder quando os pressupostos valem;
 os segundos são mais robustos quando a normalidade é duvidosa.</p>
 </div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code><a href="https://rdrr.io/pkg/MASS/man/birthwt.html" class="external-link">MASS::birthwt</a></code>,
+<code>mtcars</code>, <code>sleep</code>, <code>Titanic</code> e
+<code>InsectSprays</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Construa a tabela de contingência entre etnia (<code>race</code>) e
+baixo peso (<code>low</code>) em <code><a href="https://rdrr.io/pkg/MASS/man/birthwt.html" class="external-link">MASS::birthwt</a></code>
+(<code>rnp_tabela_contingencia</code>).</li>
+<li>Teste a associação por qui-quadrado e interprete o V de Cramér
+(<code>rnp_teste_qui_quadrado</code>).</li>
+<li>Refaça o teste de uma tabela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2\times2</annotation></semantics></math>
+pelo teste exato de Fisher (<code>rnp_teste_fisher</code>).</li>
+<li>Para a tabela hipertensão × baixo peso, calcule a razão de chances e
+o risco relativo; eles diferem? (<code>rnp_odds_ratio</code>,
+<code>rnp_risco_relativo</code>).</li>
+<li>Construa dois vetores de classificações e calcule o Kappa de Cohen
+(<code>rnp_kappa</code>).</li>
+<li>Verifique se <code>mtcars$mpg</code> é Normal por três métodos
+(<code>rnp_teste_normalidade</code>).</li>
+<li>Compare <code>mpg</code> entre câmbio manual e automático pelo teste
+de Mann-Whitney (<code>rnp_mann_whitney</code>).</li>
+<li>Refaça a comparação por teste t e veja se a conclusão muda
+(<code>rnp_teste_t</code>).</li>
+<li>Teste o efeito do medicamento em <code>sleep</code> com Wilcoxon
+pareado (<code>rnp_wilcoxon</code>).</li>
+<li>Compare a contagem de insetos entre os sprays de
+<code>InsectSprays</code> por Kruskal-Wallis
+(<code>rnp_kruskal</code>).</li>
+<li>Refaça a comparação anterior por ANOVA e compare os p-valores
+(<code>rnp_anova</code>).</li>
+<li>Teste a aderência da distribuição de <code>mtcars$cyl</code> a
+proporções uniformes (1/3 cada) (<code>rnp_teste_qui_quadrado</code>,
+argumento <code>p</code>).</li>
+<li>Calcule o teste de aderência de <code>MASS::Pima.tr$bmi</code> à
+Normal (<code>rnp_teste_aderencia</code>).</li>
+<li>Aplique o teste de McNemar a uma tabela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2\times2</annotation></semantics></math>
+pareada (<code>rnp_teste_mcnemar</code>).</li>
+<li>Calcule a estatística de concordância W de Kendall entre três
+avaliadores (<code>rnp_teste_kendall_w</code>).</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
+</h2>
+</div>
 <div class="section level2 unnumbered">
-<h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>
+<h2 class="unnumbered" id="referências-1">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias-1"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-agresti2013" class="csl-entry">

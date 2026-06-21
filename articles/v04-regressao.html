@@ -259,6 +259,43 @@ um caso positivo acima de um negativo tomados ao acaso (0,5 = aleatório;
 1 = perfeito) — uma discriminação boa.</p>
 </div>
 <div class="section level2">
+<h2 id="predição-intervalo-de-confiança-versus-de-predição">Predição: intervalo de confiança versus de predição<a class="anchor" aria-label="anchor" href="#predi%C3%A7%C3%A3o-intervalo-de-confian%C3%A7a-versus-de-predi%C3%A7%C3%A3o"></a>
+</h2>
+<p>Há duas perguntas distintas ao prever. <em>Qual o valor médio de
+<code>medv</code> para todos os bairros com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>m</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">rm = 6</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">lstat = 10</annotation></semantics></math>?</em>
+— responde-se com o <strong>intervalo de confiança</strong> da média.
+<em>Qual será o valor de <strong>um</strong> bairro específico?</em> —
+pede o <strong>intervalo de predição</strong>, mais largo, pois inclui
+também a variabilidade irredutível
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+em torno da média:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">medv</span> <span class="op">~</span> <span class="va">rm</span> <span class="op">+</span> <span class="va">lstat</span>, data <span class="op">=</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">Boston</a></span><span class="op">)</span></span>
+<span><span class="va">novos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>rm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span>, lstat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_predicao.html">rnp_predicao</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">novos</span>, tipo <span class="op">=</span> <span class="st">"confianca"</span><span class="op">)</span>   <span class="co"># média da resposta</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   ajuste limite_inferior limite_superior</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   22.8            22.1            23.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   31.1            30.4            31.8</span></span>
+<span><span class="fu"><a href="../reference/rnp_predicao.html">rnp_predicao</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">novos</span>, tipo <span class="op">=</span> <span class="st">"predicao"</span><span class="op">)</span>     <span class="co"># nova observação</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   ajuste limite_inferior limite_superior</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   22.8            11.9            33.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   31.1            20.2            42.0</span></span></code></pre></div>
+<p>Para o primeiro bairro, o IC da média é estreito
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>22</mn><mo>,</mo><mn>1</mn><mo>;</mo><mspace width="0.167em"></mspace><mn>23</mn><mo>,</mo><mn>4</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[22{,}1;\,23{,}4]</annotation></semantics></math>),
+mas o de predição é amplo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>11</mn><mo>,</mo><mn>9</mn><mo>;</mo><mspace width="0.167em"></mspace><mn>33</mn><mo>,</mo><mn>7</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[11{,}9;\,33{,}7]</annotation></semantics></math>).
+Confundir os dois — usar o IC da média para prever um caso individual —
+subestima gravemente a incerteza, um erro comum em engenharia
+preditiva.</p>
+</div>
+<div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
 </h2>
 <table class="table">
@@ -294,6 +331,11 @@ um caso positivo acima de um negativo tomados ao acaso (0,5 = aleatório;
 <td>vale trocar viés por variância?</td>
 </tr>
 <tr class="odd">
+<td>Prever</td>
+<td><code>rnp_predicao</code></td>
+<td>IC da média ou intervalo de predição?</td>
+</tr>
+<tr class="even">
 <td>Classificar</td>
 <td>
 <code>rnp_logistic</code>, <code>rnp_curva_roc</code>
@@ -304,6 +346,56 @@ um caso positivo acima de um negativo tomados ao acaso (0,5 = aleatório;
 </table>
 <p>O ajuste é o começo; o essencial é examinar se os pressupostos se
 sustentam.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code>,
+<code>mtcars</code>, <code>cars</code> e <code>trees</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Ajuste <code>medv ~ rm + lstat + crim</code> e interprete o
+coeficiente de <code>rm</code> (<code>rnp_regressao</code>).</li>
+<li>Qual a fração da variância explicada
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>R</mi><mn>2</mn></msup><annotation encoding="application/x-tex">R^2</annotation></semantics></math>)?
+Compare com o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>R</mi><mn>2</mn></msup><annotation encoding="application/x-tex">R^2</annotation></semantics></math>
+ajustado.</li>
+<li>Avalie os pressupostos do modelo pelos gráficos de resíduos
+(<code>rnp_grafico_residuos</code>).</li>
+<li>Aplique os testes formais de normalidade, homocedasticidade e
+autocorrelação (<code>rnp_regressao_diagnosticos</code>).</li>
+<li>Calcule o VIF de um modelo com <code>rm</code>, <code>tax</code>,
+<code>rad</code> e <code>age</code>; há colinearidade?
+(<code>rnp_vif</code>).</li>
+<li>Ajuste uma regressão ridge e uma lasso ao mesmo modelo; o lasso zera
+algum coeficiente? (<code>rnp_regressao_ridge</code>,
+<code>rnp_regressao_lasso</code>).</li>
+<li>Encontre o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+ótimo variando a penalização e observando os coeficientes.</li>
+<li>Em <code>cars</code>, ajuste <code>dist ~ speed</code> linear e
+polinomial de grau 2; qual ajusta melhor?
+(<code>rnp_regressao_polinomial</code>).</li>
+<li>Aplique a transformação de Box-Cox a <code>medv ~ rm + lstat</code>;
+qual o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+ótimo? (<code>rnp_box_cox</code>).</li>
+<li>Para um bairro com <code>rm = 6.5</code> e <code>lstat = 8</code>,
+calcule o IC da média e o intervalo de predição
+(<code>rnp_predicao</code>).</li>
+<li>Ajuste uma regressão de Poisson a uma variável de contagem
+(<code>rnp_regressao_poisson</code>).</li>
+<li>Ajuste a regressão logística <code>am ~ wt + hp</code> em
+<code>mtcars</code> e interprete as razões de chances
+(<code>rnp_logistic</code>).</li>
+<li>Trace a curva ROC e calcule a AUC do modelo anterior
+(<code>rnp_curva_roc</code>).</li>
+<li>Construa a matriz de confusão para um limiar de 0,5
+(<code>rnp_matriz_confusao</code>).</li>
+<li>Ajuste uma regressão robusta a dados com um outlier inserido e
+compare com os mínimos quadrados
+(<code>rnp_regressao_robusta</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

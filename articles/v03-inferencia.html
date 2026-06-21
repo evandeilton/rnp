@@ -124,6 +124,23 @@ trazem e menor a incerteza:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_log_verossimilhanca.html">rnp_log_verossimilhanca</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">mu</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mu</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                        intervalo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">31</span>, <span class="fl">35</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v03-inferencia_files/figure-html/logveross-1.png" class="r-plt" alt="Log-verossimilhança da média do IMC" width="672"></p>
+<div class="section level3">
+<h3 id="método-dos-momentos">Método dos momentos<a class="anchor" aria-label="anchor" href="#m%C3%A9todo-dos-momentos"></a>
+</h3>
+<p>Uma alternativa mais simples iguala os momentos amostrais aos
+teóricos. Para a Normal, ele coincide com a EMV; para outras famílias,
+fornece um ponto de partida:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_metodo_momentos.html">rnp_metodo_momentos</a></span><span class="op">(</span><span class="va">dados</span><span class="op">$</span><span class="va">bmi</span>, dist <span class="op">=</span> <span class="st">"norm"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;   parametro estimativa</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> media          32.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dp              6.13</span></span></code></pre></div>
+<p>A EMV costuma ser mais <strong>eficiente</strong> (menor variância
+assintótica), mas o método dos momentos é útil quando a verossimilhança
+é difícil de maximizar.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="intervalo-de-confiança">Intervalo de confiança<a class="anchor" aria-label="anchor" href="#intervalo-de-confian%C3%A7a"></a>
@@ -132,7 +149,7 @@ trazem e menor a incerteza:</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">1-\alpha</annotation></semantics></math>
 é</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>±</mo><msub><mi>t</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mspace width="0.167em"></mspace><mfrac><mi>s</mi><msqrt><mi>n</mi></msqrt></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">\bar{x} \pm t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}.</annotation></semantics></math></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_media.html">rnp_ic_media</a></span><span class="op">(</span><span class="va">dados</span><span class="op">$</span><span class="va">bmi</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
 <span><span class="co">#&gt;   media erro_padrao limite_inferior limite_superior     n nivel_confianca</span></span>
@@ -155,7 +172,7 @@ teste
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
 é
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>/</mi><msqrt><mi>n</mi></msqrt><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">t = (\bar{x} - \mu_0)/(s/\sqrt{n})</annotation></semantics></math>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_teste_t.html">rnp_teste_t</a></span><span class="op">(</span><span class="va">dados</span><span class="op">$</span><span class="va">bmi</span>, mu <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   estatistica    gl p_valor media_x media_y  diff ic_inf ic_sup hipotese_nula</span></span>
@@ -193,7 +210,7 @@ falsa).</p>
 necessárias para detectar um efeito médio (d de Cohen
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">= 0{,}5</annotation></semantics></math>)
 com 80% de poder, em duas amostras?</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_tamanho_amostra_teste.html">rnp_tamanho_amostra_teste</a></span><span class="op">(</span>efeito <span class="op">=</span> <span class="fl">0.5</span>, poder <span class="op">=</span> <span class="fl">0.8</span>, tipo <span class="op">=</span> <span class="st">"duas"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   efeito poder_alvo alpha     n poder_obtido</span></span>
@@ -203,7 +220,7 @@ com 80% de poder, em duas amostras?</p>
 poder mostra o compromisso entre
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 e a capacidade de detecção:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_poder_teste.html">rnp_poder_teste</a></span><span class="op">(</span>efeito <span class="op">=</span> <span class="fl">0.5</span>, n <span class="op">=</span> <span class="fl">30</span>, tipo <span class="op">=</span> <span class="st">"duas"</span><span class="op">)</span><span class="op">$</span><span class="va">grafico</span></span></code></pre></div>
 <p><img src="v03-inferencia_files/figure-html/poder-1.png" class="r-plt" alt="Curva de poder do teste t" width="672"></p>
 <p>Calcular poder e tamanho de amostra <em>antes</em> da coleta é parte
@@ -217,7 +234,7 @@ achados que não se replicam.</p>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>/</mi><msqrt><mi>n</mi></msqrt></mrow><annotation encoding="application/x-tex">s/\sqrt{n}</annotation></semantics></math>).
 Para a <strong>mediana</strong>, não. O <strong>bootstrap</strong> <span class="citation">(Efron and Tibshirani 1993)</span> reamostra a própria
 amostra com reposição e observa a variabilidade da estatística:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_bootstrap.html">rnp_ic_bootstrap</a></span><span class="op">(</span><span class="va">dados</span><span class="op">$</span><span class="va">bmi</span>, estatistica <span class="op">=</span> <span class="st">"mediana"</span>, B <span class="op">=</span> <span class="fl">1000</span>, tipo <span class="op">=</span> <span class="st">"percentil"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   estimativa limite_inferior limite_superior metodo     conf</span></span>
@@ -228,24 +245,49 @@ amostra com reposição e observa a variabilidade da estatística:</p>
 obtido sem qualquer suposição de normalidade.</p>
 </div>
 <div class="section level2">
-<h2 id="teste-de-permutação">Teste de permutação<a class="anchor" aria-label="anchor" href="#teste-de-permuta%C3%A7%C3%A3o"></a>
+<h2 id="comparação-de-dois-grupos">Comparação de dois grupos<a class="anchor" aria-label="anchor" href="#compara%C3%A7%C3%A3o-de-dois-grupos"></a>
 </h2>
-<p>Diabéticas e não-diabéticas diferem na glicose? Em vez de confiar no
-TCL, o <strong>teste de permutação</strong> constrói a distribuição nula
-embaralhando os rótulos dos grupos sob
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Diabéticas e não-diabéticas diferem na glicose? O <strong>teste t
+para duas amostras</strong> (versão de Welch, que não assume variâncias
+iguais) compara as médias, e o IC para a diferença quantifica a
+magnitude:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">g1</span> <span class="op">&lt;-</span> <span class="va">dados</span><span class="op">$</span><span class="va">glu</span><span class="op">[</span><span class="va">dados</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"Yes"</span><span class="op">]</span></span>
 <span><span class="va">g0</span> <span class="op">&lt;-</span> <span class="va">dados</span><span class="op">$</span><span class="va">glu</span><span class="op">[</span><span class="va">dados</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"No"</span><span class="op">]</span></span>
-<span><span class="fu"><a href="../reference/rnp_teste_permutacao.html">rnp_teste_permutacao</a></span><span class="op">(</span><span class="va">g1</span>, <span class="va">g0</span>, B <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_teste_t.html">rnp_teste_t</a></span><span class="op">(</span><span class="va">g1</span>, <span class="va">g0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">#&gt;   estatistica    gl p_valor media_x media_y  diff ic_inf ic_sup hipotese_nula</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        7.39  122.       0    145.    113.  32.0   23.4   40.5             0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: alternativa &lt;chr&gt;</span></span></span>
+<span><span class="fu"><a href="../reference/rnp_ic_diff_medias.html">rnp_ic_diff_medias</a></span><span class="op">(</span><span class="va">g1</span>, <span class="va">g0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;   diff_medias erro_padrao limite_inferior limite_superior    gl metodo   </span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        32.0        4.33            23.4            40.5  122. t (Welch)</span></span></code></pre></div>
+<p>A diferença é de <strong>32 mg/dL</strong> (145 contra 113), com IC
+de 95%
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>23</mn><mo>,</mo><mn>4</mn><mo>;</mo><mspace width="0.167em"></mspace><mn>40</mn><mo>,</mo><mn>5</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[23{,}4;\,40{,}5]</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>,</mo><mn>0001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0{,}0001</annotation></semantics></math>:
+associação forte e claramente significativa.</p>
+</div>
+<div class="section level2">
+<h2 id="teste-de-permutação">Teste de permutação<a class="anchor" aria-label="anchor" href="#teste-de-permuta%C3%A7%C3%A3o"></a>
+</h2>
+<p>E se a normalidade for duvidosa? O <strong>teste de
+permutação</strong> dispensa o TCL, construindo a distribuição nula por
+reamostragem dos rótulos sob
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_teste_permutacao.html">rnp_teste_permutacao</a></span><span class="op">(</span><span class="va">g1</span>, <span class="va">g0</span>, B <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
 <span><span class="co">#&gt;   diff_observada p_valor     B alternativa</span></span>
 <span><span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           32.0       0  <span style="text-decoration: underline;">2</span>000 bilateral</span></span></code></pre></div>
-<p>A diferença observada nas médias de glicose é de cerca de <strong>32
-mg/dL</strong> (145 contra 113), com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>,</mo><mn>001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0{,}001</annotation></semantics></math>:
-a associação entre glicose e diabetes é claramente significativa.</p>
+<p>A diferença observada e o p-valor coincidem com os do teste t —
+quando os pressupostos valem, paramétrico e não-paramétrico concordam, e
+a concordância reforça a conclusão.</p>
 </div>
 <div class="section level2">
 <h2 id="síntese">Síntese<a class="anchor" aria-label="anchor" href="#s%C3%ADntese"></a>
@@ -295,6 +337,54 @@ a associação entre glicose e diabetes é claramente significativa.</p>
 </table>
 <p>Mais do que calcular cada quantidade, vale entender o que ela
 significa — e o que não diz.</p>
+</div>
+<div class="section level2">
+<h2 id="exercícios">Exercícios<a class="anchor" aria-label="anchor" href="#exerc%C3%ADcios"></a>
+</h2>
+<p>Resolva com o <code>rnp</code>, usando <code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code>,
+<code>mtcars</code>, <code>sleep</code> e <code>chickwts</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Estime, por máxima verossimilhança, os parâmetros de uma Normal
+ajustada a <code>mtcars$mpg</code> (<code>rnp_emv</code>).</li>
+<li>Estime os mesmos parâmetros pelo método dos momentos e compare
+(<code>rnp_metodo_momentos</code>).</li>
+<li>Calcule a informação de Fisher e o erro-padrão da média do IMC em
+<code><a href="https://rdrr.io/pkg/MASS/man/Pima.tr.html" class="external-link">MASS::Pima.tr</a></code> (<code>rnp_informacao_fisher</code>).</li>
+<li>Construa o IC de 95% e de 99% para a média de
+<code>mtcars$mpg</code>; o de 99% é mais largo? Por quê?
+(<code>rnp_ic_media</code>).</li>
+<li>Teste se a pressão arterial média (<code>MASS::Pima.tr$bp</code>)
+difere de 70 (<code>rnp_teste_t</code>).</li>
+<li>Compare a média de <code>mpg</code> entre câmbio manual e automático
+em <code>mtcars</code>, com teste t de duas amostras
+(<code>rnp_teste_t</code>).</li>
+<li>Construa o IC para a diferença de médias do exercício anterior
+(<code>rnp_ic_diff_medias</code>).</li>
+<li>O conjunto <code>sleep</code> é pareado (mesmos indivíduos). Teste o
+efeito do medicamento com teste t pareado (<code>rnp_teste_t</code>,
+<code>pareado = TRUE</code>).</li>
+<li>Refaça a comparação de <code>mpg</code> (manual vs automático) por
+teste de permutação e compare o p-valor
+(<code>rnp_teste_permutacao</code>).</li>
+<li>Estime o IC bootstrap percentil para a <strong>mediana</strong> de
+<code>mtcars$hp</code> (<code>rnp_ic_bootstrap</code>).</li>
+<li>Compare os métodos <code>percentil</code>, <code>basico</code> e
+<code>bca</code> para o IC bootstrap da média de <code>mtcars$wt</code>
+(<code>rnp_ic_bootstrap</code>).</li>
+<li>Calcule o IC de 95% para a variância de <code>mtcars$qsec</code>
+(<code>rnp_ic_variancia</code>).</li>
+<li>Determine o tamanho de amostra para detectar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">d = 0{,}3</annotation></semantics></math>
+com poder de 0,80 (<code>rnp_tamanho_amostra_teste</code>) e trace a
+curva de poder (<code>rnp_poder_teste</code>).</li>
+<li>Teste a normalidade de <code>chickwts$weight</code> por três métodos
+(<code>rnp_teste_normalidade</code>).</li>
+<li>Aplique o teste de Wald aos coeficientes de uma regressão logística
+(<code>rnp_teste_wald</code>) e o teste da razão de verossimilhanças
+entre dois modelos aninhados (<code>rnp_teste_razao_veross</code>).</li>
+<li>Atualize uma priori Beta(1,1) com 8 sucessos em 10 ensaios e obtenha
+o intervalo de credibilidade (<code>rnp_bayes_conjugada</code>).</li>
+</ol>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="referências">Referências<a class="anchor" aria-label="anchor" href="#refer%C3%AAncias"></a>

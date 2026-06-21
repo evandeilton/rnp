@@ -175,6 +175,29 @@ rnp_kruskal(dados$bwt, factor(dados$race))
 #> 1        8.52     2  0.0141 kruskal-wallis
 ```
 
+### Dados pareados: Wilcoxon
+
+Quando as duas amostras são **pareadas** (mesmos indivíduos medidos duas
+vezes), o teste apropriado é o de **Wilcoxon dos postos sinalizados**,
+análogo não-paramétrico do teste t pareado. No conjunto `sleep` (efeito
+de dois medicamentos sobre as horas de sono dos mesmos 10 pacientes):
+
+``` r
+
+a <- sleep$extra[sleep$group == 1]
+b <- sleep$extra[sleep$group == 2]
+rnp_wilcoxon(a, b)
+#> # A tibble: 1 × 4
+#>   estatistica p_valor metodo                          alternativa
+#>         <dbl>   <dbl> <chr>                           <chr>      
+#> 1           0  0.0039 Wilcoxon signed rank exact test bilateral
+```
+
+Com $`p = 0{,}009`$, o segundo medicamento aumenta o sono de forma
+significativa (em média, 1,6 h a mais). Cada teste não-paramétrico tem
+seu par paramétrico: Mann-Whitney ↔︎ teste t independente, Wilcoxon ↔︎
+teste t pareado, Kruskal-Wallis ↔︎ ANOVA.
+
 ## Síntese
 
 | Situação | Função | Cuidado |
@@ -189,6 +212,48 @@ rnp_kruskal(dados$bwt, factor(dados$race))
 A escolha entre métodos paramétricos e não-paramétricos é um
 compromisso: os primeiros têm mais poder quando os pressupostos valem;
 os segundos são mais robustos quando a normalidade é duvidosa.
+
+## Exercícios
+
+Resolva com o `rnp`, usando
+[`MASS::birthwt`](https://rdrr.io/pkg/MASS/man/birthwt.html), `mtcars`,
+`sleep`, `Titanic` e `InsectSprays`.
+
+1.  Construa a tabela de contingência entre etnia (`race`) e baixo peso
+    (`low`) em
+    [`MASS::birthwt`](https://rdrr.io/pkg/MASS/man/birthwt.html)
+    (`rnp_tabela_contingencia`).
+2.  Teste a associação por qui-quadrado e interprete o V de Cramér
+    (`rnp_teste_qui_quadrado`).
+3.  Refaça o teste de uma tabela $`2\times2`$ pelo teste exato de Fisher
+    (`rnp_teste_fisher`).
+4.  Para a tabela hipertensão × baixo peso, calcule a razão de chances e
+    o risco relativo; eles diferem? (`rnp_odds_ratio`,
+    `rnp_risco_relativo`).
+5.  Construa dois vetores de classificações e calcule o Kappa de Cohen
+    (`rnp_kappa`).
+6.  Verifique se `mtcars$mpg` é Normal por três métodos
+    (`rnp_teste_normalidade`).
+7.  Compare `mpg` entre câmbio manual e automático pelo teste de
+    Mann-Whitney (`rnp_mann_whitney`).
+8.  Refaça a comparação por teste t e veja se a conclusão muda
+    (`rnp_teste_t`).
+9.  Teste o efeito do medicamento em `sleep` com Wilcoxon pareado
+    (`rnp_wilcoxon`).
+10. Compare a contagem de insetos entre os sprays de `InsectSprays` por
+    Kruskal-Wallis (`rnp_kruskal`).
+11. Refaça a comparação anterior por ANOVA e compare os p-valores
+    (`rnp_anova`).
+12. Teste a aderência da distribuição de `mtcars$cyl` a proporções
+    uniformes (1/3 cada) (`rnp_teste_qui_quadrado`, argumento `p`).
+13. Calcule o teste de aderência de `MASS::Pima.tr$bmi` à Normal
+    (`rnp_teste_aderencia`).
+14. Aplique o teste de McNemar a uma tabela $`2\times2`$ pareada
+    (`rnp_teste_mcnemar`).
+15. Calcule a estatística de concordância W de Kendall entre três
+    avaliadores (`rnp_teste_kendall_w`).
+
+## Referências
 
 ## Referências
 
