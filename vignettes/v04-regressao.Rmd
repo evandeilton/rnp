@@ -1,8 +1,9 @@
 ---
-title: "4. Regressao Linear e Modelagem"
+title: "4. Regressão linear e modelagem"
 output: rmarkdown::html_vignette
+bibliography: referencias.bib
 vignette: >
-  %\VignetteIndexEntry{4. Regressao Linear e Modelagem}
+  %\VignetteIndexEntry{4. Regressão linear e modelagem}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,154 +16,134 @@ library(rnp)
 set.seed(2024)
 ```
 
-## Regressao e geometria
+A regressão linear modela a esperança de uma resposta como função de preditores.
+Geometricamente, ela é a **projeção ortogonal** de $y$ sobre o espaço gerado pelas
+colunas de $X$: a solução de mínimos quadrados e os valores ajustados são
 
-Uma forma util de enxergar a regressao linear e como **projecao ortogonal**. O
-vetor de respostas $y$ vive num espaco de $n$ dimensoes; o modelo projeta $y$
-sobre o subespaco gerado pelas colunas de $X$. Os coeficientes de minimos
-quadrados sao as coordenadas dessa projecao, e os residuos sao a parte de $y$
-ortogonal ao subespaco. E por isso que os residuos sao nao-correlacionados com os
-preditores: nao por acaso, mas por construcao geometrica.
+$$\hat{\beta} = (X^\top X)^{-1} X^\top y, \qquad \hat{y} = X\hat{\beta},$$
 
-Usaremos `MASS::Boston`: 506 bairros de Boston com o valor mediano dos imoveis
-(`medv`) e 13 caracteristicas reais.
+e os resíduos $e = y - \hat{y}$ ficam ortogonais a $X$ por construção — daí serem
+não-correlacionados com os preditores [@montgomery2012]. Usamos `MASS::Boston`:
+506 bairros de Boston, com o valor mediano dos imóveis (`medv`, em milhares de
+dólares).
 
 ```{r dados}
 dados <- MASS::Boston
 ```
 
-## Ajuste e leitura dos coeficientes
+## Ajuste e interpretação dos coeficientes
 
 ```{r ajuste}
 fit <- rnp_regressao(medv ~ rm + lstat + crim, data = dados)
 fit$coeficientes
 ```
 
-Cada coeficiente e o efeito **parcial** do preditor: a variacao esperada em
-`medv` por unidade do preditor, *mantidos os demais constantes*. Por exemplo, o
-coeficiente de `rm` (numero medio de comodos) diz quanto o valor sobe por comodo
-adicional, controlando criminalidade e status socioeconomico. Esse "controle" e
-exatamente o que a regressao multipla oferece e a correlacao simples nao.
+Cada coeficiente é o efeito **parcial** do preditor, mantidos os demais
+constantes. O coeficiente de `rm` $\approx 5{,}22$ indica que cada cômodo
+adicional eleva o valor mediano em cerca de US\$ 5 200, controlando criminalidade
+e status socioeconômico; `lstat` $\approx -0{,}58$ mostra que bairros com mais
+população de baixa renda valem menos. Esse "controle" é o que a regressão
+múltipla oferece e a correlação simples não.
 
 ```{r modelo}
 fit$modelo
 ```
 
-O **R-quadrado** e a fracao da variancia de `medv` explicada pelo modelo —
-geometricamente, o quanto da "energia" de $y$ caiu dentro do subespaco. O
-**R-ajustado** penaliza preditores inuteis: ao contrario do R2 cru, ele *pode
-cair* quando se adiciona ruido. A estatistica F testa o modelo como um todo
-contra o modelo nulo (so o intercepto).
+O **coeficiente de determinação** $R^2 = 1 - \text{SQ}_{\text{res}}/\text{SQ}_{\text{tot}}$
+vale $`r round(rnp_regressao(medv ~ rm + lstat + crim, dados)$modelo$r2, 3)`$: o
+modelo explica cerca de 65% da variância de `medv`. O $R^2$ ajustado penaliza
+preditores inúteis, e a estatística $F$ testa o modelo contra o nulo (só
+intercepto).
 
-## Pressupostos: o modelo so vale se eles valerem
+## Pressupostos e diagnóstico
 
-Regressao linear nao e magica; ela repousa sobre quatro pilares. **Violar os
-pressupostos invalida os erros-padrao, os ICs e os p-valores** — os coeficientes
-podem ate continuar uteis, mas a inferencia sobre eles desaba. Os diagnosticos
-graficos sao o exame medico do modelo:
+A inferência (erros-padrão, ICs, p-valores) depende de quatro pressupostos:
+linearidade, homocedasticidade, normalidade dos resíduos e independência.
+**Violá-los invalida a inferência**, ainda que os coeficientes sigam úteis. Os
+gráficos de diagnóstico são o exame do modelo:
 
-```{r diag, fig.alt="Painel de diagnostico de residuos"}
+```{r diag, fig.alt="Resíduos versus valores ajustados"}
 g <- rnp_grafico_residuos(lm(medv ~ rm + lstat + crim, dados))
 g$residuo_ajustado
 ```
 
-- **Residuos vs ajustados** (acima): testa **linearidade** e
-  **homocedasticidade**. Queremos uma nuvem sem padrao em torno de zero. Um funil
-  indica variancia nao-constante; uma curva indica nao-linearidade.
-- **Q-Q dos residuos**: testa a **normalidade** dos residuos (necessaria para os
-  ICs em amostras pequenas).
-- **Escala-locacao**: reforca o exame da homocedasticidade.
-- **Residuos vs leverage**: identifica pontos **influentes** que sozinhos podem
-  dominar o ajuste.
+Queremos uma nuvem sem padrão em torno de zero. Um formato de funil indica
+**heterocedasticidade**; uma curvatura, **não-linearidade**. Os testes formais
+complementam o exame visual:
 
 ```{r diag-testes}
 rnp_regressao_diagnosticos(lm(medv ~ rm + lstat, dados))$testes
 ```
 
-Os testes formais (Shapiro nos residuos, Breusch-Pagan para
-heterocedasticidade, Durbin-Watson para autocorrelacao) complementam o olho.
+## Multicolinearidade
 
-## Multicolinearidade: quando os preditores brigam
+Quando preditores carregam informação redundante, os erros-padrão se inflam. O
+**fator de inflação de variância** mede isso a partir do $R_j^2$ da regressão do
+preditor $j$ sobre os demais:
 
-Se dois preditores carregam quase a mesma informacao, o modelo nao consegue
-separar seus efeitos — os erros-padrao explodem e os coeficientes ficam
-instaveis. O **VIF** (fator de inflacao de variancia) detecta isso:
+$$\text{VIF}_j = \frac{1}{1 - R_j^2}.$$
 
 ```{r vif}
 rnp_vif(lm(medv ~ rm + lstat + tax + rad, dados))
 ```
 
-Regra pratica: VIF > 5 e preocupante, > 10 e grave. `tax` e `rad` (acesso a
-rodovias e imposto predial) costumam ser colineares em Boston — faz sentido
-economico.
+`tax` e `rad` (imposto predial e acesso a rodovias) têm VIF próximo de 6
+("moderada") — são, de fato, correlacionados em Boston. Como regra, VIF $> 5$
+merece atenção e VIF $> 10$ é grave.
 
-## O trade-off vies-variancia: regressao penalizada
+## Regularização: o compromisso viés-variância
 
-Quando ha muitos preditores ou multicolinearidade, abrir mao de um pouco de
-imparcialidade pode reduzir muito a variancia — e melhorar a predicao. Essa e a
-ideia da **regularizacao**, e o trade-off vies-variancia em acao.
+Com muitos preditores ou colinearidade, aceitar um pequeno viés pode reduzir
+muito a variância e melhorar a predição. A **ridge** (L2) encolhe os coeficientes;
+o **lasso** (L1) ainda zera os irrelevantes, fazendo seleção de variáveis
+[@hastie2009]:
 
-- **Ridge** (L2) encolhe todos os coeficientes em direcao a zero, domando a
-  multicolinearidade sem zerar ninguem.
-- **Lasso** (L1) zera coeficientes irrelevantes, fazendo **selecao de variaveis**.
+$$\hat\beta_{\text{ridge}} = (X^\top X + \lambda I)^{-1} X^\top y, \qquad
+  \hat\beta_{\text{lasso}} = \arg\min_\beta \|y - X\beta\|^2 + \lambda \|\beta\|_1.$$
 
 ```{r ridge}
-rnp_regressao_ridge(medv ~ rm + lstat + crim + tax + rad, dados, lambda = 1)
-```
-
-```{r lasso}
 rnp_regressao_lasso(medv ~ rm + lstat + crim + tax + rad, dados, lambda = 0.5)
 ```
 
-Note como o lasso zera preditores fracos — algo que o minimos quadrados comum
-jamais faz. O parametro $\lambda$ controla a intensidade da penalidade: e o
-dial do trade-off.
+Com $\lambda = 0{,}5$, o lasso **zera** o coeficiente de `rad`, descartando-o do
+modelo — algo que os mínimos quadrados nunca fazem. O parâmetro $\lambda$ é o
+controle do compromisso entre viés e variância.
 
-## Robustez a outliers
+## Resposta binária: regressão logística
 
-Minimos quadrados eleva os residuos ao quadrado — logo, um unico outlier pode
-sequestrar a reta. A **regressao robusta** (M-estimadores via IRLS) reduz o peso
-de observacoes aberrantes:
-
-```{r robusta}
-rnp_regressao_robusta(medv ~ rm + lstat, dados, metodo = "huber")$coeficientes
-```
-
-## Quando a resposta e binaria: regressao logistica
-
-Nem toda resposta e continua. Para classificar (doente/sadio, aprovado/reprovado)
-usa-se a **regressao logistica**, que modela a *chance* (odds) do evento. Voltando
-aos dados de diabetes:
+Para classificar, modela-se a *chance* (odds) do evento pela função logito,
+$\operatorname{logit}(p) = \log\frac{p}{1-p} = X\beta$, de modo que $e^{\beta_j}$ é
+a **razão de chances**. Voltando aos dados de diabetes:
 
 ```{r logistica}
 pima <- MASS::Pima.tr
-log_fit <- rnp_logistic(type ~ glu + bmi + age, data = pima)
-log_fit$coeficientes
+rnp_logistic(type ~ glu + bmi + age, data = pima)$coeficientes
 ```
 
-O `odds_ratio` (= $e^\beta$) e a leitura natural: um OR de 1,03 para `glu`
-significa que cada unidade de glicose multiplica a chance de diabetes por 1,03.
-A qualidade da classificacao se mede pela **curva ROC** e sua area (AUC):
+A razão de chances de `glu` $\approx 1{,}03$ significa que cada unidade de glicose
+multiplica a chance de diabetes por 1,03, controlando IMC e idade. A qualidade da
+classificação é medida pela área sob a curva ROC:
 
 ```{r roc}
 prob <- predict(glm(type ~ glu + bmi + age, pima, family = binomial()),
                 type = "response")
-roc <- rnp_curva_roc(pima$type, prob, positivo = "Yes")
-roc$auc
+rnp_curva_roc(pima$type, prob, positivo = "Yes")$auc
 ```
 
-A **AUC** e a probabilidade de o modelo ranquear um caso positivo acima de um
-negativo escolhidos ao acaso. AUC = 0,5 e moeda jogada; 1,0 e perfeito.
+A **AUC** de `r round(rnp_curva_roc(MASS::Pima.tr$type, predict(glm(type~glu+bmi+age, MASS::Pima.tr, family=binomial()), type="response"), positivo="Yes")$auc, 2)`
+é a probabilidade de o modelo ranquear um caso positivo acima de um negativo
+tomados ao acaso (0,5 = aleatório; 1 = perfeito) — uma discriminação boa.
 
-## Sintese
+## Síntese
 
-| Etapa | Ferramenta | Pergunta |
-|-------|-----------|----------|
-| Ajustar | `rnp_regressao` | os coeficientes fazem sentido teorico? |
+| Etapa | Função | Pergunta |
+|-------|--------|----------|
+| Ajustar | `rnp_regressao` | os coeficientes fazem sentido teórico? |
 | Diagnosticar | `rnp_grafico_residuos` | os pressupostos valem? |
-| Colinearidade | `rnp_vif` | os preditores sao redundantes? |
-| Regularizar | `rnp_regressao_ridge/_lasso` | vale trocar vies por variancia? |
-| Classificar | `rnp_logistic` + `rnp_curva_roc` | quao bem separa as classes? |
+| Colinearidade | `rnp_vif` | os preditores são redundantes? |
+| Regularizar | `rnp_regressao_ridge/_lasso` | vale trocar viés por variância? |
+| Classificar | `rnp_logistic`, `rnp_curva_roc` | quão bem separa as classes? |
 
-O ajuste e apenas o comeco: a parte mais importante e examinar se os pressupostos
-se sustentam e se o modelo descreve bem os dados.
+O ajuste é o começo; o essencial é examinar se os pressupostos se sustentam.
+
+## Referências

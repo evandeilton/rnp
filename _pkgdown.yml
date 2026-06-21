@@ -28,17 +28,17 @@ navbar:
     articles:
       text: Tutoriais
       menu:
-      - text: 1. Descritiva e Exploratoria
+      - text: 1. Descritiva e exploratória
         href: articles/v01-descritiva.html
-      - text: 2. Probabilidade e Teoremas Fundamentais
+      - text: 2. Probabilidade e teoremas fundamentais
         href: articles/v02-probabilidade.html
-      - text: 3. Inferencia Estatistica
+      - text: 3. Inferência estatística
         href: articles/v03-inferencia.html
-      - text: 4. Regressao e Modelagem
+      - text: 4. Regressão e modelagem
         href: articles/v04-regressao.html
-      - text: 5. Analise Multivariada
+      - text: 5. Análise multivariada
         href: articles/v05-multivariada.html
-      - text: 6. Categoricos e Nao-Parametricos
+      - text: 6. Categóricos e não-paramétricos
         href: articles/v06-categoricos.html
 reference:
 - title: Descritiva e Exploratoria

@@ -1,8 +1,9 @@
 ---
-title: "6. Dados Categoricos e Metodos Nao-Parametricos"
+title: "6. Dados categóricos e métodos não-paramétricos"
 output: rmarkdown::html_vignette
+bibliography: referencias.bib
 vignette: >
-  %\VignetteIndexEntry{6. Dados Categoricos e Metodos Nao-Parametricos}
+  %\VignetteIndexEntry{6. Dados categóricos e métodos não-paramétricos}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,151 +16,138 @@ library(rnp)
 set.seed(2024)
 ```
 
-## Quando os dados nao sao numeros — ou nao sao normais
-
-Boa parte da estatistica de livro-texto assume variaveis continuas e normais. A
-realidade frequentemente entrega **categorias** (sexo, fumante/nao-fumante,
-aprovado/reprovado) ou distribuicoes **torcidas** que invalidam o teste t. Esta
-vinheta cobre as duas saidas: a analise de dados categoricos e os metodos
-**nao-parametricos**, que trocam suposicoes de distribuicao por raciocinio sobre
-postos e contagens.
-
-Usaremos `MASS::birthwt`: dados reais de 189 nascimentos, com peso do bebe,
-tabagismo da mae, hipertensao e outros fatores.
+Muitos dados são **categóricos** (sexo, fumante/não-fumante) ou têm distribuições
+que invalidam o teste $t$. Esta vinheta cobre a análise de tabelas de
+contingência [@agresti2013] e os métodos **não-paramétricos** [@conover1999], que
+trocam suposições de distribuição por raciocínio sobre postos e contagens. Usamos
+`MASS::birthwt`: 189 nascimentos reais, com peso do bebê e fatores como tabagismo
+da mãe.
 
 ```{r dados}
 dados <- MASS::birthwt
-dados$fumante <- factor(ifelse(dados$smoke == 1, "Sim", "Nao"))
-dados$baixo_peso <- factor(ifelse(dados$low == 1, "Sim", "Nao"))
+dados$fumante    <- factor(ifelse(dados$smoke == 1, "Sim", "Nao"), c("Sim", "Nao"))
+dados$baixo_peso <- factor(ifelse(dados$low == 1, "Sim", "Nao"), c("Sim", "Nao"))
 ```
 
-## Tabelas de contingencia: o ponto de partida
+## Tabela de contingência
 
-Toda analise de duas categoricas comeca por uma tabela cruzada. A
-`rnp_tabela_contingencia` entrega frequencias absolutas e relativas (total,
-linha, coluna) num formato tidy:
+A frequência relativa *por linha* responde à pergunta de interesse: dentre as
+fumantes, que proporção teve bebê de baixo peso?
 
 ```{r tabela}
 rnp_tabela_contingencia(dados$fumante, dados$baixo_peso, tipo = "fr_linha")
 ```
 
-A frequencia *por linha* responde a pergunta certa: **dentre as fumantes, que
-proporcao teve bebe de baixo peso?** Comparar essa proporcao entre fumantes e
-nao-fumantes e o cerne da analise.
+Entre as fumantes, 40,5% tiveram bebê de baixo peso; entre as não-fumantes,
+apenas 25,2%. Resta saber se essa diferença é estatisticamente sustentável.
 
-## Teste qui-quadrado: ha associacao?
+## Teste qui-quadrado
 
-O teste qui-quadrado de independencia confronta as contagens observadas com as
-**esperadas sob independencia** (se tabagismo e peso fossem nao-relacionados):
+O teste de independência compara as contagens observadas $O_{ij}$ com as
+esperadas sob independência, $E_{ij} = n_{i\cdot}\,n_{\cdot j}/n$:
+
+$$\chi^2 = \sum_{i,j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}, \qquad
+  V = \sqrt{\frac{\chi^2}{n\,(\min(r,c) - 1)}}.$$
 
 ```{r qui2}
 rnp_teste_qui_quadrado(dados$fumante, dados$baixo_peso)
 ```
 
-O **V de Cramer** complementa o p-valor com o que ele esconde: o *tamanho* da
-associacao (0 = nenhuma, 1 = perfeita). Lembre-se — significancia nao e forca.
-Com amostra grande, associacoes triviais ficam "significativas".
+Há associação ($p = `r round(suppressWarnings(rnp_teste_qui_quadrado(dados$fumante, dados$baixo_peso))$p_valor, 3)`$),
+mas o **V de Cramér** de $0{,}16$ revela que ela é *fraca*. Vale a distinção:
+significância estatística não é o mesmo que força da associação — com amostras
+grandes, associações triviais ficam significativas.
 
-## Quando o n e pequeno: teste exato de Fisher
+## Teste exato de Fisher
 
-O qui-quadrado depende de uma aproximacao que falha quando as celulas tem poucas
-contagens (regra pratica: alguma esperada < 5). Ai entra o **teste exato de
-Fisher**, que calcula a probabilidade exata pela distribuicao hipergeometrica:
+Quando alguma frequência esperada é pequena ($< 5$), a aproximação do
+qui-quadrado falha, e o **teste exato de Fisher** calcula a probabilidade exata
+pela distribuição hipergeométrica:
 
 ```{r fisher}
 tab <- table(dados$fumante, dados$baixo_peso)
 rnp_teste_fisher(tab)
 ```
 
-Para tabelas 2x2, o Fisher tambem reporta o **odds ratio** e seu intervalo de
-confianca.
+## Razão de chances versus risco relativo
 
-## Odds ratio versus risco relativo: nao confunda
+Para uma tabela $2\times2$ com células $a, b, c, d$, definem-se
 
-Esta e uma das distincoes mais importantes — e mais atropeladas — da
-epidemiologia.
+$$\text{OR} = \frac{a\,d}{b\,c}, \qquad
+  \text{RR} = \frac{a/(a+b)}{c/(c+d)}.$$
 
 ```{r or-rr}
 rnp_odds_ratio(tab)
 rnp_risco_relativo(tab)
 ```
 
-- **Risco relativo (RR)**: razao de *probabilidades*. "Fumantes tem RR vezes mais
-  **chance** (no sentido de risco) de bebe com baixo peso." Intuitivo, mas so
-  estimavel em estudos prospectivos (coorte).
-- **Odds ratio (OR)**: razao de *odds* (chances). Menos intuitivo, mas e o que se
-  estima em estudos caso-controle e o que sai da regressao logistica.
+A **razão de chances** é $2{,}0$ e o **risco relativo**, $1{,}6$. Eis uma das
+distinções mais atropeladas da epidemiologia: como o desfecho é **comum** (baixo
+peso ocorre em ~31% dos casos), o OR *exagera* o RR. Reportar "OR $= 2$" como "o
+dobro do risco" seria incorreto — o risco relativo correto é de 1,6 vez. (Para
+desfechos raros, OR $\approx$ RR.) O RR só é diretamente estimável em estudos
+prospectivos; o OR é o que sai de estudos caso-controle e da regressão logística.
 
-Armadilha classica: para desfechos **raros**, OR $\approx$ RR. Para desfechos
-**comuns**, o OR **exagera** o RR — reportar um OR de 3 como "tres vezes mais
-risco" e um erro que aparece ate na imprensa.
+## Concordância: Kappa de Cohen
 
-## Concordancia entre avaliadores: Kappa de Cohen
+A concordância bruta entre dois avaliadores engana, pois parte dela ocorre por
+acaso. O **Kappa de Cohen** desconta o acaso [@cohen1960]:
 
-Dois medicos classificam as mesmas radiografias. Eles concordam? A concordancia
-bruta engana, porque parte dela ocorreria **por acaso**. O **Kappa de Cohen**
-desconta o acaso:
+$$\kappa = \frac{p_o - p_e}{1 - p_e},$$
+
+onde $p_o$ é a concordância observada e $p_e$, a esperada por acaso.
 
 ```{r kappa}
-medico1 <- c("normal", "alterado", "normal", "alterado", "normal", "alterado", "normal")
-medico2 <- c("normal", "alterado", "normal", "normal",   "normal", "alterado", "alterado")
-rnp_kappa(medico1, medico2)
+a1 <- c("normal", "alterado", "normal", "alterado", "normal", "alterado", "normal")
+a2 <- c("normal", "alterado", "normal", "normal",   "normal", "alterado", "alterado")
+rnp_kappa(a1, a2)
 ```
 
-Kappa = 1 e concordancia perfeita; 0 e o nivel do acaso; valores acima de 0,6
-costumam ser considerados "boa" concordancia. Comparar `concordancia_observada`
-com `concordancia_esperada` mostra exatamente quanto o acaso contribuiu.
+$\kappa = 1$ é concordância perfeita; $0$ é o nível do acaso; acima de $0{,}6$
+costuma ser considerada "boa".
 
-## Metodos nao-parametricos: abandonando a normalidade
+## Métodos não-paramétricos
 
-Quando a variavel resposta e numerica mas **nao** normal (assimetrica, ordinal,
-com outliers), o teste t e a ANOVA ficam suspeitos. Os metodos nao-parametricos
-trabalham com **postos** (ranks) em vez de valores, dispensando a suposicao de
-normalidade.
-
-Primeiro, a normalidade do peso e mesmo questionavel?
+Quando a resposta numérica não é normal (assimétrica, ordinal, com *outliers*), o
+teste $t$ e a ANOVA ficam suspeitos. Os métodos não-paramétricos trabalham com
+**postos**, dispensando a normalidade. Vale checar antes:
 
 ```{r normalidade}
 rnp_teste_normalidade(dados$bwt, metodo = "shapiro")
 ```
 
-### Mann-Whitney: o "teste t" dos postos
-
-Para comparar duas amostras independentes (peso do bebe entre fumantes e nao),
-o **teste de Mann-Whitney** (Wilcoxon de soma de postos) e a alternativa robusta
-ao teste t:
+Aqui o peso ao nascer é aproximadamente normal ($p = `r round(rnp_teste_normalidade(dados$bwt, "shapiro")$p_valor, 2)`$,
+não se rejeita a normalidade), de modo que o teste $t$ seria válido. Ainda assim,
+o **teste de Mann-Whitney** (postos) é uma alternativa robusta para comparar dois
+grupos independentes:
 
 ```{r mann}
-peso_fum <- dados$bwt[dados$fumante == "Sim"]
-peso_nao <- dados$bwt[dados$fumante == "Nao"]
-rnp_mann_whitney(peso_fum, peso_nao)
+rnp_mann_whitney(dados$bwt[dados$fumante == "Sim"],
+                 dados$bwt[dados$fumante == "Nao"])
 ```
 
-### Kruskal-Wallis: a "ANOVA" dos postos
-
-Para comparar **mais de dois** grupos (peso por raca, por exemplo), o
-**Kruskal-Wallis** generaliza o Mann-Whitney — e a ANOVA nao-parametrica:
+Com $p = `r round(rnp_mann_whitney(dados$bwt[dados$fumante=="Sim"], dados$bwt[dados$fumante=="Nao"])$p_valor, 3)`$,
+confirma-se que filhos de fumantes pesam menos (média de 2772 g contra 3056 g).
+Para comparar **mais de dois** grupos (peso por etnia), o **Kruskal-Wallis**
+generaliza o Mann-Whitney:
 
 ```{r kruskal}
 rnp_kruskal(dados$bwt, factor(dados$race))
 ```
 
-Regra de bolso: prefira o teste parametrico quando os pressupostos valem (ele tem
-mais **poder**); recorra ao nao-parametrico quando a normalidade e duvidosa,
-a amostra e pequena ou os dados sao ordinais. Trocar poder por robustez e uma
-decisao consciente, nao um default.
+## Síntese
 
-## Sintese
+| Situação | Função | Cuidado |
+|----------|--------|---------|
+| Associação entre categóricas | `rnp_teste_qui_quadrado` | significância $\ne$ força (V de Cramér) |
+| Tabela $2\times2$, $n$ pequeno | `rnp_teste_fisher` | esperadas $< 5$ |
+| Medir risco | `rnp_odds_ratio`, `rnp_risco_relativo` | OR $\ne$ RR em desfechos comuns |
+| Concordância | `rnp_kappa` | descontar o acaso |
+| Comparar 2 grupos | `rnp_mann_whitney` | menos poder que o $t$ |
+| Comparar $k$ grupos | `rnp_kruskal` | ANOVA dos postos |
 
-| Situacao | Ferramenta | Cuidado |
-|----------|-----------|---------|
-| Associacao entre categoricas | `rnp_teste_qui_quadrado` | significancia != forca (veja V de Cramer) |
-| Tabela 2x2 com n pequeno | `rnp_teste_fisher` | use quando esperadas < 5 |
-| Medir risco | `rnp_odds_ratio`, `rnp_risco_relativo` | OR != RR em desfechos comuns |
-| Concordancia | `rnp_kappa` | desconte o acaso |
-| Comparar 2 grupos nao-normais | `rnp_mann_whitney` | menos poder que o t |
-| Comparar k grupos nao-normais | `rnp_kruskal` | ANOVA dos postos |
+A escolha entre métodos paramétricos e não-paramétricos é um compromisso: os
+primeiros têm mais poder quando os pressupostos valem; os segundos são mais
+robustos quando a normalidade é duvidosa.
 
-A escolha entre metodos parametricos e nao-parametricos envolve um compromisso:
-os primeiros tem mais poder quando os pressupostos valem; os segundos sao mais
-robustos quando a normalidade e duvidosa.
+## Referências
