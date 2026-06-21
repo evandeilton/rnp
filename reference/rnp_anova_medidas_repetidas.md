@@ -50,6 +50,6 @@ rnp_anova_medidas_repetidas(resp ~ cond, df, sujeito = "suj")
 #> # A tibble: 2 × 6
 #>   fonte        gl    sq    qm estatistica_f p_valor
 #>   <chr>     <dbl> <dbl> <dbl>         <dbl>   <dbl>
-#> 1 cond          2    24    12       5.39e30       0
+#> 1 cond          2    24    12       3.48e31       0
 #> 2 Residuals     4     0     0      NA            NA
 ```
