@@ -1,0 +1,168 @@
+---
+title: "4. Regressao Linear e Modelagem"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{4. Regressao Linear e Modelagem}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+set.seed(2024)
+```
+
+## Regressao e geometria
+
+Ha um segredo que torna a regressao linear menos misteriosa: **ela e projecao
+ortogonal**. O vetor de respostas $y$ vive num espaco de $n$ dimensoes; o modelo
+projeta $y$ sobre o subespaco gerado pelas colunas de $X$. Os coeficientes de
+minimos quadrados sao as coordenadas dessa projecao, e os residuos sao a parte de
+$y$ ortogonal ao subespaco. Quem entende isso entende *por que* os residuos sao
+nao-correlacionados com os preditores — nao por acaso, mas por construcao
+geometrica.
+
+Usaremos `MASS::Boston`: 506 bairros de Boston com o valor mediano dos imoveis
+(`medv`) e 13 caracteristicas reais.
+
+```{r dados}
+dados <- MASS::Boston
+```
+
+## Ajuste e leitura dos coeficientes
+
+```{r ajuste}
+fit <- rnp_regressao(medv ~ rm + lstat + crim, data = dados)
+fit$coeficientes
+```
+
+Cada coeficiente e o efeito **parcial** do preditor: a variacao esperada em
+`medv` por unidade do preditor, *mantidos os demais constantes*. Por exemplo, o
+coeficiente de `rm` (numero medio de comodos) diz quanto o valor sobe por comodo
+adicional, controlando criminalidade e status socioeconomico. Esse "controle" e
+exatamente o que a regressao multipla oferece e a correlacao simples nao.
+
+```{r modelo}
+fit$modelo
+```
+
+O **R-quadrado** e a fracao da variancia de `medv` explicada pelo modelo —
+geometricamente, o quanto da "energia" de $y$ caiu dentro do subespaco. O
+**R-ajustado** penaliza preditores inuteis: ao contrario do R2 cru, ele *pode
+cair* quando se adiciona ruido. A estatistica F testa o modelo como um todo
+contra o modelo nulo (so o intercepto).
+
+## Pressupostos: o modelo so vale se eles valerem
+
+Regressao linear nao e magica; ela repousa sobre quatro pilares. **Violar os
+pressupostos invalida os erros-padrao, os ICs e os p-valores** — os coeficientes
+podem ate continuar uteis, mas a inferencia sobre eles desaba. Os diagnosticos
+graficos sao o exame medico do modelo:
+
+```{r diag, fig.alt="Painel de diagnostico de residuos"}
+g <- rnp_grafico_residuos(lm(medv ~ rm + lstat + crim, dados))
+g$residuo_ajustado
+```
+
+- **Residuos vs ajustados** (acima): testa **linearidade** e
+  **homocedasticidade**. Queremos uma nuvem sem padrao em torno de zero. Um funil
+  indica variancia nao-constante; uma curva indica nao-linearidade.
+- **Q-Q dos residuos**: testa a **normalidade** dos residuos (necessaria para os
+  ICs em amostras pequenas).
+- **Escala-locacao**: reforca o exame da homocedasticidade.
+- **Residuos vs leverage**: identifica pontos **influentes** que sozinhos podem
+  dominar o ajuste.
+
+```{r diag-testes}
+rnp_regressao_diagnosticos(lm(medv ~ rm + lstat, dados))$testes
+```
+
+Os testes formais (Shapiro nos residuos, Breusch-Pagan para
+heterocedasticidade, Durbin-Watson para autocorrelacao) complementam o olho.
+
+## Multicolinearidade: quando os preditores brigam
+
+Se dois preditores carregam quase a mesma informacao, o modelo nao consegue
+separar seus efeitos — os erros-padrao explodem e os coeficientes ficam
+instaveis. O **VIF** (fator de inflacao de variancia) detecta isso:
+
+```{r vif}
+rnp_vif(lm(medv ~ rm + lstat + tax + rad, dados))
+```
+
+Regra pratica: VIF > 5 e preocupante, > 10 e grave. `tax` e `rad` (acesso a
+rodovias e imposto predial) costumam ser colineares em Boston — faz sentido
+economico.
+
+## O trade-off vies-variancia: regressao penalizada
+
+Quando ha muitos preditores ou multicolinearidade, abrir mao de um pouco de
+imparcialidade pode reduzir muito a variancia — e melhorar a predicao. Essa e a
+ideia da **regularizacao**, e o trade-off vies-variancia em acao.
+
+- **Ridge** (L2) encolhe todos os coeficientes em direcao a zero, domando a
+  multicolinearidade sem zerar ninguem.
+- **Lasso** (L1) zera coeficientes irrelevantes, fazendo **selecao de variaveis**.
+
+```{r ridge}
+rnp_regressao_ridge(medv ~ rm + lstat + crim + tax + rad, dados, lambda = 1)
+```
+
+```{r lasso}
+rnp_regressao_lasso(medv ~ rm + lstat + crim + tax + rad, dados, lambda = 0.5)
+```
+
+Note como o lasso zera preditores fracos — algo que o minimos quadrados comum
+jamais faz. O parametro $\lambda$ controla a intensidade da penalidade: e o
+dial do trade-off.
+
+## Robustez a outliers
+
+Minimos quadrados eleva os residuos ao quadrado — logo, um unico outlier pode
+sequestrar a reta. A **regressao robusta** (M-estimadores via IRLS) reduz o peso
+de observacoes aberrantes:
+
+```{r robusta}
+rnp_regressao_robusta(medv ~ rm + lstat, dados, metodo = "huber")$coeficientes
+```
+
+## Quando a resposta e binaria: regressao logistica
+
+Nem toda resposta e continua. Para classificar (doente/sadio, aprovado/reprovado)
+usa-se a **regressao logistica**, que modela a *chance* (odds) do evento. Voltando
+aos dados de diabetes:
+
+```{r logistica}
+pima <- MASS::Pima.tr
+log_fit <- rnp_logistic(type ~ glu + bmi + age, data = pima)
+log_fit$coeficientes
+```
+
+O `odds_ratio` (= $e^\beta$) e a leitura natural: um OR de 1,03 para `glu`
+significa que cada unidade de glicose multiplica a chance de diabetes por 1,03.
+A qualidade da classificacao se mede pela **curva ROC** e sua area (AUC):
+
+```{r roc}
+prob <- predict(glm(type ~ glu + bmi + age, pima, family = binomial()),
+                type = "response")
+roc <- rnp_curva_roc(pima$type, prob, positivo = "Yes")
+roc$auc
+```
+
+A **AUC** e a probabilidade de o modelo ranquear um caso positivo acima de um
+negativo escolhidos ao acaso. AUC = 0,5 e moeda jogada; 1,0 e perfeito.
+
+## Sintese
+
+| Etapa | Ferramenta | Pergunta de professor |
+|-------|-----------|------------------------|
+| Ajustar | `rnp_regressao` | os coeficientes fazem sentido teorico? |
+| Diagnosticar | `rnp_grafico_residuos` | os pressupostos valem? |
+| Colinearidade | `rnp_vif` | os preditores brigam? |
+| Regularizar | `rnp_regressao_ridge/_lasso` | vale trocar vies por variancia? |
+| Classificar | `rnp_logistic` + `rnp_curva_roc` | quao bem separa as classes? |
+
+Regressao bem-feita e 20% ajustar e 80% **criticar** o ajuste.

@@ -1,0 +1,149 @@
+---
+title: "3. Inferencia Estatistica"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3. Inferencia Estatistica}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+set.seed(2024)
+```
+
+## Dos dados a populacao
+
+Inferencia e o salto do que observamos (a amostra) para o que queremos saber (a
+populacao). E o curso mais importante de um bacharelado em estatistica, e tambem
+o mais mal-interpretado. Usaremos `MASS::Pima.tr`: dados reais de 200 mulheres
+da etnia Pima, com medidas clinicas e diagnostico de diabetes.
+
+```{r dados}
+dados <- MASS::Pima.tr
+rnp_descritiva(dados$bmi)[c("n_validos", "media", "desvio", "se_media")]
+```
+
+## Estimacao pontual: dois caminhos
+
+Estimar um parametro pontualmente pode ser feito por **maxima verossimilhanca**
+(EMV) — o valor que torna os dados observados mais provaveis — ou pelo **metodo
+dos momentos**. Para o IMC, supondo Normal:
+
+```{r emv}
+x <- dados$bmi
+ll <- function(th) sum(dnorm(x, th[1], th[2], log = TRUE))
+rnp_emv(ll, inicio = c(30, 5), nomes = c("media", "desvio"))$estimativas
+```
+
+A EMV nao da apenas o estimador: a curvatura da log-verossimilhanca no maximo (a
+**informacao de Fisher**) fornece o erro-padrao. Quanto mais "afilada" a
+verossimilhanca, mais informacao os dados trazem e menor a incerteza:
+
+```{r logveross, fig.alt="Log-verossimilhanca da media"}
+rnp_log_verossimilhanca(function(mu) sum(dnorm(x, mu, sd(x), log = TRUE)),
+                        intervalo = c(31, 35))
+```
+
+## Intervalo de confianca: o que ele *realmente* significa
+
+```{r ic}
+rnp_ic_media(dados$bmi)
+```
+
+Aqui mora a interpretacao mais distorcida da estatistica. Um IC de 95% para a
+media **NAO** significa "ha 95% de probabilidade de a media verdadeira estar
+neste intervalo". A media verdadeira e uma constante fixa — ou esta, ou nao esta.
+
+A interpretacao **frequentista correta**: se repetissemos o estudo muitas vezes e
+construissemos um IC a cada vez, **95% desses intervalos** conteriam a media
+verdadeira. A confianca esta no *procedimento*, nao neste intervalo particular.
+
+## Teste de hipoteses e o p-valor
+
+Sera que o IMC medio dessa populacao difere de 30 (limiar de obesidade)?
+
+```{r teste-t}
+rnp_teste_t(dados$bmi, mu = 30)
+```
+
+Agora o conceito mais escorregadio de todos. O **p-valor** e:
+
+> a probabilidade de observar uma estatistica tao ou mais extrema que a obtida,
+> **supondo H0 verdadeira**.
+
+O que o p-valor **NAO** e:
+
+- *Nao* e a probabilidade de H0 ser verdadeira.
+- *Nao* e a probabilidade de o resultado ter sido "sorte".
+- Um p < 0,05 *nao* mede o tamanho nem a importancia do efeito — apenas a
+  evidencia contra H0.
+
+E os dois tipos de erro que rondam toda decisao:
+
+- **Erro tipo I** ($\alpha$): rejeitar H0 sendo ela verdadeira (falso positivo).
+- **Erro tipo II** ($\beta$): nao rejeitar H0 sendo ela falsa (falso negativo).
+
+## Poder: a face esquecida do teste
+
+O **poder** ($1-\beta$) e a probabilidade de detectar um efeito que existe de
+fato. Estudos com pouco poder produzem tanto falsos negativos quanto achados
+"significativos" que nao se replicam. Quantos sujeitos precisamos para detectar
+um efeito medio (d de Cohen = 0,5) com 80% de poder?
+
+```{r tamanho}
+rnp_tamanho_amostra_teste(efeito = 0.5, poder = 0.8, tipo = "duas")
+```
+
+A curva de poder mostra o trade-off entre tamanho amostral e capacidade de
+deteccao:
+
+```{r poder, fig.alt="Curva de poder"}
+rnp_poder_teste(efeito = 0.5, n = 30, tipo = "duas")$grafico
+```
+
+**Planejar o poder ANTES de coletar dados** e o que separa pesquisa seria de
+pescaria de p-valores.
+
+## Quando nao ha formula: o bootstrap
+
+Para a media, o erro-padrao tem formula fechada ($s/\sqrt{n}$). Mas e para a
+**mediana**, ou para um quantil? O **bootstrap** de Efron resolve por
+reamostragem: reamostra-se a propria amostra com reposicao milhares de vezes e
+observa-se a variabilidade da estatistica.
+
+```{r bootstrap}
+rnp_ic_bootstrap(dados$bmi, estatistica = "mediana", B = 1000, tipo = "percentil")
+```
+
+Nenhuma suposicao de normalidade foi feita — o bootstrap deixa os dados falarem.
+E o canivete da inferencia moderna para estatisticas sem teoria assintotica
+amigavel.
+
+## Comparando grupos sem assumir normalidade: permutacao
+
+Diabeticas e nao-diabeticas diferem na glicose? Em vez de confiar no TCL, o
+**teste de permutacao** constroi a distribuicao nula embaralhando os rotulos —
+inferencia exata, baseada apenas na troca de etiquetas sob H0:
+
+```{r perm}
+g1 <- dados$glu[dados$type == "Yes"]
+g0 <- dados$glu[dados$type == "No"]
+rnp_teste_permutacao(g1, g0, B = 2000)
+```
+
+## Sintese: o "kit" da inferencia madura
+
+| Conceito | O que e | Erro comum |
+|----------|---------|------------|
+| Verossimilhanca | plausibilidade dos dados sob $\theta$ | confundir com probabilidade de $\theta$ |
+| IC de 95% | 95% dos intervalos cobririam o parametro | "95% de chance de estar aqui" |
+| p-valor | P(dados \| H0) | "P(H0 \| dados)" |
+| Poder | P(detectar efeito real) | ignora-lo no planejamento |
+| Bootstrap | EP por reamostragem | so usar quando ha formula |
+
+Dominar *o que cada numero significa* — nao apenas como calcula-lo — e o que
+distingue o estatistico do operador de software.

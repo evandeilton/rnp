@@ -16,17 +16,12 @@ rnp_ts_decomposicao(
 
 \item{type}{String: \code{"classica"} ou \code{"stl"}.}
 
-\item{frequency}{Inteiro. Periodicidade (default NULL = auto).}
+\item{frequency}{Inteiro. Periodicidade (default \code{NULL} = auto).}
 
 \item{digits}{Inteiro.}
 }
 \value{
-lista:
-\itemize{
-\item \code{serie}: objeto \code{ts} ou \code{stl}.
-\item \code{componentes}: tibble com observacao, tempo, observada, tendencia,
-sazonal, aleatorio.
-}
+Uma lista com \code{serie} (objeto ajustado) e \code{componentes} (tibble).
 }
 \description{
 Wrapper de \code{\link[stats:decompose]{stats::decompose()}} e \code{\link[stats:stl]{stats::stl()}}.
@@ -35,3 +30,17 @@ Wrapper de \code{\link[stats:decompose]{stats::decompose()}} e \code{\link[stats
 x <- ts(rnorm(100) + rep(1:4, 25), frequency = 4)
 rnp_ts_decomposicao(x)
 }
+\seealso{
+Other series: 
+\code{\link{rnp_grafico_acf}()},
+\code{\link{rnp_grafico_serie}()},
+\code{\link{rnp_media_movel}()},
+\code{\link{rnp_suavizacao_exponencial}()},
+\code{\link{rnp_ts_acf}()},
+\code{\link{rnp_ts_diferenciacao}()},
+\code{\link{rnp_ts_holt_winters}()},
+\code{\link{rnp_ts_ljung_box}()},
+\code{\link{rnp_ts_pacf}()},
+\code{\link{rnp_ts_periodograma}()}
+}
+\concept{series}

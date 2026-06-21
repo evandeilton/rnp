@@ -12,7 +12,7 @@
 #' * [rnp_ic_media()], [rnp_teste_t()], [rnp_anova()]
 #' * [rnp_correlacao_teste()], [rnp_regressao()]
 #' * [rnp_pca()], [rnp_kmeans()]
-#' * [rnp_ts_decomposicao()], [rnp_ts_arima()]
+#' * [rnp_ts_decomposicao()], [rnp_ts_acf()], [rnp_media_movel()]
 #' * [rnp_combinacao()], [rnp_distribuicao_binomial()]
 #' * [rnp_grafico_dispersao()], [rnp_tema_rnp()]
 #' * [rnp_amostra_simples()], [rnp_tamanho_amostra_media()]
@@ -23,7 +23,7 @@
 #' @aliases rnp-package
 #' @useDynLib rnp, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom stats density is.ts model.frame model.matrix na.exclude na.omit nobs
+#' @importFrom stats density is.ts model.frame model.matrix na.exclude na.omit nobs rexp
 #' @importFrom utils combn
 "_PACKAGE"
 

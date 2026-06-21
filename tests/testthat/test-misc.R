@@ -32,8 +32,8 @@ test_that("rnp_na_summary funciona", {
   expect_true("n_faltantes" %in% names(res$por_variavel))
 })
 
-test_that("rnp_potencia funciona", {
-  skip_if_not_installed("pwr")
-  res <- rnp_potencia("t.test", d = 0.5, n = 30, sig.level = 0.05)
-  expect_s3_class(res, "power.htest")
+test_that("rnp_na_summary inclui padrao de missing (sem naniar)", {
+  res <- rnp_na_summary(airquality)
+  expect_true("padrao" %in% names(res))
+  expect_s3_class(res$padrao, "tbl_df")
 })

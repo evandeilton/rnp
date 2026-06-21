@@ -11,6 +11,18 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// silhueta_cpp
+arma::vec silhueta_cpp(const arma::mat& D, const arma::ivec& clusters);
+RcppExport SEXP _rnp_silhueta_cpp(SEXP DSEXP, SEXP clustersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type D(DSEXP);
+    Rcpp::traits::input_parameter< const arma::ivec& >::type clusters(clustersSEXP);
+    rcpp_result_gen = Rcpp::wrap(silhueta_cpp(D, clusters));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cov_cpp
 arma::mat cov_cpp(const arma::mat& X);
 RcppExport SEXP _rnp_cov_cpp(SEXP XSEXP) {
@@ -80,6 +92,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type breaks(breaksSEXP);
     rcpp_result_gen = Rcpp::wrap(binning_cpp(x, breaks));
+    return rcpp_result_gen;
+END_RCPP
+}
+// knn_imputa_cpp
+arma::mat knn_imputa_cpp(arma::mat X, int k);
+RcppExport SEXP _rnp_knn_imputa_cpp(SEXP XSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(knn_imputa_cpp(X, k));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -213,14 +237,65 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// acf_cpp
+arma::vec acf_cpp(const arma::vec& x, int lag_max);
+RcppExport SEXP _rnp_acf_cpp(SEXP xSEXP, SEXP lag_maxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type lag_max(lag_maxSEXP);
+    rcpp_result_gen = Rcpp::wrap(acf_cpp(x, lag_max));
+    return rcpp_result_gen;
+END_RCPP
+}
+// pacf_cpp
+arma::vec pacf_cpp(const arma::vec& x, int lag_max);
+RcppExport SEXP _rnp_pacf_cpp(SEXP xSEXP, SEXP lag_maxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type lag_max(lag_maxSEXP);
+    rcpp_result_gen = Rcpp::wrap(pacf_cpp(x, lag_max));
+    return rcpp_result_gen;
+END_RCPP
+}
+// media_movel_cpp
+arma::vec media_movel_cpp(const arma::vec& x, int k, bool center);
+RcppExport SEXP _rnp_media_movel_cpp(SEXP xSEXP, SEXP kSEXP, SEXP centerSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< bool >::type center(centerSEXP);
+    rcpp_result_gen = Rcpp::wrap(media_movel_cpp(x, k, center));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ewma_cpp
+arma::vec ewma_cpp(const arma::vec& x, double alpha);
+RcppExport SEXP _rnp_ewma_cpp(SEXP xSEXP, SEXP alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    rcpp_result_gen = Rcpp::wrap(ewma_cpp(x, alpha));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_rnp_silhueta_cpp", (DL_FUNC) &_rnp_silhueta_cpp, 2},
     {"_rnp_cov_cpp", (DL_FUNC) &_rnp_cov_cpp, 1},
     {"_rnp_cor_cpp", (DL_FUNC) &_rnp_cor_cpp, 2},
     {"_rnp_dist_pairwise_cpp", (DL_FUNC) &_rnp_dist_pairwise_cpp, 4},
     {"_rnp_ecdf_cpp", (DL_FUNC) &_rnp_ecdf_cpp, 2},
     {"_rnp_ranks_cpp", (DL_FUNC) &_rnp_ranks_cpp, 1},
     {"_rnp_binning_cpp", (DL_FUNC) &_rnp_binning_cpp, 2},
+    {"_rnp_knn_imputa_cpp", (DL_FUNC) &_rnp_knn_imputa_cpp, 2},
     {"_rnp_markov_npassos_cpp", (DL_FUNC) &_rnp_markov_npassos_cpp, 2},
     {"_rnp_markov_estacionaria_cpp", (DL_FUNC) &_rnp_markov_estacionaria_cpp, 1},
     {"_rnp_momentos_cpp", (DL_FUNC) &_rnp_momentos_cpp, 2},
@@ -231,6 +306,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rnp_ridge_cpp", (DL_FUNC) &_rnp_ridge_cpp, 3},
     {"_rnp_enet_cd_cpp", (DL_FUNC) &_rnp_enet_cd_cpp, 6},
     {"_rnp_irls_cpp", (DL_FUNC) &_rnp_irls_cpp, 6},
+    {"_rnp_acf_cpp", (DL_FUNC) &_rnp_acf_cpp, 2},
+    {"_rnp_pacf_cpp", (DL_FUNC) &_rnp_pacf_cpp, 2},
+    {"_rnp_media_movel_cpp", (DL_FUNC) &_rnp_media_movel_cpp, 3},
+    {"_rnp_ewma_cpp", (DL_FUNC) &_rnp_ewma_cpp, 2},
     {NULL, NULL, 0}
 };
 

@@ -50,7 +50,7 @@ Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de fun�
   
   # Carregar o pacote
   require("rnp")
-  ?rnp::rnp_freq
+  ?rnp::rnp_tabela_frequencia
   
   # Vinheta
   # Se não tiver o prettydoc, a vinheta não roda

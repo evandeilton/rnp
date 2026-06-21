@@ -19,7 +19,7 @@ censo do ensino superior do INEP.
 \item \code{\link[=rnp_ic_media]{rnp_ic_media()}}, \code{\link[=rnp_teste_t]{rnp_teste_t()}}, \code{\link[=rnp_anova]{rnp_anova()}}
 \item \code{\link[=rnp_correlacao_teste]{rnp_correlacao_teste()}}, \code{\link[=rnp_regressao]{rnp_regressao()}}
 \item \code{\link[=rnp_pca]{rnp_pca()}}, \code{\link[=rnp_kmeans]{rnp_kmeans()}}
-\item \code{\link[=rnp_ts_decomposicao]{rnp_ts_decomposicao()}}, \code{\link[=rnp_ts_arima]{rnp_ts_arima()}}
+\item \code{\link[=rnp_ts_decomposicao]{rnp_ts_decomposicao()}}, \code{\link[=rnp_ts_acf]{rnp_ts_acf()}}, \code{\link[=rnp_media_movel]{rnp_media_movel()}}
 \item \code{\link[=rnp_combinacao]{rnp_combinacao()}}, \code{\link[=rnp_distribuicao_binomial]{rnp_distribuicao_binomial()}}
 \item \code{\link[=rnp_grafico_dispersao]{rnp_grafico_dispersao()}}, \code{\link[=rnp_tema_rnp]{rnp_tema_rnp()}}
 \item \code{\link[=rnp_amostra_simples]{rnp_amostra_simples()}}, \code{\link[=rnp_tamanho_amostra_media]{rnp_tamanho_amostra_media()}}

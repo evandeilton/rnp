@@ -43,16 +43,8 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 Suggests:
-    broom,
-    corrplot,
-    effectsize,
-    forecast,
-    ggVennDiagram,
-    kableExtra,
     knitr,
-    mice,
-    naniar,
-    pwr,
+    MASS,
     readxl,
     rmarkdown,
     testthat (>= 3.0.0)

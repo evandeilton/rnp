@@ -1,0 +1,173 @@
+---
+title: "1. Estatistica Descritiva e Analise Exploratoria"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{1. Estatistica Descritiva e Analise Exploratoria}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+```
+
+## Antes de qualquer modelo, *olhe* os dados
+
+John Tukey, que cunhou o termo *Analise Exploratoria de Dados* (EDA), dizia que
+"o maior valor de um grafico e quando ele nos forca a notar o que jamais
+esperavamos ver". A estatistica descritiva nao e um preludio menor da
+inferencia: e onde se aprende a **enxergar** a forma, o centro, a dispersao e as
+anomalias de uma variavel antes de assumir qualquer modelo.
+
+Usaremos o conjunto `airquality` — medicoes diarias reais de qualidade do ar em
+Nova York no verao de 1973 (radiacao solar, vento, temperatura e ozonio).
+
+```{r dados}
+dados <- airquality
+rnp_estrutura(dados)
+```
+
+Repare que `Ozone` e `Solar.R` tem valores faltantes. A coluna `p_faltantes`
+quantifica o problema — algo que **toda** analise honesta reporta antes de
+prosseguir.
+
+## Medidas de tendencia central: qual "centro"?
+
+```{r descritiva}
+rnp_descritiva(dados$Ozone)
+```
+
+A funcao `rnp_descritiva()` entrega o panorama completo numa linha. O ponto
+pedagogico central esta na comparacao **media (`r round(mean(airquality$Ozone, na.rm=TRUE),1)`)
+versus mediana (`r median(airquality$Ozone, na.rm=TRUE)`)**: a media e maior que
+a mediana. Isso e a assinatura de uma distribuicao **assimetrica a direita** —
+poucos dias de ozonio muito alto puxam a media para cima, enquanto a mediana,
+sendo um quantil, resiste a esses extremos.
+
+Regra pratica de professor:
+
+- **Distribuicao simetrica** -> media e mediana coincidem; use a media.
+- **Distribuicao assimetrica ou com outliers** -> a mediana descreve melhor o
+  "tipico". E por isso que se reporta a **renda mediana**, nunca a media.
+
+### As tres medias e quando cada uma faz sentido
+
+Nem toda media e a aritmetica. O pacote calcula as quatro classicas:
+
+```{r medias}
+rnp_medias(c(2, 8, 32))
+```
+
+- **Aritmetica**: para grandezas que se somam (alturas, notas).
+- **Geometrica**: para **taxas de crescimento** e fatores multiplicativos (um
+  investimento que rende +100% e depois -50% tem media geometrica 0%, nao 25%).
+- **Harmonica**: para **razoes** como velocidade media de um percurso (km/h) ou
+  P/L de uma carteira.
+
+A desigualdade $\text{harmonica} \le \text{geometrica} \le \text{aritmetica}$
+vale sempre para valores positivos — verifique acima.
+
+## Dispersao: o centro nao conta a historia toda
+
+Duas turmas podem ter a mesma media 6,0 e realidades opostas: uma com todos
+proximos de 6, outra polarizada entre 2 e 10. A **dispersao** mede isso.
+
+```{r dispersao}
+rnp_descritiva(dados$Wind)[c("desvio", "iqr", "cv")]
+```
+
+- **Desvio-padrao**: dispersao na mesma unidade da variavel.
+- **IQR** (amplitude interquartilica): dispersao *robusta*, imune a outliers.
+- **Coeficiente de variacao (CV = DP/media)**: dispersao **relativa**,
+  adimensional. So tem sentido para variaveis de razao com media positiva (nunca
+  para temperatura em Celsius!). Permite comparar a variabilidade de grandezas em
+  escalas diferentes.
+
+## Momentos: a forma da distribuicao
+
+Media e variancia sao o 1o e o 2o momentos. O 3o e o 4o descrevem a **forma**:
+
+```{r momentos}
+m <- rnp_momentos(dados$Temp)
+m$resumo
+```
+
+- **Assimetria (skewness)**: mede o desequilibrio das caudas. Positiva = cauda
+  longa a direita; negativa = a esquerda; ~0 = simetrica.
+- **Curtose em excesso**: compara o peso das caudas com a Normal (cuja curtose em
+  excesso e 0). Positiva (leptocurtica) = caudas pesadas, mais outliers do que a
+  Normal preveria. **Cuidado com o mito**: curtose mede peso de cauda, nao
+  "quao pontuda" e a distribuicao.
+
+## Tabelas de frequencia
+
+Para variaveis discretas ou agrupadas, a tabela de frequencias organiza a
+informacao. Para o mes (categorica):
+
+```{r freq-cat}
+rnp_tabela_frequencia(dados$Month)
+```
+
+Para uma continua, agrupamos em classes (a regra de Sturges escolhe o numero de
+classes automaticamente):
+
+```{r freq-classes}
+head(rnp_tabela_classes(dados$Temp, regra = "sturges"), 4)
+```
+
+## Deteccao de outliers: dois criterios, duas filosofias
+
+```{r outliers}
+rnp_outliers(dados$Ozone, method = "iqr")
+```
+
+- **Criterio de Tukey (IQR)**: marca como outlier o que cai fora de
+  $[Q_1 - 1{,}5\,\text{IQR},\; Q_3 + 1{,}5\,\text{IQR}]$. **Robusto** — usa
+  quantis, nao se deixa contaminar pelos proprios extremos.
+- **Criterio z-score**: marca o que esta a mais de $k$ desvios da media. **Fragil**
+  em distribuicoes assimetricas, porque media e DP ja foram inflados pelos
+  outliers que se quer detectar.
+
+Para `Ozone`, assimetrica, o criterio IQR e o mais defensavel.
+
+## A EDA grafica
+
+Numeros resumem; graficos revelam. O histograma mostra a forma:
+
+```{r hist, fig.alt="Histograma do ozonio"}
+rnp_grafico_histograma(dados, "Ozone", bins = 20)
+```
+
+A assimetria a direita que diagnosticamos pelos numeros agora salta aos olhos.
+O **boxplot** comprime os cinco numeros de Tukey e expoe outliers por grupo:
+
+```{r boxplot, fig.alt="Boxplot de ozonio por mes"}
+rnp_grafico_boxplot(dados, x = "Month", y = "Ozone")
+```
+
+O **grafico Q-Q** confronta os dados com a Normal teorica — pontos fora da reta
+denunciam o afastamento da normalidade:
+
+```{r qq, fig.alt="QQ-plot do ozonio"}
+rnp_grafico_qq(dados$Ozone)
+```
+
+A curvatura sistematica confirma: `Ozone` **nao** e normal. Esse diagnostico
+visual e o que justifica, mais adiante, transformar a variavel ou usar metodos
+robustos.
+
+## Sintese
+
+| Pergunta | Ferramenta `rnp` |
+|----------|------------------|
+| Qual o centro tipico? | `rnp_descritiva` (media vs mediana) |
+| Quanto varia? | desvio, IQR, CV |
+| Qual a forma? | `rnp_momentos` (assimetria, curtose) |
+| Ha anomalias? | `rnp_outliers` |
+| Como e a distribuicao? | `rnp_grafico_histograma`, `_boxplot`, `_qq` |
+
+O proximo passo natural — entender *por que* a media amostral se comporta como se
+comporta — nos leva a **probabilidade** (vinheta 2).

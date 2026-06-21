@@ -75,6 +75,28 @@
   **F-89** `rnp_regressao_multinomial` (softmax MLE próprio, sem deps externas).
 - Backends C++ novos: **C-04** `src/regularizacao.cpp`, **C-13** `src/robusta.cpp`.
 
+**FATIAS 4-7 — CONCLUÍDAS** (suíte 100% verde)
+- **FATIA 4 (Multivariada):** F-43 `rnp_matriz_correlacao` (C++), F-44 correlograma,
+  F-45 cluster hierárquico, F-46 dendrograma (próprio, sem ggdendro), F-47 silhueta
+  (C++ `silhueta_cpp`), F-48 LDA (próprio), F-49 biplot, F-50 dispersão-matriz,
+  F-90 fatorial, F-91 correspondência, F-92 Hotelling T², F-93 MANOVA, F-94 k-medoids
+  (PAM próprio), F-95 normalidade multivariada (Mardia), F-96 correlação canônica.
+  Backend `src/cluster.cpp`. `test-multivariada-avancada.R`.
+- **FATIA 5 (Categóricos & Experimental):** F-77 Fisher, F-78 odds ratio, F-79 risco
+  relativo, F-80 Kappa de Cohen; F-81 ANCOVA, F-82 medidas repetidas, F-83 DBC,
+  F-84 contrastes. `test-categoricos.R`, `test-experimental.R`.
+- **FATIA 6 (Séries):** módulo reescrito SEM forecast/tseries/patchwork. F-51 média
+  móvel (C++), F-52 suavização exp. (C++), F-53 ACF/PACF (C++ Durbin-Levinson),
+  F-54 diferenciação, F-55 gráficos; F-97 Ljung-Box, F-98 Holt-Winters, F-99
+  periodograma. Backend `src/series.cpp`. `test-series_temporais.R`.
+- **FATIA 7 (Pré-processamento):** F-100 padroniza/normaliza, F-101 winsoriza,
+  F-102 imputa (média/mediana/moda/kNN-C++), F-103 discretiza, F-104 dummy.
+  Backend `src/imputacao.cpp`. `test-preprocessamento.R`.
+- Removidos `forecast`/`tseries` (séries reescrita) e Suggests órfãos (corrplot,
+  effectsize, pwr, mice, naniar, ggVennDiagram, broom, kableExtra). Removido
+  `test-anova (1).R` (arquivo duplicado espúrio).
+- **Estado: 183 funções exportadas, 12 backends C++, 24 arquivos de teste.**
+
 **Bugs/itens corrigidos via `R CMD check` na FATIA 3**: exemplo inválido de
 `rnp_teste_friedman` (warpbreaks → bloco completo construído); doc `rnp_kruskal$data`;
 `scales` removido (não usado); `LazyDataCompression: xz` (data 13.8 MB); `.travis.yml`

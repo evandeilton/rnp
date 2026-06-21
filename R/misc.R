@@ -91,40 +91,17 @@ rnp_na_summary <- function(base, digits = 4L) {
     n_faltantes = rowSums(is.na(base)),
     percentual  = n_faltantes / n_vars
   )
-  padrao <- NULL
-  if (tem_pacote("naniar")) {
-    padrao <- tryCatch(
-      naniar::miss_var_summary(base),
-      error = function(e) NULL
-    )
-  }
+  # padrao de combinacoes de missing por linha (implementacao propria)
+  padrao <- base |>
+    is.na() |>
+    as.data.frame() |>
+    dplyr::count(dplyr::across(dplyr::everything()), name = "n_casos") |>
+    dplyr::arrange(dplyr::desc(.data$n_casos))
   list(
     por_variavel = por_var |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                           ~ arredonda(.x, digits))),
     por_observacao = por_obs |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                             ~ arredonda(.x, digits))),
-    padrao = padrao
+    padrao = tibble::as_tibble(padrao)
   )
-}
-
-#' Potencia estatistica
-#'
-#' Wrapper para calculos de potencia usando o pacote \code{pwr}.
-#'
-#' @param teste String: \code{"t.test"}, \code{"t2n"}, \code{"anova"},
-#'   \code{"chisq"}, \code{"r"}, \code{"p"}, \code{"norm"}, \code{"f2"}.
-#' @param ... Argumentos do teste (ex.: \code{n}, \code{d}, \code{sig.level}, \code{power}).
-#'
-#' @return Objeto \code{pwr.test} ou tibble com resultado.
-#'
-#' @examples
-#' rnp_potencia("t.test", d = 0.5, n = 30, sig.level = 0.05)
-#' @export
-rnp_potencia <- function(teste = c("t.test", "t2n", "anova", "chisq", "r",
-                                   "p", "norm", "f2"), ...) {
-  precisa_pacote("pwr", "rnp_potencia")
-  teste <- rlang::arg_match(teste)
-  fname <- paste0("pwr.", teste)
-  fn <- utils::getFromNamespace(fname, "pwr")
-  fn(...)
 }

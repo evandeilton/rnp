@@ -6,3 +6,5 @@
 ^REPOSITORY_ANALYSIS_REPORT\.md$
 ^dev$
 ^LICENSE\.md$
+^doc$
+^Meta$
