@@ -214,4 +214,4 @@ que possamos atender nas próximas atualizações.
 
 ## Licença
 
-GPL-3.
+MIT © José E. Lopes.

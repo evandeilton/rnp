@@ -65,7 +65,7 @@ Other regressao:
 rnp_regressao_stepwise(mpg ~ wt + hp + disp + drat + qsec, mtcars)
 #> $formula_final
 #> mpg ~ wt + drat + qsec
-#> <environment: 0x55edd1a57aa8>
+#> <environment: 0x55704aacafc8>
 #> 
 #> $coeficientes
 #> # A tibble: 4 × 4
