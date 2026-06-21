@@ -20,8 +20,10 @@ tibble com \code{estatistica}, \code{lag}, \code{valor_critico_5}, \code{p_valor
 \code{estacionaria}.
 }
 \description{
-Testa a presenca de raiz unitaria (H0: serie nao-estacionaria) pela
-regressao $\Delta y_t = \alpha + \rho\, y_{t-1} + \sum \gamma_i \Delta y_{t-i} + \varepsilon_t$.
+Testa a presenca de raiz unitaria (H0: serie nao-estacionaria). Ajusta a
+regressao da serie diferenciada sobre o nivel defasado e sobre defasagens da
+propria diferenca (forma "aumentada"), e compara a estatistica do termo de
+nivel com valores criticos de Dickey-Fuller.
 }
 \examples{
 rnp_ts_adf(as.numeric(lh))

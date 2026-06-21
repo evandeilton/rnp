@@ -16,8 +16,9 @@ Uma lista com \code{parametros} (tibble: mu, omega, alpha, beta),
 \code{persistencia} (alpha + beta) e \code{volatilidade} (vetor sigma_t).
 }
 \description{
-Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais),
-$\sigma_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,\sigma_{t-1}^2$.
+Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais), em que a
+variancia condicional depende do quadrado do erro anterior e da variancia
+condicional anterior, com parametros omega, alpha e beta.
 }
 \examples{
 set.seed(1); r <- rnorm(500) * (1 + 0.3 * abs(rnorm(500)))

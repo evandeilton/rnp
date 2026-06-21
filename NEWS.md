@@ -1,3 +1,37 @@
+# rnp 3.1.0
+
+Amplia o pacote para alem da graduacao classica, cobrindo temas centrais de
+estatistica aplicada e ciencia de dados. Cerca de 49 funcoes novas, organizadas
+em cinco areas.
+
+## Novas funcionalidades
+
+* **Analise de sobrevivencia** (apoio em `survival`): Kaplan-Meier e curva,
+  teste log-rank, Nelson-Aalen, modelo de Cox e diagnostico da hipotese de
+  riscos proporcionais, modelos parametricos (AFT) e tabua de vida.
+* **Series temporais ARIMA/SARIMA** (base `stats`): ajuste e selecao automatica
+  de ordem, previsao com intervalos, testes ADF e KPSS reimplementados,
+  autorregressao vetorial (VAR) com causalidade de Granger, correlacao cruzada e
+  volatilidade GARCH.
+* **Modelos lineares generalizados e extensoes** (`MASS`, `nlme`, `mgcv`): GLM
+  unificado e diagnostico de superdispersao, regressao binomial negativa,
+  ordinal, modelos mistos e aditivos (GAM).
+* **Aprendizado de maquina com tidymodels**: particao, validacao cruzada,
+  receitas de pre-processamento, especificacoes de arvore, floresta, boosting,
+  k-vizinhos, SVM e modelos regularizados, alem de ajuste, tunagem, comparacao,
+  predicao e importancia de variaveis. Engines em `Suggests`.
+* **Avaliacao de modelos**: metricas de classificacao e regressao, curvas de
+  lift e ganho, calibracao com Hosmer-Lemeshow, escore de Brier, estatistica KS,
+  curva precisao-revocacao, comparacao de ROC pelo teste de DeLong e acuracia
+  diagnostica.
+
+## Dependencias
+
+* Adicionadas aos Imports (pacotes recomendados, ja distribuidos com o R):
+  `survival`, `nlme`, `mgcv`, `MASS`.
+* Em Suggests (carregados sob demanda): pacotes do tidymodels e engines de ML
+  (`ranger`, `xgboost`, `kknn`, `kernlab`, `glmnet`, `rpart`).
+
 # rnp 3.0.0
 
 Esta versao reescreve boa parte do pacote e amplia a cobertura para os temas dos

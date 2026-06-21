@@ -48,6 +48,8 @@ navbar:
         href: articles/v09-glm-gam.html
       - text: 10. Aprendizado de máquina (tidymodels)
         href: articles/v10-machine-learning.html
+      - text: 11. Avaliação de modelos preditivos
+        href: articles/v11-avaliacao.html
 reference:
 - title: Descritiva e Exploratoria
   desc: Medidas-resumo, momentos, frequencias e graficos exploratorios.
@@ -209,6 +211,20 @@ reference:
   desc: Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
   contents:
   - starts_with("rnp_ml_")
+
+- title: Avaliacao de Modelos
+  desc: Metricas, curvas, calibracao e comparacao de modelos.
+  contents:
+  - rnp_metricas_classificacao
+  - rnp_metricas_regressao
+  - rnp_curva_lift
+  - rnp_curva_ganho
+  - rnp_calibracao
+  - rnp_brier
+  - rnp_ks_classificador
+  - rnp_curva_precisao_revocacao
+  - rnp_comparar_roc
+  - rnp_acuracia_diagnostica
 
 - title: Pre-processamento
   contents:

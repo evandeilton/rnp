@@ -22,7 +22,7 @@
 
 #' Estimador de Kaplan-Meier
 #'
-#' Estima a funcao de sobrevivencia $S(t) = P(T > t)$ pelo metodo de
+#' Estima a funcao de sobrevivencia S(t) = P(T > t) pelo metodo de
 #' Kaplan-Meier, com intervalo de confianca, para uma ou varias curvas.
 #'
 #' @param tempo Vetor de tempos de seguimento.
@@ -144,7 +144,7 @@ rnp_log_rank <- function(tempo, evento, grupo, rho = 0, digits = 4L) {
 
 #' Risco acumulado de Nelson-Aalen
 #'
-#' Estima a funcao de risco acumulado $H(t)$ pelo estimador de Nelson-Aalen.
+#' Estima a funcao de risco acumulado H(t) pelo estimador de Nelson-Aalen.
 #'
 #' @param tempo Vetor de tempos.
 #' @param evento Vetor 0/1.

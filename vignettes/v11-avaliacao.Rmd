@@ -1,0 +1,131 @@
+---
+title: "11. Avaliação de modelos preditivos"
+output: rmarkdown::html_vignette
+bibliography: referencias.bib
+vignette: >
+  %\VignetteIndexEntry{11. Avaliação de modelos preditivos}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+set.seed(42)
+```
+
+Treinar um modelo é metade do trabalho; a outra é **avaliá-lo** com a métrica
+certa. Acurácia sozinha engana em problemas desbalanceados, e um modelo pode
+discriminar bem mas estar mal **calibrado** [@kuhn2013]. Esta vinheta percorre as
+ferramentas de avaliação usando `MASS::Pima.tr` (diagnóstico de diabetes), com um
+modelo completo e um reduzido.
+
+```{r modelos}
+pima <- MASS::Pima.tr
+m_completo <- glm(type ~ glu + bmi + age, pima, family = binomial())
+m_reduzido <- glm(type ~ glu, pima, family = binomial())
+p1 <- predict(m_completo, type = "response")
+p2 <- predict(m_reduzido, type = "response")
+pred <- factor(ifelse(p1 > 0.5, "Yes", "No"), levels = c("No", "Yes"))
+```
+
+## Métricas de classificação
+
+A partir da matriz de confusão (VP, FP, FN, VN) derivam-se várias métricas, cada
+uma respondendo a uma pergunta:
+
+$$\text{precisão} = \frac{VP}{VP+FP}, \quad
+  \text{revocação} = \frac{VP}{VP+FN}, \quad
+  F_1 = \frac{2\,\text{P}\cdot\text{R}}{\text{P}+\text{R}}.$$
+
+```{r metricas}
+rnp_metricas_classificacao(pima$type, pred, positivo = "Yes")
+```
+
+A acurácia (0,76) parece boa, mas a **revocação** de 0,57 revela que o modelo
+deixa escapar 43% dos diabéticos — crítico em contexto clínico. O **MCC**
+(coeficiente de Matthews, 0,45) resume o acerto considerando todas as células da
+matriz, robusto ao desbalanceamento.
+
+## Escore de Brier e calibração
+
+O **escore de Brier** mede o erro quadrático das probabilidades,
+$BS = \frac{1}{n}\sum (p_i - y_i)^2$ — quanto menor, melhor:
+
+```{r brier}
+rnp_brier(pima$type, p1, positivo = "Yes")
+```
+
+O escore de habilidade (0,30) indica 30% de redução do erro em relação a prever
+simplesmente a prevalência. Já a **calibração** verifica se uma probabilidade
+predita de 0,7 corresponde a ~70% de eventos observados, testada por
+Hosmer-Lemeshow:
+
+```{r calibracao}
+rnp_calibracao(pima$type, p1, positivo = "Yes")$hosmer_lemeshow
+```
+
+Com $p = 0{,}16$, não se rejeita boa calibração: as probabilidades são confiáveis.
+
+## Separação: KS e precisão-revocação
+
+A estatística **KS** mede a máxima separação entre as distribuições de escore das
+duas classes:
+
+```{r ks}
+rnp_ks_classificador(pima$type, p1, positivo = "Yes")$ks
+```
+
+Um KS de 0,56 indica boa separação. Em dados desbalanceados, a **curva
+precisão-revocação** é mais informativa que a ROC; sua área (AUC-PR) resume o
+desempenho:
+
+```{r pr, fig.alt="Curva precisão-revocação"}
+rnp_curva_precisao_revocacao(pima$type, p1, positivo = "Yes")$grafico
+```
+
+## Comparando dois modelos: teste de DeLong
+
+As curvas ROC dos dois modelos podem ser comparadas formalmente. O **teste de
+DeLong** avalia se a diferença entre as AUCs é significativa, levando em conta a
+correlação por serem avaliadas nos mesmos indivíduos:
+
+```{r delong}
+rnp_comparar_roc(pima$type, p1, p2, positivo = "Yes")
+```
+
+O modelo completo (AUC $= 0{,}84$) supera o que usa apenas glicose
+(AUC $= 0{,}79$), e a diferença é **significativa** ($p = 0{,}02$): incluir IMC e
+idade melhora a discriminação de forma não atribuível ao acaso.
+
+## Avaliação de teste diagnóstico
+
+Em contexto clínico, importam as **razões de verossimilhança**, que independem da
+prevalência: $\text{RV}^+ = \text{sens}/(1-\text{espec})$ e
+$\text{RV}^- = (1-\text{sens})/\text{espec}$.
+
+```{r diag}
+rnp_acuracia_diagnostica(pima$type, pred, positivo = "Yes")
+```
+
+Uma $\text{RV}^+$ de 4,0 significa que um resultado positivo é 4 vezes mais
+provável em quem tem a doença — multiplicando as chances *a priori*, conecta-se
+diretamente ao Teorema de Bayes da vinheta 2.
+
+## Síntese
+
+| Pergunta | Função | Métrica |
+|----------|--------|---------|
+| Quão certo acerta? | `rnp_metricas_classificacao` | acurácia, F1, MCC |
+| Erro de regressão? | `rnp_metricas_regressao` | RMSE, MAE, R² |
+| Probabilidades confiáveis? | `rnp_calibracao`, `rnp_brier` | Hosmer-Lemeshow, Brier |
+| Quão bem separa? | `rnp_ks_classificador`, `rnp_curva_precisao_revocacao` | KS, AUC-PR |
+| Um modelo é melhor? | `rnp_comparar_roc` | DeLong |
+| Uso clínico? | `rnp_acuracia_diagnostica` | sens., espec., RV |
+
+Nenhuma métrica isolada conta a história toda: a escolha depende do custo dos
+erros e do equilíbrio das classes.
+
+## Referências

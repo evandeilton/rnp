@@ -17,7 +17,7 @@ rnp_nelson_aalen(tempo, evento, digits = 4L)
 tibble com \code{tempo}, \code{n_risco}, \code{n_evento}, \code{risco_acumulado}, \code{ep}.
 }
 \description{
-Estima a funcao de risco acumulado $H(t)$ pelo estimador de Nelson-Aalen.
+Estima a funcao de risco acumulado H(t) pelo estimador de Nelson-Aalen.
 }
 \examples{
 head(rnp_nelson_aalen(survival::lung$time, survival::lung$status == 2))

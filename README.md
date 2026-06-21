@@ -22,11 +22,14 @@ programação em R, a estatística e a probabilidade aplicadas à análise de da
 condensar esse material em um lugar de fácil consulta, surgiu a ideia de
 empacotá-lo. É o pacote `rnp`.
 
-O pacote reúne funções que cobrem os temas tratados nos primeiros anos de um curso
-de estatística — análise descritiva, probabilidade, inferência, regressão,
-análise multivariada, séries temporais, amostragem e dados categóricos. As
-funções analíticas retornam saídas em formato `tibble` e os gráficos são feitos
-com `ggplot2`. As rotinas que exigem mais cálculo (distâncias, álgebra matricial,
+O pacote reúne mais de 230 funções que cobrem desde os temas dos primeiros anos
+de um curso de estatística — análise descritiva, probabilidade, inferência,
+regressão, análise multivariada, séries temporais, amostragem e dados
+categóricos — até tópicos de estatística aplicada e ciência de dados: análise de
+sobrevivência, modelos ARIMA/SARIMA, modelos lineares generalizados e mistos,
+aprendizado de máquina com `tidymodels` e avaliação de modelos. As funções
+analíticas retornam saídas em formato `tibble` e os gráficos são feitos com
+`ggplot2`. As rotinas que exigem mais cálculo (distâncias, álgebra matricial,
 reamostragem) são escritas em C++ com `Rcpp` e `RcppArmadillo`. Toda a
 documentação e as mensagens estão em português.
 
@@ -141,6 +144,47 @@ qui-quadrado, F, binomial, Poisson, lognormal, Weibull, multinomial),
 `rnp_discretiza()`, `rnp_dummy()`.
 </details>
 
+<details>
+<summary><b>Análise de sobrevivência</b></summary>
+
+`rnp_kaplan_meier()`, `rnp_grafico_sobrevivencia()`, `rnp_log_rank()`,
+`rnp_nelson_aalen()`, `rnp_cox()`, `rnp_cox_diagnosticos()`,
+`rnp_cox_risco_relativo()`, `rnp_sobrevivencia_parametrica()`, `rnp_tabela_vida()`.
+</details>
+
+<details>
+<summary><b>Séries ARIMA/SARIMA</b></summary>
+
+`rnp_arima()`, `rnp_sarima()`, `rnp_auto_arima()`, `rnp_ts_previsao()`,
+`rnp_ts_adf()`, `rnp_ts_kpss()`, `rnp_ts_var()`, `rnp_ts_ccf()`, `rnp_ts_garch()`,
+`rnp_ts_residuos()`.
+</details>
+
+<details>
+<summary><b>GLM, modelos mistos e aditivos</b></summary>
+
+`rnp_glm()`, `rnp_glm_diagnosticos()`, `rnp_binomial_negativa()`,
+`rnp_regressao_ordinal()`, `rnp_modelo_misto()`, `rnp_gam()`,
+`rnp_grafico_efeitos()`.
+</details>
+
+<details>
+<summary><b>Aprendizado de máquina (tidymodels)</b></summary>
+
+`rnp_ml_particao()`, `rnp_ml_cv()`, `rnp_ml_receita()`, `rnp_ml_arvore()`,
+`rnp_ml_floresta()`, `rnp_ml_boosting()`, `rnp_ml_knn()`, `rnp_ml_svm()`,
+`rnp_ml_regularizada()`, `rnp_ml_ajustar()`, `rnp_ml_tunagem()`,
+`rnp_ml_comparar()`, `rnp_ml_prever()`, `rnp_ml_importancia()`.
+</details>
+
+<details>
+<summary><b>Avaliação de modelos</b></summary>
+
+`rnp_metricas_classificacao()`, `rnp_metricas_regressao()`, `rnp_curva_lift()`,
+`rnp_curva_ganho()`, `rnp_calibracao()`, `rnp_brier()`, `rnp_ks_classificador()`,
+`rnp_curva_precisao_revocacao()`, `rnp_comparar_roc()`, `rnp_acuracia_diagnostica()`.
+</details>
+
 ## Tutoriais
 
 O pacote acompanha seis tutoriais que acompanham a progressão típica de um curso
@@ -152,6 +196,11 @@ de estatística, com dados reais e ênfase na interpretação dos resultados:
 4. Regressão linear e modelagem
 5. Análise multivariada
 6. Dados categóricos e métodos não-paramétricos
+7. Análise de sobrevivência
+8. Séries temporais: modelos ARIMA e SARIMA
+9. Modelos lineares generalizados e extensões
+10. Aprendizado de máquina com tidymodels
+11. Avaliação de modelos preditivos
 
 ``` r
 browseVignettes("rnp")

@@ -172,8 +172,10 @@ rnp_ts_previsao <- function(modelo, h = 10, conf = 0.95, digits = 4L) {
 
 #' Teste de Dickey-Fuller aumentado (ADF)
 #'
-#' Testa a presenca de raiz unitaria (H0: serie nao-estacionaria) pela
-#' regressao $\Delta y_t = \alpha + \rho\, y_{t-1} + \sum \gamma_i \Delta y_{t-i} + \varepsilon_t$.
+#' Testa a presenca de raiz unitaria (H0: serie nao-estacionaria). Ajusta a
+#' regressao da serie diferenciada sobre o nivel defasado e sobre defasagens da
+#' propria diferenca (forma "aumentada"), e compara a estatistica do termo de
+#' nivel com valores criticos de Dickey-Fuller.
 #'
 #' @param x Vetor numerico.
 #' @param lag Numero de defasagens aumentadas. Default automatico.
@@ -348,8 +350,9 @@ rnp_ts_var <- function(dados, p = 1, digits = 4L) {
 
 #' Modelo de volatilidade GARCH(1,1)
 #'
-#' Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais),
-#' $\sigma_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,\sigma_{t-1}^2$.
+#' Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais), em que a
+#' variancia condicional depende do quadrado do erro anterior e da variancia
+#' condicional anterior, com parametros omega, alpha e beta.
 #'
 #' @param x Vetor numerico (ex.: retornos).
 #' @param digits Inteiro.

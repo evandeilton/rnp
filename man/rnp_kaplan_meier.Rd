@@ -22,7 +22,7 @@ Uma lista com \code{tabela} (passos da curva), \code{mediana} (sobrevida mediana
 por grupo) e \code{modelo} (objeto \code{survfit}, para \code{\link[=rnp_grafico_sobrevivencia]{rnp_grafico_sobrevivencia()}}).
 }
 \description{
-Estima a funcao de sobrevivencia $S(t) = P(T > t)$ pelo metodo de
+Estima a funcao de sobrevivencia S(t) = P(T > t) pelo metodo de
 Kaplan-Meier, com intervalo de confianca, para uma ou varias curvas.
 }
 \examples{

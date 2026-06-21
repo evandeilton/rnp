@@ -1,7 +1,7 @@
 Package: rnp
 Type: Package
 Title: Recursos Estatísticos para o Projeto R NA PRÁTICA
-Version: 3.0.0
+Version: 3.1.0
 Authors@R:
     person(given = "José E.",
            family = "Lopes",
