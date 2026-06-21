@@ -50,10 +50,24 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 Suggests:
+    dials,
+    glmnet,
+    hardhat,
+    kernlab,
+    kknn,
     knitr,
+    parsnip,
+    ranger,
     readxl,
+    recipes,
     rmarkdown,
-    testthat (>= 3.0.0)
+    rpart,
+    rsample,
+    testthat (>= 3.0.0),
+    tune,
+    workflows,
+    xgboost,
+    yardstick
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown

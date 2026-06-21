@@ -1,0 +1,133 @@
+---
+title: "10. Aprendizado de máquina com tidymodels"
+output: rmarkdown::html_vignette
+bibliography: referencias.bib
+vignette: >
+  %\VignetteIndexEntry{10. Aprendizado de máquina com tidymodels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+ok <- requireNamespace("parsnip", quietly = TRUE) &&
+  requireNamespace("rpart", quietly = TRUE) &&
+  requireNamespace("rsample", quietly = TRUE) &&
+  requireNamespace("tune", quietly = TRUE)
+knitr::opts_chunk$set(eval = ok)
+set.seed(123)
+```
+
+```{r aviso, eval = !ok, echo = FALSE, results = "asis"}
+cat("> Esta vinheta requer os pacotes do tidymodels (parsnip, rsample, tune, rpart).\n",
+    "> Instale-os para executar os exemplos.")
+```
+
+O aprendizado de máquina supervisionado busca uma função $\hat{f}$ que prevê bem
+*dados novos*. O desafio central é a **generalização**: um modelo flexível pode
+decorar o ruído do treino (sobreajuste) e falhar fora dele. As funções `rnp_ml_*`
+encapsulam o fluxo do `tidymodels` [@kuhn2022] em uma interface enxuta, em
+português. Usamos `iris` (classificar a espécie a partir de quatro medidas).
+
+## Partição treino/teste
+
+A regra de ouro: o desempenho deve ser medido em dados **nunca vistos** no
+treino. Separamos uma fração para teste, estratificando pela resposta para
+preservar as proporções das classes:
+
+```{r split}
+sp <- rnp_ml_particao(iris, prop = 0.75, estrato = "Species")
+sp
+```
+
+## Pré-processamento (receita)
+
+A `recipe` declara as transformações, *aprendidas no treino* e aplicadas igualmente
+ao teste — evitando vazamento de informação:
+
+```{r receita}
+rnp_ml_receita(Species ~ ., iris, passos = c("normalizar"))
+```
+
+## Ajuste e avaliação
+
+Ajustamos uma árvore de decisão no treino e medimos no teste:
+
+```{r ajuste}
+fit <- rnp_ml_ajustar(rnp_ml_arvore("classificacao"), Species ~ ., sp)
+fit$metricas
+```
+
+A acurácia de teste é de **92%** e a AUC de **0,94** — desempenho honesto, porque
+calculado fora da amostra de treino. A **importância das variáveis** mostra o que
+o modelo usou:
+
+```{r importancia}
+rnp_ml_importancia(fit$modelo)
+```
+
+As medidas de **pétala** dominam, coerente com a estrutura conhecida de `iris`.
+
+## Validação cruzada e comparação de modelos
+
+Uma única partição é ruidosa. A **validação cruzada** $k$-fold reparte os dados em
+$k$ blocos, treina em $k-1$ e valida no restante, repetindo $k$ vezes:
+
+$$\widehat{\text{Err}}_{\text{CV}} = \frac{1}{k}\sum_{i=1}^{k} L\big(y_i, \hat{f}^{-i}(x_i)\big).$$
+
+Assim comparam-se modelos de forma mais estável:
+
+```{r comparar, fig.alt="Comparação de modelos por validação cruzada"}
+cv <- rnp_ml_cv(iris, v = 5, estrato = "Species")
+specs <- list(
+  arvore_rasa = rnp_ml_arvore("classificacao", profundidade_max = 2),
+  arvore_cheia = rnp_ml_arvore("classificacao"))
+rnp_ml_comparar(specs, Species ~ ., cv)$tabela
+```
+
+A acurácia média por validação cruzada (com erro-padrão) permite escolher entre
+modelos sem depender da sorte de uma única divisão.
+
+## Tunagem de hiperparâmetros
+
+Hiperparâmetros (como o custo de complexidade da poda) controlam o equilíbrio
+viés-variância. A **tunagem** os otimiza por validação cruzada. Marca-se o
+parâmetro com `hardhat::tune()`:
+
+```{r tunagem}
+arvore_tune <- rnp_ml_arvore("classificacao",
+                             custo_complexidade = hardhat::tune())
+rnp_ml_tunagem(arvore_tune, Species ~ ., cv, grade = 5)$melhores
+```
+
+O melhor custo de complexidade maximiza a acurácia média de validação. Com ele,
+treina-se o modelo final em todos os dados de treino e avalia-se uma única vez no
+teste.
+
+## Outros algoritmos
+
+A mesma interface serve a vários algoritmos (engines instalados sob demanda):
+
+| Função | Algoritmo | Engine |
+|--------|-----------|--------|
+| `rnp_ml_arvore` | árvore de decisão | `rpart` |
+| `rnp_ml_floresta` | floresta aleatória | `ranger` |
+| `rnp_ml_boosting` | gradient boosting | `xgboost` |
+| `rnp_ml_knn` | k-vizinhos | `kknn` |
+| `rnp_ml_svm` | máquina de vetor de suporte | `kernlab` |
+| `rnp_ml_regularizada` | lasso/ridge/elastic net | `glmnet` |
+
+Todas retornam especificações que entram em `rnp_ml_ajustar`, `rnp_ml_tunagem` ou
+`rnp_ml_comparar`.
+
+## Síntese
+
+O fluxo de modelagem preditiva é sempre o mesmo [@kuhn2013]: **separar**
+treino/teste, **pré-processar** sem vazamento, **ajustar**, **validar** por CV,
+**tunar** hiperparâmetros e, só ao final, **avaliar** no teste. As funções
+`rnp_ml_*` tornam esse ciclo direto, preservando o rigor metodológico.
+
+## Referências

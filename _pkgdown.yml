@@ -46,6 +46,8 @@ navbar:
         href: articles/v08-series-arima.html
       - text: 9. Modelos lineares generalizados
         href: articles/v09-glm-gam.html
+      - text: 10. Aprendizado de máquina (tidymodels)
+        href: articles/v10-machine-learning.html
 reference:
 - title: Descritiva e Exploratoria
   desc: Medidas-resumo, momentos, frequencias e graficos exploratorios.
@@ -203,6 +205,11 @@ reference:
   - rnp_kruskal
   - rnp_mann_whitney
   - rnp_wilcoxon
+- title: Aprendizado de Maquina (tidymodels)
+  desc: Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
+  contents:
+  - starts_with("rnp_ml_")
+
 - title: Pre-processamento
   contents:
   - rnp_padroniza
