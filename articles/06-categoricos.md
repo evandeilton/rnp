@@ -77,8 +77,8 @@ rnp_teste_fisher(tab)
 #> 1  0.0362       2.01   1.03   3.96
 ```
 
-Para tabelas 2x2, o Fisher ainda entrega o **odds ratio** com IC de
-brinde.
+Para tabelas 2x2, o Fisher tambem reporta o **odds ratio** e seu
+intervalo de confianca.
 
 ## Odds ratio versus risco relativo: nao confunda
 
@@ -198,5 +198,6 @@ Trocar poder por robustez e uma decisao consciente, nao um default.
 | Comparar 2 grupos nao-normais | `rnp_mann_whitney` | menos poder que o t |
 | Comparar k grupos nao-normais | `rnp_kruskal` | ANOVA dos postos |
 
-Saber *quando* abandonar a normalidade — e o preco em poder que isso
-custa — e marca do estatistico maduro.
+A escolha entre metodos parametricos e nao-parametricos envolve um
+compromisso: os primeiros tem mais poder quando os pressupostos valem;
+os segundos sao mais robustos quando a normalidade e duvidosa.

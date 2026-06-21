@@ -2,30 +2,26 @@
 
 ## rnp 3.0.0
 
-Versao maior com reconstrucao ampla do pacote, foco em performance
-(backends C++ via Rcpp/RcppArmadillo), correcao de bugs e cobertura das
-ementas dos tres primeiros anos de um bacharelado em Estatistica. **Esta
-versao contem mudancas incompativeis** (ver “Quebra de
-compatibilidade”).
+Esta versao reescreve boa parte do pacote e amplia a cobertura para os
+temas dos primeiros anos de um curso de estatistica. **Contem mudancas
+incompativeis** com a serie 2.x (ver “Quebra de compatibilidade”).
 
-### Destaques
+### Novas funcionalidades
 
-- **Backends C++ (Rcpp/RcppArmadillo).** 12 nucleos compilados e
-  verificados contra a referencia do R (tolerancia ~1e-8): distancias,
-  covariancia/correlacao, OLS por QR, momentos, utilitarios empiricos
-  (ECDF/ranks/binning), cadeias de Markov, reamostragem
-  (bootstrap/jackknife/permutacao), regularizacao (ridge/elastic net),
-  regressao robusta (IRLS), silhueta, series temporais (ACF/PACF/media
-  movel/EWMA) e imputacao kNN.
-- **~60 funcoes novas** cobrindo descritiva, probabilidade, processos
-  estocasticos, simulacao, inferencia (EMV, verossimilhanca, bootstrap,
-  testes classicos e nao-parametricos), regressao (regularizada,
-  robusta, nao-linear, Box-Cox, multinomial), multivariada (LDA,
-  Hotelling, MANOVA, fatorial, correspondencia, k-medoids), dados
-  categoricos, delineamento experimental, series temporais e
-  pre-processamento.
-- **Politica de dependencias enxuta:** apenas base R, tidyverse,
-  tidymodels e Rcpp/RcppArmadillo.
+- Cerca de 60 funcoes novas em descritiva, probabilidade, processos
+  estocasticos, simulacao, inferencia (maxima verossimilhanca,
+  bootstrap, testes classicos e nao-parametricos), regressao
+  (regularizada, robusta, nao-linear, Box-Cox, multinomial),
+  multivariada (analise discriminante, Hotelling, MANOVA, fatorial,
+  correspondencia, k-medoids), dados categoricos, delineamento
+  experimental, series temporais e pre-processamento.
+- Rotinas numericamente intensivas passaram a ser implementadas em C++
+  (Rcpp/RcppArmadillo): distancias, covariancia e correlacao, ajuste por
+  QR, momentos, cadeias de Markov, reamostragem, regularizacao,
+  regressao robusta, silhueta, ACF/PACF e imputacao por vizinhos. Os
+  resultados foram conferidos contra as funcoes equivalentes do R base.
+- As dependencias foram restritas ao R base, ao tidyverse, ao tidymodels
+  e ao Rcpp/RcppArmadillo.
 
 ### Quebra de compatibilidade
 

@@ -54,7 +54,7 @@ que a mediana. Isso e a assinatura de uma distribuicao **assimetrica a
 direita** — poucos dias de ozonio muito alto puxam a media para cima,
 enquanto a mediana, sendo um quantil, resiste a esses extremos.
 
-Regra pratica de professor:
+Na pratica:
 
 - **Distribuicao simetrica** -\> media e mediana coincidem; use a media.
 - **Distribuicao assimetrica ou com outliers** -\> a mediana descreve

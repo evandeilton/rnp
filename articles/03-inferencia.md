@@ -133,8 +133,9 @@ rnp_poder_teste(efeito = 0.5, n = 30, tipo = "duas")$grafico
 
 ![Curva de poder](03-inferencia_files/figure-html/poder-1.png)
 
-**Planejar o poder ANTES de coletar dados** e o que separa pesquisa
-seria de pescaria de p-valores.
+Calcular o poder e o tamanho de amostra **antes** de coletar os dados e
+parte do bom planejamento de um estudo, e ajuda a evitar tanto falsos
+negativos quanto achados que nao se replicam.
 
 ## Quando nao ha formula: o bootstrap
 
@@ -152,9 +153,9 @@ rnp_ic_bootstrap(dados$bmi, estatistica = "mediana", B = 1000, tipo = "percentil
 #> 1       32.8            31.6            33.8 percentil  0.95
 ```
 
-Nenhuma suposicao de normalidade foi feita — o bootstrap deixa os dados
-falarem. E o canivete da inferencia moderna para estatisticas sem teoria
-assintotica amigavel.
+Nenhuma suposicao de normalidade foi feita. O bootstrap e util
+justamente para estatisticas cuja distribuicao amostral nao tem uma
+forma fechada conhecida.
 
 ## Comparando grupos sem assumir normalidade: permutacao
 
@@ -174,7 +175,7 @@ rnp_teste_permutacao(g1, g0, B = 2000)
 #> 1           32.0       0  2000 bilateral
 ```
 
-## Sintese: o “kit” da inferencia madura
+## Sintese
 
 | Conceito | O que e | Erro comum |
 |----|----|----|
@@ -184,5 +185,5 @@ rnp_teste_permutacao(g1, g0, B = 2000)
 | Poder | P(detectar efeito real) | ignora-lo no planejamento |
 | Bootstrap | EP por reamostragem | so usar quando ha formula |
 
-Dominar *o que cada numero significa* — nao apenas como calcula-lo — e o
-que distingue o estatistico do operador de software.
+Mais do que calcular cada uma dessas quantidades, vale entender o que
+cada uma significa — e o que ela nao diz.

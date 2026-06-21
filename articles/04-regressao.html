@@ -84,8 +84,8 @@
 <div class="section level2">
 <h2 id="regressao-e-geometria">Regressao e geometria<a class="anchor" aria-label="anchor" href="#regressao-e-geometria"></a>
 </h2>
-<p>Ha um segredo que torna a regressao linear menos misteriosa:
-<strong>ela e projecao ortogonal</strong>. O vetor de respostas
+<p>Uma forma util de enxergar a regressao linear e como <strong>projecao
+ortogonal</strong>. O vetor de respostas
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
 vive num espaco de
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
@@ -96,9 +96,9 @@ sobre o subespaco gerado pelas colunas de
 Os coeficientes de minimos quadrados sao as coordenadas dessa projecao,
 e os residuos sao a parte de
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-ortogonal ao subespaco. Quem entende isso entende <em>por que</em> os
-residuos sao nao-correlacionados com os preditores — nao por acaso, mas
-por construcao geometrica.</p>
+ortogonal ao subespaco. E por isso que os residuos sao
+nao-correlacionados com os preditores: nao por acaso, mas por construcao
+geometrica.</p>
 <p>Usaremos <code><a href="https://rdrr.io/pkg/MASS/man/Boston.html" class="external-link">MASS::Boston</a></code>: 506 bairros de Boston com o valor
 mediano dos imoveis (<code>medv</code>) e 13 caracteristicas reais.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -296,14 +296,14 @@ jogada; 1,0 e perfeito.</p>
 </h2>
 <table class="table">
 <colgroup>
-<col width="16%">
-<col width="26%">
-<col width="57%">
+<col width="25%">
+<col width="39%">
+<col width="35%">
 </colgroup>
 <thead><tr class="header">
 <th>Etapa</th>
 <th>Ferramenta</th>
-<th>Pergunta de professor</th>
+<th>Pergunta</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -319,7 +319,7 @@ jogada; 1,0 e perfeito.</p>
 <tr class="odd">
 <td>Colinearidade</td>
 <td><code>rnp_vif</code></td>
-<td>os preditores brigam?</td>
+<td>os preditores sao redundantes?</td>
 </tr>
 <tr class="even">
 <td>Regularizar</td>
@@ -335,8 +335,8 @@ jogada; 1,0 e perfeito.</p>
 </tr>
 </tbody>
 </table>
-<p>Regressao bem-feita e 20% ajustar e 80% <strong>criticar</strong> o
-ajuste.</p>
+<p>O ajuste e apenas o comeco: a parte mais importante e examinar se os
+pressupostos se sustentam e se o modelo descreve bem os dados.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

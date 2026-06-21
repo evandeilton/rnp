@@ -189,5 +189,6 @@ respostas — duas vantagens que o “teste a teste” perde.
 | Classificar (com rotulo) | `rnp_lda` | razao de Fisher |
 | Comparar vetores de media | `rnp_hotelling`, `rnp_manova` | generalizam t e ANOVA |
 
-A multivariada e onde a geometria da algebra linear vira intuicao
-estatistica.
+Muitos desses metodos repousam sobre a mesma base de algebra linear —
+autovalores, autovetores e projecoes —, o que ajuda a ver as semelhancas
+entre eles.

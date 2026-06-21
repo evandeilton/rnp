@@ -2,14 +2,13 @@
 
 ## Regressao e geometria
 
-Ha um segredo que torna a regressao linear menos misteriosa: **ela e
-projecao ortogonal**. O vetor de respostas $`y`$ vive num espaco de
-$`n`$ dimensoes; o modelo projeta $`y`$ sobre o subespaco gerado pelas
-colunas de $`X`$. Os coeficientes de minimos quadrados sao as
-coordenadas dessa projecao, e os residuos sao a parte de $`y`$ ortogonal
-ao subespaco. Quem entende isso entende *por que* os residuos sao
-nao-correlacionados com os preditores — nao por acaso, mas por
-construcao geometrica.
+Uma forma util de enxergar a regressao linear e como **projecao
+ortogonal**. O vetor de respostas $`y`$ vive num espaco de $`n`$
+dimensoes; o modelo projeta $`y`$ sobre o subespaco gerado pelas colunas
+de $`X`$. Os coeficientes de minimos quadrados sao as coordenadas dessa
+projecao, e os residuos sao a parte de $`y`$ ortogonal ao subespaco. E
+por isso que os residuos sao nao-correlacionados com os preditores: nao
+por acaso, mas por construcao geometrica.
 
 Usaremos [`MASS::Boston`](https://rdrr.io/pkg/MASS/man/Boston.html): 506
 bairros de Boston com o valor mediano dos imoveis (`medv`) e 13
@@ -223,12 +222,13 @@ perfeito.
 
 ## Sintese
 
-| Etapa | Ferramenta | Pergunta de professor |
+| Etapa | Ferramenta | Pergunta |
 |----|----|----|
 | Ajustar | `rnp_regressao` | os coeficientes fazem sentido teorico? |
 | Diagnosticar | `rnp_grafico_residuos` | os pressupostos valem? |
-| Colinearidade | `rnp_vif` | os preditores brigam? |
+| Colinearidade | `rnp_vif` | os preditores sao redundantes? |
 | Regularizar | `rnp_regressao_ridge/_lasso` | vale trocar vies por variancia? |
 | Classificar | `rnp_logistic` + `rnp_curva_roc` | quao bem separa as classes? |
 
-Regressao bem-feita e 20% ajustar e 80% **criticar** o ajuste.
+O ajuste e apenas o comeco: a parte mais importante e examinar se os
+pressupostos se sustentam e se o modelo descreve bem os dados.

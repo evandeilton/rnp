@@ -1,8 +1,11 @@
-# rnp: Recursos estatisticos para o projeto R NA PRATICA
+# rnp: Recursos estatisticos do projeto R NA PRATICA
 
-Pacote didatico com funcoes estatisticas de producao: descritiva,
-inferencia, regressao, multivariada, series temporais, probabilidade,
-amostragem e visualizacao ggplot2. Inclui ferramentas para dados do
+Reune as funcoes estatisticas do projeto R NA PRATICA, organizadas por
+area: analise descritiva, probabilidade, inferencia, regressao,
+multivariada, series temporais, amostragem e dados categoricos. As
+funcoes analiticas retornam saidas em formato tibble e os graficos usam
+ggplot2. Rotinas numericamente intensivas sao escritas em C++
+(Rcpp/RcppArmadillo). Inclui tambem ferramentas para os microdados do
 censo do ensino superior do INEP.
 
 ## Modulos
@@ -45,6 +48,8 @@ censo do ensino superior do INEP.
 Useful links:
 
 - <https://github.com/evandeilton/rnp>
+
+- <https://evandeilton.github.io/rnp/>
 
 - Report bugs at <https://github.com/evandeilton/rnp/issues>
 

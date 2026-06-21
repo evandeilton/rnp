@@ -201,8 +201,9 @@ capacidade de deteccao:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_poder_teste.html">rnp_poder_teste</a></span><span class="op">(</span>efeito <span class="op">=</span> <span class="fl">0.5</span>, n <span class="op">=</span> <span class="fl">30</span>, tipo <span class="op">=</span> <span class="st">"duas"</span><span class="op">)</span><span class="op">$</span><span class="va">grafico</span></span></code></pre></div>
 <p><img src="03-inferencia_files/figure-html/poder-1.png" class="r-plt" alt="Curva de poder" width="672"></p>
-<p><strong>Planejar o poder ANTES de coletar dados</strong> e o que
-separa pesquisa seria de pescaria de p-valores.</p>
+<p>Calcular o poder e o tamanho de amostra <strong>antes</strong> de
+coletar os dados e parte do bom planejamento de um estudo, e ajuda a
+evitar tanto falsos negativos quanto achados que nao se replicam.</p>
 </div>
 <div class="section level2">
 <h2 id="quando-nao-ha-formula-o-bootstrap">Quando nao ha formula: o bootstrap<a class="anchor" aria-label="anchor" href="#quando-nao-ha-formula-o-bootstrap"></a>
@@ -219,9 +220,9 @@ observa-se a variabilidade da estatistica.</p>
 <span><span class="co">#&gt;   estimativa limite_inferior limite_superior metodo     conf</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       32.8            31.6            33.8 percentil  0.95</span></span></code></pre></div>
-<p>Nenhuma suposicao de normalidade foi feita — o bootstrap deixa os
-dados falarem. E o canivete da inferencia moderna para estatisticas sem
-teoria assintotica amigavel.</p>
+<p>Nenhuma suposicao de normalidade foi feita. O bootstrap e util
+justamente para estatisticas cuja distribuicao amostral nao tem uma
+forma fechada conhecida.</p>
 </div>
 <div class="section level2">
 <h2 id="comparando-grupos-sem-assumir-normalidade-permutacao">Comparando grupos sem assumir normalidade: permutacao<a class="anchor" aria-label="anchor" href="#comparando-grupos-sem-assumir-normalidade-permutacao"></a>
@@ -240,7 +241,7 @@ etiquetas sob H0:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           32.0       0  <span style="text-decoration: underline;">2</span>000 bilateral</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="sintese-o-kit-da-inferencia-madura">Sintese: o “kit” da inferencia madura<a class="anchor" aria-label="anchor" href="#sintese-o-kit-da-inferencia-madura"></a>
+<h2 id="sintese">Sintese<a class="anchor" aria-label="anchor" href="#sintese"></a>
 </h2>
 <table class="table">
 <colgroup>
@@ -285,9 +286,8 @@ etiquetas sob H0:</p>
 </tr>
 </tbody>
 </table>
-<p>Dominar <em>o que cada numero significa</em> — nao apenas como
-calcula-lo — e o que distingue o estatistico do operador de
-software.</p>
+<p>Mais do que calcular cada uma dessas quantidades, vale entender o que
+cada uma significa — e o que ela nao diz.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

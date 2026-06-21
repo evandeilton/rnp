@@ -4,9 +4,9 @@
 
 Probabilidade e a linguagem que descreve a incerteza *antes* de observar
 os dados; a estatistica inverte a seta, indo dos dados as causas. Esta
-vinheta percorre o nucleo conceitual que separa quem decora formulas de
-quem entende: **distribuicoes**, o **Teorema de Bayes**, a **Lei dos
-Grandes Numeros** e o **Teorema Central do Limite**.
+vinheta trata dos conceitos centrais dessa transicao: as
+**distribuicoes**, o **Teorema de Bayes**, a **Lei dos Grandes Numeros**
+e o **Teorema Central do Limite**.
 
 ## Distribuicoes de probabilidade
 
@@ -101,14 +101,14 @@ A media acumulada oscila muito no inicio e vai se “colando” a linha
 vermelha. **E por isso que cassinos lucram e pesquisas eleitorais
 funcionam**: no agregado, o acaso individual se cancela.
 
-## Teorema Central do Limite: o coracao da estatistica
+## Teorema Central do Limite
 
 Se a LGN diz *para onde* a media vai, o TCL diz **como** ela chega la: a
 distribuicao da media amostral padronizada tende a uma **Normal**,
-*qualquer que seja a distribuicao de origem* (com variancia finita).
-Esse e o motivo profundo de a Normal aparecer em todo lugar — e de a
-inferencia (ICs, testes t e z) funcionar mesmo sem normalidade dos dados
-brutos.
+*qualquer que seja a distribuicao de origem* (com variancia finita). E
+essa propriedade que explica a presenca da Normal em tantos contextos e
+que sustenta boa parte da inferencia (intervalos de confianca, testes t
+e z) mesmo quando os dados brutos nao sao normais.
 
 Vamos partir de uma distribuicao deliberadamente **assimetrica**
 (exponencial) e observar a media de amostras de tamanho 30:
@@ -121,9 +121,8 @@ rnp_tcl_simulacao(function(n) rexp(n), n = 30, n_amostras = 2000)
 ![Demonstracao do TCL](02-probabilidade_files/figure-html/tcl-1.png)
 
 O histograma das medias — partindo de algo nada normal — adere a curva
-Normal sobreposta. Quem entende este grafico entende **metade da
-estatistica inferencial**: e ele que autoriza dizer “a media amostral e
-aproximadamente Normal”, base de praticamente todos os intervalos de
+Normal sobreposta. E esse resultado que autoriza tratar a media amostral
+como aproximadamente Normal, base de praticamente todos os intervalos de
 confianca da vinheta 3.
 
 ## Simulacao de Monte Carlo
