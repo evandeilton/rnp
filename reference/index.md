@@ -1,0 +1,417 @@
+# Package index
+
+## Descritiva e Exploratoria
+
+Medidas-resumo, momentos, frequencias e graficos exploratorios.
+
+- [`rnp_descritiva()`](https://evandeilton.github.io/rnp/reference/rnp_descritiva.md)
+  : Estatisticas descritivas robustas
+- [`rnp_descritiva_by()`](https://evandeilton.github.io/rnp/reference/rnp_descritiva_by.md)
+  : Estatisticas descritivas por grupo
+- [`rnp_momentos()`](https://evandeilton.github.io/rnp/reference/rnp_momentos.md)
+  : Momentos amostrais, assimetria e curtose
+- [`rnp_quantis()`](https://evandeilton.github.io/rnp/reference/rnp_quantis.md)
+  : Quantis com metodo configuravel
+- [`rnp_skewness()`](https://evandeilton.github.io/rnp/reference/rnp_skewness.md)
+  : Coeficiente de assimetria (skewness)
+- [`rnp_kurtosis()`](https://evandeilton.github.io/rnp/reference/rnp_kurtosis.md)
+  : Coeficiente de curtose
+- [`rnp_outliers()`](https://evandeilton.github.io/rnp/reference/rnp_outliers.md)
+  : Deteccao de outliers
+- [`rnp_medias()`](https://evandeilton.github.io/rnp/reference/rnp_medias.md)
+  : Medias (aritmetica, geometrica, harmonica e quadratica)
+- [`rnp_estrutura()`](https://evandeilton.github.io/rnp/reference/rnp_estrutura.md)
+  : Estrutura de um objeto (glance)
+- [`rnp_tabela_frequencia()`](https://evandeilton.github.io/rnp/reference/rnp_tabela_frequencia.md)
+  : Tabela de frequencias para variavel categorica
+- [`rnp_tabela_classes()`](https://evandeilton.github.io/rnp/reference/rnp_tabela_classes.md)
+  : Tabela de classes (frequencias agrupadas)
+- [`rnp_tabela_contingencia()`](https://evandeilton.github.io/rnp/reference/rnp_tabela_contingencia.md)
+  : Tabela de contingencia (dupla entrada)
+- [`rnp_intervalo_classes()`](https://evandeilton.github.io/rnp/reference/rnp_intervalo_classes.md)
+  : Numero/limites de classes por regra classica
+- [`rnp_grafico_acf()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_acf.md)
+  : Grafico de ACF ou PACF
+- [`rnp_grafico_barras()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_barras.md)
+  : Grafico de barras
+- [`rnp_grafico_boxplot()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_boxplot.md)
+  : Grafico de boxplot
+- [`rnp_grafico_correlograma()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_correlograma.md)
+  : Correlograma (mapa de calor de correlacoes)
+- [`rnp_grafico_dendrograma()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_dendrograma.md)
+  : Dendrograma
+- [`rnp_grafico_dispersao()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_dispersao.md)
+  : Grafico de dispersao
+- [`rnp_grafico_dispersao_matriz()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_dispersao_matriz.md)
+  : Matriz de dispersao
+- [`rnp_grafico_distribuicao()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_distribuicao.md)
+  : Grafico de uma distribuicao de probabilidade
+- [`rnp_grafico_histograma()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_histograma.md)
+  : Grafico de histograma
+- [`rnp_grafico_qq()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_qq.md)
+  : Grafico QQ (quantil-quantil)
+- [`rnp_grafico_residuos()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_residuos.md)
+  : Painel de diagnostico de residuos
+- [`rnp_grafico_serie()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_serie.md)
+  : Grafico de serie temporal
+- [`rnp_grafico_violino()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_violino.md)
+  : Grafico de violino
+- [`rnp_tema_rnp()`](https://evandeilton.github.io/rnp/reference/rnp_tema_rnp.md)
+  : Tema ggplot2 do projeto R NA PRATICA
+- [`rnp_paleta_rnp()`](https://evandeilton.github.io/rnp/reference/rnp_paleta_rnp.md)
+  : Paletas de cores do projeto R NA PRATICA
+
+## Probabilidade e Distribuicoes
+
+Distribuicoes, Bayes, teoremas-limite e simulacao.
+
+- [`rnp_distribuicao()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao.md)
+  : Distribuicoes de probabilidade
+- [`rnp_distribuicao_beta()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_beta.md)
+  : Distribuicao Beta
+- [`rnp_distribuicao_binomial()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_binomial.md)
+  : Distribuicao binomial (wrapper)
+- [`rnp_distribuicao_conjunta()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_conjunta.md)
+  : Distribuicao conjunta discreta: marginais, momentos e dependencia
+- [`rnp_distribuicao_exponencial()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_exponencial.md)
+  : Distribuicao Exponencial
+- [`rnp_distribuicao_f()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_f.md)
+  : Distribuicao F
+- [`rnp_distribuicao_gama()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_gama.md)
+  : Distribuicao Gama
+- [`rnp_distribuicao_geom()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_geom.md)
+  : Distribuicao geometrica (wrapper)
+- [`rnp_distribuicao_hipergeometrica()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_hipergeometrica.md)
+  : Distribuicao hipergeometrica (wrapper)
+- [`rnp_distribuicao_lognormal()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_lognormal.md)
+  : Distribuicao Log-normal
+- [`rnp_distribuicao_multinomial()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_multinomial.md)
+  : Distribuicao Multinomial
+- [`rnp_distribuicao_negbinom()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_negbinom.md)
+  : Distribuicao binomial negativa (wrapper)
+- [`rnp_distribuicao_normal()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_normal.md)
+  : Distribuicao Normal
+- [`rnp_distribuicao_poisson()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_poisson.md)
+  : Distribuicao de Poisson (wrapper)
+- [`rnp_distribuicao_qui_quadrado()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_qui_quadrado.md)
+  : Distribuicao Qui-quadrado
+- [`rnp_distribuicao_t()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_t.md)
+  : Distribuicao t de Student
+- [`rnp_distribuicao_uniforme()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_uniforme.md)
+  : Distribuicao Uniforme continua
+- [`rnp_distribuicao_weibull()`](https://evandeilton.github.io/rnp/reference/rnp_distribuicao_weibull.md)
+  : Distribuicao Weibull
+- [`rnp_esperanca_var()`](https://evandeilton.github.io/rnp/reference/rnp_esperanca_var.md)
+  : Esperanca e variancia teoricas
+- [`rnp_bayes()`](https://evandeilton.github.io/rnp/reference/rnp_bayes.md)
+  : Teorema de Bayes (particao do espaco amostral)
+- [`rnp_esperanca_condicional()`](https://evandeilton.github.io/rnp/reference/rnp_esperanca_condicional.md)
+  : Esperanca e variancia condicionais E\[Y \| X = x\]
+- [`rnp_lei_grandes_numeros()`](https://evandeilton.github.io/rnp/reference/rnp_lei_grandes_numeros.md)
+  : Lei dos Grandes Numeros (simulacao)
+- [`rnp_tcl_simulacao()`](https://evandeilton.github.io/rnp/reference/rnp_tcl_simulacao.md)
+  : Teorema Central do Limite (simulacao)
+- [`rnp_cadeia_markov()`](https://evandeilton.github.io/rnp/reference/rnp_cadeia_markov.md)
+  : Cadeia de Markov de tempo discreto
+- [`rnp_passeio_aleatorio()`](https://evandeilton.github.io/rnp/reference/rnp_passeio_aleatorio.md)
+  : Passeio aleatorio simples
+- [`rnp_processo_poisson()`](https://evandeilton.github.io/rnp/reference/rnp_processo_poisson.md)
+  : Processo de Poisson homogeneo (simulacao)
+- [`rnp_monte_carlo()`](https://evandeilton.github.io/rnp/reference/rnp_monte_carlo.md)
+  : Integracao por Monte Carlo
+- [`rnp_simula_inversao()`](https://evandeilton.github.io/rnp/reference/rnp_simula_inversao.md)
+  : Simulacao pelo metodo da transformacao inversa
+- [`rnp_simula_aceitacao_rejeicao()`](https://evandeilton.github.io/rnp/reference/rnp_simula_aceitacao_rejeicao.md)
+  : Simulacao pelo metodo de aceitacao-rejeicao
+- [`rnp_ajuste_distribuicao()`](https://evandeilton.github.io/rnp/reference/rnp_ajuste_distribuicao.md)
+  : Ajuste de distribuicao por maxima verossimilhanca
+- [`rnp_combinacao()`](https://evandeilton.github.io/rnp/reference/rnp_combinacao.md)
+  : Combinatorial utilities
+- [`rnp_arranjo()`](https://evandeilton.github.io/rnp/reference/rnp_arranjo.md)
+  : Numero de arranjos
+- [`rnp_permutacao()`](https://evandeilton.github.io/rnp/reference/rnp_permutacao.md)
+  : Numero de permutacoes
+- [`rnp_probabilidade_condicional()`](https://evandeilton.github.io/rnp/reference/rnp_probabilidade_condicional.md)
+  : Probabilidade condicional
+
+## Inferencia
+
+Estimacao, intervalos, testes, bootstrap e poder.
+
+- [`rnp_ic_bootstrap()`](https://evandeilton.github.io/rnp/reference/rnp_ic_bootstrap.md)
+  : Intervalo de confianca bootstrap
+- [`rnp_ic_diff_medias()`](https://evandeilton.github.io/rnp/reference/rnp_ic_diff_medias.md)
+  : Intervalo de confianca para diferenca de medias
+- [`rnp_ic_media()`](https://evandeilton.github.io/rnp/reference/rnp_ic_media.md)
+  : Intervalo de confianca para a media
+- [`rnp_ic_proporcao()`](https://evandeilton.github.io/rnp/reference/rnp_ic_proporcao.md)
+  : Intervalo de confianca para proporcao
+- [`rnp_ic_variancia()`](https://evandeilton.github.io/rnp/reference/rnp_ic_variancia.md)
+  : Intervalo de confianca para variancia (chi-quadrado)
+- [`rnp_ic_verossimilhanca()`](https://evandeilton.github.io/rnp/reference/rnp_ic_verossimilhanca.md)
+  : IC por verossimilhanca perfilada (1 parametro)
+- [`rnp_emv()`](https://evandeilton.github.io/rnp/reference/rnp_emv.md)
+  : Estimador de maxima verossimilhanca (generico)
+- [`rnp_metodo_momentos()`](https://evandeilton.github.io/rnp/reference/rnp_metodo_momentos.md)
+  : Estimacao por metodo dos momentos
+- [`rnp_informacao_fisher()`](https://evandeilton.github.io/rnp/reference/rnp_informacao_fisher.md)
+  : Informacao de Fisher observada
+- [`rnp_log_verossimilhanca()`](https://evandeilton.github.io/rnp/reference/rnp_log_verossimilhanca.md)
+  : Grafico da funcao de log-verossimilhanca (1 parametro)
+- [`rnp_bootstrap()`](https://evandeilton.github.io/rnp/reference/rnp_bootstrap.md)
+  : Bootstrap (nao parametrico)
+- [`rnp_bootstrap_parametrico()`](https://evandeilton.github.io/rnp/reference/rnp_bootstrap_parametrico.md)
+  : Bootstrap parametrico
+- [`rnp_jackknife()`](https://evandeilton.github.io/rnp/reference/rnp_jackknife.md)
+  : Jackknife (deixa-um-de-fora)
+- [`rnp_teste_permutacao()`](https://evandeilton.github.io/rnp/reference/rnp_teste_permutacao.md)
+  : Teste de permutacao (diferenca de medias)
+- [`rnp_teste_aderencia()`](https://evandeilton.github.io/rnp/reference/rnp_teste_aderencia.md)
+  : Teste de aderencia qui-quadrado a uma distribuicao continua
+- [`rnp_teste_binomial()`](https://evandeilton.github.io/rnp/reference/rnp_teste_binomial.md)
+  : Teste binomial exato
+- [`rnp_teste_fisher()`](https://evandeilton.github.io/rnp/reference/rnp_teste_fisher.md)
+  : Teste exato de Fisher
+- [`rnp_teste_friedman()`](https://evandeilton.github.io/rnp/reference/rnp_teste_friedman.md)
+  : Teste de Friedman (blocos)
+- [`rnp_teste_grubbs()`](https://evandeilton.github.io/rnp/reference/rnp_teste_grubbs.md)
+  : Teste de Grubbs para outlier
+- [`rnp_teste_kendall_w()`](https://evandeilton.github.io/rnp/reference/rnp_teste_kendall_w.md)
+  : Coeficiente de concordancia de Kendall (W)
+- [`rnp_teste_ks()`](https://evandeilton.github.io/rnp/reference/rnp_teste_ks.md)
+  : Teste de Kolmogorov-Smirnov
+- [`rnp_teste_levene()`](https://evandeilton.github.io/rnp/reference/rnp_teste_levene.md)
+  : Teste de Levene (alias direto)
+- [`rnp_teste_mcnemar()`](https://evandeilton.github.io/rnp/reference/rnp_teste_mcnemar.md)
+  : Teste de McNemar (pareado binario)
+- [`rnp_teste_normalidade()`](https://evandeilton.github.io/rnp/reference/rnp_teste_normalidade.md)
+  : Testes de normalidade (Shapiro, Jarque-Bera, Anderson-Darling)
+- [`rnp_teste_proporcoes()`](https://evandeilton.github.io/rnp/reference/rnp_teste_proporcoes.md)
+  : Teste de proporcoes (uma ou k amostras)
+- [`rnp_teste_qui_quadrado()`](https://evandeilton.github.io/rnp/reference/rnp_teste_qui_quadrado.md)
+  : Teste qui-quadrado (independencia ou aderencia)
+- [`rnp_teste_razao_veross()`](https://evandeilton.github.io/rnp/reference/rnp_teste_razao_veross.md)
+  : Teste da razao de verossimilhancas (modelos aninhados)
+- [`rnp_teste_runs()`](https://evandeilton.github.io/rnp/reference/rnp_teste_runs.md)
+  : Teste de aleatoriedade (runs / sequencias)
+- [`rnp_teste_score()`](https://evandeilton.github.io/rnp/reference/rnp_teste_score.md)
+  : Teste de escore (Rao) para um parametro escalar
+- [`rnp_teste_shapiro()`](https://evandeilton.github.io/rnp/reference/rnp_teste_shapiro.md)
+  : Teste de Shapiro-Wilk (normalidade)
+- [`rnp_teste_sinais()`](https://evandeilton.github.io/rnp/reference/rnp_teste_sinais.md)
+  : Teste dos sinais (nao-parametrico)
+- [`rnp_teste_t()`](https://evandeilton.github.io/rnp/reference/rnp_teste_t.md)
+  : Teste t (uma ou duas amostras)
+- [`rnp_teste_variancias()`](https://evandeilton.github.io/rnp/reference/rnp_teste_variancias.md)
+  : Teste de variancias (F, Bartlett, Levene, Fligner-Killeen)
+- [`rnp_teste_wald()`](https://evandeilton.github.io/rnp/reference/rnp_teste_wald.md)
+  : Teste de Wald para coeficientes de um modelo
+- [`rnp_teste_z_media()`](https://evandeilton.github.io/rnp/reference/rnp_teste_z_media.md)
+  : Teste Z para media (sigma conhecido)
+- [`rnp_teste_z_proporcao()`](https://evandeilton.github.io/rnp/reference/rnp_teste_z_proporcao.md)
+  : Teste Z para proporcao (uma amostra)
+- [`rnp_poder_teste()`](https://evandeilton.github.io/rnp/reference/rnp_poder_teste.md)
+  : Poder de um teste t e curva de poder
+- [`rnp_tamanho_amostra_teste()`](https://evandeilton.github.io/rnp/reference/rnp_tamanho_amostra_teste.md)
+  : Tamanho de amostra por poder (teste t)
+- [`rnp_tamanho_amostra_media()`](https://evandeilton.github.io/rnp/reference/rnp_tamanho_amostra_media.md)
+  : Tamanho de amostra para media
+- [`rnp_tamanho_amostra_proporcao()`](https://evandeilton.github.io/rnp/reference/rnp_tamanho_amostra_proporcao.md)
+  : Tamanho de amostra para proporcao
+- [`rnp_tamanho_efeito()`](https://evandeilton.github.io/rnp/reference/rnp_tamanho_efeito.md)
+  : Tamanho de efeito
+- [`rnp_bayes_conjugada()`](https://evandeilton.github.io/rnp/reference/rnp_bayes_conjugada.md)
+  : Estimacao bayesiana conjugada
+- [`rnp_amostra_conglomerada()`](https://evandeilton.github.io/rnp/reference/rnp_amostra_conglomerada.md)
+  : Amostragem por conglomerados
+- [`rnp_amostra_estratificada()`](https://evandeilton.github.io/rnp/reference/rnp_amostra_estratificada.md)
+  : Amostragem estratificada
+- [`rnp_amostra_simples()`](https://evandeilton.github.io/rnp/reference/rnp_amostra_simples.md)
+  : Amostragem aleatoria simples
+- [`rnp_amostra_sistematica()`](https://evandeilton.github.io/rnp/reference/rnp_amostra_sistematica.md)
+  : Amostragem sistematica
+- [`rnp_na_summary()`](https://evandeilton.github.io/rnp/reference/rnp_na_summary.md)
+  : Resumo de valores faltantes
+
+## Regressao e Modelagem
+
+Linear, regularizada, robusta, logistica e diagnosticos.
+
+- [`rnp_regressao()`](https://evandeilton.github.io/rnp/reference/rnp_regressao.md)
+  : Regressao linear (simples ou multipla) com saida tidy
+- [`rnp_regressao_diagnosticos()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_diagnosticos.md)
+  : Diagnosticos de regressao linear
+- [`rnp_grafico_residuos()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_residuos.md)
+  : Painel de diagnostico de residuos
+- [`rnp_vif()`](https://evandeilton.github.io/rnp/reference/rnp_vif.md)
+  : Fator de inflacao de variancia (VIF)
+- [`rnp_predicao()`](https://evandeilton.github.io/rnp/reference/rnp_predicao.md)
+  : Predicao com intervalo
+- [`rnp_anova_modelos()`](https://evandeilton.github.io/rnp/reference/rnp_anova_modelos.md)
+  : Comparacao de modelos aninhados (ANOVA)
+- [`rnp_regressao_polinomial()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_polinomial.md)
+  : Regressao polinomial
+- [`rnp_regressao_ponderada()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_ponderada.md)
+  : Regressao linear ponderada (WLS)
+- [`rnp_regressao_stepwise()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_stepwise.md)
+  : Selecao de variaveis (stepwise)
+- [`rnp_regressao_ridge()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_ridge.md)
+  : Regressao ridge (L2)
+- [`rnp_regressao_lasso()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_lasso.md)
+  : Regressao lasso (L1)
+- [`rnp_elastic_net()`](https://evandeilton.github.io/rnp/reference/rnp_elastic_net.md)
+  : Elastic net (L1 + L2)
+- [`rnp_regressao_robusta()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_robusta.md)
+  : Regressao robusta (M-estimadores via IRLS)
+- [`rnp_regressao_poisson()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_poisson.md)
+  : Regressao de Poisson (contagens)
+- [`rnp_regressao_nao_linear()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_nao_linear.md)
+  : Regressao nao-linear
+- [`rnp_regressao_multinomial()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_multinomial.md)
+  : Regressao logistica multinomial
+- [`rnp_box_cox()`](https://evandeilton.github.io/rnp/reference/rnp_box_cox.md)
+  : Transformacao de Box-Cox
+- [`rnp_logistic()`](https://evandeilton.github.io/rnp/reference/rnp_logistic.md)
+  : Regressao logistica binaria
+- [`rnp_matriz_confusao()`](https://evandeilton.github.io/rnp/reference/rnp_matriz_confusao.md)
+  : Matriz de confusao
+- [`rnp_curva_roc()`](https://evandeilton.github.io/rnp/reference/rnp_curva_roc.md)
+  : Curva ROC e AUC
+- [`rnp_roc_auc()`](https://evandeilton.github.io/rnp/reference/rnp_roc_auc.md)
+  : AUC (somente)
+- [`rnp_correlacao_canonica()`](https://evandeilton.github.io/rnp/reference/rnp_correlacao_canonica.md)
+  : Correlacao canonica
+- [`rnp_correlacao_parcial()`](https://evandeilton.github.io/rnp/reference/rnp_correlacao_parcial.md)
+  : Correlacao parcial
+- [`rnp_correlacao_teste()`](https://evandeilton.github.io/rnp/reference/rnp_correlacao_teste.md)
+  : Correlacao com teste de hipotese
+
+## ANOVA e Experimental
+
+- [`rnp_anova()`](https://evandeilton.github.io/rnp/reference/rnp_anova.md)
+  : ANOVA de um fator
+- [`rnp_anova_dois_fatores()`](https://evandeilton.github.io/rnp/reference/rnp_anova_dois_fatores.md)
+  : ANOVA de dois fatores
+- [`rnp_ancova()`](https://evandeilton.github.io/rnp/reference/rnp_ancova.md)
+  : Analise de covariancia (ANCOVA)
+- [`rnp_dbc()`](https://evandeilton.github.io/rnp/reference/rnp_dbc.md)
+  : Delineamento em blocos casualizados (DBC)
+- [`rnp_contrastes()`](https://evandeilton.github.io/rnp/reference/rnp_contrastes.md)
+  : Contrastes lineares
+- [`rnp_anova_medidas_repetidas()`](https://evandeilton.github.io/rnp/reference/rnp_anova_medidas_repetidas.md)
+  : ANOVA de medidas repetidas
+- [`rnp_tukey_hsd()`](https://evandeilton.github.io/rnp/reference/rnp_tukey_hsd.md)
+  : Teste de Tukey HSD
+- [`rnp_scheffe()`](https://evandeilton.github.io/rnp/reference/rnp_scheffe.md)
+  : Teste de Scheffe
+
+## Multivariada
+
+PCA, cluster, discriminante e testes multivariados.
+
+- [`rnp_pca()`](https://evandeilton.github.io/rnp/reference/rnp_pca.md)
+  : Analise de componentes principais (PCA)
+- [`rnp_biplot()`](https://evandeilton.github.io/rnp/reference/rnp_biplot.md)
+  : Biplot de PCA
+- [`rnp_matriz_correlacao()`](https://evandeilton.github.io/rnp/reference/rnp_matriz_correlacao.md)
+  : Matriz de correlacao com p-valores
+- [`rnp_kmeans()`](https://evandeilton.github.io/rnp/reference/rnp_kmeans.md)
+  : Cluster K-Means
+- [`rnp_kmedoids()`](https://evandeilton.github.io/rnp/reference/rnp_kmedoids.md)
+  : k-medoids (PAM)
+- [`rnp_cluster_hierarquico()`](https://evandeilton.github.io/rnp/reference/rnp_cluster_hierarquico.md)
+  : Cluster hierarquico
+- [`rnp_silhueta()`](https://evandeilton.github.io/rnp/reference/rnp_silhueta.md)
+  : Analise de silhueta
+- [`rnp_lda()`](https://evandeilton.github.io/rnp/reference/rnp_lda.md)
+  : Analise discriminante linear (LDA)
+- [`rnp_distancia()`](https://evandeilton.github.io/rnp/reference/rnp_distancia.md)
+  : Distancias entre observacoes
+- [`rnp_mds()`](https://evandeilton.github.io/rnp/reference/rnp_mds.md)
+  : Escalonamento multidimensional (MDS)
+- [`rnp_hotelling()`](https://evandeilton.github.io/rnp/reference/rnp_hotelling.md)
+  : Teste T2 de Hotelling (medias multivariadas)
+- [`rnp_manova()`](https://evandeilton.github.io/rnp/reference/rnp_manova.md)
+  : MANOVA (analise de variancia multivariada)
+- [`rnp_analise_fatorial()`](https://evandeilton.github.io/rnp/reference/rnp_analise_fatorial.md)
+  : Analise fatorial exploratoria
+- [`rnp_correspondencia()`](https://evandeilton.github.io/rnp/reference/rnp_correspondencia.md)
+  : Analise de correspondencia (CA)
+- [`rnp_correlacao_canonica()`](https://evandeilton.github.io/rnp/reference/rnp_correlacao_canonica.md)
+  : Correlacao canonica
+- [`rnp_normalidade_multivariada()`](https://evandeilton.github.io/rnp/reference/rnp_normalidade_multivariada.md)
+  : Teste de normalidade multivariada (Mardia)
+
+## Series Temporais
+
+- [`rnp_ts_acf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_acf.md)
+  : Funcao de autocorrelacao (ACF)
+- [`rnp_ts_decomposicao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_decomposicao.md)
+  : Decomposicao de serie temporal
+- [`rnp_ts_diferenciacao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_diferenciacao.md)
+  : Diferenciacao de serie
+- [`rnp_ts_holt_winters()`](https://evandeilton.github.io/rnp/reference/rnp_ts_holt_winters.md)
+  : Suavizacao de Holt-Winters
+- [`rnp_ts_ljung_box()`](https://evandeilton.github.io/rnp/reference/rnp_ts_ljung_box.md)
+  : Teste de Ljung-Box (autocorrelacao)
+- [`rnp_ts_pacf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_pacf.md)
+  : Funcao de autocorrelacao parcial (PACF)
+- [`rnp_ts_periodograma()`](https://evandeilton.github.io/rnp/reference/rnp_ts_periodograma.md)
+  : Periodograma (analise espectral)
+- [`rnp_media_movel()`](https://evandeilton.github.io/rnp/reference/rnp_media_movel.md)
+  : Media movel
+- [`rnp_suavizacao_exponencial()`](https://evandeilton.github.io/rnp/reference/rnp_suavizacao_exponencial.md)
+  : Suavizacao exponencial
+
+## Dados Categoricos e Nao-Parametricos
+
+- [`rnp_teste_fisher()`](https://evandeilton.github.io/rnp/reference/rnp_teste_fisher.md)
+  : Teste exato de Fisher
+- [`rnp_odds_ratio()`](https://evandeilton.github.io/rnp/reference/rnp_odds_ratio.md)
+  : Razao de chances (odds ratio) com IC
+- [`rnp_risco_relativo()`](https://evandeilton.github.io/rnp/reference/rnp_risco_relativo.md)
+  : Risco relativo com IC
+- [`rnp_kappa()`](https://evandeilton.github.io/rnp/reference/rnp_kappa.md)
+  : Kappa de Cohen (concordancia entre dois avaliadores)
+- [`rnp_kruskal()`](https://evandeilton.github.io/rnp/reference/rnp_kruskal.md)
+  : Teste de Kruskal-Wallis
+- [`rnp_mann_whitney()`](https://evandeilton.github.io/rnp/reference/rnp_mann_whitney.md)
+  : Teste de Mann-Whitney (Wilcoxon duas amostras independentes)
+- [`rnp_wilcoxon()`](https://evandeilton.github.io/rnp/reference/rnp_wilcoxon.md)
+  : Teste de Wilcoxon para amostras pareadas
+
+## Pre-processamento
+
+- [`rnp_padroniza()`](https://evandeilton.github.io/rnp/reference/rnp_padroniza.md)
+  : Padroniza (z-score)
+- [`rnp_normaliza()`](https://evandeilton.github.io/rnp/reference/rnp_normaliza.md)
+  : Normaliza (min-max para \[0, 1\])
+- [`rnp_winsoriza()`](https://evandeilton.github.io/rnp/reference/rnp_winsoriza.md)
+  : Winsorizacao de outliers
+- [`rnp_imputa()`](https://evandeilton.github.io/rnp/reference/rnp_imputa.md)
+  : Imputacao de valores faltantes
+- [`rnp_discretiza()`](https://evandeilton.github.io/rnp/reference/rnp_discretiza.md)
+  : Discretizacao (binning)
+- [`rnp_dummy()`](https://evandeilton.github.io/rnp/reference/rnp_dummy.md)
+  : Codificacao dummy (one-hot)
+
+## Dados e utilitarios
+
+- [`rnp_read()`](https://evandeilton.github.io/rnp/reference/rnp_read.md)
+  : Leitura rapida de bases de dados delimitadas
+- [`rnp_options()`](https://evandeilton.github.io/rnp/reference/rnp_options.md)
+  : Opcoes do pacote rnp
+- [`rnp_get_classes_inep()`](https://evandeilton.github.io/rnp/reference/rnp_get_classes_inep.md)
+  : Obtem classes das variaveis do dicionario INEP
+- [`rnp_get_inep_censo()`](https://evandeilton.github.io/rnp/reference/rnp_get_inep_censo.md)
+  : Download dados do INEP
+- [`rnp_aplica_classes()`](https://evandeilton.github.io/rnp/reference/rnp_aplica_classes.md)
+  : Aplica classes do dicionario INEP na base
+- [`dm_curso`](https://evandeilton.github.io/rnp/reference/dm_curso.md)
+  : Dados do censo ensino superior INEP 2017 (Cursos)
+- [`dm_ies`](https://evandeilton.github.io/rnp/reference/dm_ies.md) :
+  Dados do censo ensino superior INEP 2017 (IES)
+- [`dm_local`](https://evandeilton.github.io/rnp/reference/dm_local.md)
+  : Dados do censo ensino superior INEP 2017 (Local da oferta)
+- [`dm_docente`](https://evandeilton.github.io/rnp/reference/dm_docente.md)
+  : Dados do censo ensino superior INEP 2017 (Docente)

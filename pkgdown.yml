@@ -1,0 +1,15 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  01-descritiva: 01-descritiva.html
+  02-probabilidade: 02-probabilidade.html
+  03-inferencia: 03-inferencia.html
+  04-regressao: 04-regressao.html
+  05-multivariada: 05-multivariada.html
+  06-categoricos: 06-categoricos.html
+  rnp: rnp.html
+last_built: 2026-06-21T16:15Z
+urls:
+  reference: https://evandeilton.github.io/rnp/reference
+  article: https://evandeilton.github.io/rnp/articles
