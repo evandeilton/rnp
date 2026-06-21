@@ -1,0 +1,144 @@
+---
+title: "7. Análise de sobrevivência"
+output: rmarkdown::html_vignette
+bibliography: referencias.bib
+vignette: >
+  %\VignetteIndexEntry{7. Análise de sobrevivência}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      message = FALSE, warning = FALSE)
+library(rnp)
+library(survival)
+```
+
+A análise de sobrevivência estuda o **tempo até a ocorrência de um evento**
+(morte, falha, recidiva). Seu traço distintivo é a **censura**: para alguns
+indivíduos, o estudo termina antes do evento, e só se sabe que o tempo de falha
+*excede* o observado. Ignorar essa informação parcial enviesaria as estimativas
+[@colosimo2006; @klein2003]. Usamos `survival::lung`: 228 pacientes com câncer de
+pulmão avançado, com tempo de seguimento e estado vital.
+
+```{r dados}
+dados <- survival::lung
+dados$sexo <- factor(dados$sex, 1:2, c("Masculino", "Feminino"))
+dados$evento <- dados$status == 2          # 1 = óbito; 0 = censura
+```
+
+## Conceitos fundamentais
+
+Seja $T$ o tempo até o evento. As três funções que o descrevem são
+
+$$S(t) = P(T > t), \qquad
+  h(t) = \frac{f(t)}{S(t)}, \qquad
+  H(t) = \int_0^t h(u)\,du = -\log S(t),$$
+
+a **sobrevivência** $S$, o **risco instantâneo** (hazard) $h$ e o **risco
+acumulado** $H$. Conhecida uma delas, obtêm-se as demais.
+
+## Estimador de Kaplan-Meier
+
+Na presença de censura, $S(t)$ é estimada não-parametricamente pelo produto
+limite de Kaplan-Meier, onde $d_i$ é o número de eventos e $n_i$ o número em
+risco em cada tempo de falha $t_i$:
+
+$$\hat{S}(t) = \prod_{t_i \le t} \left(1 - \frac{d_i}{n_i}\right).$$
+
+```{r km}
+km <- rnp_kaplan_meier(dados$time, dados$evento, grupo = dados$sexo)
+km$mediana
+```
+
+A sobrevida **mediana** — tempo em que $\hat{S}(t) = 0{,}5$ — é de **270 dias**
+para homens e **426 dias** para mulheres, uma diferença expressiva. A curva
+torna isso visível:
+
+```{r km-grafico, fig.alt="Curvas de Kaplan-Meier por sexo"}
+rnp_grafico_sobrevivencia(km)
+```
+
+## Comparando grupos: teste log-rank
+
+O **teste log-rank** confronta o número de eventos observados e esperados em cada
+grupo sob $H_0$ de curvas iguais, acumulando as diferenças sobre os tempos de
+falha:
+
+```{r logrank}
+rnp_log_rank(dados$time, dados$evento, dados$sexo)
+```
+
+Com $\chi^2 = 10{,}3$ e $p = 0{,}001$, rejeita-se a igualdade: a sobrevivência das
+mulheres é significativamente maior.
+
+## Modelo de Cox de riscos proporcionais
+
+O modelo de Cox relaciona o risco às covariáveis sem especificar a forma de
+$h_0(t)$ (o risco basal), sendo por isso **semiparamétrico**:
+
+$$h(t \mid x) = h_0(t)\,\exp(x_1\beta_1 + \dots + x_p\beta_p).$$
+
+O efeito de cada covariável é a **razão de riscos** (hazard ratio),
+$\text{HR}_j = e^{\beta_j}$ [@therneau2000].
+
+```{r cox}
+fit <- rnp_cox(Surv(time, status) ~ age + sexo + ph.ecog, data = dados)
+fit$coeficientes
+```
+
+Interpretação: ser do sexo feminino multiplica o risco por $\text{HR} = 0{,}58$
+(redução de 42%, $p = 0{,}001$); cada ponto na escala de incapacidade `ph.ecog`
+multiplica o risco por $1{,}59$ ($p < 0{,}001$); a idade não é significativa
+($p = 0{,}23$). A **concordância** mede o poder discriminante do modelo:
+
+```{r cox-modelo}
+fit$modelo
+```
+
+A concordância de $0{,}64$ indica capacidade preditiva moderada (0,5 = acaso).
+
+### Verificando o pressuposto de proporcionalidade
+
+O modelo de Cox supõe que as razões de risco são **constantes no tempo**. O teste
+baseado nos resíduos de Schoenfeld avalia isso:
+
+```{r ph}
+rnp_cox_diagnosticos(fit)$teste
+```
+
+Nenhuma covariável viola o pressuposto (global $p = 0{,}22$): o modelo de Cox é
+adequado aqui.
+
+## Modelo paramétrico (AFT)
+
+Quando se quer modelar diretamente o tempo, os modelos de **tempo de falha
+acelerado** assumem uma distribuição para $T$ (Weibull, lognormal, ...):
+
+```{r aft}
+rnp_sobrevivencia_parametrica(Surv(time, status) ~ age + sexo, dados,
+                              dist = "weibull")$coeficientes
+```
+
+O coeficiente positivo de `sexoFeminino` ($0{,}38$, $p = 0{,}003$) indica que ser
+mulher *acelera* (prolonga) o tempo de sobrevida — coerente com o achado de Cox.
+A escolha entre AFT e Cox e entre distribuições pode ser guiada pelo AIC.
+
+## Síntese
+
+| Objetivo | Função | Conceito |
+|----------|--------|----------|
+| Estimar $S(t)$ | `rnp_kaplan_meier` | produto limite |
+| Visualizar | `rnp_grafico_sobrevivencia` | curva com IC |
+| Comparar grupos | `rnp_log_rank` | observados vs esperados |
+| Risco acumulado | `rnp_nelson_aalen` | $\hat{H}(t)$ |
+| Efeito de covariáveis | `rnp_cox` | razão de riscos |
+| Validar Cox | `rnp_cox_diagnosticos` | resíduos de Schoenfeld |
+| Modelo paramétrico | `rnp_sobrevivencia_parametrica` | AFT |
+
+A censura é o que distingue esta área: toda a maquinaria existe para extrair
+informação de observações *incompletas*.
+
+## Referências

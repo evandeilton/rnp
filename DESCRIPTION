@@ -36,8 +36,10 @@ Imports:
     readr,
     rlang,
     stats,
+    survival,
     stringr,
     tibble,
+    tidyr,
     tidyselect,
     utils,
     vctrs

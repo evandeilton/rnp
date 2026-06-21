@@ -40,6 +40,10 @@ navbar:
         href: articles/v05-multivariada.html
       - text: 6. Categóricos e não-paramétricos
         href: articles/v06-categoricos.html
+      - text: 7. Análise de sobrevivência
+        href: articles/v07-sobrevivencia.html
+      - text: 8. Séries temporais (ARIMA/SARIMA)
+        href: articles/v08-series-arima.html
 reference:
 - title: Descritiva e Exploratoria
   desc: Medidas-resumo, momentos, frequencias e graficos exploratorios.
@@ -156,8 +160,24 @@ reference:
   - rnp_correspondencia
   - rnp_correlacao_canonica
   - rnp_normalidade_multivariada
+- title: Analise de Sobrevivencia
+  desc: Kaplan-Meier, log-rank, Cox e modelos parametricos.
+  contents:
+  - rnp_kaplan_meier
+  - rnp_grafico_sobrevivencia
+  - rnp_log_rank
+  - rnp_nelson_aalen
+  - rnp_cox
+  - rnp_cox_diagnosticos
+  - rnp_cox_risco_relativo
+  - rnp_sobrevivencia_parametrica
+  - rnp_tabela_vida
+
 - title: Series Temporais
   contents:
+  - rnp_arima
+  - rnp_sarima
+  - rnp_auto_arima
   - starts_with("rnp_ts_")
   - rnp_media_movel
   - rnp_suavizacao_exponencial

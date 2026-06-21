@@ -32,15 +32,25 @@ rnp_ts_decomposicao(x)
 }
 \seealso{
 Other series: 
+\code{\link{rnp_arima}()},
+\code{\link{rnp_auto_arima}()},
 \code{\link{rnp_grafico_acf}()},
 \code{\link{rnp_grafico_serie}()},
 \code{\link{rnp_media_movel}()},
+\code{\link{rnp_sarima}()},
 \code{\link{rnp_suavizacao_exponencial}()},
 \code{\link{rnp_ts_acf}()},
+\code{\link{rnp_ts_adf}()},
+\code{\link{rnp_ts_ccf}()},
 \code{\link{rnp_ts_diferenciacao}()},
+\code{\link{rnp_ts_garch}()},
 \code{\link{rnp_ts_holt_winters}()},
+\code{\link{rnp_ts_kpss}()},
 \code{\link{rnp_ts_ljung_box}()},
 \code{\link{rnp_ts_pacf}()},
-\code{\link{rnp_ts_periodograma}()}
+\code{\link{rnp_ts_periodograma}()},
+\code{\link{rnp_ts_previsao}()},
+\code{\link{rnp_ts_residuos}()},
+\code{\link{rnp_ts_var}()}
 }
 \concept{series}
