@@ -10,3 +10,6 @@ src/*.rds
 # Diretorios de R CMD check
 *.Rcheck/
 ..Rcheck/
+
+# Site pkgdown (gerado pelo CI)
+docs/

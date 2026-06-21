@@ -1,0 +1,200 @@
+url: https://evandeilton.github.io/rnp
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#2E86AB"
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: rnp - O canivete suico do estatistico
+  description: >
+    Pacote didatico e de producao com mais de 180 funcoes de estatistica,
+    nucleos em C++ (Rcpp/RcppArmadillo) e saidas tidy, em portugues.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    articles:
+      text: Tutoriais
+      menu:
+      - text: "1. Descritiva e Exploratoria"
+        href: articles/01-descritiva.html
+      - text: "2. Probabilidade e Teoremas Fundamentais"
+        href: articles/02-probabilidade.html
+      - text: "3. Inferencia Estatistica"
+        href: articles/03-inferencia.html
+      - text: "4. Regressao e Modelagem"
+        href: articles/04-regressao.html
+      - text: "5. Analise Multivariada"
+        href: articles/05-multivariada.html
+      - text: "6. Categoricos e Nao-Parametricos"
+        href: articles/06-categoricos.html
+
+reference:
+- title: "Descritiva e Exploratoria"
+  desc: "Medidas-resumo, momentos, frequencias e graficos exploratorios."
+  contents:
+  - rnp_descritiva
+  - rnp_descritiva_by
+  - rnp_momentos
+  - rnp_quantis
+  - rnp_skewness
+  - rnp_kurtosis
+  - rnp_outliers
+  - rnp_medias
+  - rnp_estrutura
+  - rnp_tabela_frequencia
+  - rnp_tabela_classes
+  - rnp_tabela_contingencia
+  - rnp_intervalo_classes
+  - starts_with("rnp_grafico_")
+  - rnp_tema_rnp
+  - rnp_paleta_rnp
+
+- title: "Probabilidade e Distribuicoes"
+  desc: "Distribuicoes, Bayes, teoremas-limite e simulacao."
+  contents:
+  - starts_with("rnp_distribuicao")
+  - rnp_esperanca_var
+  - rnp_bayes
+  - rnp_distribuicao_conjunta
+  - rnp_esperanca_condicional
+  - rnp_lei_grandes_numeros
+  - rnp_tcl_simulacao
+  - rnp_cadeia_markov
+  - rnp_passeio_aleatorio
+  - rnp_processo_poisson
+  - rnp_monte_carlo
+  - rnp_simula_inversao
+  - rnp_simula_aceitacao_rejeicao
+  - rnp_ajuste_distribuicao
+  - rnp_combinacao
+  - rnp_arranjo
+  - rnp_permutacao
+  - rnp_probabilidade_condicional
+
+- title: "Inferencia"
+  desc: "Estimacao, intervalos, testes, bootstrap e poder."
+  contents:
+  - starts_with("rnp_ic_")
+  - rnp_emv
+  - rnp_metodo_momentos
+  - rnp_informacao_fisher
+  - rnp_log_verossimilhanca
+  - rnp_bootstrap
+  - rnp_bootstrap_parametrico
+  - rnp_jackknife
+  - rnp_teste_permutacao
+  - starts_with("rnp_teste_")
+  - rnp_poder_teste
+  - rnp_tamanho_amostra_teste
+  - rnp_tamanho_amostra_media
+  - rnp_tamanho_amostra_proporcao
+  - rnp_tamanho_efeito
+  - rnp_bayes_conjugada
+  - starts_with("rnp_amostra")
+  - rnp_na_summary
+
+- title: "Regressao e Modelagem"
+  desc: "Linear, regularizada, robusta, logistica e diagnosticos."
+  contents:
+  - rnp_regressao
+  - rnp_regressao_diagnosticos
+  - rnp_grafico_residuos
+  - rnp_vif
+  - rnp_predicao
+  - rnp_anova_modelos
+  - rnp_regressao_polinomial
+  - rnp_regressao_ponderada
+  - rnp_regressao_stepwise
+  - rnp_regressao_ridge
+  - rnp_regressao_lasso
+  - rnp_elastic_net
+  - rnp_regressao_robusta
+  - rnp_regressao_poisson
+  - rnp_regressao_nao_linear
+  - rnp_regressao_multinomial
+  - rnp_box_cox
+  - rnp_logistic
+  - rnp_matriz_confusao
+  - rnp_curva_roc
+  - rnp_roc_auc
+  - starts_with("rnp_correlacao")
+
+- title: "ANOVA e Experimental"
+  contents:
+  - rnp_anova
+  - rnp_anova_dois_fatores
+  - rnp_ancova
+  - rnp_dbc
+  - rnp_contrastes
+  - rnp_anova_medidas_repetidas
+  - rnp_tukey_hsd
+  - rnp_scheffe
+
+- title: "Multivariada"
+  desc: "PCA, cluster, discriminante e testes multivariados."
+  contents:
+  - rnp_pca
+  - rnp_biplot
+  - rnp_matriz_correlacao
+  - rnp_kmeans
+  - rnp_kmedoids
+  - rnp_cluster_hierarquico
+  - rnp_silhueta
+  - rnp_lda
+  - rnp_distancia
+  - rnp_mds
+  - rnp_hotelling
+  - rnp_manova
+  - rnp_analise_fatorial
+  - rnp_correspondencia
+  - rnp_correlacao_canonica
+  - rnp_normalidade_multivariada
+
+- title: "Series Temporais"
+  contents:
+  - starts_with("rnp_ts_")
+  - rnp_media_movel
+  - rnp_suavizacao_exponencial
+
+- title: "Dados Categoricos e Nao-Parametricos"
+  contents:
+  - rnp_teste_fisher
+  - rnp_odds_ratio
+  - rnp_risco_relativo
+  - rnp_kappa
+  - rnp_kruskal
+  - rnp_mann_whitney
+  - rnp_wilcoxon
+
+- title: "Pre-processamento"
+  contents:
+  - rnp_padroniza
+  - rnp_normaliza
+  - rnp_winsoriza
+  - rnp_imputa
+  - rnp_discretiza
+  - rnp_dummy
+
+- title: "Dados e utilitarios"
+  contents:
+  - rnp_read
+  - rnp_options
+  - starts_with("rnp_get")
+  - rnp_aplica_classes
+  - dm_curso
+  - dm_ies
+  - dm_local
+  - dm_docente
+
+news:
+  releases:
+  - text: "Versao 3.0.0"
+    href: news/index.html

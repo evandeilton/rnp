@@ -19,7 +19,7 @@ RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 LazyData: true
 LazyDataCompression: xz
-URL: https://github.com/evandeilton/rnp
+URL: https://github.com/evandeilton/rnp, https://evandeilton.github.io/rnp/
 BugReports: https://github.com/evandeilton/rnp/issues
 Depends:
     R (>= 3.6.0)
