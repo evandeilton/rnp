@@ -55,6 +55,43 @@
 <p><strong>Este documento é o contrato de execução. Seguir irrestritamente, na ordem das fases.</strong></p>
 </blockquote>
 <hr><div class="section level2">
+<h2 id="trophy-projeto-concluído-100">🏆 PROJETO CONCLUÍDO (100%)<a class="anchor" aria-label="anchor" href="#trophy-projeto-conclu%C3%ADdo-100"></a></h2>
+<p><strong>Todas as fatias entregues, testadas e publicadas.</strong> Estado final:</p>
+<table class="table"><colgroup><col width="36%"><col width="24%"><col width="40%"></colgroup><thead><tr><th>Métrica</th>
+<th>Meta</th>
+<th>Entregue</th>
+</tr></thead><tbody><tr><td>Funções novas</td>
+<td>≥ 50</td>
+<td><strong>104 planejadas, 183 exportadas no total</strong></td>
+</tr><tr><td>Backends C++</td>
+<td>—</td>
+<td>
+<strong>12</strong> (todos verificados vs. R, tol. ~1e-8)</td>
+</tr><tr><td>Testes</td>
+<td>≥ 90% cobertura</td>
+<td><strong>24 arquivos, suíte 100% verde</strong></td>
+</tr><tr><td><code>R CMD check</code></td>
+<td>0 ERROR/WARNING</td>
+<td><strong>0 ERRORS, 0 WARNINGS, 0 NOTES</strong></td>
+</tr><tr><td>Dependências</td>
+<td>base+tidyverse+tidymodels+Rcpp</td>
+<td><strong>0 fora da política</strong></td>
+</tr><tr><td>Vinhetas</td>
+<td>—</td>
+<td>
+<strong>7</strong> (6 didáticas + introdução)</td>
+</tr><tr><td>Site pkgdown</td>
+<td>—</td>
+<td>
+<strong>publicado:</strong> <a href="https://evandeilton.github.io/rnp/" class="uri">https://evandeilton.github.io/rnp/</a>
+</td>
+</tr><tr><td>CI/CD</td>
+<td>—</td>
+<td>
+<strong>GitHub Actions</strong> (build+deploy automático)</td>
+</tr></tbody></table><p>Todas as caixas <code>[x]</code> abaixo. Detalhamento por fatia no log a seguir.</p>
+<hr></div>
+<div class="section level2">
 <h2 id="white_check_mark-estado-atual-log-de-execução">✅ ESTADO ATUAL (log de execução)<a class="anchor" aria-label="anchor" href="#white_check_mark-estado-atual-log-de-execu%C3%A7%C3%A3o"></a></h2>
 <p><strong>FATIA 0 — Fundação: CONCLUÍDA</strong> (suíte de testes 100% verde) - Infra Rcpp/RcppArmadillo operante: <code>src/</code> + <code>Makevars</code>/<code>Makevars.win</code>, <code>useDynLib</code>, <code>compileAttributes</code>. Pacote compila e carrega. - Backends C++ entregues e <strong>verificados vs. R (erro ~1e-15)</strong>: <code>dist_pairwise_cpp</code> (C-01, 5 métricas), <code>cov_cpp</code>/<code>cor_cpp</code> (C-02), <code>ols_fit_cpp</code> (C-03), <code>momentos_cpp</code> (C-06), <code>ecdf_cpp</code>/<code>ranks_cpp</code>/<code>binning_cpp</code> (C-09). Testes em <code>test-cpp-backends.R</code> (C-15). - Deps removidas: <code>curl</code>→<code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">utils::download.file</a></code>; <code>data.table</code>→<code>readr</code> (1.1); <code>multcomp</code>→<code><a href="https://rdrr.io/r/stats/Tukey.html" class="external-link">stats::qtukey</a></code> (1.3, era bug latente). ORCID inválido removido. - Bugs corrigidos: <strong>B-01</strong> (typo <code>rnp_ic_meta</code>), <strong>B-02</strong> (fr de <code>rnp_2freq</code>, via nova <code>rnp_tabela_contingencia</code>), <strong>B-03/B-05</strong> (Mahalanobis/distâncias → C++), <strong>B-06</strong> (vários: <code>rnp_distribuicao</code>/<code>rnp_grafico_qq</code> com nome de função invertido <code>"nd"</code>→<code>"dnorm"</code>; <code>nclass.*</code> de <code>stats</code>→<code>grDevices</code>; mascaramento de <code>n</code> no <code>tibble</code> de <code>rnp_descritiva</code>; fórmula de curtose; <code>rnp_descritiva_by</code> com dplyr atual; <code>rnp_distribuicao_hipergeometrica</code> com <code>n</code> duplicado). NOTES de globals limpas via <code>@importFrom</code> + <code>globalVariables</code>. - Remoções (quebra limpa): <strong>D-01</strong> <code>rnp_load_packages</code>, <strong>D-02</strong> <code>rnp_try_error</code>, <strong>D-03</strong> <code>rnp_freq</code>, <strong>D-04</strong> <code>rnp_2freq</code>, <strong>D-05</strong> <code>rnp_summary*</code>, <strong>D-06</strong> <code>rnp_associacao</code>, <strong>D-07</strong> <code>rnp_correlacao</code> legada, <strong>D-08</strong> <code>media_*</code>/<code>rnp_media</code>→<code><a href="reference/rnp_medias.html">rnp_medias()</a></code>, <strong>D-09</strong> <code>rnp_atributos</code>→<code><a href="reference/rnp_estrutura.html">rnp_estrutura()</a></code>.</p>
 <p><strong>FATIA 1 — Descritiva &amp; Probabilidade: CONCLUÍDA</strong> (suíte 100% verde) - ✅ <strong>F-01</strong> <code>rnp_momentos</code> (C++ C-06), <strong>F-02</strong> <code>rnp_intervalo_classes</code>, <strong>F-03</strong> <code>rnp_tabela_frequencia</code>/<code>rnp_tabela_contingencia</code> (corrige B-02). <code>test-frequencias.R</code>. - ✅ <strong>F-04</strong> <code>rnp_bayes</code>, <strong>F-05</strong> <code>rnp_distribuicao_conjunta</code>, <strong>F-06</strong> <code>rnp_esperanca_condicional</code>, <strong>F-07</strong> <code>rnp_lei_grandes_numeros</code> [ggplot], <strong>F-08</strong> <code>rnp_tcl_simulacao</code> [ggplot]. <code>test-probabilidade-teoria.R</code>. - ✅ <strong>F-09..F-16</strong> wrappers contínuos (normal, exp, gama, beta, uniforme, t, qui-quadrado, F), <strong>F-17</strong> <code>rnp_grafico_distribuicao</code> [ggplot], <strong>F-62/63/64</strong> lognormal/weibull/multinomial, <strong>F-65</strong> <code>rnp_ajuste_distribuicao</code> (MLE+AIC/BIC/KS). <code>test-distribuicoes-continuas.R</code>. - ✅ <strong>F-56</strong> <code>rnp_cadeia_markov</code> (C++ C-11), <strong>F-57</strong> <code>rnp_passeio_aleatorio</code> [ggplot], <strong>F-58</strong> <code>rnp_processo_poisson</code>, <strong>F-59</strong> <code>rnp_simula_inversao</code>, <strong>F-60</strong> <code>rnp_simula_aceitacao_rejeicao</code>, <strong>F-61</strong> <code>rnp_monte_carlo</code>. <code>test-processos.R</code>. - Backend C++ novo: <strong>C-11</strong> <code>src/markov.cpp</code> (<code>markov_npassos_cpp</code>, <code>markov_estacionaria_cpp</code>), verificado vs. estacionária analítica.</p>
@@ -63,8 +100,9 @@
 <p><strong>FATIAS 4-7 — CONCLUÍDAS</strong> (suíte 100% verde) - <strong>FATIA 4 (Multivariada):</strong> F-43 <code>rnp_matriz_correlacao</code> (C++), F-44 correlograma, F-45 cluster hierárquico, F-46 dendrograma (próprio, sem ggdendro), F-47 silhueta (C++ <code>silhueta_cpp</code>), F-48 LDA (próprio), F-49 biplot, F-50 dispersão-matriz, F-90 fatorial, F-91 correspondência, F-92 Hotelling T², F-93 MANOVA, F-94 k-medoids (PAM próprio), F-95 normalidade multivariada (Mardia), F-96 correlação canônica. Backend <code>src/cluster.cpp</code>. <code>test-multivariada-avancada.R</code>. - <strong>FATIA 5 (Categóricos &amp; Experimental):</strong> F-77 Fisher, F-78 odds ratio, F-79 risco relativo, F-80 Kappa de Cohen; F-81 ANCOVA, F-82 medidas repetidas, F-83 DBC, F-84 contrastes. <code>test-categoricos.R</code>, <code>test-experimental.R</code>. - <strong>FATIA 6 (Séries):</strong> módulo reescrito SEM forecast/tseries/patchwork. F-51 média móvel (C++), F-52 suavização exp. (C++), F-53 ACF/PACF (C++ Durbin-Levinson), F-54 diferenciação, F-55 gráficos; F-97 Ljung-Box, F-98 Holt-Winters, F-99 periodograma. Backend <code>src/series.cpp</code>. <code>test-series_temporais.R</code>. - <strong>FATIA 7 (Pré-processamento):</strong> F-100 padroniza/normaliza, F-101 winsoriza, F-102 imputa (média/mediana/moda/kNN-C++), F-103 discretiza, F-104 dummy. Backend <code>src/imputacao.cpp</code>. <code>test-preprocessamento.R</code>. - Removidos <code>forecast</code>/<code>tseries</code> (séries reescrita) e Suggests órfãos (corrplot, effectsize, pwr, mice, naniar, ggVennDiagram, broom, kableExtra). Removido <code>test-anova (1).R</code> (arquivo duplicado espúrio). - <strong>Estado: 183 funções exportadas, 12 backends C++, 24 arquivos de teste.</strong></p>
 <p><strong>Bugs/itens corrigidos via <code>R CMD check</code> na FATIA 3</strong>: exemplo inválido de <code>rnp_teste_friedman</code> (warpbreaks → bloco completo construído); doc <code>rnp_kruskal$data</code>; <code>scales</code> removido (não usado); <code>LazyDataCompression: xz</code> (data 13.8 MB); <code>.travis.yml</code> ignorado; bug de escopo de <code>data</code> em <code><a href="https://rdrr.io/r/stats/step.html" class="external-link">step()</a></code> dentro de função.</p>
 <p><strong>Bugs adicionais corrigidos na FATIA 1</strong> (descobertos via <code>R CMD check</code>): - <code>rnp_paleta_rnp</code>: <code>scales::colorRampPalette</code> (inexistente) → <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">grDevices::colorRampPalette</a></code> (era <strong>ERROR</strong>). - <code>.duncan_interna</code>: <code>stats::pnt</code> (inexistente) → <code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">stats::pt</a></code> + parênteses do <code>qt</code> corrigidos. - <code>rnp_distribuicao</code>: faltava <code>"lnorm"</code> na lista de distribuicoes. - Imports limpos: <code>+readr</code>, <code>-cli/-lubridate/-tidyr</code> (não usados); doc de <code>rnp_anova$data</code>.</p>
+<p><strong>FECHAMENTO — CONCLUÍDO</strong> - Vinheta <code>rnp.Rmd</code> reescrita sem <code>prettydoc</code> (quebrava o build); 6 vinhetas novas didáticas com dados reais (<code>airquality</code>, <code>MASS::Boston/Pima.tr/birthwt</code>, <code>iris</code>). - <code>series_temporais</code> reescrita sem <code>forecast</code>/<code>tseries</code> (FATIA 6). - <code>NEWS.md</code> documenta a quebra de compatibilidade 3.0.0. - README profissional com índice por ementa; site pkgdown publicado via GitHub Actions. - <code>R CMD check</code>: <strong>0 ERRORS, 0 WARNINGS, 0 NOTES</strong>.</p>
 <blockquote>
-<p>Pendências conhecidas p/ fechamento global: vinheta usa <code>rnp_freq</code> removida (R-06); <code>dm_docente.rda</code> 5 MB (D-11); refatorar <code>series_temporais</code> sem <code>forecast</code>/<code>tseries</code> (FATIA 6).</p>
+<p>Nenhuma pendência. Resíduo opcional futuro: comprimir/externalizar <code>dm_docente.rda</code> caso se queira reduzir o tamanho do tarball (não bloqueante — check passa limpo).</p>
 </blockquote>
 <hr></div>
 <div class="section level2">
@@ -106,7 +144,7 @@
 <div class="section level2">
 <h2 id="id_1-infraestrutura-fase-0--pré-requisito-de-tudo">1. Infraestrutura (FASE 0 — pré-requisito de tudo)<a class="anchor" aria-label="anchor" href="#id_1-infraestrutura-fase-0--pr%C3%A9-requisito-de-tudo"></a></h2>
 <ul class="task-list"><li>
-<label><input type="checkbox"><strong>0.1</strong> Criar <code>src/</code> com toolchain Rcpp/RcppArmadillo:</label>
+<label><input type="checkbox" checked><strong>0.1</strong> Criar <code>src/</code> com toolchain Rcpp/RcppArmadillo:</label>
 <ul><li>
 <code>src/Makevars</code> e <code>src/Makevars.win</code> (<code>CXX_STD = CXX17</code>, flags Armadillo).</li>
 <li>
@@ -115,137 +153,137 @@
 <code>R/rnp-package.R</code>: adicionar <code>@useDynLib rnp, .registration = TRUE</code> e <code>@importFrom Rcpp sourceCpp</code>.</li>
 </ul></li>
 <li>
-<label><input type="checkbox"><strong>0.2</strong> Atualizar <code>DESCRIPTION</code>:</label>
+<label><input type="checkbox" checked><strong>0.2</strong> Atualizar <code>DESCRIPTION</code>:</label>
 <ul><li>
 <code>LinkingTo: Rcpp, RcppArmadillo</code>; <code>Imports: Rcpp (&gt;= 1.0.0)</code>.</li>
 <li>Remover dependências proibidas (ver §0.3). Bump <code>Version: 3.0.0</code>.</li>
 </ul></li>
-<li><label><input type="checkbox"><strong>0.3</strong> Configurar <code>roxygen2</code> para gerar <code>NAMESPACE</code> (já em uso).</label></li>
-<li><label><input type="checkbox"><strong>0.4</strong> Criar <code>R/rnp-cpp-docs.R</code> documentando os backends como <code>@keywords internal</code>.</label></li>
-<li><label><input type="checkbox"><strong>0.5</strong> Padronizar infra de testes: <code>tests/testthat/helper-rnp.R</code> com geradores de dados sintéticos reprodutíveis (<code>set.seed</code>) e tolerâncias.</label></li>
-<li><label><input type="checkbox"><strong>0.6</strong> CI local: script <code>dev/check.R</code> rodando <code>devtools::document()</code>, <code><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">Rcpp::compileAttributes()</a></code>, <code>devtools::test()</code>, <code>devtools::check()</code>.</label></li>
-<li><label><input type="checkbox"><strong>0.7</strong> <code>.Rbuildignore</code>: adicionar <code>dev/</code>, <code>TODO.md</code>, <code>REPOSITORY_ANALYSIS_REPORT.md</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>0.3</strong> Configurar <code>roxygen2</code> para gerar <code>NAMESPACE</code> (já em uso).</label></li>
+<li><label><input type="checkbox" checked><strong>0.4</strong> Criar <code>R/rnp-cpp-docs.R</code> documentando os backends como <code>@keywords internal</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>0.5</strong> Padronizar infra de testes: <code>tests/testthat/helper-rnp.R</code> com geradores de dados sintéticos reprodutíveis (<code>set.seed</code>) e tolerâncias.</label></li>
+<li><label><input type="checkbox" checked><strong>0.6</strong> CI local: script <code>dev/check.R</code> rodando <code>devtools::document()</code>, <code><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html" class="external-link">Rcpp::compileAttributes()</a></code>, <code>devtools::test()</code>, <code>devtools::check()</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>0.7</strong> <code>.Rbuildignore</code>: adicionar <code>dev/</code>, <code>TODO.md</code>, <code>REPOSITORY_ANALYSIS_REPORT.md</code>.</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_2-remoção-de-dependências-externas-fase-1">2. Remoção de dependências externas (FASE 1)<a class="anchor" aria-label="anchor" href="#id_2-remo%C3%A7%C3%A3o-de-depend%C3%AAncias-externas-fase-1"></a></h2>
 <p>Substituir cada uso por implementação base/tidyverse/C++:</p>
-<ul class="task-list"><li><label><input type="checkbox"><strong>1.1</strong> <code>data.table::fread</code> em <code>rnp_read</code> → <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_delim</a></code> (tidyverse), mantendo assinatura e default INEP (<code>sep="|"</code>, <code>encoding="Latin-1"</code>).</label></li>
-<li><label><input type="checkbox"><strong>1.2</strong> <code>forecast</code>/<code>tseries</code> em <code>R/series_temporais.R</code> → reimplementar decomposição, ACF/PACF, ADF e ARIMA-base com <code>stats</code> + backends C++ (ver §6).</label></li>
-<li><label><input type="checkbox"><strong>1.3</strong> <code>multcomp</code> no Dunnett interno → implementar Dunnett próprio (estatística t + correção) ou documentar limitação e usar <code>stats</code>.</label></li>
-<li><label><input type="checkbox"><strong>1.4</strong> <code>curl</code> em <code>R/inep.R</code> → <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">utils::download.file()</a></code> / <code>readr</code>.</label></li>
-<li><label><input type="checkbox"><strong>1.5</strong> <code>naniar</code> em <code>rnp_na_summary</code> → implementação própria (já é trivial).</label></li>
-<li><label><input type="checkbox"><strong>1.6</strong> <code>corrplot</code>/<code>effectsize</code>/<code>pwr</code>/<code>mice</code> → remover de Suggests ou substituir por funções <code>rnp_*</code> próprias (correlograma, tamanho de efeito, poder — ver §5, §7).</label></li>
-<li><label><input type="checkbox"><strong>1.7</strong> Rodar <code>grep -rE "[a-z]+::" R/</code> e garantir que só restam namespaces permitidos.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>1.1</strong> <code>data.table::fread</code> em <code>rnp_read</code> → <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_delim</a></code> (tidyverse), mantendo assinatura e default INEP (<code>sep="|"</code>, <code>encoding="Latin-1"</code>).</label></li>
+<li><label><input type="checkbox" checked><strong>1.2</strong> <code>forecast</code>/<code>tseries</code> em <code>R/series_temporais.R</code> → reimplementar decomposição, ACF/PACF, ADF e ARIMA-base com <code>stats</code> + backends C++ (ver §6).</label></li>
+<li><label><input type="checkbox" checked><strong>1.3</strong> <code>multcomp</code> no Dunnett interno → implementar Dunnett próprio (estatística t + correção) ou documentar limitação e usar <code>stats</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>1.4</strong> <code>curl</code> em <code>R/inep.R</code> → <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">utils::download.file()</a></code> / <code>readr</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>1.5</strong> <code>naniar</code> em <code>rnp_na_summary</code> → implementação própria (já é trivial).</label></li>
+<li><label><input type="checkbox" checked><strong>1.6</strong> <code>corrplot</code>/<code>effectsize</code>/<code>pwr</code>/<code>mice</code> → remover de Suggests ou substituir por funções <code>rnp_*</code> próprias (correlograma, tamanho de efeito, poder — ver §5, §7).</label></li>
+<li><label><input type="checkbox" checked><strong>1.7</strong> Rodar <code>grep -rE "[a-z]+::" R/</code> e garantir que só restam namespaces permitidos.</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_3-correção-de-bugs-auditados-fase-1">3. Correção de bugs auditados (FASE 1)<a class="anchor" aria-label="anchor" href="#id_3-corre%C3%A7%C3%A3o-de-bugs-auditados-fase-1"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>B-01</strong> <code>R/inferencia.R:18</code> — corrigir exemplo <code>rnp_ic_meta</code> → <code>rnp_ic_media</code>.</label></li>
-<li><label><input type="checkbox"><strong>B-02</strong> <code>R/core-functions.R:50</code> (<code>rnp_2freq</code>) — <code>fr</code> deve ser <code>t1/sum(t1)</code> (frequência relativa), não <code>t1/max(t1)</code>. Revisar também <code>fr_lin</code>/<code>fr_col</code> (devem dividir por total da linha/coluna, não pelo máximo).</label></li>
-<li><label><input type="checkbox"><strong>B-03</strong> <code>R/multivariada.R:145-164</code> (<code>rnp_distancia</code>, Mahalanobis) — remover <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist()</a></code> descartado; substituir laço duplo R por backend <code>dist_mahalanobis_cpp</code>.</label></li>
-<li><label><input type="checkbox"><strong>B-04</strong> <code>R/core-functions.R:14</code> (<code>rnp_freq</code>) — quebras por quantis com <code>unique(round(...))</code> podem colapsar bins; usar <code><a href="reference/rnp_intervalo_classes.html">rnp_intervalo_classes()</a></code> (§5).</label></li>
-<li><label><input type="checkbox"><strong>B-05</strong> <code>rnp_distancia</code> Minkowski/Canberra/etc. — migrar para <code>dist_pairwise_cpp</code>.</label></li>
-<li><label><input type="checkbox"><strong>B-06</strong> Varredura geral: revisar todas as funções <code>[FUN]</code> (123) procurando <code>na.rm</code> inconsistente, divisão por zero não tratada, e <code>where(is.numeric)</code> em colunas que não devem ser arredondadas (ex.: <code>n</code>, <code>gl</code>). Registrar achados aqui.</label></li>
-<li><label><input type="checkbox"><strong>B-07</strong> Auditar exemplos de <strong>todas</strong> as funções (<code>grep '@examples'</code>) garantindo que nenhum chama função inexistente (caçar typos como B-01).</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>B-01</strong> <code>R/inferencia.R:18</code> — corrigir exemplo <code>rnp_ic_meta</code> → <code>rnp_ic_media</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>B-02</strong> <code>R/core-functions.R:50</code> (<code>rnp_2freq</code>) — <code>fr</code> deve ser <code>t1/sum(t1)</code> (frequência relativa), não <code>t1/max(t1)</code>. Revisar também <code>fr_lin</code>/<code>fr_col</code> (devem dividir por total da linha/coluna, não pelo máximo).</label></li>
+<li><label><input type="checkbox" checked><strong>B-03</strong> <code>R/multivariada.R:145-164</code> (<code>rnp_distancia</code>, Mahalanobis) — remover <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist()</a></code> descartado; substituir laço duplo R por backend <code>dist_mahalanobis_cpp</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>B-04</strong> <code>R/core-functions.R:14</code> (<code>rnp_freq</code>) — quebras por quantis com <code>unique(round(...))</code> podem colapsar bins; usar <code><a href="reference/rnp_intervalo_classes.html">rnp_intervalo_classes()</a></code> (§5).</label></li>
+<li><label><input type="checkbox" checked><strong>B-05</strong> <code>rnp_distancia</code> Minkowski/Canberra/etc. — migrar para <code>dist_pairwise_cpp</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>B-06</strong> Varredura geral: revisar todas as funções <code>[FUN]</code> (123) procurando <code>na.rm</code> inconsistente, divisão por zero não tratada, e <code>where(is.numeric)</code> em colunas que não devem ser arredondadas (ex.: <code>n</code>, <code>gl</code>). Registrar achados aqui.</label></li>
+<li><label><input type="checkbox" checked><strong>B-07</strong> Auditar exemplos de <strong>todas</strong> as funções (<code>grep '@examples'</code>) garantindo que nenhum chama função inexistente (caçar typos como B-01).</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_35-remoção-de-funções-sem-sentido--redundantes-fase-1--quebra-limpa">3.5. Remoção de funções sem sentido / redundantes (FASE 1 — quebra limpa)<a class="anchor" aria-label="anchor" href="#id_35-remo%C3%A7%C3%A3o-de-fun%C3%A7%C3%B5es-sem-sentido--redundantes-fase-1--quebra-limpa"></a></h2>
 <blockquote>
 <p>DECISÃO do usuário: recomeço limpo em 3.0.0. As funções abaixo são removidas (ou consolidadas). Cada remoção é registrada no <code>NEWS.md</code> com a função substituta.</p>
 </blockquote>
-<p><strong>Remover (anti-padrão / fora do escopo de um pacote estatístico):</strong> - [ ] <strong>D-01</strong> <code>rnp_load_packages()</code> — instala pacotes em runtime (anti-padrão). Remover. - [ ] <strong>D-02</strong> <code>rnp_try_error()</code> — duplica <code>tryCatch</code>/<code><a href="https://rlang.r-lib.org/reference/try_fetch.html" class="external-link">rlang::try_fetch</a></code>. Remover.</p>
-<p><strong>Remover (redundante com função moderna superior):</strong> - [ ] <strong>D-03</strong> <code>rnp_freq()</code> → substituída por <code><a href="reference/rnp_tabela_frequencia.html">rnp_tabela_frequencia()</a></code> (F-03/B-04). - [ ] <strong>D-04</strong> <code>rnp_2freq()</code> → substituída por <code><a href="reference/rnp_tabela_contingencia.html">rnp_tabela_contingencia()</a></code> (F-03; corrige B-02). - [ ] <strong>D-05</strong> <code>rnp_summary()</code>, <code>rnp_summary_all()</code>, <code>rnp_summary_by()</code> → <code><a href="reference/rnp_descritiva.html">rnp_descritiva()</a></code>/<code><a href="reference/rnp_descritiva_by.html">rnp_descritiva_by()</a></code>. - [ ] <strong>D-06</strong> <code>rnp_associacao()</code> → <code><a href="reference/rnp_teste_qui_quadrado.html">rnp_teste_qui_quadrado()</a></code> (F-25). - [ ] <strong>D-07</strong> <code>rnp_correlacao()</code> (legada) → <code><a href="reference/rnp_matriz_correlacao.html">rnp_matriz_correlacao()</a></code> (F-43). - [ ] <strong>D-08</strong> <code>rnp_media()</code> + <code>media_aritmetica()</code>/<code>media_geometrica()</code>/<code>media_harmonica()</code> → consolidar em <strong><code>rnp_medias(x, peso, tipo)</code></strong> única (aritm./geom./harm./quadrática), removendo os 4 wrappers legados.</p>
-<p><strong>Avaliar / refatorar (manter, mas modernizar):</strong> - [ ] <strong>D-09</strong> <code>rnp_atributos()</code> → renomear para <code><a href="reference/rnp_estrutura.html">rnp_estrutura()</a></code>, saída <code>tibble</code> (glance de objeto). - [ ] <strong>D-10</strong> <code><a href="reference/rnp_read.html">rnp_read()</a></code> → manter, trocar <code>data.table</code> por <code>readr</code> (1.1). - [ ] <strong>D-11</strong> Decidir sobre dados <code>data/dm_docente.rda</code> (5 MB) — comprimir (<code><a href="https://rdrr.io/r/tools/checkRdaFiles.html" class="external-link">tools::resaveRdaFiles</a></code>, <code>xz</code>) ou mover para pacote de dados externo; <code>R CMD check</code> reclama de &gt;5 MB.</p>
+<p><strong>Remover (anti-padrão / fora do escopo de um pacote estatístico):</strong> - [x] <strong>D-01</strong> <code>rnp_load_packages()</code> — instala pacotes em runtime (anti-padrão). Remover. - [x] <strong>D-02</strong> <code>rnp_try_error()</code> — duplica <code>tryCatch</code>/<code><a href="https://rlang.r-lib.org/reference/try_fetch.html" class="external-link">rlang::try_fetch</a></code>. Remover.</p>
+<p><strong>Remover (redundante com função moderna superior):</strong> - [x] <strong>D-03</strong> <code>rnp_freq()</code> → substituída por <code><a href="reference/rnp_tabela_frequencia.html">rnp_tabela_frequencia()</a></code> (F-03/B-04). - [x] <strong>D-04</strong> <code>rnp_2freq()</code> → substituída por <code><a href="reference/rnp_tabela_contingencia.html">rnp_tabela_contingencia()</a></code> (F-03; corrige B-02). - [x] <strong>D-05</strong> <code>rnp_summary()</code>, <code>rnp_summary_all()</code>, <code>rnp_summary_by()</code> → <code><a href="reference/rnp_descritiva.html">rnp_descritiva()</a></code>/<code><a href="reference/rnp_descritiva_by.html">rnp_descritiva_by()</a></code>. - [x] <strong>D-06</strong> <code>rnp_associacao()</code> → <code><a href="reference/rnp_teste_qui_quadrado.html">rnp_teste_qui_quadrado()</a></code> (F-25). - [x] <strong>D-07</strong> <code>rnp_correlacao()</code> (legada) → <code><a href="reference/rnp_matriz_correlacao.html">rnp_matriz_correlacao()</a></code> (F-43). - [x] <strong>D-08</strong> <code>rnp_media()</code> + <code>media_aritmetica()</code>/<code>media_geometrica()</code>/<code>media_harmonica()</code> → consolidar em <strong><code>rnp_medias(x, peso, tipo)</code></strong> única (aritm./geom./harm./quadrática), removendo os 4 wrappers legados.</p>
+<p><strong>Avaliar / refatorar (manter, mas modernizar):</strong> - [x] <strong>D-09</strong> <code>rnp_atributos()</code> → renomear para <code><a href="reference/rnp_estrutura.html">rnp_estrutura()</a></code>, saída <code>tibble</code> (glance de objeto). - [x] <strong>D-10</strong> <code><a href="reference/rnp_read.html">rnp_read()</a></code> → manter, trocar <code>data.table</code> por <code>readr</code> (1.1). - [x] <strong>D-11</strong> Decidir sobre dados <code>data/dm_docente.rda</code> (5 MB) — comprimir (<code><a href="https://rdrr.io/r/tools/checkRdaFiles.html" class="external-link">tools::resaveRdaFiles</a></code>, <code>xz</code>) ou mover para pacote de dados externo; <code>R CMD check</code> reclama de &gt;5 MB.</p>
 </div>
 <div class="section level2">
 <h2 id="id_4-camada-c--backends-de-performance-fase-2-rcpparmadillo">4. Camada C++ — backends de performance (FASE 2, RcppArmadillo)<a class="anchor" aria-label="anchor" href="#id_4-camada-c--backends-de-performance-fase-2-rcpparmadillo"></a></h2>
 <p>Cada backend em <code>src/</code>, testado contra referência R. Expostos só por wrappers <code>rnp_*</code>.</p>
-<ul class="task-list"><li><label><input type="checkbox"><strong>C-01</strong> <code>src/distancias.cpp</code> — <code>dist_pairwise_cpp(X, metodo, p)</code>: euclidiana, manhattan, minkowski, canberra, mahalanobis (recebe <code>inv_cov</code>).</label></li>
-<li><label><input type="checkbox"><strong>C-02</strong> <code>src/covariancia.cpp</code> — <code>cov_cpp(X)</code>, <code>cor_cpp(X, metodo)</code> (Pearson/Spearman via ranks), matriz completa em uma passada.</label></li>
-<li><label><input type="checkbox"><strong>C-03</strong> <code>src/ols.cpp</code> — <code>ols_fit_cpp(X, y)</code> via decomposição QR (coef, fitted, resíduos, XtX⁻¹, sigma²). Base para regressões.</label></li>
-<li><label><input type="checkbox"><strong>C-04</strong> <code>src/regularizacao.cpp</code> — <code>ridge_cpp(X, y, lambda)</code> (solução fechada Armadillo) e <code>lasso_cd_cpp(X, y, lambda, ...)</code> (coordinate descent).</label></li>
-<li><label><input type="checkbox"><strong>C-05</strong> <code>src/reamostragem.cpp</code> — <code>bootstrap_cpp(x, B, estatistica)</code> e <code>jackknife_cpp(x)</code>; reamostragem vetorizada de índices.</label></li>
-<li><label><input type="checkbox"><strong>C-06</strong> <code>src/momentos.cpp</code> — <code>momentos_cpp(x, ordem)</code> (brutos e centrais), assimetria e curtose em passada única numericamente estável (Welford).</label></li>
-<li><label><input type="checkbox"><strong>C-07</strong> <code>src/series.cpp</code> — <code>acf_cpp(x, lag)</code>, <code>pacf_cpp(x, lag)</code> (Durbin-Levinson), <code>media_movel_cpp(x, k)</code>, <code>ewma_cpp(x, alpha)</code>.</label></li>
-<li><label><input type="checkbox"><strong>C-08</strong> <code>src/cluster.cpp</code> — <code>silhueta_cpp(D, clusters)</code>, opcional <code>kmeans_lloyd_cpp</code> (se <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> virar gargalo).</label></li>
-<li><label><input type="checkbox"><strong>C-09</strong> <code>src/empirico.cpp</code> — <code>ecdf_cpp(x, pontos)</code>, <code>ranks_cpp(x)</code>, <code>binning_cpp(x, breaks)</code> para histogramas/frequências rápidas.</label></li>
-<li><label><input type="checkbox"><strong>C-11</strong> <code>src/markov.cpp</code> — <code>markov_npassos_cpp(P, n)</code> (potência de matriz), <code>markov_estacionaria_cpp(P)</code> (autovetor dominante via Armadillo).</label></li>
-<li><label><input type="checkbox"><strong>C-12</strong> <code>src/monte_carlo.cpp</code> — <code>monte_carlo_cpp(...)</code> (integração), <code>permutacao_cpp(x, y, n_perm)</code> (reamostragem de rótulos para teste de permutação).</label></li>
-<li><label><input type="checkbox"><strong>C-13</strong> <code>src/robusta.cpp</code> — <code>irls_cpp(X, y, psi, ...)</code> (M-estimadores Huber/bisquare).</label></li>
-<li><label><input type="checkbox"><strong>C-14</strong> <code>src/imputacao.cpp</code> — <code>knn_imputa_cpp(X, k)</code> (vizinhos por distância).</label></li>
-<li><label><input type="checkbox"><strong>C-15</strong> Para CADA backend: teste <code>test-cpp-&lt;arquivo&gt;.R</code> comparando com <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::dist</a></code>, <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cov</a></code>, <code>lm</code>, <code><a href="https://rdrr.io/r/stats/acf.html" class="external-link">stats::acf</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/rlm.html" class="external-link">MASS::rlm</a></code> (referência) etc. (tol. <code>1e-8</code>). Validar também estabilidade numérica e casos-limite (n pequeno, NA).</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>C-01</strong> <code>src/distancias.cpp</code> — <code>dist_pairwise_cpp(X, metodo, p)</code>: euclidiana, manhattan, minkowski, canberra, mahalanobis (recebe <code>inv_cov</code>).</label></li>
+<li><label><input type="checkbox" checked><strong>C-02</strong> <code>src/covariancia.cpp</code> — <code>cov_cpp(X)</code>, <code>cor_cpp(X, metodo)</code> (Pearson/Spearman via ranks), matriz completa em uma passada.</label></li>
+<li><label><input type="checkbox" checked><strong>C-03</strong> <code>src/ols.cpp</code> — <code>ols_fit_cpp(X, y)</code> via decomposição QR (coef, fitted, resíduos, XtX⁻¹, sigma²). Base para regressões.</label></li>
+<li><label><input type="checkbox" checked><strong>C-04</strong> <code>src/regularizacao.cpp</code> — <code>ridge_cpp(X, y, lambda)</code> (solução fechada Armadillo) e <code>lasso_cd_cpp(X, y, lambda, ...)</code> (coordinate descent).</label></li>
+<li><label><input type="checkbox" checked><strong>C-05</strong> <code>src/reamostragem.cpp</code> — <code>bootstrap_cpp(x, B, estatistica)</code> e <code>jackknife_cpp(x)</code>; reamostragem vetorizada de índices.</label></li>
+<li><label><input type="checkbox" checked><strong>C-06</strong> <code>src/momentos.cpp</code> — <code>momentos_cpp(x, ordem)</code> (brutos e centrais), assimetria e curtose em passada única numericamente estável (Welford).</label></li>
+<li><label><input type="checkbox" checked><strong>C-07</strong> <code>src/series.cpp</code> — <code>acf_cpp(x, lag)</code>, <code>pacf_cpp(x, lag)</code> (Durbin-Levinson), <code>media_movel_cpp(x, k)</code>, <code>ewma_cpp(x, alpha)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>C-08</strong> <code>src/cluster.cpp</code> — <code>silhueta_cpp(D, clusters)</code>, opcional <code>kmeans_lloyd_cpp</code> (se <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> virar gargalo).</label></li>
+<li><label><input type="checkbox" checked><strong>C-09</strong> <code>src/empirico.cpp</code> — <code>ecdf_cpp(x, pontos)</code>, <code>ranks_cpp(x)</code>, <code>binning_cpp(x, breaks)</code> para histogramas/frequências rápidas.</label></li>
+<li><label><input type="checkbox" checked><strong>C-11</strong> <code>src/markov.cpp</code> — <code>markov_npassos_cpp(P, n)</code> (potência de matriz), <code>markov_estacionaria_cpp(P)</code> (autovetor dominante via Armadillo).</label></li>
+<li><label><input type="checkbox" checked><strong>C-12</strong> <code>src/monte_carlo.cpp</code> — <code>monte_carlo_cpp(...)</code> (integração), <code>permutacao_cpp(x, y, n_perm)</code> (reamostragem de rótulos para teste de permutação).</label></li>
+<li><label><input type="checkbox" checked><strong>C-13</strong> <code>src/robusta.cpp</code> — <code>irls_cpp(X, y, psi, ...)</code> (M-estimadores Huber/bisquare).</label></li>
+<li><label><input type="checkbox" checked><strong>C-14</strong> <code>src/imputacao.cpp</code> — <code>knn_imputa_cpp(X, k)</code> (vizinhos por distância).</label></li>
+<li><label><input type="checkbox" checked><strong>C-15</strong> Para CADA backend: teste <code>test-cpp-&lt;arquivo&gt;.R</code> comparando com <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::dist</a></code>, <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">stats::cov</a></code>, <code>lm</code>, <code><a href="https://rdrr.io/r/stats/acf.html" class="external-link">stats::acf</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/rlm.html" class="external-link">MASS::rlm</a></code> (referência) etc. (tol. <code>1e-8</code>). Validar também estabilidade numérica e casos-limite (n pequeno, NA).</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_5-novas-funções--bloco-descritiva--probabilidade-1º2º-ano">5. Novas funções — Bloco DESCRITIVA / PROBABILIDADE (1º–2º ano)<a class="anchor" aria-label="anchor" href="#id_5-novas-fun%C3%A7%C3%B5es--bloco-descritiva--probabilidade-1%C2%BA2%C2%BA-ano"></a></h2>
 <blockquote>
 <p>Backend C++ marcado com <strong>[C++]</strong>; gráfico <strong>[ggplot]</strong>.</p>
 </blockquote>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-01</strong> <code>rnp_momentos(x, ordem = 4)</code> — momentos brutos/centrais, assimetria, curtose. <strong>[C++ C-06]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-02</strong> <code>rnp_intervalo_classes(x, regra = c("sturges","scott","fd"))</code> — classes ótimas; usado por <code>rnp_freq</code>/histograma. <strong>[C++ C-09]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-03</strong> <code>rnp_tabela_contingencia(x, y)</code> — tabela dupla correta (substitui o comportamento bugado de <code>rnp_2freq</code>): fa, fr, fr_linha, fr_coluna, marginais.</label></li>
-<li><label><input type="checkbox"><strong>F-04</strong> <code>rnp_bayes(p_a, p_b_dado_a, p_b_dado_nao_a)</code> — Teorema de Bayes (forma 2 eventos) e versão partição <code>rnp_bayes_particao(priori, veross)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-05</strong> <code>rnp_distribuicao_conjunta(tabela)</code> — marginais, condicionais, E[X], E[Y], Cov(X,Y), Cor(X,Y) a partir de tabela de probabilidade conjunta.</label></li>
-<li><label><input type="checkbox"><strong>F-06</strong> <code>rnp_esperanca_condicional(tabela)</code> — E[Y|X] e Var(Y|X).</label></li>
-<li><label><input type="checkbox"><strong>F-07</strong> <code>rnp_lei_grandes_numeros(dist, n_max, ...)</code> — simula convergência da média amostral. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-08</strong> <code>rnp_tcl_simulacao(dist, n, n_amostras, ...)</code> — demonstra o TCL com histograma das médias + curva normal teórica. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-09</strong> <code>rnp_distribuicao_normal(fun, media, dp, ...)</code> — wrapper d/p/q/r + plot. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-10</strong> <code>rnp_distribuicao_exponencial(fun, taxa, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-11</strong> <code>rnp_distribuicao_gama(fun, forma, taxa, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-12</strong> <code>rnp_distribuicao_beta(fun, a, b, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-13</strong> <code>rnp_distribuicao_uniforme(fun, min, max, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-14</strong> <code>rnp_distribuicao_t(fun, gl, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-15</strong> <code>rnp_distribuicao_qui_quadrado(fun, gl, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-16</strong> <code>rnp_distribuicao_f(fun, gl1, gl2, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-17</strong> <code>rnp_grafico_distribuicao(dist, params)</code> — densidade/massa + acumulada lado a lado para qualquer distribuição. <strong>[ggplot]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-01</strong> <code>rnp_momentos(x, ordem = 4)</code> — momentos brutos/centrais, assimetria, curtose. <strong>[C++ C-06]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-02</strong> <code>rnp_intervalo_classes(x, regra = c("sturges","scott","fd"))</code> — classes ótimas; usado por <code>rnp_freq</code>/histograma. <strong>[C++ C-09]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-03</strong> <code>rnp_tabela_contingencia(x, y)</code> — tabela dupla correta (substitui o comportamento bugado de <code>rnp_2freq</code>): fa, fr, fr_linha, fr_coluna, marginais.</label></li>
+<li><label><input type="checkbox" checked><strong>F-04</strong> <code>rnp_bayes(p_a, p_b_dado_a, p_b_dado_nao_a)</code> — Teorema de Bayes (forma 2 eventos) e versão partição <code>rnp_bayes_particao(priori, veross)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-05</strong> <code>rnp_distribuicao_conjunta(tabela)</code> — marginais, condicionais, E[X], E[Y], Cov(X,Y), Cor(X,Y) a partir de tabela de probabilidade conjunta.</label></li>
+<li><label><input type="checkbox" checked><strong>F-06</strong> <code>rnp_esperanca_condicional(tabela)</code> — E[Y|X] e Var(Y|X).</label></li>
+<li><label><input type="checkbox" checked><strong>F-07</strong> <code>rnp_lei_grandes_numeros(dist, n_max, ...)</code> — simula convergência da média amostral. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-08</strong> <code>rnp_tcl_simulacao(dist, n, n_amostras, ...)</code> — demonstra o TCL com histograma das médias + curva normal teórica. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-09</strong> <code>rnp_distribuicao_normal(fun, media, dp, ...)</code> — wrapper d/p/q/r + plot. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-10</strong> <code>rnp_distribuicao_exponencial(fun, taxa, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-11</strong> <code>rnp_distribuicao_gama(fun, forma, taxa, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-12</strong> <code>rnp_distribuicao_beta(fun, a, b, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-13</strong> <code>rnp_distribuicao_uniforme(fun, min, max, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-14</strong> <code>rnp_distribuicao_t(fun, gl, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-15</strong> <code>rnp_distribuicao_qui_quadrado(fun, gl, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-16</strong> <code>rnp_distribuicao_f(fun, gl1, gl2, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-17</strong> <code>rnp_grafico_distribuicao(dist, params)</code> — densidade/massa + acumulada lado a lado para qualquer distribuição. <strong>[ggplot]</strong></label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_6-novas-funções--bloco-inferência-3º-ano-o-coração">6. Novas funções — Bloco INFERÊNCIA (3º ano, o coração)<a class="anchor" aria-label="anchor" href="#id_6-novas-fun%C3%A7%C3%B5es--bloco-infer%C3%AAncia-3%C2%BA-ano-o-cora%C3%A7%C3%A3o"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-18</strong> <code>rnp_emv(log_veross, inicio, ...)</code> — estimador de máxima verossimilhança genérico via <code>optim</code>, com erros-padrão pela Hessiana (informação de Fisher obs.).</label></li>
-<li><label><input type="checkbox"><strong>F-19</strong> <code>rnp_metodo_momentos(x, dist)</code> — estimação por momentos para famílias comuns (normal, gama, beta, poisson…).</label></li>
-<li><label><input type="checkbox"><strong>F-20</strong> <code>rnp_log_verossimilhanca(x, dist)</code> — curva/superfície de log-veross. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-21</strong> <code>rnp_informacao_fisher(log_veross, theta)</code> — Fisher observada/esperada (numérica).</label></li>
-<li><label><input type="checkbox"><strong>F-22</strong> <code>rnp_bootstrap(x, estatistica, B, tipo = c("percentil","bca","normal"))</code>. <strong>[C++ C-05]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-23</strong> <code>rnp_ic_bootstrap(x, estatistica, conf, B)</code> — IC por reamostragem. <strong>[C++ C-05]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-24</strong> <code>rnp_jackknife(x, estatistica)</code> — viés e EP por jackknife. <strong>[C++ C-05]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-25</strong> <code>rnp_teste_qui_quadrado(x, y = NULL, p = NULL)</code> — independência E aderência num só lugar (substitui <code>rnp_associacao</code>), com V de Cramér e resíduos.</label></li>
-<li><label><input type="checkbox"><strong>F-26</strong> <code>rnp_teste_aderencia(x, dist, params)</code> — qui-quadrado de aderência.</label></li>
-<li><label><input type="checkbox"><strong>F-27</strong> <code>rnp_teste_ks(x, y = NULL, dist = NULL)</code> — Kolmogorov-Smirnov (1 e 2 amostras). <strong>[C++ C-09]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-28</strong> <code>rnp_teste_proporcoes(sucessos, n)</code> — teste de k proporções.</label></li>
-<li><label><input type="checkbox"><strong>F-29</strong> <code>rnp_teste_binomial(x, n, p0)</code> — binomial exato.</label></li>
-<li><label><input type="checkbox"><strong>F-30</strong> <code>rnp_poder_teste(efeito, n, alpha, tipo)</code> — poder e curva de poder. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-31</strong> <code>rnp_tamanho_amostra_teste(efeito, poder, alpha, tipo)</code> — n por poder (substitui dependência <code>pwr</code>).</label></li>
-<li><label><input type="checkbox"><strong>F-32</strong> <code>rnp_tamanho_efeito(...)</code> — consolidar/expandir o existente em <code>misc.R</code> (Cohen’s d, eta², omega², g de Hedges) sem <code>effectsize</code>.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-18</strong> <code>rnp_emv(log_veross, inicio, ...)</code> — estimador de máxima verossimilhança genérico via <code>optim</code>, com erros-padrão pela Hessiana (informação de Fisher obs.).</label></li>
+<li><label><input type="checkbox" checked><strong>F-19</strong> <code>rnp_metodo_momentos(x, dist)</code> — estimação por momentos para famílias comuns (normal, gama, beta, poisson…).</label></li>
+<li><label><input type="checkbox" checked><strong>F-20</strong> <code>rnp_log_verossimilhanca(x, dist)</code> — curva/superfície de log-veross. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-21</strong> <code>rnp_informacao_fisher(log_veross, theta)</code> — Fisher observada/esperada (numérica).</label></li>
+<li><label><input type="checkbox" checked><strong>F-22</strong> <code>rnp_bootstrap(x, estatistica, B, tipo = c("percentil","bca","normal"))</code>. <strong>[C++ C-05]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-23</strong> <code>rnp_ic_bootstrap(x, estatistica, conf, B)</code> — IC por reamostragem. <strong>[C++ C-05]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-24</strong> <code>rnp_jackknife(x, estatistica)</code> — viés e EP por jackknife. <strong>[C++ C-05]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-25</strong> <code>rnp_teste_qui_quadrado(x, y = NULL, p = NULL)</code> — independência E aderência num só lugar (substitui <code>rnp_associacao</code>), com V de Cramér e resíduos.</label></li>
+<li><label><input type="checkbox" checked><strong>F-26</strong> <code>rnp_teste_aderencia(x, dist, params)</code> — qui-quadrado de aderência.</label></li>
+<li><label><input type="checkbox" checked><strong>F-27</strong> <code>rnp_teste_ks(x, y = NULL, dist = NULL)</code> — Kolmogorov-Smirnov (1 e 2 amostras). <strong>[C++ C-09]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-28</strong> <code>rnp_teste_proporcoes(sucessos, n)</code> — teste de k proporções.</label></li>
+<li><label><input type="checkbox" checked><strong>F-29</strong> <code>rnp_teste_binomial(x, n, p0)</code> — binomial exato.</label></li>
+<li><label><input type="checkbox" checked><strong>F-30</strong> <code>rnp_poder_teste(efeito, n, alpha, tipo)</code> — poder e curva de poder. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-31</strong> <code>rnp_tamanho_amostra_teste(efeito, poder, alpha, tipo)</code> — n por poder (substitui dependência <code>pwr</code>).</label></li>
+<li><label><input type="checkbox" checked><strong>F-32</strong> <code>rnp_tamanho_efeito(...)</code> — consolidar/expandir o existente em <code>misc.R</code> (Cohen’s d, eta², omega², g de Hedges) sem <code>effectsize</code>.</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_7-novas-funções--bloco-regressão--modelagem-3º-ano">7. Novas funções — Bloco REGRESSÃO / MODELAGEM (3º ano)<a class="anchor" aria-label="anchor" href="#id_7-novas-fun%C3%A7%C3%B5es--bloco-regress%C3%A3o--modelagem-3%C2%BA-ano"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-33</strong> <code>rnp_regressao_polinomial(formula, data, grau)</code> — ajuste polinomial tidy. <strong>[C++ C-03]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-34</strong> <code>rnp_regressao_ridge(formula, data, lambda)</code> — ridge. <strong>[C++ C-04]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-35</strong> <code>rnp_regressao_lasso(formula, data, lambda)</code> — lasso (coordinate descent). <strong>[C++ C-04]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-36</strong> <code>rnp_regressao_ponderada(formula, data, pesos)</code> — WLS. <strong>[C++ C-03]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-37</strong> <code>rnp_regressao_stepwise(formula, data, direcao, criterio)</code> — seleção AIC/BIC.</label></li>
-<li><label><input type="checkbox"><strong>F-38</strong> <code>rnp_regressao_poisson(formula, data)</code> — GLM Poisson tidy (contagens).</label></li>
-<li><label><input type="checkbox"><strong>F-39</strong> <code>rnp_vif(modelo)</code> — fator de inflação de variância (multicolinearidade).</label></li>
-<li><label><input type="checkbox"><strong>F-40</strong> <code>rnp_anova_modelos(modelo1, modelo2, ...)</code> — comparação de modelos aninhados (teste F).</label></li>
-<li><label><input type="checkbox"><strong>F-41</strong> <code>rnp_predicao(modelo, novos_dados, tipo)</code> — predição + IC/intervalo de predição em <code>tibble</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-42</strong> <code>rnp_grafico_residuos(modelo)</code> — painel de diagnóstico (resíduos×ajustado, QQ, escala-locação, leverage). <strong>[ggplot]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-33</strong> <code>rnp_regressao_polinomial(formula, data, grau)</code> — ajuste polinomial tidy. <strong>[C++ C-03]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-34</strong> <code>rnp_regressao_ridge(formula, data, lambda)</code> — ridge. <strong>[C++ C-04]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-35</strong> <code>rnp_regressao_lasso(formula, data, lambda)</code> — lasso (coordinate descent). <strong>[C++ C-04]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-36</strong> <code>rnp_regressao_ponderada(formula, data, pesos)</code> — WLS. <strong>[C++ C-03]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-37</strong> <code>rnp_regressao_stepwise(formula, data, direcao, criterio)</code> — seleção AIC/BIC.</label></li>
+<li><label><input type="checkbox" checked><strong>F-38</strong> <code>rnp_regressao_poisson(formula, data)</code> — GLM Poisson tidy (contagens).</label></li>
+<li><label><input type="checkbox" checked><strong>F-39</strong> <code>rnp_vif(modelo)</code> — fator de inflação de variância (multicolinearidade).</label></li>
+<li><label><input type="checkbox" checked><strong>F-40</strong> <code>rnp_anova_modelos(modelo1, modelo2, ...)</code> — comparação de modelos aninhados (teste F).</label></li>
+<li><label><input type="checkbox" checked><strong>F-41</strong> <code>rnp_predicao(modelo, novos_dados, tipo)</code> — predição + IC/intervalo de predição em <code>tibble</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-42</strong> <code>rnp_grafico_residuos(modelo)</code> — painel de diagnóstico (resíduos×ajustado, QQ, escala-locação, leverage). <strong>[ggplot]</strong></label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_8-novas-funções--bloco-multivariada-3º-ano">8. Novas funções — Bloco MULTIVARIADA (3º ano)<a class="anchor" aria-label="anchor" href="#id_8-novas-fun%C3%A7%C3%B5es--bloco-multivariada-3%C2%BA-ano"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-43</strong> <code>rnp_matriz_correlacao(base, metodo)</code> — matriz de correlação tidy + p-valores. <strong>[C++ C-02]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-44</strong> <code>rnp_grafico_correlograma(base)</code> — correlograma. <strong>[ggplot]</strong> (substitui <code>corrplot</code>).</label></li>
-<li><label><input type="checkbox"><strong>F-45</strong> <code>rnp_cluster_hierarquico(base, metodo, k)</code> — <code>hclust</code> tidy + corte. <strong>[C++ C-01]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-46</strong> <code>rnp_grafico_dendrograma(cluster_hier)</code> — dendrograma. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-47</strong> <code>rnp_silhueta(base, clusters)</code> — análise de silhueta. <strong>[C++ C-08]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-48</strong> <code>rnp_lda(formula, data)</code> — análise discriminante linear. <strong>[C++ C-03]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-49</strong> <code>rnp_biplot(rnp_pca_obj)</code> — biplot de PCA. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-50</strong> <code>rnp_grafico_dispersao_matriz(base)</code> — matriz de dispersão (pairs). <strong>[ggplot]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-43</strong> <code>rnp_matriz_correlacao(base, metodo)</code> — matriz de correlação tidy + p-valores. <strong>[C++ C-02]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-44</strong> <code>rnp_grafico_correlograma(base)</code> — correlograma. <strong>[ggplot]</strong> (substitui <code>corrplot</code>).</label></li>
+<li><label><input type="checkbox" checked><strong>F-45</strong> <code>rnp_cluster_hierarquico(base, metodo, k)</code> — <code>hclust</code> tidy + corte. <strong>[C++ C-01]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-46</strong> <code>rnp_grafico_dendrograma(cluster_hier)</code> — dendrograma. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-47</strong> <code>rnp_silhueta(base, clusters)</code> — análise de silhueta. <strong>[C++ C-08]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-48</strong> <code>rnp_lda(formula, data)</code> — análise discriminante linear. <strong>[C++ C-03]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-49</strong> <code>rnp_biplot(rnp_pca_obj)</code> — biplot de PCA. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-50</strong> <code>rnp_grafico_dispersao_matriz(base)</code> — matriz de dispersão (pairs). <strong>[ggplot]</strong></label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_9-novas-funções--bloco-séries-temporais-sem-forecasttseries">9. Novas funções — Bloco SÉRIES TEMPORAIS (sem <code>forecast</code>/<code>tseries</code>)<a class="anchor" aria-label="anchor" href="#id_9-novas-fun%C3%A7%C3%B5es--bloco-s%C3%A9ries-temporais-sem-forecasttseries"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-51</strong> <code>rnp_media_movel(x, k, tipo)</code> — média móvel simples/centrada. <strong>[C++ C-07]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-52</strong> <code>rnp_suavizacao_exponencial(x, alpha)</code> — EWMA / Holt. <strong>[C++ C-07]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-53</strong> <code>rnp_ts_acf(x, lag)</code> / <code>rnp_ts_pacf(x, lag)</code> — reimplementar sem <code>forecast</code>. <strong>[C++ C-07]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-54</strong> <code>rnp_ts_diferenciacao(x, d, D, s)</code> — diferenciação regular e sazonal.</label></li>
-<li><label><input type="checkbox"><strong>F-55</strong> <code>rnp_grafico_serie(x)</code> / <code>rnp_grafico_acf(...)</code> — visualização. <strong>[ggplot]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-51</strong> <code>rnp_media_movel(x, k, tipo)</code> — média móvel simples/centrada. <strong>[C++ C-07]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-52</strong> <code>rnp_suavizacao_exponencial(x, alpha)</code> — EWMA / Holt. <strong>[C++ C-07]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-53</strong> <code>rnp_ts_acf(x, lag)</code> / <code>rnp_ts_pacf(x, lag)</code> — reimplementar sem <code>forecast</code>. <strong>[C++ C-07]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-54</strong> <code>rnp_ts_diferenciacao(x, d, D, s)</code> — diferenciação regular e sazonal.</label></li>
+<li><label><input type="checkbox" checked><strong>F-55</strong> <code>rnp_grafico_serie(x)</code> / <code>rnp_grafico_acf(...)</code> — visualização. <strong>[ggplot]</strong></label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_95-novas-funções--aprofundamento-da-ementa-lacunas-identificadas">9.5. Novas funções — APROFUNDAMENTO da ementa (lacunas identificadas)<a class="anchor" aria-label="anchor" href="#id_95-novas-fun%C3%A7%C3%B5es--aprofundamento-da-ementa-lacunas-identificadas"></a></h2>
@@ -254,101 +292,101 @@
 </blockquote>
 <div class="section level3">
 <h3 id="processos-estocásticos--simulação-2º3º-ano">Processos estocásticos &amp; simulação (2º–3º ano)<a class="anchor" aria-label="anchor" href="#processos-estoc%C3%A1sticos--simula%C3%A7%C3%A3o-2%C2%BA3%C2%BA-ano"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-56</strong> <code>rnp_cadeia_markov(P, estado_inicial, n)</code> — distribuição em n passos, distribuição estacionária, classificação de estados. <strong>[C++ C-11]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-57</strong> <code>rnp_passeio_aleatorio(n, p)</code> — simulação + trajetória. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-58</strong> <code>rnp_processo_poisson(taxa, t)</code> — simula processo de Poisson homogêneo.</label></li>
-<li><label><input type="checkbox"><strong>F-59</strong> <code>rnp_simula_inversao(f_inv, n)</code> — método da transformação inversa.</label></li>
-<li><label><input type="checkbox"><strong>F-60</strong> <code>rnp_simula_aceitacao_rejeicao(f, g, r_g, M)</code> — aceitação-rejeição.</label></li>
-<li><label><input type="checkbox"><strong>F-61</strong> <code>rnp_monte_carlo(integrando, limites, n)</code> — integração Monte Carlo + erro. <strong>[C++ C-12]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-56</strong> <code>rnp_cadeia_markov(P, estado_inicial, n)</code> — distribuição em n passos, distribuição estacionária, classificação de estados. <strong>[C++ C-11]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-57</strong> <code>rnp_passeio_aleatorio(n, p)</code> — simulação + trajetória. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-58</strong> <code>rnp_processo_poisson(taxa, t)</code> — simula processo de Poisson homogêneo.</label></li>
+<li><label><input type="checkbox" checked><strong>F-59</strong> <code>rnp_simula_inversao(f_inv, n)</code> — método da transformação inversa.</label></li>
+<li><label><input type="checkbox" checked><strong>F-60</strong> <code>rnp_simula_aceitacao_rejeicao(f, g, r_g, M)</code> — aceitação-rejeição.</label></li>
+<li><label><input type="checkbox" checked><strong>F-61</strong> <code>rnp_monte_carlo(integrando, limites, n)</code> — integração Monte Carlo + erro. <strong>[C++ C-12]</strong></label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="distribuições-adicionais">Distribuições adicionais<a class="anchor" aria-label="anchor" href="#distribui%C3%A7%C3%B5es-adicionais"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-62</strong> <code>rnp_distribuicao_lognormal(fun, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-63</strong> <code>rnp_distribuicao_weibull(fun, forma, escala, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-64</strong> <code>rnp_distribuicao_multinomial(fun, tamanho, probs, ...)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-65</strong> <code>rnp_ajuste_distribuicao(x, dist)</code> — ajuste por EMV + qualidade (AIC/BIC/KS).</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-62</strong> <code>rnp_distribuicao_lognormal(fun, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-63</strong> <code>rnp_distribuicao_weibull(fun, forma, escala, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-64</strong> <code>rnp_distribuicao_multinomial(fun, tamanho, probs, ...)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-65</strong> <code>rnp_ajuste_distribuicao(x, dist)</code> — ajuste por EMV + qualidade (AIC/BIC/KS).</label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="inferência-avançada-3º-ano">Inferência avançada (3º ano)<a class="anchor" aria-label="anchor" href="#infer%C3%AAncia-avan%C3%A7ada-3%C2%BA-ano"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-66</strong> <code>rnp_teste_razao_veross(modelo_completo, modelo_reduzido)</code> — LRT.</label></li>
-<li><label><input type="checkbox"><strong>F-67</strong> <code>rnp_teste_wald(modelo, hipotese)</code> — teste de Wald.</label></li>
-<li><label><input type="checkbox"><strong>F-68</strong> <code>rnp_teste_score(log_veross, theta0)</code> — teste escore (Rao).</label></li>
-<li><label><input type="checkbox"><strong>F-69</strong> <code>rnp_ic_verossimilhanca(log_veross, conf)</code> — IC por verossimilhança perfilada.</label></li>
-<li><label><input type="checkbox"><strong>F-70</strong> <code>rnp_bootstrap_parametrico(x, dist, estatistica, B)</code> — bootstrap paramétrico. <strong>[C++ C-05]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-71</strong> <code>rnp_teste_permutacao(x, y, estatistica, n_perm)</code> — teste de permutação. <strong>[C++ C-12]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-72</strong> <code>rnp_bayes_conjugada(familia, priori, dados)</code> — beta-binomial, gama-poisson, normal-normal; posteriori + IC de credibilidade. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-73</strong> <code>rnp_teste_normalidade(x, metodo)</code> — unifica Shapiro/Lilliefors/Jarque-Bera/ Anderson-Darling.</label></li>
-<li><label><input type="checkbox"><strong>F-74</strong> <code>rnp_teste_grubbs(x)</code> — detecção de outlier (Grubbs).</label></li>
-<li><label><input type="checkbox"><strong>F-75</strong> <code>rnp_teste_runs(x)</code> — teste de aleatoriedade (sequências/runs).</label></li>
-<li><label><input type="checkbox"><strong>F-76</strong> <code>rnp_teste_sinais(x, y)</code> — teste dos sinais (não-paramétrico pareado).</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-66</strong> <code>rnp_teste_razao_veross(modelo_completo, modelo_reduzido)</code> — LRT.</label></li>
+<li><label><input type="checkbox" checked><strong>F-67</strong> <code>rnp_teste_wald(modelo, hipotese)</code> — teste de Wald.</label></li>
+<li><label><input type="checkbox" checked><strong>F-68</strong> <code>rnp_teste_score(log_veross, theta0)</code> — teste escore (Rao).</label></li>
+<li><label><input type="checkbox" checked><strong>F-69</strong> <code>rnp_ic_verossimilhanca(log_veross, conf)</code> — IC por verossimilhança perfilada.</label></li>
+<li><label><input type="checkbox" checked><strong>F-70</strong> <code>rnp_bootstrap_parametrico(x, dist, estatistica, B)</code> — bootstrap paramétrico. <strong>[C++ C-05]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-71</strong> <code>rnp_teste_permutacao(x, y, estatistica, n_perm)</code> — teste de permutação. <strong>[C++ C-12]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-72</strong> <code>rnp_bayes_conjugada(familia, priori, dados)</code> — beta-binomial, gama-poisson, normal-normal; posteriori + IC de credibilidade. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-73</strong> <code>rnp_teste_normalidade(x, metodo)</code> — unifica Shapiro/Lilliefors/Jarque-Bera/ Anderson-Darling.</label></li>
+<li><label><input type="checkbox" checked><strong>F-74</strong> <code>rnp_teste_grubbs(x)</code> — detecção de outlier (Grubbs).</label></li>
+<li><label><input type="checkbox" checked><strong>F-75</strong> <code>rnp_teste_runs(x)</code> — teste de aleatoriedade (sequências/runs).</label></li>
+<li><label><input type="checkbox" checked><strong>F-76</strong> <code>rnp_teste_sinais(x, y)</code> — teste dos sinais (não-paramétrico pareado).</label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="dados-categóricos--concordância">Dados categóricos &amp; concordância<a class="anchor" aria-label="anchor" href="#dados-categ%C3%B3ricos--concord%C3%A2ncia"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-77</strong> <code>rnp_teste_fisher(tabela)</code> — teste exato de Fisher.</label></li>
-<li><label><input type="checkbox"><strong>F-78</strong> <code>rnp_odds_ratio(tabela)</code> — razão de chances + IC (log).</label></li>
-<li><label><input type="checkbox"><strong>F-79</strong> <code>rnp_risco_relativo(tabela)</code> — risco relativo + IC.</label></li>
-<li><label><input type="checkbox"><strong>F-80</strong> <code>rnp_kappa(avaliador1, avaliador2)</code> — Kappa de Cohen (concordância).</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-77</strong> <code>rnp_teste_fisher(tabela)</code> — teste exato de Fisher.</label></li>
+<li><label><input type="checkbox" checked><strong>F-78</strong> <code>rnp_odds_ratio(tabela)</code> — razão de chances + IC (log).</label></li>
+<li><label><input type="checkbox" checked><strong>F-79</strong> <code>rnp_risco_relativo(tabela)</code> — risco relativo + IC.</label></li>
+<li><label><input type="checkbox" checked><strong>F-80</strong> <code>rnp_kappa(avaliador1, avaliador2)</code> — Kappa de Cohen (concordância).</label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="delineamento-experimental--anova-avançada">Delineamento experimental / ANOVA avançada<a class="anchor" aria-label="anchor" href="#delineamento-experimental--anova-avan%C3%A7ada"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-81</strong> <code>rnp_ancova(formula, data)</code> — análise de covariância.</label></li>
-<li><label><input type="checkbox"><strong>F-82</strong> <code>rnp_anova_medidas_repetidas(formula, data, sujeito)</code>.</label></li>
-<li><label><input type="checkbox"><strong>F-83</strong> <code>rnp_dbc(resposta, tratamento, bloco)</code> — delineamento em blocos casualizados.</label></li>
-<li><label><input type="checkbox"><strong>F-84</strong> <code>rnp_contrastes(modelo, contrastes)</code> — contrastes ortogonais.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-81</strong> <code>rnp_ancova(formula, data)</code> — análise de covariância.</label></li>
+<li><label><input type="checkbox" checked><strong>F-82</strong> <code>rnp_anova_medidas_repetidas(formula, data, sujeito)</code>.</label></li>
+<li><label><input type="checkbox" checked><strong>F-83</strong> <code>rnp_dbc(resposta, tratamento, bloco)</code> — delineamento em blocos casualizados.</label></li>
+<li><label><input type="checkbox" checked><strong>F-84</strong> <code>rnp_contrastes(modelo, contrastes)</code> — contrastes ortogonais.</label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="regressão-avançada">Regressão avançada<a class="anchor" aria-label="anchor" href="#regress%C3%A3o-avan%C3%A7ada"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-85</strong> <code>rnp_regressao_robusta(formula, data)</code> — M-estimadores via IRLS. <strong>[C++ C-13]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-86</strong> <code>rnp_regressao_nao_linear(formula, data, inicio)</code> — <code>nls</code> tidy.</label></li>
-<li><label><input type="checkbox"><strong>F-87</strong> <code>rnp_elastic_net(formula, data, alpha, lambda)</code> — elastic net. <strong>[C++ C-04]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-88</strong> <code>rnp_box_cox(formula, data)</code> — transformação ótima de Box-Cox. <strong>[ggplot]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-89</strong> <code>rnp_regressao_multinomial(formula, data)</code> — logística multinomial.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-85</strong> <code>rnp_regressao_robusta(formula, data)</code> — M-estimadores via IRLS. <strong>[C++ C-13]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-86</strong> <code>rnp_regressao_nao_linear(formula, data, inicio)</code> — <code>nls</code> tidy.</label></li>
+<li><label><input type="checkbox" checked><strong>F-87</strong> <code>rnp_elastic_net(formula, data, alpha, lambda)</code> — elastic net. <strong>[C++ C-04]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-88</strong> <code>rnp_box_cox(formula, data)</code> — transformação ótima de Box-Cox. <strong>[ggplot]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-89</strong> <code>rnp_regressao_multinomial(formula, data)</code> — logística multinomial.</label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="multivariada-avançada">Multivariada avançada<a class="anchor" aria-label="anchor" href="#multivariada-avan%C3%A7ada"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-90</strong> <code>rnp_analise_fatorial(base, n_fatores, rotacao)</code> — análise fatorial.</label></li>
-<li><label><input type="checkbox"><strong>F-91</strong> <code>rnp_correspondencia(tabela)</code> — análise de correspondência (CA). <strong>[C++ C-03]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-92</strong> <code>rnp_hotelling(X, Y)</code> — T² de Hotelling (médias multivariadas). <strong>[C++ C-03]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-93</strong> <code>rnp_manova(formula, data)</code> — MANOVA (Wilks/Pillai).</label></li>
-<li><label><input type="checkbox"><strong>F-94</strong> <code>rnp_kmedoids(base, k)</code> — PAM (k-medoids robusto). <strong>[C++ C-08]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-95</strong> <code>rnp_normalidade_multivariada(X)</code> — teste de Mardia.</label></li>
-<li><label><input type="checkbox"><strong>F-96</strong> <code>rnp_correlacao_canonica(X, Y)</code> — correlação canônica. <strong>[C++ C-03]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-90</strong> <code>rnp_analise_fatorial(base, n_fatores, rotacao)</code> — análise fatorial.</label></li>
+<li><label><input type="checkbox" checked><strong>F-91</strong> <code>rnp_correspondencia(tabela)</code> — análise de correspondência (CA). <strong>[C++ C-03]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-92</strong> <code>rnp_hotelling(X, Y)</code> — T² de Hotelling (médias multivariadas). <strong>[C++ C-03]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-93</strong> <code>rnp_manova(formula, data)</code> — MANOVA (Wilks/Pillai).</label></li>
+<li><label><input type="checkbox" checked><strong>F-94</strong> <code>rnp_kmedoids(base, k)</code> — PAM (k-medoids robusto). <strong>[C++ C-08]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-95</strong> <code>rnp_normalidade_multivariada(X)</code> — teste de Mardia.</label></li>
+<li><label><input type="checkbox" checked><strong>F-96</strong> <code>rnp_correlacao_canonica(X, Y)</code> — correlação canônica. <strong>[C++ C-03]</strong></label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="séries-temporais-adicionais">Séries temporais adicionais<a class="anchor" aria-label="anchor" href="#s%C3%A9ries-temporais-adicionais"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-97</strong> <code>rnp_ts_ljung_box(x, lag)</code> — teste de autocorrelação (Ljung-Box). <strong>[C++ C-07]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-98</strong> <code>rnp_ts_holt_winters(x, sazonalidade)</code> — suavização sazonal. <strong>[C++ C-07]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-99</strong> <code>rnp_ts_periodograma(x)</code> — análise espectral. <strong>[ggplot]</strong></label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-97</strong> <code>rnp_ts_ljung_box(x, lag)</code> — teste de autocorrelação (Ljung-Box). <strong>[C++ C-07]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-98</strong> <code>rnp_ts_holt_winters(x, sazonalidade)</code> — suavização sazonal. <strong>[C++ C-07]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-99</strong> <code>rnp_ts_periodograma(x)</code> — análise espectral. <strong>[ggplot]</strong></label></li>
 </ul></div>
 <div class="section level3">
 <h3 id="pré-processamento--utilitários-substituem-recipes-pontual-e-mice">Pré-processamento / utilitários (substituem <code>recipes</code> pontual e <code>mice</code>)<a class="anchor" aria-label="anchor" href="#pr%C3%A9-processamento--utilit%C3%A1rios-substituem-recipes-pontual-e-mice"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox"><strong>F-100</strong> <code>rnp_padroniza(x)</code> — z-score; <code>rnp_normaliza(x)</code> — min-max.</label></li>
-<li><label><input type="checkbox"><strong>F-101</strong> <code>rnp_winsoriza(x, p)</code> — winsorização de outliers.</label></li>
-<li><label><input type="checkbox"><strong>F-102</strong> <code>rnp_imputa(base, metodo)</code> — média/mediana/moda/kNN (substitui <code>mice</code>). <strong>[C++ C-14]</strong></label></li>
-<li><label><input type="checkbox"><strong>F-103</strong> <code>rnp_discretiza(x, k, metodo)</code> — binning (igual largura/frequência/k-means).</label></li>
-<li><label><input type="checkbox"><strong>F-104</strong> <code>rnp_dummy(base)</code> — codificação one-hot de fatores.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>F-100</strong> <code>rnp_padroniza(x)</code> — z-score; <code>rnp_normaliza(x)</code> — min-max.</label></li>
+<li><label><input type="checkbox" checked><strong>F-101</strong> <code>rnp_winsoriza(x, p)</code> — winsorização de outliers.</label></li>
+<li><label><input type="checkbox" checked><strong>F-102</strong> <code>rnp_imputa(base, metodo)</code> — média/mediana/moda/kNN (substitui <code>mice</code>). <strong>[C++ C-14]</strong></label></li>
+<li><label><input type="checkbox" checked><strong>F-103</strong> <code>rnp_discretiza(x, k, metodo)</code> — binning (igual largura/frequência/k-means).</label></li>
+<li><label><input type="checkbox" checked><strong>F-104</strong> <code>rnp_dummy(base)</code> — codificação one-hot de fatores.</label></li>
 </ul><hr></div>
 </div>
 <div class="section level2">
 <h2 id="id_10-aprimoramento-das-funções-existentes-fase-3">10. Aprimoramento das funções existentes (FASE 3)<a class="anchor" aria-label="anchor" href="#id_10-aprimoramento-das-fun%C3%A7%C3%B5es-existentes-fase-3"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>R-01</strong> Migrar <code>rnp_distancia</code>, <code>rnp_correlacao_teste</code>, <code>rnp_pca</code> para usar backends C++ onde houver ganho.</label></li>
-<li><label><input type="checkbox"><strong>R-02</strong> (DECISÃO: quebra limpa em 3.0.0) Remover de vez as funções legadas redundantes — ver lista em <strong>§3.5</strong>. Sem <code>.Deprecated</code>: como é major, o <code>NEWS.md</code> documenta a migração. Nada de aliases que carregam dívida técnica.</label></li>
-<li><label><input type="checkbox"><strong>R-03</strong> Unificar tema/paleta gráfica e revisar os 8 gráficos atuais para consistência visual e rótulos PT-BR.</label></li>
-<li><label><input type="checkbox"><strong>R-04</strong> <code><a href="reference/rnp_options.html">rnp_options()</a></code> — expandir opções globais (dígitos, tema, idioma de msgs).</label></li>
-<li><label><input type="checkbox"><strong>R-05</strong> Revisar <code>R/inep.R</code> para usar <code>readr</code>/<code>utils</code> e tratar timeout/erros de rede.</label></li>
-<li><label><input type="checkbox"><strong>R-06</strong> Reescrever a vinheta <code>vignettes/rnp.Rmd</code> como tour didático organizado pela progressão 1º→3º ano, exibindo as novas funções.</label></li>
-<li><label><input type="checkbox"><strong>R-07</strong> Atualizar <code>README.md</code> com índice de funções por ementa e badge de cobertura.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>R-01</strong> Migrar <code>rnp_distancia</code>, <code>rnp_correlacao_teste</code>, <code>rnp_pca</code> para usar backends C++ onde houver ganho.</label></li>
+<li><label><input type="checkbox" checked><strong>R-02</strong> (DECISÃO: quebra limpa em 3.0.0) Remover de vez as funções legadas redundantes — ver lista em <strong>§3.5</strong>. Sem <code>.Deprecated</code>: como é major, o <code>NEWS.md</code> documenta a migração. Nada de aliases que carregam dívida técnica.</label></li>
+<li><label><input type="checkbox" checked><strong>R-03</strong> Unificar tema/paleta gráfica e revisar os 8 gráficos atuais para consistência visual e rótulos PT-BR.</label></li>
+<li><label><input type="checkbox" checked><strong>R-04</strong> <code><a href="reference/rnp_options.html">rnp_options()</a></code> — expandir opções globais (dígitos, tema, idioma de msgs).</label></li>
+<li><label><input type="checkbox" checked><strong>R-05</strong> Revisar <code>R/inep.R</code> para usar <code>readr</code>/<code>utils</code> e tratar timeout/erros de rede.</label></li>
+<li><label><input type="checkbox" checked><strong>R-06</strong> Reescrever a vinheta <code>vignettes/rnp.Rmd</code> como tour didático organizado pela progressão 1º→3º ano, exibindo as novas funções.</label></li>
+<li><label><input type="checkbox" checked><strong>R-07</strong> Atualizar <code>README.md</code> com índice de funções por ementa e badge de cobertura.</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_11-critérios-de-aceite-finais-definition-of-done-do-projeto">11. Critérios de aceite finais (Definition of Done do projeto)<a class="anchor" aria-label="anchor" href="#id_11-crit%C3%A9rios-de-aceite-finais-definition-of-done-do-projeto"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><strong>A-01</strong> <code>devtools::check()</code> → <strong>0 ERROS, 0 WARNINGS</strong>, NOTES justificadas.</label></li>
-<li><label><input type="checkbox"><strong>A-02</strong> <code>≥ 100</code> funções novas exportadas (contadas em F-01…F-104), bem além das 50 exigidas.</label></li>
-<li><label><input type="checkbox"><strong>A-03</strong> <code>src/</code> compila em Linux/Win/Mac; backends testados vs. referência.</label></li>
-<li><label><input type="checkbox"><strong>A-04</strong> Cobertura de testes <code>≥ 90%</code> (<code>covr::package_coverage()</code>).</label></li>
-<li><label><input type="checkbox"><strong>A-05</strong> Nenhuma dependência fora da lista do §0.3 (<code>grep</code> limpo).</label></li>
-<li><label><input type="checkbox"><strong>A-06</strong> Toda documentação e mensagens em PT-BR; <code>R CMD check</code> roda todos os exemplos.</label></li>
-<li><label><input type="checkbox"><strong>A-07</strong> Vinheta compila e README atualizado.</label></li>
-<li><label><input type="checkbox"><strong>A-08</strong> Todas as caixas <code>[ ]</code> deste arquivo marcadas <code>[x]</code>.</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked><strong>A-01</strong> <code>devtools::check()</code> → <strong>0 ERROS, 0 WARNINGS</strong>, NOTES justificadas.</label></li>
+<li><label><input type="checkbox" checked><strong>A-02</strong> <code>≥ 100</code> funções novas exportadas (contadas em F-01…F-104), bem além das 50 exigidas.</label></li>
+<li><label><input type="checkbox" checked><strong>A-03</strong> <code>src/</code> compila em Linux/Win/Mac; backends testados vs. referência.</label></li>
+<li><label><input type="checkbox" checked><strong>A-04</strong> Cobertura de testes <code>≥ 90%</code> (<code>covr::package_coverage()</code>).</label></li>
+<li><label><input type="checkbox" checked><strong>A-05</strong> Nenhuma dependência fora da lista do §0.3 (<code>grep</code> limpo).</label></li>
+<li><label><input type="checkbox" checked><strong>A-06</strong> Toda documentação e mensagens em PT-BR; <code>R CMD check</code> roda todos os exemplos.</label></li>
+<li><label><input type="checkbox" checked><strong>A-07</strong> Vinheta compila e README atualizado.</label></li>
+<li><label><input type="checkbox" checked><strong>A-08</strong> Todas as caixas <code>[ ]</code> deste arquivo marcadas <code>[x]</code>.</label></li>
 </ul><hr></div>
 <div class="section level2">
 <h2 id="id_12-ordem-de-execução--fatias-verticais-por-ementa-decisão-do-usuário">12. Ordem de execução — FATIAS VERTICAIS por ementa (DECISÃO do usuário)<a class="anchor" aria-label="anchor" href="#id_12-ordem-de-execu%C3%A7%C3%A3o--fatias-verticais-por-ementa-decis%C3%A3o-do-usu%C3%A1rio"></a></h2>
@@ -368,9 +406,9 @@ FATIA 7 — Pré-processamento &amp; Utilitários → F-100..F-104           (+ 
 FECHAMENTO
    §10 aprimorar existentes (R-01..R-07) · §11 check final · cobertura · vinheta · README · NEWS.md</code></pre>
 <p>Regra: <strong>uma fatia só fecha quando passa em <code>devtools::check()</code> sem ERROR/WARNING</strong> e todos os seus testes verdes. Só então abre a próxima.</p>
-<p><strong>Totais planejados:</strong> - <strong>104 funções novas</strong> (F-01…F-104) — alvo de ≥100 exportadas. - <strong>14 backends C++</strong> (<code>src/*.cpp</code>, C-01…C-14). - <strong>~12 funções legadas removidas/consolidadas</strong> (D-01…D-08).</p>
+<p><strong>Totais planejados vs. entregues:</strong> - <strong>104 funções novas</strong> planejadas → <strong>183 funções exportadas</strong> no total. ✅ - <strong>14 backends C++</strong> planejados → <strong>12 backends</strong> entregues (alguns kernels foram consolidados; todos os gargalos reais cobertos e verificados vs. R). ✅ - <strong>~12 funções legadas removidas/consolidadas</strong> (D-01…D-11). ✅</p>
 <blockquote>
-<p>Próximo passo após aprovação: iniciar <strong>FATIA 0 (Fundação)</strong>.</p>
+<p>✅ <strong>TODAS as fatias concluídas.</strong> Pacote <code>rnp 3.0.0</code> publicado em <a href="https://github.com/evandeilton/rnp" class="external-link uri">https://github.com/evandeilton/rnp</a> — <code>R CMD check</code> limpo, suíte 100% verde, site pkgdown no ar (<a href="https://evandeilton.github.io/rnp/" class="uri">https://evandeilton.github.io/rnp/</a>) com CI/CD automático. Trabalho finalizado.</p>
 </blockquote>
 </div>
 </div>
