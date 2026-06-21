@@ -2,3 +2,11 @@
 .Rhistory
 .RData
 .Ruserdata
+# Artefatos de compilacao C/C++ (Rcpp)
+src/*.o
+src/*.so
+src/*.dll
+src/*.rds
+# Diretorios de R CMD check
+*.Rcheck/
+..Rcheck/

@@ -1,27 +1,61 @@
 Package: rnp
-Title: R NA PRATICA - Pacote de recursos extras
-Version: 1.0.2
-Authors@R: 
+Type: Package
+Title: Recursos Estatísticos para o Projeto R NA PRÁTICA
+Version: 3.0.0
+Authors@R:
     person(given = "José E.",
            family = "Lopes",
            role = c("aut", "cre"),
            email = "evandeilton@gmail.com")
-Description: rnp é a sigla para <R NA PRÁTICA>. Este pacote é um combo extra de funções e recursos para todos os alunos do rnp. Este pacote está em atualização contínua e novos resursos serão adicionados.
+Description: Conjunto abrangente de funções estatísticas para
+    análise descritiva, inferencial, multivariada e de séries temporais,
+    com foco didático e em performance. Inclui tabelas de frequência,
+    medidas de tendência central e dispersão, testes de hipóteses,
+    regressão, ANOVA, distribuições de probabilidade, amostragem,
+    visualização ggplot2 e ferramentas para dados do censo INEP.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
+LazyData: true
+LazyDataCompression: xz
+URL: https://github.com/evandeilton/rnp
+BugReports: https://github.com/evandeilton/rnp/issues
+Depends:
+    R (>= 3.6.0)
 Imports:
     dplyr,
-    RCurl,
     ggplot2,
-    lubridate,
-    data.table,
+    glue,
+    grDevices,
+    magrittr,
+    purrr,
+    Rcpp (>= 1.0.0),
+    readr,
+    rlang,
+    stats,
     stringr,
-    prettydoc,
-    magrittr
-Suggests: 
+    tibble,
+    tidyselect,
+    utils,
+    vctrs
+LinkingTo:
+    Rcpp,
+    RcppArmadillo
+Suggests:
+    broom,
+    corrplot,
+    effectsize,
+    forecast,
+    ggVennDiagram,
+    kableExtra,
     knitr,
+    mice,
+    naniar,
+    pwr,
+    readxl,
     rmarkdown,
-    testthat
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
-LazyData: true
-RoxygenNote: 7.0.1
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown

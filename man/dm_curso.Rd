@@ -5,13 +5,7 @@
 \alias{dm_curso}
 \title{Dados do censo ensino superior INEP 2017 (Cursos)}
 \description{
-Este conjunto de dados faz parte da base de dados do INEP para o censo
-brasileiro do ensino superior. Nesta parte temos os dados dos cursos
-mapeados pelo censo naquele ano.
-Trata-se de uma amostras das variaveis, porem o total de observacoes
-esta completo.
-Para obter dados de outros anos consulte o link do site do INEP ou
-a funcao \code{\link{rnp_get_inep_censo}}
+Base de dados do INEP para o censo brasileiro do ensino superior (cursos).
 }
 \examples{
 require(rnp)

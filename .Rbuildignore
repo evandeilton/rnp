@@ -1,2 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.claude$
+^\.travis\.yml$
+^TODO\.md$
+^REPOSITORY_ANALYSIS_REPORT\.md$
+^dev$
+^LICENSE\.md$

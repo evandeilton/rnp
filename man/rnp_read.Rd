@@ -2,7 +2,7 @@
 % Please edit documentation in R/core-functions.R
 \name{rnp_read}
 \alias{rnp_read}
-\title{Leitura rapida de bases de dados}
+\title{Leitura rapida de bases de dados delimitadas}
 \usage{
 rnp_read(
   base,
@@ -11,36 +11,36 @@ rnp_read(
   encoding = "Latin-1",
   nrows = Inf,
   verbose = TRUE,
-  showProgress = TRUE,
   select = NULL,
   ...
 )
 }
 \arguments{
-\item{base}{Local e nome com a extensao da base de dados de entrada}
+\item{base}{Local e nome do arquivo.}
 
-\item{sep}{Separador de colunas}
+\item{sep}{Separador de colunas.}
 
-\item{dec}{Separador decimal}
+\item{dec}{Separador decimal.}
 
-\item{encoding}{Codificacao dos dados, padrao e Latin-1. UTF-8 tambem e muito util}
+\item{encoding}{Codificacao do arquivo.}
 
-\item{nrows}{Numero de linhas a extrair. Se Inf, tras todas}
+\item{nrows}{Numero de linhas a ler (\code{Inf} = todas).}
 
-\item{verbose}{Se TRUE, exibe logs do que esta aocontecendo em tempo de extracao}
+\item{verbose}{Logico. Exibe mensagens de progresso/diagnostico.}
 
-\item{showProgress}{Se TRUE, exibe o andamento do processo de leitura}
+\item{select}{Vetor de colunas de interesse (default: todas).}
 
-\item{select}{Uma lista de variaveis de interesse pode ser passada para simplificar a saida.}
-
-\item{...}{Passagem de argumentos ectras para a funcao \code{\link{fread}}}
+\item{...}{Argumentos extras para \code{\link[readr:read_delim]{readr::read_delim()}}.}
 }
 \value{
-tibla com os dados importados
+Um \link[tibble:tibble]{tibble}.
 }
 \description{
-Leitura rapida de bases de dados
+Wrapper de \code{\link[readr:read_delim]{readr::read_delim()}} otimizado para os microdados do INEP
+(delimitador padrao \code{"|"} e codificacao \code{Latin-1}).
 }
-\author{
-LOPES, J. E
+\examples{
+\dontrun{
+rnp_read("dados.csv", sep = "|", encoding = "Latin-1")
+}
 }
