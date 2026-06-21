@@ -14,14 +14,17 @@ a probabilidade aplicadas à análise de dados.
 escritas. Para condensar esse material em um lugar de fácil consulta,
 surgiu a ideia de empacotá-lo. É o pacote `rnp`.
 
-O pacote reúne funções que cobrem os temas tratados nos primeiros anos
-de um curso de estatística — análise descritiva, probabilidade,
-inferência, regressão, análise multivariada, séries temporais,
-amostragem e dados categóricos. As funções analíticas retornam saídas em
-formato `tibble` e os gráficos são feitos com `ggplot2`. As rotinas que
-exigem mais cálculo (distâncias, álgebra matricial, reamostragem) são
-escritas em C++ com `Rcpp` e `RcppArmadillo`. Toda a documentação e as
-mensagens estão em português.
+O pacote reúne mais de 230 funções que cobrem desde os temas dos
+primeiros anos de um curso de estatística — análise descritiva,
+probabilidade, inferência, regressão, análise multivariada, séries
+temporais, amostragem e dados categóricos — até tópicos de estatística
+aplicada e ciência de dados: análise de sobrevivência, modelos
+ARIMA/SARIMA, modelos lineares generalizados e mistos, aprendizado de
+máquina com `tidymodels` e avaliação de modelos. As funções analíticas
+retornam saídas em formato `tibble` e os gráficos são feitos com
+`ggplot2`. As rotinas que exigem mais cálculo (distâncias, álgebra
+matricial, reamostragem) são escritas em C++ com `Rcpp` e
+`RcppArmadillo`. Toda a documentação e as mensagens estão em português.
 
 O `rnp` depende apenas do R base, do `tidyverse`, do `tidymodels` e do
 `Rcpp`, evitando uma cadeia extensa de dependências externas.
@@ -188,6 +191,71 @@ qui-quadrado, F, binomial, Poisson, lognormal, Weibull, multinomial),
 [`rnp_discretiza()`](https://evandeilton.github.io/rnp/reference/rnp_discretiza.md),
 [`rnp_dummy()`](https://evandeilton.github.io/rnp/reference/rnp_dummy.md).
 
+**Análise de sobrevivência**
+
+[`rnp_kaplan_meier()`](https://evandeilton.github.io/rnp/reference/rnp_kaplan_meier.md),
+[`rnp_grafico_sobrevivencia()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_sobrevivencia.md),
+[`rnp_log_rank()`](https://evandeilton.github.io/rnp/reference/rnp_log_rank.md),
+[`rnp_nelson_aalen()`](https://evandeilton.github.io/rnp/reference/rnp_nelson_aalen.md),
+[`rnp_cox()`](https://evandeilton.github.io/rnp/reference/rnp_cox.md),
+[`rnp_cox_diagnosticos()`](https://evandeilton.github.io/rnp/reference/rnp_cox_diagnosticos.md),
+[`rnp_cox_risco_relativo()`](https://evandeilton.github.io/rnp/reference/rnp_cox_risco_relativo.md),
+[`rnp_sobrevivencia_parametrica()`](https://evandeilton.github.io/rnp/reference/rnp_sobrevivencia_parametrica.md),
+[`rnp_tabela_vida()`](https://evandeilton.github.io/rnp/reference/rnp_tabela_vida.md).
+
+**Séries ARIMA/SARIMA**
+
+[`rnp_arima()`](https://evandeilton.github.io/rnp/reference/rnp_arima.md),
+[`rnp_sarima()`](https://evandeilton.github.io/rnp/reference/rnp_sarima.md),
+[`rnp_auto_arima()`](https://evandeilton.github.io/rnp/reference/rnp_auto_arima.md),
+[`rnp_ts_previsao()`](https://evandeilton.github.io/rnp/reference/rnp_ts_previsao.md),
+[`rnp_ts_adf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_adf.md),
+[`rnp_ts_kpss()`](https://evandeilton.github.io/rnp/reference/rnp_ts_kpss.md),
+[`rnp_ts_var()`](https://evandeilton.github.io/rnp/reference/rnp_ts_var.md),
+[`rnp_ts_ccf()`](https://evandeilton.github.io/rnp/reference/rnp_ts_ccf.md),
+[`rnp_ts_garch()`](https://evandeilton.github.io/rnp/reference/rnp_ts_garch.md),
+[`rnp_ts_residuos()`](https://evandeilton.github.io/rnp/reference/rnp_ts_residuos.md).
+
+**GLM, modelos mistos e aditivos**
+
+[`rnp_glm()`](https://evandeilton.github.io/rnp/reference/rnp_glm.md),
+[`rnp_glm_diagnosticos()`](https://evandeilton.github.io/rnp/reference/rnp_glm_diagnosticos.md),
+[`rnp_binomial_negativa()`](https://evandeilton.github.io/rnp/reference/rnp_binomial_negativa.md),
+[`rnp_regressao_ordinal()`](https://evandeilton.github.io/rnp/reference/rnp_regressao_ordinal.md),
+[`rnp_modelo_misto()`](https://evandeilton.github.io/rnp/reference/rnp_modelo_misto.md),
+[`rnp_gam()`](https://evandeilton.github.io/rnp/reference/rnp_gam.md),
+[`rnp_grafico_efeitos()`](https://evandeilton.github.io/rnp/reference/rnp_grafico_efeitos.md).
+
+**Aprendizado de máquina (tidymodels)**
+
+[`rnp_ml_particao()`](https://evandeilton.github.io/rnp/reference/rnp_ml_particao.md),
+[`rnp_ml_cv()`](https://evandeilton.github.io/rnp/reference/rnp_ml_cv.md),
+[`rnp_ml_receita()`](https://evandeilton.github.io/rnp/reference/rnp_ml_receita.md),
+[`rnp_ml_arvore()`](https://evandeilton.github.io/rnp/reference/rnp_ml_arvore.md),
+[`rnp_ml_floresta()`](https://evandeilton.github.io/rnp/reference/rnp_ml_floresta.md),
+[`rnp_ml_boosting()`](https://evandeilton.github.io/rnp/reference/rnp_ml_boosting.md),
+[`rnp_ml_knn()`](https://evandeilton.github.io/rnp/reference/rnp_ml_knn.md),
+[`rnp_ml_svm()`](https://evandeilton.github.io/rnp/reference/rnp_ml_svm.md),
+[`rnp_ml_regularizada()`](https://evandeilton.github.io/rnp/reference/rnp_ml_regularizada.md),
+[`rnp_ml_ajustar()`](https://evandeilton.github.io/rnp/reference/rnp_ml_ajustar.md),
+[`rnp_ml_tunagem()`](https://evandeilton.github.io/rnp/reference/rnp_ml_tunagem.md),
+[`rnp_ml_comparar()`](https://evandeilton.github.io/rnp/reference/rnp_ml_comparar.md),
+[`rnp_ml_prever()`](https://evandeilton.github.io/rnp/reference/rnp_ml_prever.md),
+[`rnp_ml_importancia()`](https://evandeilton.github.io/rnp/reference/rnp_ml_importancia.md).
+
+**Avaliação de modelos**
+
+[`rnp_metricas_classificacao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_classificacao.md),
+[`rnp_metricas_regressao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_regressao.md),
+[`rnp_curva_lift()`](https://evandeilton.github.io/rnp/reference/rnp_curva_lift.md),
+[`rnp_curva_ganho()`](https://evandeilton.github.io/rnp/reference/rnp_curva_ganho.md),
+[`rnp_calibracao()`](https://evandeilton.github.io/rnp/reference/rnp_calibracao.md),
+[`rnp_brier()`](https://evandeilton.github.io/rnp/reference/rnp_brier.md),
+[`rnp_ks_classificador()`](https://evandeilton.github.io/rnp/reference/rnp_ks_classificador.md),
+[`rnp_curva_precisao_revocacao()`](https://evandeilton.github.io/rnp/reference/rnp_curva_precisao_revocacao.md),
+[`rnp_comparar_roc()`](https://evandeilton.github.io/rnp/reference/rnp_comparar_roc.md),
+[`rnp_acuracia_diagnostica()`](https://evandeilton.github.io/rnp/reference/rnp_acuracia_diagnostica.md).
+
 ## Tutoriais
 
 O pacote acompanha seis tutoriais que acompanham a progressão típica de
@@ -200,6 +268,11 @@ resultados:
 4.  Regressão linear e modelagem
 5.  Análise multivariada
 6.  Dados categóricos e métodos não-paramétricos
+7.  Análise de sobrevivência
+8.  Séries temporais: modelos ARIMA e SARIMA
+9.  Modelos lineares generalizados e extensões
+10. Aprendizado de máquina com tidymodels
+11. Avaliação de modelos preditivos
 
 ``` r
 
@@ -697,6 +770,31 @@ Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
 - [`rnp_ml_tunagem()`](https://evandeilton.github.io/rnp/reference/rnp_ml_tunagem.md)
   : Tunagem de hiperparametros
 
+## Avaliacao de Modelos
+
+Metricas, curvas, calibracao e comparacao de modelos.
+
+- [`rnp_metricas_classificacao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_classificacao.md)
+  : Metricas de classificacao
+- [`rnp_metricas_regressao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_regressao.md)
+  : Metricas de regressao
+- [`rnp_curva_lift()`](https://evandeilton.github.io/rnp/reference/rnp_curva_lift.md)
+  : Curva de lift
+- [`rnp_curva_ganho()`](https://evandeilton.github.io/rnp/reference/rnp_curva_ganho.md)
+  : Curva de ganho acumulado
+- [`rnp_calibracao()`](https://evandeilton.github.io/rnp/reference/rnp_calibracao.md)
+  : Calibracao de probabilidades
+- [`rnp_brier()`](https://evandeilton.github.io/rnp/reference/rnp_brier.md)
+  : Escore de Brier
+- [`rnp_ks_classificador()`](https://evandeilton.github.io/rnp/reference/rnp_ks_classificador.md)
+  : Estatistica KS de classificador
+- [`rnp_curva_precisao_revocacao()`](https://evandeilton.github.io/rnp/reference/rnp_curva_precisao_revocacao.md)
+  : Curva precisao-revocacao
+- [`rnp_comparar_roc()`](https://evandeilton.github.io/rnp/reference/rnp_comparar_roc.md)
+  : Comparacao de duas curvas ROC (teste de DeLong)
+- [`rnp_acuracia_diagnostica()`](https://evandeilton.github.io/rnp/reference/rnp_acuracia_diagnostica.md)
+  : Acuracia diagnostica
+
 ## Pre-processamento
 
 - [`rnp_padroniza()`](https://evandeilton.github.io/rnp/reference/rnp_padroniza.md)
@@ -759,3 +857,5 @@ Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
   extensões](https://evandeilton.github.io/rnp/articles/v09-glm-gam.md):
 - [10. Aprendizado de máquina com
   tidymodels](https://evandeilton.github.io/rnp/articles/v10-machine-learning.md):
+- [11. Avaliação de modelos
+  preditivos](https://evandeilton.github.io/rnp/articles/v11-avaliacao.md):

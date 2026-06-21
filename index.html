@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="index.html">rnp</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@
     <li><a class="dropdown-item" href="articles/v08-series-arima.html">8. Séries temporais (ARIMA/SARIMA)</a></li>
     <li><a class="dropdown-item" href="articles/v09-glm-gam.html">9. Modelos lineares generalizados</a></li>
     <li><a class="dropdown-item" href="articles/v10-machine-learning.html">10. Aprendizado de máquina (tidymodels)</a></li>
+    <li><a class="dropdown-item" href="articles/v11-avaliacao.html">11. Avaliação de modelos preditivos</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -89,7 +90,7 @@
 <a class="anchor" aria-label="anchor" href="#o-pacote-rnp"></a>
 </h2>
 <p>À medida que o projeto ganhou volume, muitas funções foram sendo escritas. Para condensar esse material em um lugar de fácil consulta, surgiu a ideia de empacotá-lo. É o pacote <code>rnp</code>.</p>
-<p>O pacote reúne funções que cobrem os temas tratados nos primeiros anos de um curso de estatística — análise descritiva, probabilidade, inferência, regressão, análise multivariada, séries temporais, amostragem e dados categóricos. As funções analíticas retornam saídas em formato <code>tibble</code> e os gráficos são feitos com <code>ggplot2</code>. As rotinas que exigem mais cálculo (distâncias, álgebra matricial, reamostragem) são escritas em C++ com <code>Rcpp</code> e <code>RcppArmadillo</code>. Toda a documentação e as mensagens estão em português.</p>
+<p>O pacote reúne mais de 230 funções que cobrem desde os temas dos primeiros anos de um curso de estatística — análise descritiva, probabilidade, inferência, regressão, análise multivariada, séries temporais, amostragem e dados categóricos — até tópicos de estatística aplicada e ciência de dados: análise de sobrevivência, modelos ARIMA/SARIMA, modelos lineares generalizados e mistos, aprendizado de máquina com <code>tidymodels</code> e avaliação de modelos. As funções analíticas retornam saídas em formato <code>tibble</code> e os gráficos são feitos com <code>ggplot2</code>. As rotinas que exigem mais cálculo (distâncias, álgebra matricial, reamostragem) são escritas em C++ com <code>Rcpp</code> e <code>RcppArmadillo</code>. Toda a documentação e as mensagens estão em português.</p>
 <p>O <code>rnp</code> depende apenas do R base, do <code>tidyverse</code>, do <code>tidymodels</code> e do <code>Rcpp</code>, evitando uma cadeia extensa de dependências externas.</p>
 </div>
 <div class="section level2">
@@ -144,6 +145,16 @@
 </summary><code><a href="reference/rnp_ts_decomposicao.html">rnp_ts_decomposicao()</a></code>, <code><a href="reference/rnp_media_movel.html">rnp_media_movel()</a></code>, <code><a href="reference/rnp_suavizacao_exponencial.html">rnp_suavizacao_exponencial()</a></code>, <code><a href="reference/rnp_ts_acf.html">rnp_ts_acf()</a></code>, <code><a href="reference/rnp_ts_pacf.html">rnp_ts_pacf()</a></code>, <code><a href="reference/rnp_ts_diferenciacao.html">rnp_ts_diferenciacao()</a></code>, <code><a href="reference/rnp_ts_ljung_box.html">rnp_ts_ljung_box()</a></code>, <code><a href="reference/rnp_ts_holt_winters.html">rnp_ts_holt_winters()</a></code>, <code><a href="reference/rnp_ts_periodograma.html">rnp_ts_periodograma()</a></code>, <code>rnp_grafico_serie/_acf()</code>.
 </details><details><summary><b>Categóricos, experimental e pré-processamento</b>
 </summary><code><a href="reference/rnp_teste_fisher.html">rnp_teste_fisher()</a></code>, <code><a href="reference/rnp_odds_ratio.html">rnp_odds_ratio()</a></code>, <code><a href="reference/rnp_risco_relativo.html">rnp_risco_relativo()</a></code>, <code><a href="reference/rnp_kappa.html">rnp_kappa()</a></code>, <code><a href="reference/rnp_kruskal.html">rnp_kruskal()</a></code>, <code><a href="reference/rnp_mann_whitney.html">rnp_mann_whitney()</a></code>, <code><a href="reference/rnp_wilcoxon.html">rnp_wilcoxon()</a></code>, <code><a href="reference/rnp_anova.html">rnp_anova()</a></code>, <code><a href="reference/rnp_ancova.html">rnp_ancova()</a></code>, <code><a href="reference/rnp_dbc.html">rnp_dbc()</a></code>, <code><a href="reference/rnp_contrastes.html">rnp_contrastes()</a></code>, <code><a href="reference/rnp_anova_medidas_repetidas.html">rnp_anova_medidas_repetidas()</a></code>, <code><a href="reference/rnp_padroniza.html">rnp_padroniza()</a></code>, <code><a href="reference/rnp_normaliza.html">rnp_normaliza()</a></code>, <code><a href="reference/rnp_winsoriza.html">rnp_winsoriza()</a></code>, <code><a href="reference/rnp_imputa.html">rnp_imputa()</a></code>, <code><a href="reference/rnp_discretiza.html">rnp_discretiza()</a></code>, <code><a href="reference/rnp_dummy.html">rnp_dummy()</a></code>.
+</details><details><summary><b>Análise de sobrevivência</b>
+</summary><code><a href="reference/rnp_kaplan_meier.html">rnp_kaplan_meier()</a></code>, <code><a href="reference/rnp_grafico_sobrevivencia.html">rnp_grafico_sobrevivencia()</a></code>, <code><a href="reference/rnp_log_rank.html">rnp_log_rank()</a></code>, <code><a href="reference/rnp_nelson_aalen.html">rnp_nelson_aalen()</a></code>, <code><a href="reference/rnp_cox.html">rnp_cox()</a></code>, <code><a href="reference/rnp_cox_diagnosticos.html">rnp_cox_diagnosticos()</a></code>, <code><a href="reference/rnp_cox_risco_relativo.html">rnp_cox_risco_relativo()</a></code>, <code><a href="reference/rnp_sobrevivencia_parametrica.html">rnp_sobrevivencia_parametrica()</a></code>, <code><a href="reference/rnp_tabela_vida.html">rnp_tabela_vida()</a></code>.
+</details><details><summary><b>Séries ARIMA/SARIMA</b>
+</summary><code><a href="reference/rnp_arima.html">rnp_arima()</a></code>, <code><a href="reference/rnp_sarima.html">rnp_sarima()</a></code>, <code><a href="reference/rnp_auto_arima.html">rnp_auto_arima()</a></code>, <code><a href="reference/rnp_ts_previsao.html">rnp_ts_previsao()</a></code>, <code><a href="reference/rnp_ts_adf.html">rnp_ts_adf()</a></code>, <code><a href="reference/rnp_ts_kpss.html">rnp_ts_kpss()</a></code>, <code><a href="reference/rnp_ts_var.html">rnp_ts_var()</a></code>, <code><a href="reference/rnp_ts_ccf.html">rnp_ts_ccf()</a></code>, <code><a href="reference/rnp_ts_garch.html">rnp_ts_garch()</a></code>, <code><a href="reference/rnp_ts_residuos.html">rnp_ts_residuos()</a></code>.
+</details><details><summary><b>GLM, modelos mistos e aditivos</b>
+</summary><code><a href="reference/rnp_glm.html">rnp_glm()</a></code>, <code><a href="reference/rnp_glm_diagnosticos.html">rnp_glm_diagnosticos()</a></code>, <code><a href="reference/rnp_binomial_negativa.html">rnp_binomial_negativa()</a></code>, <code><a href="reference/rnp_regressao_ordinal.html">rnp_regressao_ordinal()</a></code>, <code><a href="reference/rnp_modelo_misto.html">rnp_modelo_misto()</a></code>, <code><a href="reference/rnp_gam.html">rnp_gam()</a></code>, <code><a href="reference/rnp_grafico_efeitos.html">rnp_grafico_efeitos()</a></code>.
+</details><details><summary><b>Aprendizado de máquina (tidymodels)</b>
+</summary><code><a href="reference/rnp_ml_particao.html">rnp_ml_particao()</a></code>, <code><a href="reference/rnp_ml_cv.html">rnp_ml_cv()</a></code>, <code><a href="reference/rnp_ml_receita.html">rnp_ml_receita()</a></code>, <code><a href="reference/rnp_ml_arvore.html">rnp_ml_arvore()</a></code>, <code><a href="reference/rnp_ml_floresta.html">rnp_ml_floresta()</a></code>, <code><a href="reference/rnp_ml_boosting.html">rnp_ml_boosting()</a></code>, <code><a href="reference/rnp_ml_knn.html">rnp_ml_knn()</a></code>, <code><a href="reference/rnp_ml_svm.html">rnp_ml_svm()</a></code>, <code><a href="reference/rnp_ml_regularizada.html">rnp_ml_regularizada()</a></code>, <code><a href="reference/rnp_ml_ajustar.html">rnp_ml_ajustar()</a></code>, <code><a href="reference/rnp_ml_tunagem.html">rnp_ml_tunagem()</a></code>, <code><a href="reference/rnp_ml_comparar.html">rnp_ml_comparar()</a></code>, <code><a href="reference/rnp_ml_prever.html">rnp_ml_prever()</a></code>, <code><a href="reference/rnp_ml_importancia.html">rnp_ml_importancia()</a></code>.
+</details><details><summary><b>Avaliação de modelos</b>
+</summary><code><a href="reference/rnp_metricas_classificacao.html">rnp_metricas_classificacao()</a></code>, <code><a href="reference/rnp_metricas_regressao.html">rnp_metricas_regressao()</a></code>, <code><a href="reference/rnp_curva_lift.html">rnp_curva_lift()</a></code>, <code><a href="reference/rnp_curva_ganho.html">rnp_curva_ganho()</a></code>, <code><a href="reference/rnp_calibracao.html">rnp_calibracao()</a></code>, <code><a href="reference/rnp_brier.html">rnp_brier()</a></code>, <code><a href="reference/rnp_ks_classificador.html">rnp_ks_classificador()</a></code>, <code><a href="reference/rnp_curva_precisao_revocacao.html">rnp_curva_precisao_revocacao()</a></code>, <code><a href="reference/rnp_comparar_roc.html">rnp_comparar_roc()</a></code>, <code><a href="reference/rnp_acuracia_diagnostica.html">rnp_acuracia_diagnostica()</a></code>.
 </details>
 </div>
 <div class="section level2">
@@ -157,6 +168,11 @@
 <li>Regressão linear e modelagem</li>
 <li>Análise multivariada</li>
 <li>Dados categóricos e métodos não-paramétricos</li>
+<li>Análise de sobrevivência</li>
+<li>Séries temporais: modelos ARIMA e SARIMA</li>
+<li>Modelos lineares generalizados e extensões</li>
+<li>Aprendizado de máquina com tidymodels</li>
+<li>Avaliação de modelos preditivos</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"rnp"</span><span class="op">)</span></span></code></pre></div>

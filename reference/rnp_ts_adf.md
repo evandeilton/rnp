@@ -1,7 +1,9 @@
 # Teste de Dickey-Fuller aumentado (ADF)
 
-Testa a presenca de raiz unitaria (H0: serie nao-estacionaria) pela
-regressao \$ y_t = + \\ y_t-1 + \_i y_t-i + \_t\$.
+Testa a presenca de raiz unitaria (H0: serie nao-estacionaria). Ajusta a
+regressao da serie diferenciada sobre o nivel defasado e sobre
+defasagens da propria diferenca (forma "aumentada"), e compara a
+estatistica do termo de nivel com valores criticos de Dickey-Fuller.
 
 ## Usage
 

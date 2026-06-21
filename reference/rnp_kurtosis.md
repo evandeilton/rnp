@@ -31,5 +31,5 @@ Escalar numerico.
 
 ``` r
 rnp_kurtosis(rnorm(1000))
-#> [1] 0.170976
+#> [1] -0.003408659
 ```

@@ -14,6 +14,7 @@
 <url><loc>https://evandeilton.github.io/rnp/articles/v08-series-arima.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v09-glm-gam.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v10-machine-learning.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/articles/v11-avaliacao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/authors.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/index.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/news/index.html</loc></url>
@@ -24,6 +25,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/index.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/pipe.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp-package.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_acuracia_diagnostica.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ajuste_distribuicao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_amostra_conglomerada.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_amostra_estratificada.html</loc></url>
@@ -46,9 +48,12 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bootstrap.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_bootstrap_parametrico.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_box_cox.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_brier.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cadeia_markov.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_calibracao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cluster_hierarquico.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_combinacao.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_comparar_roc.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_contrastes.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_correlacao_canonica.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_correlacao_parcial.html</loc></url>
@@ -57,6 +62,9 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cox.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cox_diagnosticos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cox_risco_relativo.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_ganho.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_lift.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_precisao_revocacao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_roc.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_dbc.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_descritiva.html</loc></url>
@@ -123,6 +131,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_kmeans.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_kmedoids.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_kruskal.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_ks_classificador.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_kurtosis.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_lda.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_lei_grandes_numeros.html</loc></url>
@@ -137,6 +146,8 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_media_movel.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_medias.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_metodo_momentos.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_metricas_classificacao.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_metricas_regressao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ml_ajustar.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ml_arvore.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ml_boosting.html</loc></url>

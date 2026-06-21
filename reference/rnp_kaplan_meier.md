@@ -1,6 +1,6 @@
 # Estimador de Kaplan-Meier
 
-Estima a funcao de sobrevivencia \$S(t) = P(T \> t)\$ pelo metodo de
+Estima a funcao de sobrevivencia S(t) = P(T \> t) pelo metodo de
 Kaplan-Meier, com intervalo de confianca, para uma ou varias curvas.
 
 ## Usage

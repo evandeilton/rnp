@@ -1,7 +1,6 @@
 # Risco acumulado de Nelson-Aalen
 
-Estima a funcao de risco acumulado \$H(t)\$ pelo estimador de
-Nelson-Aalen.
+Estima a funcao de risco acumulado H(t) pelo estimador de Nelson-Aalen.
 
 ## Usage
 

@@ -1,7 +1,8 @@
 # Modelo de volatilidade GARCH(1,1)
 
-Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais),
-\$\_t^2 = + \\\_t-1^2 + \\\_t-1^2\$.
+Ajusta um GARCH(1,1) por maxima verossimilhanca (inovacoes normais), em
+que a variancia condicional depende do quadrado do erro anterior e da
+variancia condicional anterior, com parametros omega, alpha e beta.
 
 ## Usage
 

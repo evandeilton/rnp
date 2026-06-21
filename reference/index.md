@@ -479,6 +479,31 @@ Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
 - [`rnp_ml_tunagem()`](https://evandeilton.github.io/rnp/reference/rnp_ml_tunagem.md)
   : Tunagem de hiperparametros
 
+## Avaliacao de Modelos
+
+Metricas, curvas, calibracao e comparacao de modelos.
+
+- [`rnp_metricas_classificacao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_classificacao.md)
+  : Metricas de classificacao
+- [`rnp_metricas_regressao()`](https://evandeilton.github.io/rnp/reference/rnp_metricas_regressao.md)
+  : Metricas de regressao
+- [`rnp_curva_lift()`](https://evandeilton.github.io/rnp/reference/rnp_curva_lift.md)
+  : Curva de lift
+- [`rnp_curva_ganho()`](https://evandeilton.github.io/rnp/reference/rnp_curva_ganho.md)
+  : Curva de ganho acumulado
+- [`rnp_calibracao()`](https://evandeilton.github.io/rnp/reference/rnp_calibracao.md)
+  : Calibracao de probabilidades
+- [`rnp_brier()`](https://evandeilton.github.io/rnp/reference/rnp_brier.md)
+  : Escore de Brier
+- [`rnp_ks_classificador()`](https://evandeilton.github.io/rnp/reference/rnp_ks_classificador.md)
+  : Estatistica KS de classificador
+- [`rnp_curva_precisao_revocacao()`](https://evandeilton.github.io/rnp/reference/rnp_curva_precisao_revocacao.md)
+  : Curva precisao-revocacao
+- [`rnp_comparar_roc()`](https://evandeilton.github.io/rnp/reference/rnp_comparar_roc.md)
+  : Comparacao de duas curvas ROC (teste de DeLong)
+- [`rnp_acuracia_diagnostica()`](https://evandeilton.github.io/rnp/reference/rnp_acuracia_diagnostica.md)
+  : Acuracia diagnostica
+
 ## Pre-processamento
 
 - [`rnp_padroniza()`](https://evandeilton.github.io/rnp/reference/rnp_padroniza.md)
