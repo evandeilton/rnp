@@ -22,3 +22,5 @@
   SARIMA](https://evandeilton.github.io/rnp/articles/v08-series-arima.md):
 - [9. Modelos lineares generalizados e
   extensões](https://evandeilton.github.io/rnp/articles/v09-glm-gam.md):
+- [10. Aprendizado de máquina com
+  tidymodels](https://evandeilton.github.io/rnp/articles/v10-machine-learning.md):

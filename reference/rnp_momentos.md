@@ -53,15 +53,15 @@ rnp_momentos(rnorm(500))
 #> # A tibble: 1 × 6
 #>     media variancia desvio_padrao assimetria curtose_excesso     n
 #>     <dbl>     <dbl>         <dbl>      <dbl>           <dbl> <dbl>
-#> 1 -0.0292      1.08          1.04     0.0386          -0.264   500
+#> 1 -0.0539     0.973         0.986      0.149          -0.504   500
 #> 
 #> $momentos
 #> # A tibble: 3 × 2
 #>   ordem momento_central
 #>   <int>           <dbl>
-#> 1     2          1.08  
-#> 2     3          0.0433
-#> 3     4          3.19  
+#> 1     2           0.971
+#> 2     3           0.143
+#> 3     4           2.35 
 #> 
 rnp_momentos(mtcars$mpg, ordem = 6)
 #> $resumo

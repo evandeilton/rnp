@@ -446,6 +446,39 @@ Kaplan-Meier, log-rank, Cox e modelos parametricos.
 - [`rnp_wilcoxon()`](https://evandeilton.github.io/rnp/reference/rnp_wilcoxon.md)
   : Teste de Wilcoxon para amostras pareadas
 
+## Aprendizado de Maquina (tidymodels)
+
+Particao, validacao cruzada, receitas, modelos, tunagem e comparacao.
+
+- [`rnp_ml_ajustar()`](https://evandeilton.github.io/rnp/reference/rnp_ml_ajustar.md)
+  : Ajusta e avalia um modelo na particao
+- [`rnp_ml_arvore()`](https://evandeilton.github.io/rnp/reference/rnp_ml_arvore.md)
+  : Especificacao de arvore de decisao
+- [`rnp_ml_boosting()`](https://evandeilton.github.io/rnp/reference/rnp_ml_boosting.md)
+  : Especificacao de gradient boosting
+- [`rnp_ml_comparar()`](https://evandeilton.github.io/rnp/reference/rnp_ml_comparar.md)
+  : Compara modelos por validacao cruzada
+- [`rnp_ml_cv()`](https://evandeilton.github.io/rnp/reference/rnp_ml_cv.md)
+  : Reamostras de validacao cruzada
+- [`rnp_ml_floresta()`](https://evandeilton.github.io/rnp/reference/rnp_ml_floresta.md)
+  : Especificacao de floresta aleatoria
+- [`rnp_ml_importancia()`](https://evandeilton.github.io/rnp/reference/rnp_ml_importancia.md)
+  : Importancia de variaveis
+- [`rnp_ml_knn()`](https://evandeilton.github.io/rnp/reference/rnp_ml_knn.md)
+  : Especificacao de k-vizinhos
+- [`rnp_ml_particao()`](https://evandeilton.github.io/rnp/reference/rnp_ml_particao.md)
+  : Particao treino/teste
+- [`rnp_ml_prever()`](https://evandeilton.github.io/rnp/reference/rnp_ml_prever.md)
+  : Predicao com modelo ajustado
+- [`rnp_ml_receita()`](https://evandeilton.github.io/rnp/reference/rnp_ml_receita.md)
+  : Receita de pre-processamento
+- [`rnp_ml_regularizada()`](https://evandeilton.github.io/rnp/reference/rnp_ml_regularizada.md)
+  : Especificacao de modelo linear regularizado (glmnet)
+- [`rnp_ml_svm()`](https://evandeilton.github.io/rnp/reference/rnp_ml_svm.md)
+  : Especificacao de SVM (kernel radial)
+- [`rnp_ml_tunagem()`](https://evandeilton.github.io/rnp/reference/rnp_ml_tunagem.md)
+  : Tunagem de hiperparametros
+
 ## Pre-processamento
 
 - [`rnp_padroniza()`](https://evandeilton.github.io/rnp/reference/rnp_padroniza.md)
