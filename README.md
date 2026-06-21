@@ -3,9 +3,10 @@
 # rnp
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/evandeilton/rnp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/evandeilton/rnp/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/evandeilton/rnp/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/evandeilton/rnp/actions/workflows/pkgdown.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Version](https://img.shields.io/badge/version-3.0.0-orange.svg)](https://github.com/evandeilton/rnp)
 <!-- badges: end -->
 
 ## R NA PRÁTICA
@@ -164,4 +165,4 @@ atender nas próximas atualizações.
 
 ## Licença
 
-GPL-3.
+MIT &copy; José E. Lopes.

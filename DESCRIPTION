@@ -15,7 +15,7 @@ Description: Reúne funções estatísticas usadas no projeto R NA PRÁTICA,
     implementadas em C++ por meio de Rcpp e RcppArmadillo. Inclui ainda
     ferramentas para leitura e tratamento dos microdados do censo do ensino
     superior do INEP.
-License: GPL-3 | file LICENSE
+License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)

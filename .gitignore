@@ -14,3 +14,6 @@ src/*.rds
 # Site pkgdown (gerado pelo CI)
 docs/
 docs
+REPOSITORY_ANALYSIS_REPORT.md
+.travis.yml
+TODO.md
