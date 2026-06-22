@@ -50,14 +50,17 @@ Other multivariada:
 
 ``` r
 rnp_correspondencia(table(mtcars$cyl, mtcars$gear))
-#> $inercia
+#> 
+#> ── Analise de correspondencia ──────────────────────────────────────────────────
+#> 
+#> ── Inercia 
 #> # A tibble: 2 × 3
 #>   dimensao inercia   prop
 #>      <int>   <dbl>  <dbl>
 #> 1        1  0.563  0.998 
 #> 2        2  0.0011 0.0019
 #> 
-#> $coord_linhas
+#> ── Coord linhas 
 #> # A tibble: 3 × 3
 #>   categoria   Dim1    Dim2
 #>   <chr>      <dbl>   <dbl>
@@ -65,12 +68,11 @@ rnp_correspondencia(table(mtcars$cyl, mtcars$gear))
 #> 2 6         -0.415 -0.0587
 #> 3 8          0.835  0.0069
 #> 
-#> $coord_colunas
+#> ── Coord colunas 
 #> # A tibble: 3 × 3
 #>   categoria    Dim1    Dim2
 #>   <chr>       <dbl>   <dbl>
 #> 1 3          0.746  -0.0123
 #> 2 4         -0.895  -0.016 
 #> 3 5         -0.0913  0.0754
-#> 
 ```

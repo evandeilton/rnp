@@ -519,6 +519,17 @@ Metricas, curvas, calibracao e comparacao de modelos.
 - [`rnp_dummy()`](https://evandeilton.github.io/rnp/reference/rnp_dummy.md)
   : Codificacao dummy (one-hot)
 
+## Classes e integracao com broom
+
+Metodos S3 dos resultados do rnp (impressao e tidy/glance do broom).
+
+- [`print(`*`<rnp_resultado>`*`)`](https://evandeilton.github.io/rnp/reference/print.rnp_resultado.md)
+  : Imprime um resultado do rnp
+- [`tidy(`*`<rnp_resultado>`*`)`](https://evandeilton.github.io/rnp/reference/tidy.rnp_resultado.md)
+  : Tabela de termos (tidy) de um resultado do rnp
+- [`glance(`*`<rnp_resultado>`*`)`](https://evandeilton.github.io/rnp/reference/glance.rnp_resultado.md)
+  : Resumo do ajuste (glance) de um resultado do rnp
+
 ## Dados e utilitarios
 
 - [`rnp_read()`](https://evandeilton.github.io/rnp/reference/rnp_read.md)
@@ -531,6 +542,12 @@ Metricas, curvas, calibracao e comparacao de modelos.
   : Download dados do INEP
 - [`rnp_aplica_classes()`](https://evandeilton.github.io/rnp/reference/rnp_aplica_classes.md)
   : Aplica classes do dicionario INEP na base
+- [`rnp_concreto`](https://evandeilton.github.io/rnp/reference/rnp_concreto.md)
+  : Resistencia de corpos de prova de concreto (didatico)
+- [`rnp_defeitos`](https://evandeilton.github.io/rnp/reference/rnp_defeitos.md)
+  : Defeitos por lote de producao (didatico)
+- [`rnp_vida_util`](https://evandeilton.github.io/rnp/reference/rnp_vida_util.md)
+  : Tempo de vida de componentes (didatico)
 - [`dm_curso`](https://evandeilton.github.io/rnp/reference/dm_curso.md)
   : Dados do censo ensino superior INEP 2017 (Cursos)
 - [`dm_ies`](https://evandeilton.github.io/rnp/reference/dm_ies.md) :

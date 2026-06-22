@@ -2,7 +2,9 @@ pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  referencia-rapida: referencia-rapida.html
   rnp: rnp.html
+  solucoes: solucoes.html
   v01-descritiva: v01-descritiva.html
   v02-probabilidade: v02-probabilidade.html
   v03-inferencia: v03-inferencia.html
@@ -14,7 +16,7 @@ articles:
   v09-glm-gam: v09-glm-gam.html
   v10-machine-learning: v10-machine-learning.html
   v11-avaliacao: v11-avaliacao.html
-last_built: 2026-06-21T22:08Z
+last_built: 2026-06-22T02:28Z
 urls:
   reference: https://evandeilton.github.io/rnp/reference
   article: https://evandeilton.github.io/rnp/articles

@@ -39,7 +39,10 @@ lista:
 
 ``` r
 rnp_logistic(am ~ mpg + wt, mtcars)
-#> $coeficientes
+#> 
+#> ── Regressao logistica ─────────────────────────────────────────────────────────
+#> 
+#> ── Coeficientes 
 #> # A tibble: 3 × 8
 #>   termo  estimativa erro_padrao estatistica_z p_valor odds_ratio ic_inf   ic_sup
 #>   <chr>       <dbl>       <dbl>         <dbl>   <dbl>      <dbl>  <dbl>    <dbl>
@@ -47,10 +50,9 @@ rnp_logistic(am ~ mpg + wt, mtcars)
 #> 2 mpg        -0.324       0.240         -1.35  0.176    7.23e- 1  0.452 1.16e+ 0
 #> 3 wt         -6.42        2.55          -2.52  0.0118   1.6 e- 3  0     2.40e- 1
 #> 
-#> $modelo
+#> ── Modelo 
 #> # A tibble: 1 × 5
 #>     aic null_deviance residual_deviance  nobs df_residuos
 #>   <dbl>         <dbl>             <dbl> <int>       <int>
 #> 1  23.2          43.2              17.2    32          29
-#> 
 ```

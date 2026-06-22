@@ -34,6 +34,9 @@ estacionaria. Usa backend C++ (RcppArmadillo)."></head><body>
     <li><a class="dropdown-item" href="../articles/v09-glm-gam.html">9. Modelos lineares generalizados</a></li>
     <li><a class="dropdown-item" href="../articles/v10-machine-learning.html">10. Aprendizado de máquina (tidymodels)</a></li>
     <li><a class="dropdown-item" href="../articles/v11-avaliacao.html">11. Avaliação de modelos preditivos</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/solucoes.html">Soluções dos exercícios (caps. 1-2)</a></li>
+    <li><a class="dropdown-item" href="../articles/referencia-rapida.html">Referência rápida (cheatsheet)</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -115,25 +118,23 @@ inteiro do estado de partida.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rnp_cadeia_markov</span><span class="op">(</span><span class="va">P</span>, estado_inicial <span class="op">=</span> <span class="fl">1</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $distribuicao_n</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Cadeia de Markov</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Distribuicao n </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   estado probabilidade</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> E1             0.833</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> E2             0.167</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $estacionaria</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Estacionaria </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   estado probabilidade</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> E1             0.833</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> E2             0.167</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $matriz_n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        [,1]   [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.8334 0.1666</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.8332 0.1668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Matriz n</span>: <span style="color: #0000BB;">0.8334</span>, <span style="color: #0000BB;">0.8332</span>, <span style="color: #0000BB;">0.1666</span>, and <span style="color: #0000BB;">0.1668</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

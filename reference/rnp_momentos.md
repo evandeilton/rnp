@@ -49,28 +49,33 @@ Other descritiva:
 
 ``` r
 rnp_momentos(rnorm(500))
-#> $resumo
+#> 
+#> ── Momentos amostrais ──────────────────────────────────────────────────────────
+#> 
+#> ── Resumo 
 #> # A tibble: 1 × 6
 #>     media variancia desvio_padrao assimetria curtose_excesso     n
 #>     <dbl>     <dbl>         <dbl>      <dbl>           <dbl> <dbl>
 #> 1 -0.0539     0.973         0.986      0.149          -0.504   500
 #> 
-#> $momentos
+#> ── Momentos 
 #> # A tibble: 3 × 2
 #>   ordem momento_central
 #>   <int>           <dbl>
 #> 1     2           0.971
 #> 2     3           0.143
 #> 3     4           2.35 
-#> 
 rnp_momentos(mtcars$mpg, ordem = 6)
-#> $resumo
+#> 
+#> ── Momentos amostrais ──────────────────────────────────────────────────────────
+#> 
+#> ── Resumo 
 #> # A tibble: 1 × 6
 #>   media variancia desvio_padrao assimetria curtose_excesso     n
 #>   <dbl>     <dbl>         <dbl>      <dbl>           <dbl> <dbl>
 #> 1  20.1      36.3          6.03      0.640          -0.200    32
 #> 
-#> $momentos
+#> ── Momentos 
 #> # A tibble: 5 × 2
 #>   ordem momento_central
 #>   <int>           <dbl>
@@ -79,5 +84,4 @@ rnp_momentos(mtcars$mpg, ordem = 6)
 #> 3     4          3466. 
 #> 4     5         26134. 
 #> 5     6        465163. 
-#> 
 ```

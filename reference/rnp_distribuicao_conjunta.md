@@ -51,24 +51,26 @@ Other probabilidade:
 p <- matrix(c(0.1, 0.2, 0.2, 0.5), 2, 2,
             dimnames = list(c("0", "1"), c("0", "1")))
 rnp_distribuicao_conjunta(p)
-#> $marginal_x
+#> 
+#> ── Distribuicao conjunta discreta ──────────────────────────────────────────────
+#> 
+#> ── Marginal x 
 #> # A tibble: 2 × 2
 #>       x     p
 #>   <dbl> <dbl>
 #> 1     0   0.3
 #> 2     1   0.7
 #> 
-#> $marginal_y
+#> ── Marginal y 
 #> # A tibble: 2 × 2
 #>       y     p
 #>   <dbl> <dbl>
 #> 1     0   0.3
 #> 2     1   0.7
 #> 
-#> $resumo
+#> ── Resumo 
 #> # A tibble: 1 × 6
 #>     e_x   e_y var_x var_y cov_xy cor_xy
 #>   <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl>
 #> 1   0.7   0.7  0.21  0.21   0.01 0.0476
-#> 
 ```

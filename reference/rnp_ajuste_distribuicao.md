@@ -55,30 +55,34 @@ Other distribuicoes:
 ``` r
 set.seed(1)
 rnp_ajuste_distribuicao(rexp(200, 0.5), "exp")
-#> $parametros
+#> 
+#> ── Ajuste de distribuicao ──────────────────────────────────────────────────────
+#> 
+#> ── Parametros 
 #> # A tibble: 1 × 2
 #>   parametro estimativa
 #>   <chr>          <dbl>
 #> 1 rate             0.5
 #> 
-#> $qualidade
+#> ── Qualidade 
 #> # A tibble: 1 × 5
 #>   log_veross   aic   bic ks_estatistica     n
 #>        <dbl> <dbl> <dbl>          <dbl> <int>
 #> 1      -339.  679.  683.         0.0695   200
-#> 
 rnp_ajuste_distribuicao(rnorm(200, 10, 2), "norm")
-#> $parametros
+#> 
+#> ── Ajuste de distribuicao ──────────────────────────────────────────────────────
+#> 
+#> ── Parametros 
 #> # A tibble: 2 × 2
 #>   parametro estimativa
 #>   <chr>          <dbl>
 #> 1 mean           10.0 
 #> 2 sd              1.99
 #> 
-#> $qualidade
+#> ── Qualidade 
 #> # A tibble: 1 × 5
 #>   log_veross   aic   bic ks_estatistica     n
 #>        <dbl> <dbl> <dbl>          <dbl> <int>
 #> 1      -421.  846.  852.         0.0532   200
-#> 
 ```

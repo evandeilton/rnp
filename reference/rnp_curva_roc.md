@@ -40,7 +40,10 @@ lista:
 obs <- sample(0:1, 100, TRUE)
 esc <- runif(100)
 rnp_curva_roc(obs, esc, positivo = 1)
-#> $curva
+#> 
+#> ── Curva ROC ───────────────────────────────────────────────────────────────────
+#> 
+#> ── Curva 
 #> # A tibble: 100 × 3
 #>       fpr    tpr limiar
 #>     <dbl>  <dbl>  <dbl>
@@ -55,8 +58,5 @@ rnp_curva_roc(obs, esc, positivo = 1)
 #>  9 0.130  0.0556  0.902
 #> 10 0.152  0.0556  0.901
 #> # ℹ 90 more rows
-#> 
-#> $auc
-#> [1] 0.4622
-#> 
+#> Auc: 0.4622
 ```

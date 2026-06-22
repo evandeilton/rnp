@@ -58,23 +58,21 @@ Other probabilidade:
 ``` r
 P <- matrix(c(0.9, 0.1, 0.5, 0.5), 2, 2, byrow = TRUE)
 rnp_cadeia_markov(P, estado_inicial = 1, n = 10)
-#> $distribuicao_n
+#> 
+#> ── Cadeia de Markov ────────────────────────────────────────────────────────────
+#> 
+#> ── Distribuicao n 
 #> # A tibble: 2 × 2
 #>   estado probabilidade
 #>   <chr>          <dbl>
 #> 1 E1             0.833
 #> 2 E2             0.167
 #> 
-#> $estacionaria
+#> ── Estacionaria 
 #> # A tibble: 2 × 2
 #>   estado probabilidade
 #>   <chr>          <dbl>
 #> 1 E1             0.833
 #> 2 E2             0.167
-#> 
-#> $matriz_n
-#>        [,1]   [,2]
-#> [1,] 0.8334 0.1666
-#> [2,] 0.8332 0.1668
-#> 
+#> Matriz n: 0.8334, 0.8332, 0.1666, and 0.1668
 ```

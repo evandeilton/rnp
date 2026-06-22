@@ -32,7 +32,10 @@ lista:
 
 ``` r
 rnp_na_summary(airquality)
-#> $por_variavel
+#> 
+#> ── Resumo de valores faltantes ─────────────────────────────────────────────────
+#> 
+#> ── Por variavel 
 #> # A tibble: 6 × 3
 #>   variavel n_faltantes percentual
 #>   <chr>          <dbl>      <dbl>
@@ -43,7 +46,7 @@ rnp_na_summary(airquality)
 #> 5 Month              0     0     
 #> 6 Day                0     0     
 #> 
-#> $por_observacao
+#> ── Por observacao 
 #> # A tibble: 153 × 3
 #>    observacao n_faltantes percentual
 #>         <dbl>       <dbl>      <dbl>
@@ -59,7 +62,7 @@ rnp_na_summary(airquality)
 #> 10         10           1      0.167
 #> # ℹ 143 more rows
 #> 
-#> $padrao
+#> ── Padrao 
 #> # A tibble: 4 × 7
 #>   Ozone Solar.R Wind  Temp  Month Day   n_casos
 #>   <lgl> <lgl>   <lgl> <lgl> <lgl> <lgl>   <int>
@@ -67,5 +70,4 @@ rnp_na_summary(airquality)
 #> 2 TRUE  FALSE   FALSE FALSE FALSE FALSE      35
 #> 3 FALSE TRUE    FALSE FALSE FALSE FALSE       5
 #> 4 TRUE  TRUE    FALSE FALSE FALSE FALSE       2
-#> 
 ```

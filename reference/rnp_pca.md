@@ -44,19 +44,11 @@ lista:
 
 ``` r
 rnp_pca(mtcars[, c("mpg", "disp", "hp", "drat", "wt")])
-#> $modelo
-#> Standard deviations (1, .., p=5):
-#> [1] 1.9934606 0.7526721 0.4890913 0.3924589 0.2576149
 #> 
-#> Rotation (n x k) = (5 x 5):
-#>             PC1         PC2         PC3         PC4        PC5
-#> mpg  -0.4719709 -0.09743715 -0.19821649 -0.76775219  0.3728489
-#> disp  0.4790761  0.06348781  0.07814653 -0.62034112 -0.6128013
-#> hp    0.4140853  0.66047596 -0.51226556 -0.03178103  0.3589970
-#> drat -0.3970202  0.73067732  0.54053149 -0.04606744 -0.1191179
-#> wt    0.4675874 -0.12789626  0.63246585 -0.15033707  0.5851413
+#> ── Analise de componentes principais (PCA) ─────────────────────────────────────
+#> Modelo: objeto <prcomp>
 #> 
-#> $scores
+#> ── Scores 
 #> # A tibble: 32 × 5
 #>       PC1     PC2     PC3     PC4     PC5
 #>     <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
@@ -72,7 +64,7 @@ rnp_pca(mtcars[, c("mpg", "disp", "hp", "drat", "wt")])
 #> 10 -0.451  0.167   0.637   0.378   0.194 
 #> # ℹ 22 more rows
 #> 
-#> $loadings
+#> ── Loadings 
 #> # A tibble: 5 × 6
 #>   variavel    PC1     PC2     PC3     PC4    PC5
 #>   <chr>     <dbl>   <dbl>   <dbl>   <dbl>  <dbl>
@@ -82,7 +74,7 @@ rnp_pca(mtcars[, c("mpg", "disp", "hp", "drat", "wt")])
 #> 4 4        -0.397  0.731   0.540  -0.0461 -0.119
 #> 5 5         0.468 -0.128   0.632  -0.150   0.585
 #> 
-#> $variancia
+#> ── Variancia 
 #> # A tibble: 5 × 4
 #>   componente variancia percentual acumulada
 #>   <chr>          <dbl>      <dbl>     <dbl>
@@ -91,5 +83,4 @@ rnp_pca(mtcars[, c("mpg", "disp", "hp", "drat", "wt")])
 #> 3 PC3           0.239      0.0478     0.956
 #> 4 PC4           0.154      0.0308     0.987
 #> 5 PC5           0.0664     0.0133     1    
-#> 
 ```

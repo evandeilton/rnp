@@ -3,7 +3,9 @@
 <url><loc>https://evandeilton.github.io/rnp/LICENSE-text.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/LICENSE.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/index.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/articles/referencia-rapida.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/rnp.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/articles/solucoes.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v01-descritiva.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v02-probabilidade.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/articles/v03-inferencia.html</loc></url>
@@ -22,8 +24,11 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/dm_docente.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/dm_ies.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/dm_local.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/glance.rnp_resultado.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/index.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/pipe.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/print.rnp_resultado.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/reexports.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp-package.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_acuracia_diagnostica.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ajuste_distribuicao.html</loc></url>
@@ -54,6 +59,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_cluster_hierarquico.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_combinacao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_comparar_roc.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_concreto.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_contrastes.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_correlacao_canonica.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_correlacao_parcial.html</loc></url>
@@ -67,6 +73,7 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_precisao_revocacao.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_curva_roc.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_dbc.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_defeitos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_descritiva.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_descritiva_by.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_discretiza.html</loc></url>
@@ -253,8 +260,10 @@
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ts_residuos.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_ts_var.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_tukey_hsd.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/rnp_vida_util.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_vif.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_wilcoxon.html</loc></url>
 <url><loc>https://evandeilton.github.io/rnp/reference/rnp_winsoriza.html</loc></url>
+<url><loc>https://evandeilton.github.io/rnp/reference/tidy.rnp_resultado.html</loc></url>
 </urlset>
 

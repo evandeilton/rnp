@@ -1,0 +1,137 @@
+# Referência rápida (cheatsheet)
+
+Resumo das funções do `rnp` por área. Todas seguem o prefixo `rnp_`,
+retornam `tibble` (ou objetos `rnp_resultado`, com
+`print`/`tidy`/`glance`) e os gráficos usam `ggplot2`. Os exemplos
+abaixo são ilustrativos.
+
+## Conjuntos de dados didáticos
+
+``` r
+
+rnp_concreto    # resistência de concreto (descritiva, ANOVA, regressão)
+rnp_defeitos    # defeitos por lote (Poisson, categóricos)
+rnp_vida_util   # tempo de vida com censura (sobrevivência)
+```
+
+## Descritiva e exploratória
+
+| Função | Uso |
+|----|----|
+| `rnp_descritiva(x)` | medidas-resumo completas |
+| `rnp_descritiva_by(base, var, grupos)` | resumo por grupo |
+| `rnp_momentos(x)` | média, variância, assimetria, curtose |
+| `rnp_medias(x)` | aritmética, geométrica, harmônica, quadrática |
+| `rnp_outliers(x, method)` | outliers (IQR, z, modz, chebyshev) |
+| `rnp_tabela_frequencia(x)` / `rnp_tabela_classes(x)` | frequências |
+| `rnp_grafico_histograma/_boxplot/_dispersao/_qq(...)` | gráficos |
+
+## Probabilidade e distribuições
+
+``` r
+
+rnp_distribuicao_normal("p", q = 1.96)             # P(Z <= 1.96)
+rnp_distribuicao_poisson("d", x = 0:5, lambda = 3) # massa
+rnp_esperanca_var("binom", size = 10, prob = 0.3)  # E[X], Var[X]
+rnp_bayes(priori, verossimilhanca)                 # Teorema de Bayes
+rnp_tcl_simulacao(gerador, n = 30)                 # Teorema Central do Limite
+rnp_ajuste_distribuicao(x, "weibull")              # ajuste por MLE
+```
+
+## Inferência
+
+``` r
+
+rnp_ic_media(x);  rnp_ic_proporcao(s, n);  rnp_ic_variancia(x)
+rnp_teste_t(x, mu = 0);  rnp_teste_t(x, y)         # 1 ou 2 amostras
+rnp_emv(log_veross, inicio)                        # máxima verossimilhança
+rnp_bootstrap(x, "mediana");  rnp_ic_bootstrap(x)  # reamostragem
+rnp_teste_permutacao(x, y)                         # não-paramétrico
+rnp_poder_teste(efeito, n);  rnp_tamanho_amostra_teste(efeito, poder)
+```
+
+## Regressão e modelagem
+
+``` r
+
+rnp_regressao(y ~ x1 + x2, dados)                  # linear
+rnp_regressao_diagnosticos(fit);  rnp_vif(fit)     # diagnóstico
+rnp_regressao_ridge(...);  rnp_regressao_lasso(...);  rnp_elastic_net(...)
+rnp_logistic(y ~ x, dados);  rnp_curva_roc(obs, prob)
+rnp_predicao(fit, novos, tipo = "predicao")        # IC vs predição
+tidy(fit);  glance(fit)                            # integração broom
+```
+
+## GLM, mistos e aditivos
+
+``` r
+
+rnp_glm(y ~ x, dados, familia = "poisson")
+rnp_binomial_negativa(y ~ x, dados)                # superdispersão
+rnp_regressao_ordinal(y ~ x, dados)                # odds proporcionais
+rnp_modelo_misto(y ~ x, dados, aleatorio = ~1|g)   # efeitos mistos
+rnp_gam(y ~ s(x), dados)                           # aditivo
+```
+
+## Multivariada
+
+``` r
+
+rnp_pca(base);  rnp_biplot(p);  rnp_matriz_correlacao(base)
+rnp_kmeans(base, k);  rnp_cluster_hierarquico(base, k);  rnp_silhueta(base, cl)
+rnp_lda(grupo ~ ., dados);  rnp_hotelling(X, Y);  rnp_manova(...)
+```
+
+## Séries temporais
+
+``` r
+
+rnp_arima(x, c(p, d, q));  rnp_sarima(...);  rnp_auto_arima(x)
+rnp_ts_adf(x);  rnp_ts_kpss(x);  rnp_ts_residuos(modelo)
+rnp_ts_previsao(modelo, h = 12);  rnp_ts_garch(x);  rnp_ts_var(dados, p)
+```
+
+## Sobrevivência
+
+``` r
+
+rnp_kaplan_meier(tempo, evento, grupo);  rnp_log_rank(tempo, evento, grupo)
+rnp_cox(Surv(tempo, evento) ~ x, dados);  rnp_cox_diagnosticos(fit)
+rnp_sobrevivencia_parametrica(..., dist = "weibull")
+```
+
+## Machine learning (tidymodels)
+
+``` r
+
+sp <- rnp_ml_particao(dados, estrato = "y")
+cv <- rnp_ml_cv(dados, v = 10)
+rnp_ml_ajustar(rnp_ml_arvore("classificacao"), y ~ ., sp)
+rnp_ml_tunagem(spec, y ~ ., cv);  rnp_ml_comparar(specs, y ~ ., cv)
+```
+
+## Avaliação de modelos
+
+``` r
+
+rnp_metricas_classificacao(obs, pred);  rnp_metricas_regressao(obs, pred)
+rnp_calibracao(obs, prob);  rnp_brier(obs, prob);  rnp_ks_classificador(obs, prob)
+rnp_comparar_roc(obs, prob1, prob2)                # teste de DeLong
+```
+
+## Dados categóricos e não-paramétrica
+
+``` r
+
+rnp_teste_qui_quadrado(x, y);  rnp_teste_fisher(tab)
+rnp_odds_ratio(tab);  rnp_risco_relativo(tab);  rnp_kappa(a1, a2)
+rnp_mann_whitney(x, y);  rnp_wilcoxon(x, y);  rnp_kruskal(x, g)
+```
+
+## Pré-processamento
+
+``` r
+
+rnp_padroniza(x);  rnp_normaliza(x);  rnp_winsoriza(x, p = 0.05)
+rnp_imputa(base, metodo = "knn");  rnp_discretiza(x, k);  rnp_dummy(base)
+```

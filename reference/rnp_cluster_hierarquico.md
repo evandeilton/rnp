@@ -71,17 +71,11 @@ Other multivariada:
 
 ``` r
 rnp_cluster_hierarquico(mtcars[, c("mpg", "hp", "wt")], k = 3)
-#> $modelo
 #> 
-#> Call:
-#> stats::hclust(d = d, method = metodo_lig)
+#> ── Cluster hierarquico ─────────────────────────────────────────────────────────
+#> Modelo: objeto <hclust>
 #> 
-#> Cluster method   : complete 
-#> Distance         : euclidean 
-#> Number of objects: 32 
-#> 
-#> 
-#> $grupos
+#> ── Grupos 
 #> # A tibble: 32 × 2
 #>    observacao grupo
 #>         <int> <int>
@@ -96,8 +90,5 @@ rnp_cluster_hierarquico(mtcars[, c("mpg", "hp", "wt")], k = 3)
 #>  9          9     1
 #> 10         10     1
 #> # ℹ 22 more rows
-#> 
-#> $altura_cortes
-#> [1] 5.7831 4.0573 2.6900
-#> 
+#> Altura cortes: 5.7831, 4.0573, and 2.69
 ```

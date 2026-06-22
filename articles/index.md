@@ -2,8 +2,12 @@
 
 ### All vignettes
 
+- [Referência rápida
+  (cheatsheet)](https://evandeilton.github.io/rnp/articles/referencia-rapida.md):
 - [Introdução ao
   rnp](https://evandeilton.github.io/rnp/articles/rnp.md):
+- [Soluções comentadas dos exercícios (capítulos 1 e
+  2)](https://evandeilton.github.io/rnp/articles/solucoes.md):
 - [1. Estatística descritiva e análise
   exploratória](https://evandeilton.github.io/rnp/articles/v01-descritiva.md):
 - [2. Probabilidade, distribuições e os teoremas

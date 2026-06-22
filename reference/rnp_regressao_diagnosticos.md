@@ -38,7 +38,10 @@ lista:
 ``` r
 fit <- lm(mpg ~ wt + hp, mtcars)
 rnp_regressao_diagnosticos(fit)
-#> $pontos
+#> 
+#> ── Diagnosticos de regressao ───────────────────────────────────────────────────
+#> 
+#> ── Pontos 
 #> # A tibble: 32 × 12
 #>    indice residuo studentizado    hat cooks_d  dffits dfbeta_1 dfbeta_2 dfbeta_3
 #>     <int>   <dbl>        <dbl>  <dbl>   <dbl>   <dbl>    <dbl>    <dbl>    <dbl>
@@ -55,12 +58,11 @@ rnp_regressao_diagnosticos(fit)
 #> # ℹ 22 more rows
 #> # ℹ 3 more variables: leverage_alta <lgl>, cooks_alto <lgl>, outlier_t <lgl>
 #> 
-#> $testes
+#> ── Testes 
 #> # A tibble: 3 × 4
 #>   teste                   estatistica p_valor interpretacao                   
 #>   <chr>                         <dbl>   <dbl> <chr>                           
 #> 1 shapiro-wilk (residuos)       0.928  0.0343 Rejeita normalidade             
 #> 2 breusch-pagan                10.2    0.006  Heterocedasticidade             
 #> 3 durbin-watson                 1.36  NA      Possivel autocorrelacao positiva
-#> 
 ```

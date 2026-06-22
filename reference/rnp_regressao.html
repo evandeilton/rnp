@@ -32,6 +32,9 @@ estatistica-F global e residuos."></head><body>
     <li><a class="dropdown-item" href="../articles/v09-glm-gam.html">9. Modelos lineares generalizados</a></li>
     <li><a class="dropdown-item" href="../articles/v10-machine-learning.html">10. Aprendizado de máquina (tidymodels)</a></li>
     <li><a class="dropdown-item" href="../articles/v11-avaliacao.html">11. Avaliação de modelos preditivos</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/solucoes.html">Soluções dos exercícios (caps. 1-2)</a></li>
+    <li><a class="dropdown-item" href="../articles/referencia-rapida.html">Referência rápida (cheatsheet)</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -97,20 +100,22 @@ sigma, gl_residuos, nobs.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rnp_regressao</span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span>, <span class="va">mtcars</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $coeficientes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Regressao linear</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Coeficientes </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   termo       estimativa erro_padrao estatistica_t p_valor  ic_inf  ic_sup</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> (Intercept)    37.2          1.60          23.3   0      34.0    40.5   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> wt             -<span style="color: #BB0000;">3.88</span>         0.633         -<span style="color: #BB0000;">6.13</span>  0      -<span style="color: #BB0000;">5.17</span>   -<span style="color: #BB0000;">2.58</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> hp             -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">8</span>       0.009         -<span style="color: #BB0000;">3.52</span>  0.001<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.050</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $modelo</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Modelo </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      r2 r2_ajustado f_statistic f_pvalor sigma gl_residuos  nobs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.827       0.815        69.2        0  2.59          29    32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

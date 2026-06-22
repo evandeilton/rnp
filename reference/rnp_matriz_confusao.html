@@ -30,6 +30,9 @@
     <li><a class="dropdown-item" href="../articles/v09-glm-gam.html">9. Modelos lineares generalizados</a></li>
     <li><a class="dropdown-item" href="../articles/v10-machine-learning.html">10. Aprendizado de máquina (tidymodels)</a></li>
     <li><a class="dropdown-item" href="../articles/v11-avaliacao.html">11. Avaliação de modelos preditivos</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/solucoes.html">Soluções dos exercícios (caps. 1-2)</a></li>
+    <li><a class="dropdown-item" href="../articles/referencia-rapida.html">Referência rápida (cheatsheet)</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -95,18 +98,15 @@ precisao, f1, acuracia, prevalence, npv.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sim"</span>, <span class="st">"Nao"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sim"</span>, <span class="st">"Nao"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">rnp_matriz_confusao</span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span>, positivo <span class="op">=</span> <span class="st">"Sim"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $matriz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      pred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obs   Nao Sim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Nao  19  30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Sim  33  18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $metricas</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Matriz de confusao</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Matriz</span>: <span style="color: #0000BB;">19</span>, <span style="color: #0000BB;">33</span>, <span style="color: #0000BB;">30</span>, and <span style="color: #0000BB;">18</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Metricas </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sensibilidade especificidade precisao   npv    f1 acuracia prevalencia     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>         0.353          0.388    0.375 0.365 0.364     0.37        0.51   100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

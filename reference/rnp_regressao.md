@@ -41,7 +41,10 @@ lista com:
 
 ``` r
 rnp_regressao(mpg ~ wt + hp, mtcars)
-#> $coeficientes
+#> 
+#> ── Regressao linear ────────────────────────────────────────────────────────────
+#> 
+#> ── Coeficientes 
 #> # A tibble: 3 × 7
 #>   termo       estimativa erro_padrao estatistica_t p_valor  ic_inf  ic_sup
 #>   <chr>            <dbl>       <dbl>         <dbl>   <dbl>   <dbl>   <dbl>
@@ -49,10 +52,9 @@ rnp_regressao(mpg ~ wt + hp, mtcars)
 #> 2 wt             -3.88         0.633         -6.13  0      -5.17   -2.58  
 #> 3 hp             -0.0318       0.009         -3.52  0.0015 -0.0502 -0.0133
 #> 
-#> $modelo
+#> ── Modelo 
 #> # A tibble: 1 × 7
 #>      r2 r2_ajustado f_statistic f_pvalor sigma gl_residuos  nobs
 #>   <dbl>       <dbl>       <dbl>    <dbl> <dbl>       <int> <int>
 #> 1 0.827       0.815        69.2        0  2.59          29    32
-#> 
 ```

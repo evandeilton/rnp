@@ -50,21 +50,12 @@ Other multivariada:
 
 ``` r
 rnp_matriz_correlacao(mtcars[, c("mpg", "hp", "wt", "disp")])
-#> $matriz
-#>          mpg      hp      wt    disp
-#> mpg   1.0000 -0.7762 -0.8677 -0.8476
-#> hp   -0.7762  1.0000  0.6587  0.7909
-#> wt   -0.8677  0.6587  1.0000  0.8880
-#> disp -0.8476  0.7909  0.8880  1.0000
 #> 
-#> $p_valores
-#>      mpg hp wt disp
-#> mpg    0  0  0    0
-#> hp     0  0  0    0
-#> wt     0  0  0    0
-#> disp   0  0  0    0
+#> ── Matriz de correlacao ────────────────────────────────────────────────────────
+#> Matriz: vetor de 16 valores
+#> P valores: vetor de 16 valores
 #> 
-#> $tidy
+#> ── Tidy 
 #> # A tibble: 16 × 4
 #>    var1  var2  correlacao p_valor
 #>    <chr> <chr>      <dbl>   <dbl>
@@ -84,5 +75,4 @@ rnp_matriz_correlacao(mtcars[, c("mpg", "hp", "wt", "disp")])
 #> 14 hp    disp       0.791       0
 #> 15 wt    disp       0.888       0
 #> 16 disp  disp       1           0
-#> 
 ```
