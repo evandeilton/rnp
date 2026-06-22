@@ -239,6 +239,12 @@ reference:
   - rnp_imputa
   - rnp_discretiza
   - rnp_dummy
+- title: Classes e integracao com broom
+  desc: Metodos S3 dos resultados do rnp (impressao e tidy/glance do broom).
+  contents:
+  - print.rnp_resultado
+  - tidy.rnp_resultado
+  - glance.rnp_resultado
 - title: Dados e utilitarios
   contents:
   - rnp_read
