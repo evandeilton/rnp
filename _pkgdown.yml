@@ -51,7 +51,7 @@ navbar:
       - text: 11. Avaliação de modelos preditivos
         href: articles/v11-avaliacao.html
       - text: '---'
-      - text: Soluções dos exercícios (caps. 1-2)
+      - text: Soluções dos exercícios
         href: articles/solucoes.html
       - text: Referência rápida (cheatsheet)
         href: articles/referencia-rapida.html

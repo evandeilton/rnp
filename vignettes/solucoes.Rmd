@@ -1,9 +1,9 @@
 ---
-title: "Soluções comentadas dos exercícios (capítulos 1 e 2)"
+title: "Soluções comentadas dos exercícios"
 output: rmarkdown::html_vignette
 bibliography: referencias.bib
 vignette: >
-  %\VignetteIndexEntry{Soluções comentadas dos exercícios (capítulos 1 e 2)}
+  %\VignetteIndexEntry{Soluções comentadas dos exercícios}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,15 +13,24 @@ knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 4,
   fig.align = "center", message = FALSE, warning = FALSE
 )
-library(rnp)
+suppressPackageStartupMessages({
+  library(rnp)
+  library(MASS)
+  library(survival)
+})
 aq <- airquality[stats::complete.cases(airquality), ]
+# Os exercícios de aprendizado de máquina dependem dos motores do tidymodels
+# (Suggests). Quando ausentes, o código é exibido sem ser executado.
+tem_ml <- all(vapply(c("parsnip", "rsample", "tune", "rpart", "ranger",
+                       "glmnet", "kknn"), requireNamespace, logical(1),
+                     quietly = TRUE))
 ```
 
-Este gabarito resolve, com o `rnp`, os exercícios das vinhetas **1 (Descritiva e
-exploratória)** e **2 (Probabilidade e teoremas fundamentais)** — os dois
-capítulos introdutórios, alinhados a @montgomery2021. Cada solução traz o código
-e uma leitura curta do resultado. Os números são calculados na compilação, de
-modo que o que se lê aqui é exatamente o que o pacote produz.
+Este gabarito resolve, com o `rnp`, os exercícios propostos ao final das onze
+vinhetas-tutorial. Cada solução traz o código e uma leitura curta do resultado;
+os números são calculados na compilação, de modo que o que se lê aqui é
+exatamente o que o pacote produz. Os dois primeiros capítulos seguem o
+enquadramento de engenharia de @montgomery2021.
 
 # Capítulo 1 — Estatística descritiva
 
@@ -298,5 +307,976 @@ rnp_bayes(priori = c(0.02, 0.98), verossimilhanca = c(0.95, 1 - 0.90))
 
 Apesar da alta sensibilidade, a baixa prevalência faz o valor preditivo positivo
 ser modesto — o paradoxo clássico dos testes de rastreamento.
+
+# Capítulo 3 — Inferência estatística
+
+**1. Máxima verossimilhança de uma Normal para `mtcars$mpg`.**
+
+```{r c3-1}
+x <- mtcars$mpg
+rnp_emv(function(th) sum(dnorm(x, th[1], th[2], log = TRUE)),
+        inicio = c(20, 5), nomes = c("media", "desvio"))$estimativas
+```
+
+**2. Os mesmos parâmetros pelo método dos momentos.**
+
+```{r c3-2}
+rnp_metodo_momentos(x, "norm")
+```
+
+As estimativas coincidem com a média e o desvio amostrais — para a Normal, os
+dois métodos levam ao mesmo lugar.
+
+**3. Informação de Fisher e erro-padrão da média do IMC.**
+
+```{r c3-3}
+imc <- Pima.tr$bmi
+rnp_informacao_fisher(function(m) sum(dnorm(imc, m, sd(imc), log = TRUE)),
+                      theta = mean(imc))$erros_padrao
+```
+
+**4. IC de 95% e de 99% para a média de `mpg`.**
+
+```{r c3-4}
+rnp_ic_media(x, conf = 0.95)[, c("limite_inferior", "limite_superior")]
+rnp_ic_media(x, conf = 0.99)[, c("limite_inferior", "limite_superior")]
+```
+
+O intervalo de 99% é mais largo: maior confiança exige uma margem maior.
+
+**5. A pressão arterial média difere de 70?**
+
+```{r c3-5}
+rnp_teste_t(Pima.tr$bp, mu = 70)
+```
+
+**6. Comparação de `mpg` entre câmbio manual e automático.**
+
+```{r c3-6}
+rnp_teste_t(mtcars$mpg[mtcars$am == 1], mtcars$mpg[mtcars$am == 0])
+```
+
+**7. IC para a diferença de médias do item anterior.**
+
+```{r c3-7}
+rnp_ic_diff_medias(mtcars$mpg[mtcars$am == 1], mtcars$mpg[mtcars$am == 0])
+```
+
+**8. Teste t pareado em `sleep`.**
+
+```{r c3-8}
+rnp_teste_t(sleep$extra[sleep$group == 1], sleep$extra[sleep$group == 2],
+            pareado = TRUE)
+```
+
+**9. A mesma comparação por teste de permutação.**
+
+```{r c3-9}
+rnp_teste_permutacao(mtcars$mpg[mtcars$am == 1], mtcars$mpg[mtcars$am == 0])
+```
+
+O p-valor da permutação acompanha o do teste t, sem supor normalidade.
+
+**10. IC bootstrap percentil para a mediana de `hp`.**
+
+```{r c3-10}
+rnp_ic_bootstrap(mtcars$hp, "mediana", tipo = "percentil")
+```
+
+**11. Comparação de métodos de IC bootstrap para a média de `wt`.**
+
+```{r c3-11}
+rbind(rnp_ic_bootstrap(mtcars$wt, "media", tipo = "percentil"),
+      rnp_ic_bootstrap(mtcars$wt, "media", tipo = "basico"),
+      rnp_ic_bootstrap(mtcars$wt, "media", tipo = "bca"))
+```
+
+**12. IC de 95% para a variância de `qsec`.**
+
+```{r c3-12}
+rnp_ic_variancia(mtcars$qsec)
+```
+
+**13. Tamanho de amostra e curva de poder ($d = 0{,}3$, poder 0,80).**
+
+```{r c3-13}
+rnp_tamanho_amostra_teste(efeito = 0.3, poder = 0.80)
+rnp_poder_teste(efeito = 0.3, n = 100)$grafico
+```
+
+**14. Normalidade de `chickwts$weight` por três métodos.**
+
+```{r c3-14}
+rnp_teste_normalidade(chickwts$weight)
+```
+
+**15. Teste de Wald e razão de verossimilhanças.**
+
+```{r c3-15}
+m1 <- glm(am ~ wt + hp, mtcars, family = binomial())
+m0 <- glm(am ~ wt,      mtcars, family = binomial())
+rnp_teste_wald(m1)
+rnp_teste_razao_veross(m1, m0)
+```
+
+**16. Atualização Beta(1,1) com 8 sucessos em 10 ensaios.**
+
+```{r c3-16}
+rnp_bayes_conjugada("beta_binomial", priori = c(a = 1, b = 1),
+                    dados = list(sucessos = 8, n = 10))
+```
+
+# Capítulo 4 — Regressão e modelagem
+
+**1. Ajuste `medv ~ rm + lstat + crim`.**
+
+```{r c4-1}
+ajuste <- rnp_regressao(medv ~ rm + lstat + crim, Boston)
+ajuste$coeficientes
+```
+
+Cada quarto adicional (`rm`) eleva o valor mediano em cerca de 5 mil dólares,
+mantidos os demais preditores.
+
+**2. Fração da variância explicada.**
+
+```{r c4-2}
+ajuste$modelo[, c("r2", "r2_ajustado")]
+```
+
+**3. Diagnóstico gráfico dos resíduos.**
+
+```{r c4-3}
+rnp_grafico_residuos(lm(medv ~ rm + lstat + crim, Boston))$residuo_ajustado
+```
+
+**4. Testes formais de pressupostos.**
+
+```{r c4-4}
+rnp_regressao_diagnosticos(medv ~ rm + lstat + crim, Boston)$testes
+```
+
+**5. VIF: há colinearidade?**
+
+```{r c4-5}
+rnp_vif(lm(medv ~ rm + tax + rad + age, Boston))
+```
+
+Valores próximos de 1–2 indicam colinearidade modesta entre esses preditores.
+
+**6. Ridge e lasso no mesmo modelo.**
+
+```{r c4-6}
+rnp_regressao_lasso(medv ~ rm + lstat + crim, Boston)
+```
+
+**7. Efeito da penalização sobre os coeficientes.**
+
+```{r c4-7}
+rnp_regressao_ridge(medv ~ rm + lstat + crim, Boston)
+```
+
+Aumentar a penalização encolhe os coeficientes em direção a zero; o lasso pode
+zerá-los, o ridge apenas os reduz.
+
+**8. `dist ~ speed`: linear vs polinomial de grau 2.**
+
+```{r c4-8}
+rnp_regressao_polinomial(dist ~ speed, cars, grau = 2)$modelo
+```
+
+**9. Box-Cox em `medv ~ rm + lstat`.**
+
+```{r c4-9}
+rnp_box_cox(medv ~ rm + lstat, Boston)$lambda
+```
+
+**10. IC da média e intervalo de predição.**
+
+```{r c4-10}
+modelo <- lm(medv ~ rm + lstat, Boston)
+novo <- data.frame(rm = 6.5, lstat = 8)
+rnp_predicao(modelo, novo, tipo = "confianca")
+rnp_predicao(modelo, novo, tipo = "predicao")
+```
+
+O intervalo de predição é mais largo: incorpora a variância de uma observação
+individual, além da incerteza sobre a média.
+
+**11. Regressão de Poisson.**
+
+```{r c4-11}
+rnp_regressao_poisson(gear ~ mpg, mtcars)$coeficientes
+```
+
+**12. Regressão logística `am ~ wt + hp`.**
+
+```{r c4-12}
+log_fit <- rnp_logistic(am ~ wt + hp, mtcars)
+log_fit$coeficientes[, c("termo", "estimativa", "odds_ratio", "p_valor")]
+```
+
+Cada tonelada a mais reduz drasticamente a chance de câmbio manual (razão de
+chances bem abaixo de 1).
+
+**13. Curva ROC e AUC.**
+
+```{r c4-13}
+prob <- predict(glm(am ~ wt + hp, mtcars, family = binomial()), type = "response")
+rnp_curva_roc(mtcars$am, prob, positivo = 1)$auc
+```
+
+**14. Matriz de confusão no limiar 0,5.**
+
+```{r c4-14}
+rnp_matriz_confusao(mtcars$am, as.integer(prob > 0.5))$matriz
+```
+
+**15. Regressão robusta com um outlier.**
+
+```{r c4-15}
+boston_out <- Boston
+boston_out$medv[1] <- 200            # outlier artificial
+rnp_regressao_robusta(medv ~ rm + lstat, boston_out)$coeficientes
+```
+
+A regressão robusta atribui peso menor ao ponto discrepante, mantendo os
+coeficientes próximos dos do ajuste sem o outlier.
+
+# Capítulo 5 — Análise multivariada
+
+**1. Matriz de correlação de `mtcars`.**
+
+```{r c5-1}
+rnp_matriz_correlacao(mtcars)$matriz[1:4, 1:4]
+```
+
+`mpg` correlaciona-se fortemente (e negativamente) com `wt`, `hp`, `disp` e `cyl`.
+
+**2. Correlograma.**
+
+```{r c5-2}
+rnp_grafico_correlograma(mtcars)
+```
+
+**3. PCA de `USArrests`: quantos componentes para 90%?**
+
+```{r c5-3}
+rnp_pca(USArrests)$variancia
+```
+
+Três componentes acumulam cerca de 95% da variância; dois já passam de 85%.
+
+**4. Biplot da PCA.**
+
+```{r c5-4}
+rnp_biplot(rnp_pca(USArrests))
+```
+
+**5. K-médias com $k = 4$.**
+
+```{r c5-5}
+rnp_kmeans(USArrests, k = 4)$metricas
+```
+
+**6. Dendrograma do agrupamento hierárquico.**
+
+```{r c5-6}
+rnp_grafico_dendrograma(rnp_cluster_hierarquico(USArrests, k = 4))
+```
+
+**7. Silhueta média para $k = 2, 3, 4$.**
+
+```{r c5-7}
+sapply(2:4, function(k)
+  rnp_silhueta(USArrests, rnp_kmeans(USArrests, k = k)$clusters$cluster)$media)
+```
+
+O maior valor médio aponta o melhor número de grupos.
+
+**8. K-medoids comparado ao k-médias.**
+
+```{r c5-8}
+rnp_kmedoids(USArrests, k = 4)$medoides
+```
+
+**9. Distâncias de Mahalanobis das 10 primeiras flores.**
+
+```{r c5-9}
+as.matrix(rnp_distancia(iris[1:10, 1:4], method = "mahalanobis"))[1:5, 1:5]
+```
+
+**10. MDS de uma matriz de distâncias.**
+
+```{r c5-10}
+rnp_mds(dist(USArrests))$pontos[1:5, ]
+```
+
+**11. LDA para as espécies de `iris`.**
+
+```{r c5-11}
+rnp_lda(Species ~ ., iris)$acuracia
+```
+
+**12. Análise fatorial de `swiss` com 2 fatores.**
+
+```{r c5-12}
+rnp_analise_fatorial(swiss, n_fatores = 2)$cargas
+```
+
+**13. $T^2$ de Hotelling entre duas espécies.**
+
+```{r c5-13}
+rnp_hotelling(iris[iris$Species == "setosa", 1:4],
+              iris[iris$Species == "versicolor", 1:4])
+```
+
+A diferença entre os vetores de média é altamente significativa.
+
+**14. MANOVA entre as três espécies.**
+
+```{r c5-14}
+rnp_manova(cbind(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width) ~ Species,
+           iris)
+```
+
+**15. Normalidade multivariada das quatro medidas.**
+
+```{r c5-15}
+rnp_normalidade_multivariada(iris[, 1:4])
+```
+
+**16. Correlação canônica entre sépala e pétala.**
+
+```{r c5-16}
+rnp_correlacao_canonica(iris[, 1:2], iris[, 3:4])
+```
+
+# Capítulo 6 — Dados categóricos e não-paramétricos
+
+**1. Tabela de contingência etnia × baixo peso.**
+
+```{r c6-1}
+rnp_tabela_contingencia(birthwt$race, birthwt$low)
+```
+
+**2. Qui-quadrado e V de Cramér.**
+
+```{r c6-2}
+rnp_teste_qui_quadrado(birthwt$race, birthwt$low)
+```
+
+**3. Teste exato de Fisher numa tabela $2\times2$.**
+
+```{r c6-3}
+rnp_teste_fisher(table(birthwt$ht, birthwt$low))
+```
+
+**4. Razão de chances e risco relativo (hipertensão × baixo peso).**
+
+```{r c6-4}
+rnp_odds_ratio(table(birthwt$ht, birthwt$low))[, c("odds_ratio", "ic_inf", "ic_sup")]
+rnp_risco_relativo(table(birthwt$ht, birthwt$low))[, c("risco_relativo", "ic_inf", "ic_sup")]
+```
+
+A razão de chances supera o risco relativo, como esperado quando o desfecho não é
+raro.
+
+**5. Kappa de Cohen.**
+
+```{r c6-5}
+rnp_kappa(c(1, 1, 0, 1, 0, 1, 1, 0), c(1, 0, 0, 1, 0, 1, 1, 1))
+```
+
+**6. `mtcars$mpg` é Normal?**
+
+```{r c6-6}
+rnp_teste_normalidade(mtcars$mpg)
+```
+
+**7. `mpg` por câmbio: Mann-Whitney.**
+
+```{r c6-7}
+rnp_mann_whitney(mtcars$mpg[mtcars$am == 1], mtcars$mpg[mtcars$am == 0])
+```
+
+**8. A mesma comparação por teste t.**
+
+```{r c6-8}
+rnp_teste_t(mtcars$mpg[mtcars$am == 1], mtcars$mpg[mtcars$am == 0])
+```
+
+A conclusão (diferença significativa) é a mesma do Mann-Whitney.
+
+**9. Wilcoxon pareado em `sleep`.**
+
+```{r c6-9}
+rnp_wilcoxon(sleep$extra[sleep$group == 1], sleep$extra[sleep$group == 2])
+```
+
+**10. Kruskal-Wallis em `InsectSprays`.**
+
+```{r c6-10}
+rnp_kruskal(InsectSprays$count, InsectSprays$spray)
+```
+
+**11. A mesma comparação por ANOVA.**
+
+```{r c6-11}
+rnp_anova(count ~ spray, data = InsectSprays)$anova
+```
+
+ANOVA e Kruskal-Wallis concordam: há diferença forte entre os sprays.
+
+**12. Aderência de `mtcars$cyl` a proporções uniformes.**
+
+```{r c6-12}
+rnp_teste_qui_quadrado(as.numeric(table(mtcars$cyl)), p = rep(1/3, 3))
+```
+
+**13. Aderência de `Pima.tr$bmi` à Normal.**
+
+```{r c6-13}
+rnp_teste_aderencia(Pima.tr$bmi, "norm")
+```
+
+**14. Teste de McNemar numa tabela pareada.**
+
+```{r c6-14}
+antes  <- factor(c(1, 1, 0, 1, 0, 0, 1, 1, 0, 1))
+depois <- factor(c(1, 0, 0, 1, 1, 0, 1, 0, 0, 1))
+rnp_teste_mcnemar(antes, depois)
+```
+
+**15. W de Kendall entre três avaliadores.**
+
+```{r c6-15}
+avaliacoes <- matrix(c(1, 2, 3,  2, 3, 1,  1, 3, 2,  1, 2, 3),
+                     ncol = 3, byrow = TRUE)
+rnp_teste_kendall_w(avaliacoes)
+```
+
+# Capítulo 7 — Análise de sobrevivência
+
+```{r c7-setup}
+lung2 <- lung
+lung2$ev <- lung2$status - 1   # 1 = óbito, 0 = censura
+```
+
+**1. Kaplan-Meier global e sobrevida mediana.**
+
+```{r c7-1}
+rnp_kaplan_meier(lung2$time, lung2$ev)$mediana
+```
+
+**2. Curva estratificada pelo estado funcional `ph.ecog`.**
+
+```{r c7-2}
+rnp_grafico_sobrevivencia(rnp_kaplan_meier(lung2$time, lung2$ev,
+                                           grupo = lung2$ph.ecog))
+```
+
+**3. Comparação por sexo (log-rank).**
+
+```{r c7-3}
+rnp_log_rank(lung2$time, lung2$ev, lung2$sex)
+```
+
+**4. A mesma comparação por Gehan-Wilcoxon (`rho = 1`).**
+
+```{r c7-4}
+rnp_log_rank(lung2$time, lung2$ev, lung2$sex, rho = 1)
+```
+
+A conclusão (diferença entre os sexos) se mantém, com peso maior nos tempos
+iniciais.
+
+**5. Risco acumulado de Nelson-Aalen.**
+
+```{r c7-5}
+head(rnp_nelson_aalen(lung2$time, lung2$ev), 5)
+```
+
+O risco acumulado equivale a $-\log \hat{S}(t)$ da estimativa de Kaplan-Meier.
+
+**6. Modelo de Cox com `age`, `sex` e `ph.karno`.**
+
+```{r c7-6}
+cox_fit <- rnp_cox(Surv(time, status) ~ age + sex + ph.karno, lung)
+cox_fit$coeficientes
+```
+
+Ser do sexo feminino (`sex = 2`) reduz o risco; a razão de risco abaixo de 1
+confirma melhor prognóstico.
+
+**7. Hipótese de riscos proporcionais.**
+
+```{r c7-7}
+rnp_cox_diagnosticos(cox_fit)$teste
+```
+
+**8. Risco relativo para perfis de 50 e 70 anos.**
+
+```{r c7-8}
+rnp_cox_risco_relativo(rnp_cox(Surv(time, status) ~ age, lung),
+                       data.frame(age = c(50, 70)))
+```
+
+**9. AFT Weibull, lognormal e exponencial: comparação de AIC.**
+
+```{r c7-9}
+sapply(c("weibull", "lognormal", "exponential"), function(d)
+  rnp_sobrevivencia_parametrica(Surv(time, status) ~ age, lung, dist = d)$aic)
+```
+
+**10. Tábua de vida em intervalos de 200 dias.**
+
+```{r c7-10}
+rnp_tabela_vida(lung2$time, lung2$ev, intervalos = seq(0, 1000, 200))
+```
+
+**11. `veteran`: sobrevida por tipo de tratamento (log-rank).**
+
+```{r c7-11}
+rnp_log_rank(veteran$time, veteran$status, veteran$trt)
+```
+
+Não há diferença significativa entre os dois tratamentos.
+
+**12. Cox em `veteran` com `karno` e `celltype`.**
+
+```{r c7-12}
+rnp_cox(Surv(time, status) ~ karno + celltype, veteran)$coeficientes
+```
+
+O estado funcional `karno` é o fator de maior peso: cada ponto a mais reduz o
+risco.
+
+**13. `ovarian`: Kaplan-Meier por grupo de tratamento.**
+
+```{r c7-13}
+rnp_kaplan_meier(ovarian$futime, ovarian$fustat, grupo = ovarian$rx)$mediana
+```
+
+**14. Concordância (C de Harrell) de dois modelos de Cox.**
+
+```{r c7-14}
+c(idade        = rnp_cox(Surv(time, status) ~ age, lung)$modelo$concordancia,
+  idade_karno  = rnp_cox(Surv(time, status) ~ age + ph.karno, lung)$modelo$concordancia)
+```
+
+Acrescentar `ph.karno` melhora a capacidade de ordenar os tempos de sobrevida.
+
+# Capítulo 8 — Séries temporais
+
+**1. `UKgas` é estacionária? Testes ADF e KPSS.**
+
+```{r c8-1}
+rnp_ts_adf(UKgas)
+rnp_ts_kpss(UKgas)
+```
+
+O ADF não rejeita a raiz unitária e o KPSS rejeita a estacionariedade: a série
+não é estacionária.
+
+**2. Estabilizar a variância e diferenciar.**
+
+```{r c8-2}
+ukgas_d <- rnp_ts_diferenciacao(log(UKgas))
+rnp_ts_adf(ukgas_d)$estacionaria
+```
+
+**3. ACF e PACF da série diferenciada.**
+
+```{r c8-3}
+rnp_grafico_acf(diff(lh))
+```
+
+**4. Seleção automática da ordem ARIMA de `lh`.**
+
+```{r c8-4}
+rnp_auto_arima(lh)$selecao
+```
+
+**5. Ajuste do modelo escolhido.**
+
+```{r c8-5}
+rnp_arima(lh, ordem = c(1, 0, 0))$coeficientes
+```
+
+**6. Diagnóstico dos resíduos (Ljung-Box).**
+
+```{r c8-6}
+rnp_ts_residuos(rnp_arima(lh, ordem = c(1, 0, 0)))
+```
+
+**7. SARIMA para o log de `AirPassengers`.**
+
+```{r c8-7}
+sarima_fit <- rnp_sarima(log(AirPassengers), ordem = c(0, 1, 1),
+                         sazonal = c(0, 1, 1), periodo = 12)
+sarima_fit$coeficientes
+```
+
+**8. Previsão de 24 meses com intervalos.**
+
+```{r c8-8}
+rnp_ts_previsao(sarima_fit, h = 24)$grafico
+```
+
+**9. Média móvel de 12 meses.**
+
+```{r c8-9}
+head(rnp_media_movel(AirPassengers, k = 12), 8)
+```
+
+**10. Suavização exponencial.**
+
+```{r c8-10}
+head(rnp_suavizacao_exponencial(AirPassengers), 6)
+```
+
+**11. Decomposição de `nottem`.**
+
+```{r c8-11}
+rnp_ts_decomposicao(nottem)$componentes |> head()
+```
+
+**12. Holt-Winters em `AirPassengers`.**
+
+```{r c8-12}
+rnp_ts_holt_winters(AirPassengers)$parametros
+```
+
+**13. Periodograma de `sunspot.year`.**
+
+```{r c8-13}
+periodo <- rnp_ts_periodograma(sunspot.year)
+periodo[which.max(periodo$densidade), ]
+```
+
+O pico do periodograma reproduz o conhecido ciclo solar de cerca de 11 anos.
+
+**14. VAR(2) e causalidade de Granger (`mdeaths`, `fdeaths`).**
+
+```{r c8-14}
+rnp_ts_var(cbind(mdeaths, fdeaths), p = 2)$granger
+```
+
+**15. GARCH(1,1) numa série de retornos.**
+
+```{r c8-15}
+set.seed(1)
+retornos <- diff(log(cumsum(abs(rnorm(500))) + 100))
+rnp_ts_garch(retornos)$parametros
+```
+
+# Capítulo 9 — Modelos lineares generalizados e extensões
+
+**1. GLM Poisson para `breaks ~ wool + tension`.**
+
+```{r c9-1}
+pois <- rnp_glm(breaks ~ wool + tension, warpbreaks, familia = "poisson")
+pois$coeficientes
+```
+
+A tensão alta reduz a taxa de quebras; a razão de taxas (exponencial do
+coeficiente) fica abaixo de 1.
+
+**2. Diagnóstico de superdispersão.**
+
+```{r c9-2}
+rnp_glm_diagnosticos(pois)$testes
+```
+
+**3. Binomial negativa em `quine` e comparação de AIC.**
+
+```{r c9-3}
+bn <- rnp_binomial_negativa(Days ~ Sex + Age, quine)
+c(poisson = rnp_glm(Days ~ Sex + Age, quine, familia = "poisson")$objeto$aic,
+  binom_neg = bn$aic)
+```
+
+O AIC menor da binomial negativa confirma a superdispersão da contagem de faltas.
+
+**4. GLM binomial `am ~ wt + hp`.**
+
+```{r c9-4}
+rnp_glm(am ~ wt + hp, mtcars, familia = "binomial")$coeficientes
+```
+
+**5. Modelo de odds proporcionais à satisfação (`housing`).**
+
+```{r c9-5}
+rnp_regressao_ordinal(Sat ~ Infl + Type, housing, pesos = housing$Freq)$coeficientes
+```
+
+**6. Modelo misto `distance ~ age` com intercepto aleatório.**
+
+```{r c9-6}
+misto <- rnp_modelo_misto(distance ~ age, nlme::Orthodont,
+                          aleatorio = ~ 1 | Subject)
+misto$variancia
+```
+
+**7. Interpretação do ICC.**
+
+```{r c9-7}
+v <- misto$variancia$variancia
+v[1] / sum(v)   # fração da variância entre indivíduos
+```
+
+Boa parte da variabilidade está entre sujeitos, justificando o efeito aleatório.
+
+**8. GAM `accel ~ s(times)` em `mcycle`.**
+
+```{r c9-8}
+gam_fit <- rnp_gam(accel ~ s(times), mcycle)
+gam_fit$suaves
+```
+
+Os graus de liberdade efetivos bem acima de 1 revelam forte não-linearidade.
+
+**9. Efeito suave estimado.**
+
+```{r c9-9}
+rnp_grafico_efeitos(gam_fit)
+```
+
+**10. Deviance explicada: GAM vs linear.**
+
+```{r c9-10}
+c(gam = summary(gam_fit$objeto)$dev.expl,
+  linear = summary(lm(accel ~ times, mcycle))$r.squared)
+```
+
+O termo suave capta a relação que a reta não consegue.
+
+**11. GLM Gama (ligação log).**
+
+```{r c9-11}
+warp_pos <- transform(warpbreaks, breaks = breaks + 0.5)
+rnp_glm(breaks ~ wool + tension, warp_pos, familia = "gamma")$coeficientes
+```
+
+**12. Resíduos de deviance do modelo Poisson.**
+
+```{r c9-12}
+rnp_glm_diagnosticos(pois)$testes
+```
+
+# Capítulo 10 — Aprendizado de máquina
+
+Os blocos abaixo dependem dos motores do tidymodels (`rpart`, `ranger`,
+`glmnet`, `kknn`). O código é exibido sempre; a execução ocorre quando esses
+pacotes estão disponíveis.
+
+**1. Partição 70/30 estratificada por espécie.**
+
+```{r c10-1, eval = tem_ml}
+sp <- rnp_ml_particao(iris, prop = 0.7, estrato = "Species")
+sp
+```
+
+**2. Validação cruzada com 5 folds.**
+
+```{r c10-2, eval = tem_ml}
+cv <- rnp_ml_cv(iris, v = 5, estrato = "Species")
+cv
+```
+
+**3. Receita que normaliza os preditores.**
+
+```{r c10-3, eval = tem_ml}
+rnp_ml_receita(Species ~ ., iris, passos = c("normalizar"))
+```
+
+**4. Árvore de decisão e acurácia no teste.**
+
+```{r c10-4, eval = tem_ml}
+arvore <- rnp_ml_ajustar(rnp_ml_arvore("classificacao"), Species ~ ., sp)
+arvore$metricas
+```
+
+**5. Importância das variáveis.**
+
+```{r c10-5, eval = tem_ml}
+rnp_ml_importancia(arvore$modelo)
+```
+
+**6. Tunagem do custo de complexidade.**
+
+```{r c10-6, eval = tem_ml}
+arvore_tune <- rnp_ml_arvore("classificacao",
+                             custo_complexidade = tune::tune())
+rnp_ml_tunagem(arvore_tune, Species ~ ., cv, grade = 5)$melhores
+```
+
+**7. Floresta aleatória vs árvore.**
+
+```{r c10-7, eval = tem_ml}
+floresta <- rnp_ml_ajustar(rnp_ml_floresta("classificacao"), Species ~ ., sp)
+dplyr::bind_rows(arvore = arvore$metricas, floresta = floresta$metricas,
+                 .id = "modelo")
+```
+
+**8. Modelo regularizado (glmnet) para regressão em `mtcars`.**
+
+```{r c10-8, eval = tem_ml}
+sp_reg <- rnp_ml_particao(mtcars, prop = 0.7)
+rnp_ml_ajustar(rnp_ml_regularizada("regressao"), mpg ~ ., sp_reg)$metricas
+```
+
+**9. Comparação por validação cruzada.**
+
+Usamos o problema binário de `Pima.tr` (a regressão regularizada multinomial não
+se aplica diretamente a três classes):
+
+```{r c10-9, eval = tem_ml}
+specs <- list(arvore   = rnp_ml_arvore("classificacao"),
+              floresta = rnp_ml_floresta("classificacao"),
+              regular  = rnp_ml_regularizada("classificacao"))
+cv_pima <- rnp_ml_cv(Pima.tr, v = 5, estrato = "type")
+rnp_ml_comparar(specs, type ~ ., cv_pima)$tabela
+```
+
+**10. Predições para novos dados.**
+
+```{r c10-10, eval = tem_ml}
+rnp_ml_prever(floresta$modelo, iris[c(1, 60, 120), ], tipo = "classe")
+```
+
+**11. Classificador de diabetes em `Pima.tr` e AUC no teste.**
+
+```{r c10-11, eval = tem_ml}
+sp_pima <- rnp_ml_particao(Pima.tr, prop = 0.7, estrato = "type")
+diab <- rnp_ml_ajustar(rnp_ml_floresta("classificacao"), type ~ ., sp_pima)
+diab$metricas
+```
+
+**12. Efeito da profundidade da árvore (sub/sobreajuste).**
+
+```{r c10-12, eval = tem_ml}
+sapply(c(2, 5, 30), function(prof) {
+  m <- rnp_ml_ajustar(rnp_ml_arvore("classificacao", profundidade_max = prof),
+                      Species ~ ., sp)
+  m$metricas$.estimate[m$metricas$.metric == "accuracy"]
+})
+```
+
+Árvores muito profundas tendem a decorar o treino; a validação ajuda a achar o
+ponto de equilíbrio.
+
+# Capítulo 11 — Avaliação de modelos preditivos
+
+```{r c11-setup}
+pima_fit <- glm(type ~ glu + bmi + age, Pima.tr, family = binomial())
+prob_pima <- predict(pima_fit, type = "response")
+obs_bin   <- ifelse(Pima.tr$type == "Yes", 1, 0)
+pred_bin  <- ifelse(prob_pima > 0.5, 1, 0)
+```
+
+**1. Todas as métricas de classificação no limiar 0,5.**
+
+```{r c11-1}
+rnp_metricas_classificacao(Pima.tr$type, ifelse(prob_pima > 0.5, "Yes", "No"),
+                           positivo = "Yes")
+```
+
+**2. F1 versus acurácia em dados desbalanceados.**
+
+```{r c11-2}
+prop.table(table(Pima.tr$type))
+```
+
+Como há mais casos negativos, a acurácia é puxada pela classe majoritária,
+enquanto o F1 reflete o desempenho na classe positiva (diabéticas).
+
+**3. Escore de Brier e escore de habilidade.**
+
+```{r c11-3}
+rnp_brier(obs_bin, prob_pima)
+```
+
+**4. Calibração (Hosmer-Lemeshow).**
+
+```{r c11-4}
+rnp_calibracao(obs_bin, prob_pima)$hosmer_lemeshow
+```
+
+**5. Estatística KS de separação.**
+
+```{r c11-5}
+rnp_ks_classificador(obs_bin, prob_pima, positivo = 1)$ks
+```
+
+**6. Curva precisão-revocação e AUC-PR.**
+
+```{r c11-6}
+rnp_curva_precisao_revocacao(obs_bin, prob_pima, positivo = 1)$auc_pr
+```
+
+**7. Curvas de lift e de ganho acumulado.**
+
+```{r c11-7}
+rnp_curva_lift(obs_bin, prob_pima, positivo = 1)$grafico
+rnp_curva_ganho(obs_bin, prob_pima, positivo = 1)$grafico
+```
+
+**8. Teste de DeLong: modelo completo vs só `glu`.**
+
+```{r c11-8}
+prob_glu <- predict(glm(type ~ glu, Pima.tr, family = binomial()),
+                    type = "response")
+rnp_comparar_roc(obs_bin, prob_pima, prob_glu, positivo = 1)
+```
+
+**9. Sensibilidade, especificidade e razões de verossimilhança.**
+
+```{r c11-9}
+rnp_acuracia_diagnostica(obs_bin, pred_bin, positivo = 1)
+```
+
+**10. Métricas de regressão (`medv ~ rm + lstat`).**
+
+```{r c11-10}
+rnp_metricas_regressao(Boston$medv, predict(lm(medv ~ rm + lstat, Boston)))
+```
+
+**11. Modelo simples vs múltiplo.**
+
+```{r c11-11}
+simples  <- rnp_metricas_regressao(Boston$medv, predict(lm(medv ~ rm, Boston)))
+multiplo <- rnp_metricas_regressao(Boston$medv,
+                                   predict(lm(medv ~ rm + lstat + crim, Boston)))
+merge(simples, multiplo, by = "metrica", suffixes = c("_simples", "_multiplo"))
+```
+
+**12. Impacto de um outlier: RMSE vs MAE.**
+
+```{r c11-12}
+obs_out <- Boston$medv; obs_out[1] <- 500
+pred    <- predict(lm(medv ~ rm + lstat, Boston))
+rnp_metricas_regressao(obs_out, pred)[
+  rnp_metricas_regressao(obs_out, pred)$metrica %in% c("rmse", "mae"), ]
+```
+
+O RMSE dispara com o outlier, enquanto o MAE — por não elevar o erro ao quadrado
+— é bem menos afetado.
+
+**13. Matriz de custo (falso negativo custa o triplo do falso positivo).**
+
+O pacote não traz uma função dedicada; a matriz de confusão e os pesos resolvem o
+problema diretamente:
+
+```{r c11-13}
+cm <- rnp_matriz_confusao(obs_bin, pred_bin)$matriz
+fn <- cm[1, 2]; fp <- cm[2, 1]            # falsos negativos e positivos
+custo_total <- 3 * fn + 1 * fp
+c(falsos_negativos = fn, falsos_positivos = fp, custo_total = custo_total)
+```
+
+Atribuindo peso 3 ao falso negativo, o custo total penaliza mais os diabéticos
+não detectados — coerente com a gravidade clínica desse erro.
 
 # Referências
