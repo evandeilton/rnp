@@ -50,6 +50,11 @@ navbar:
         href: articles/v10-machine-learning.html
       - text: 11. Avaliação de modelos preditivos
         href: articles/v11-avaliacao.html
+      - text: '---'
+      - text: Soluções dos exercícios (caps. 1-2)
+        href: articles/solucoes.html
+      - text: Referência rápida (cheatsheet)
+        href: articles/referencia-rapida.html
 reference:
 - title: Descritiva e Exploratoria
   desc: Medidas-resumo, momentos, frequencias e graficos exploratorios.
@@ -240,6 +245,9 @@ reference:
   - rnp_options
   - starts_with("rnp_get")
   - rnp_aplica_classes
+  - rnp_concreto
+  - rnp_defeitos
+  - rnp_vida_util
   - dm_curso
   - dm_ies
   - dm_local

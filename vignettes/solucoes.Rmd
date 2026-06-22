@@ -1,0 +1,302 @@
+---
+title: "Soluções comentadas dos exercícios (capítulos 1 e 2)"
+output: rmarkdown::html_vignette
+bibliography: referencias.bib
+vignette: >
+  %\VignetteIndexEntry{Soluções comentadas dos exercícios (capítulos 1 e 2)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 4,
+  fig.align = "center", message = FALSE, warning = FALSE
+)
+library(rnp)
+aq <- airquality[stats::complete.cases(airquality), ]
+```
+
+Este gabarito resolve, com o `rnp`, os exercícios das vinhetas **1 (Descritiva e
+exploratória)** e **2 (Probabilidade e teoremas fundamentais)** — os dois
+capítulos introdutórios, alinhados a @montgomery2021. Cada solução traz o código
+e uma leitura curta do resultado. Os números são calculados na compilação, de
+modo que o que se lê aqui é exatamente o que o pacote produz.
+
+# Capítulo 1 — Estatística descritiva
+
+```{r c1-setup}
+d <- mtcars
+```
+
+**1. Média, mediana e desvio-padrão de `mpg`.**
+
+```{r c1-1}
+rnp_descritiva(d$mpg)[, c("media", "mediana", "desvio")]
+```
+
+A média (`r round(mean(d$mpg),1)`) supera ligeiramente a mediana, primeiro sinal
+de leve assimetria à direita.
+
+**2. Assimetria e curtose de `mpg` ($g_1$, $g_2$).**
+
+```{r c1-2}
+rnp_momentos(d$mpg)$resumo[, c("assimetria", "curtose_excesso")]
+```
+
+$g_1 > 0$ confirma a cauda à direita; a curtose próxima da Normal indica picos e
+caudas sem excessos.
+
+**3. Coeficiente de variação: `mpg` vs `hp`.**
+
+```{r c1-3}
+c(mpg = rnp_descritiva(d$mpg)$cv, hp = rnp_descritiva(d$hp)$cv)
+```
+
+A potência (`hp`) tem CV maior: varia mais em termos relativos que o consumo.
+
+**4. As quatro médias de `c(2, 4, 8, 16)`.**
+
+```{r c1-4}
+rnp_medias(c(2, 4, 8, 16))
+```
+
+Vale a desigualdade $\text{harmônica} \le \text{geométrica} \le \text{aritmética}
+\le \text{quadrática}$.
+
+**5. Tabela de frequências de `cyl`.**
+
+```{r c1-5}
+rnp_tabela_frequencia(d$cyl)
+```
+
+Predominam os motores de 8 cilindros.
+
+**6. Classes de `mpg` pela regra de Sturges.**
+
+```{r c1-6}
+rnp_tabela_classes(d$mpg)
+```
+
+**7. Outliers de `hp` pelo critério de Tukey (IQR).**
+
+```{r c1-7}
+rnp_outliers(d$hp, method = "iqr")
+```
+
+A potência máxima (335 hp) é o único valor além da cerca superior.
+
+**8. `trees$Volume` é Normal?**
+
+```{r c1-8}
+rnp_teste_normalidade(trees$Volume)
+rnp_grafico_qq(trees$Volume)
+```
+
+O Shapiro-Wilk não rejeita a Normalidade ao nível de 5%, e os pontos do gráfico
+de probabilidade normal seguem a reta de referência.
+
+**9. Box plot de `mpg` por número de cilindros.**
+
+```{r c1-9}
+rnp_grafico_boxplot(d, "mpg", "cyl")
+```
+
+O consumo cai de forma monótona com o número de cilindros, e a dispersão é maior
+nos motores de 4 cilindros.
+
+**10. Regra empírica (68-95-99,7) para `qsec`.**
+
+```{r c1-10}
+m <- mean(d$qsec); s <- sd(d$qsec)
+sapply(1:3, function(k) mean(abs(d$qsec - m) <= k * s))
+```
+
+As proporções observadas acompanham de perto 0,68 / 0,95 / 1,00, compatível com
+uma distribuição aproximadamente Normal.
+
+**11. Tabela de contingência `cyl` × `gear`.**
+
+```{r c1-11}
+rnp_tabela_contingencia(d$cyl, d$gear)
+```
+
+**12. Quantas modas em `faithful$waiting`?**
+
+```{r c1-12}
+rnp_grafico_histograma(faithful, "waiting")
+```
+
+O histograma é claramente bimodal: erupções curtas e longas formam dois grupos.
+
+**13. Momentos de `airquality$Wind` (sem NA).**
+
+```{r c1-13}
+rnp_momentos(aq$Wind)$resumo[, c("assimetria", "curtose_excesso")]
+```
+
+Assimetria positiva pequena: a velocidade do vento é levemente assimétrica à
+direita.
+
+**14. Estrutura de `airquality`: faltantes.**
+
+```{r c1-14}
+rnp_estrutura(airquality)
+```
+
+`Ozone` e `Solar.R` concentram os valores faltantes.
+
+**15. Qual experimento de `morley` foi o mais preciso?**
+
+```{r c1-15}
+rnp_descritiva_by(morley, "Speed", "Expt")[, c("Expt", "desvio")]
+```
+
+O experimento com o menor desvio-padrão é o mais preciso (menor dispersão das
+medidas em torno de seu valor central).
+
+# Capítulo 2 — Probabilidade e inferência
+
+**1. $P(Z \le 2{,}5)$ e o quantil $z_{0{,}975}$.**
+
+```{r c2-1}
+rnp_distribuicao_normal("p", q = 2.5)     # P(Z <= 2,5)
+rnp_distribuicao_normal("q", p = 0.975)   # quantil z_{0,975}
+```
+
+**2. Binomial(10; 0,2): $P(X = 3)$ e $P(X \le 3)$.**
+
+```{r c2-2}
+rnp_distribuicao_binomial("d", size = 10, prob = 0.2, x = 3)   # P(X = 3)
+rnp_distribuicao_binomial("p", size = 10, prob = 0.2, q = 3)   # P(X <= 3)
+```
+
+**3. Poisson($\lambda = 3$): $P(X \ge 2)$.**
+
+```{r c2-3}
+1 - rnp_distribuicao_poisson("p", lambda = 3, q = 1)   # P(X >= 2)
+```
+
+**4. Confiabilidade de 3 componentes ($R = 0{,}95$): série e paralelo.**
+
+```{r c2-4}
+R <- 0.95
+c(serie = R^3, paralelo = 1 - (1 - R)^3)
+```
+
+A redundância em paralelo eleva a confiabilidade acima de cada componente; a
+associação em série a reduz, pois exige que todos funcionem.
+
+**5. Bayes: fornecedores 60%/40%, defeitos 2%/5%.**
+
+```{r c2-5}
+rnp_bayes(priori = c(0.6, 0.4), verossimilhanca = c(0.02, 0.05))
+```
+
+Embora o fornecedor 1 produza mais peças, dada uma peça defeituosa o segundo
+torna-se o mais provável, por causa da sua taxa de defeito mais alta.
+
+**6. Exponencial com MTBF 500 h: $P(T > 200)$ e falta de memória.**
+
+```{r c2-6}
+taxa <- 1 / 500
+p_200 <- 1 - rnp_distribuicao_exponencial("p", taxa = taxa, q = 200)
+p_cond <- (1 - rnp_distribuicao_exponencial("p", taxa = taxa, q = 700)) /
+          (1 - rnp_distribuicao_exponencial("p", taxa = taxa, q = 500))
+c(P_T_maior_200 = p_200, P_condicional = p_cond)
+```
+
+$P(T > 700 \mid T > 500) = P(T > 200)$: a exponencial não tem memória.
+
+**7. Weibull(forma 1,5; escala 2000): confiabilidade $R(1000)$.**
+
+```{r c2-7}
+1 - rnp_distribuicao_weibull("p", forma = 1.5, escala = 2000, q = 1000)
+```
+
+**8. $E[X]$ e $\operatorname{Var}[X]$ de uma Poisson($\lambda = 5$).**
+
+```{r c2-8}
+rnp_esperanca_var("pois", lambda = 5)
+```
+
+Na Poisson, média e variância coincidem ($= \lambda$).
+
+**9. TCL a partir de uma Uniforme.**
+
+```{r c2-9}
+rnp_tcl_simulacao(function(n) runif(n), n = 30, n_amostras = 1000)
+```
+
+Mesmo partindo de uma população uniforme, a distribuição das médias amostrais se
+aproxima da Normal.
+
+**10. IC de 95% para a média de `mpg`.**
+
+```{r c2-10}
+rnp_ic_media(mtcars$mpg)
+```
+
+**11. A média de `mpg` difere de 22?**
+
+```{r c2-11}
+rnp_teste_t(mtcars$mpg, mu = 22)
+```
+
+O valor-p elevado não permite rejeitar $H_0: \mu = 22$.
+
+**12. IC de 95% para a variância de `wt`.**
+
+```{r c2-12}
+rnp_ic_variancia(mtcars$wt)
+```
+
+**13. IC para a proporção 18/250 (método de Wilson).**
+
+```{r c2-13}
+rnp_ic_proporcao(18, 250, method = "wilson")
+```
+
+**14. A proporção 18/250 difere de 10%?**
+
+```{r c2-14}
+rnp_teste_z_proporcao(18, 250, p0 = 0.10)
+```
+
+A proporção observada (`r round(18/250*100,1)`%) fica abaixo de 10%, e o teste
+indica se a diferença é estatisticamente significativa.
+
+**15. Ajuste exponencial a `faithful$eruptions`.**
+
+```{r c2-15}
+rnp_ajuste_distribuicao(faithful$eruptions, "exp")$qualidade
+```
+
+O teste de Kolmogorov-Smirnov rejeita o ajuste: `eruptions` é bimodal, longe de
+uma exponencial.
+
+**16. Tamanho de amostra para $d = 0{,}4$ com poder 0,90.**
+
+```{r c2-16}
+rnp_tamanho_amostra_teste(efeito = 0.4, poder = 0.90)
+```
+
+**17. $\int_0^1 e^{-x^2}\,dx$ por Monte Carlo.**
+
+```{r c2-17}
+rnp_monte_carlo(function(x) exp(-x^2), c(0, 1))
+```
+
+A estimativa cerca o valor exato ($\approx 0{,}7468$) dentro do intervalo de
+confiança da simulação.
+
+**18. Bayes em teste diagnóstico (prevalência 2%, sens. 95%, espec. 90%).**
+
+```{r c2-18}
+rnp_bayes(priori = c(0.02, 0.98), verossimilhanca = c(0.95, 1 - 0.90))
+```
+
+Apesar da alta sensibilidade, a baixa prevalência faz o valor preditivo positivo
+ser modesto — o paradoxo clássico dos testes de rastreamento.
+
+# Referências
