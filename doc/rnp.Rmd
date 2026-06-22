@@ -1,104 +1,157 @@
 ---
-title: "R NA PRÁTICA - Pacote de recursos extras"
-date: "`r Sys.Date()`"
-output:
-  prettydoc::html_pretty:
-  theme: cayman
-  highlight: github
+title: "Introdução ao rnp"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{R NA PRÁTICA - Pacote de recursos extras}
+  %\VignetteIndexEntry{Introdução ao rnp}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-    \usepackage[utf8]{inputenc}
 ---
 
-```{r, echo=FALSE, eval=FALSE}
-%\VignetteEngine{knitr::rmarkdown}
-<style> 
-  body{text-align: justify}
-</style>
-
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4.2,
+                      fig.align = "center",
+                      message = FALSE, warning = FALSE)
+library(rnp)
 ```
 
-# Introdução
+## O que é o `rnp`
 
-R é uma das linguagens que mais cresce atualmente no mundo da programação científica. Esta linguagem tem sido uma das mais requisitadas por empresas, centros de pesquisa e por recrutadores das áreas de analytics e data science. Isso graças ao poder de processamento, aos recursos e à sua capacidade de expansão. R é uma linguagem científica, cross-plataforma, orientada a objetos, free e open source com uma comunidade de desenvolvedores e colaboradores global extremamente ativa.
+O `rnp`, do projeto **R NA PRÁTICA**, reúne mais de **230 funções** de estatística
+e ciência de dados em um único pacote, com documentação e mensagens em português.
+A cobertura vai dos temas dos primeiros anos de um curso de estatística até
+tópicos aplicados:
 
-## R NA PRÁTICA
+- **Descritiva e exploratória** — medidas-resumo, momentos, frequências, gráficos;
+- **Probabilidade** — distribuições, Bayes, Lei dos Grandes Números, Teorema
+  Central do Limite, simulação;
+- **Inferência** — estimação, intervalos de confiança, testes de hipóteses,
+  *bootstrap*, poder e tamanho de amostra;
+- **Regressão e modelagem** — linear, regularizada, robusta, logística, GLM,
+  modelos mistos e aditivos;
+- **Multivariada** — componentes principais, agrupamento, discriminante, fatorial;
+- **Séries temporais** — decomposição, ARIMA/SARIMA, GARCH, previsão;
+- **Sobrevivência** — Kaplan-Meier, log-rank, Cox e modelos paramétricos;
+- **Aprendizado de máquina** — fluxo com `tidymodels` e avaliação de modelos.
 
-O **R NA PRÁTICA** foi originalmente uma ideia que surgiu com o desejo de ajudar a disseminar  a linguagem R como uma ferramenta de apoio para o estudo de ciência de dados para pessoas de todos os níveis. A ideia do **R NA PRATICA** cresceu e tornou-se um projeto de maior abrangência envolvendo os temas como a propría programação em R, Estatística e probabilidade para _Data Science_.
+## Três escolhas de projeto
 
-## O pacote `rnp`
+- **Saídas *tidy*** — as funções analíticas devolvem `tibble` (ou um objeto
+  `rnp_resultado`, descrito adiante) e os gráficos usam `ggplot2`. O resultado
+  já entra no pipe e em outras etapas da análise sem conversões.
+- **Desempenho** — as rotinas numericamente intensivas (distâncias, álgebra
+  matricial, reamostragem) são escritas em C++ com `Rcpp`/`RcppArmadillo` e
+  conferidas contra as funções equivalentes do R.
+- **Poucas dependências** — o pacote se apoia apenas no R base, no `tidyverse`,
+  no `tidymodels` e no `Rcpp`, evitando uma cadeia extensa de pacotes externos.
 
-Muitas funções estão sendo criadas à medida em que o projeto ganha volume e os novos módulos vão sendo escritos. Para condensar tudo em um local apropriado e de fácil consulta, surgiu a ideia de empacotar estes recursos e disponibilizá-los aqui no github. Este é o pacote `rnp`.
+## Instalação
 
-Materiais como funções, algumas bases de dados e documentos disponibilizados aqui são para ajudar a todos que desejam aprender, melhorar, atualizar seus conhecimentos em R, Estatística e Ciência de dados e assim se destacar na descoberta de conhecimentos através de dados. 
-
-## Bugs
-
-Caso encontre algum bug ou tenha interesse em solicitar alguma inclusão de função, favor postar nas _issues_ do pacote [aqui](https://github.com/evandeilton/rnp/issues) para que possamos atender nas próximas atualizações do pacote.
-
-### Instalação do pacote
-
-```{r, eval=FALSE, echo=TRUE}
-  # Se não tiver o devtools, instalar.
-  if(!require(devtools)){
-    install.packages("devtools")
-  }
-
-  # Instalar o rnp
-  devtools::install_github("evandeilton/rnp")
-  
-  # Carregar o pacote
-  require("rnp")
-  ?rnp::rnp_freq
-  
-  # Vinheta
-  # Se não tiver o prettydoc, a vinheta não roda
-  if(!require(prettydoc)){
-    install.packages("prettydoc")
-  }
-  vignette("rnp")
+```{r instalar, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("evandeilton/rnp")
 ```
 
-## Programa integrado
+## Um tour rápido
 
-O R NA PRATICA engloba cinco módulos. O primeiro já está completo e disponível. Os demais estão em fase de desenvolvimento:
- 
-  * Módulo - I   (Data Wrangling com R para Ciência de Dados)
-  * Módulo - II  (Estatística descritiva para Data Science com R)
-  * Módulo - III (Introdução à probabilidade para Data Science com R)
-  * Módulo - VI  (Testes de hipóteses para Data Science com R)
-  * Módulo - V   (Modelagem estatística para Data Science com R)
+As funções seguem a convenção `rnp_<área>_<método>()`. Comecemos pela descritiva
+de uma variável — a saída é um `tibble`:
 
-### Módulo - I (Data Wrangling com R para Ciência de Dados)
+```{r descritiva}
+rnp_descritiva(rnp_concreto$resistencia)
+```
 
-Neste módulo exploramos o conceito Data Wrangling que é um tanto genérico em nosso português brasileiro, mas poderia ser traduzido como disputa/briga/luta de dados. Esta disputa está intimamente ligada ao processo de transformação de dados para obter conhecimento e isso inclui: obtenção, transformação, limpeza, agregação, visualização e criação de bases limpas para fins de Analytics na Ciência de Dados.
+Os modelos seguem a mesma lógica. Ajustamos uma regressão da resistência do
+concreto sobre o tempo de cura e o tipo de cimento. O resultado tem uma
+impressão organizada, que resume cada componente:
 
-Neste módulo o aluno aprenderá:
-<https://www.udemy.com/r-na-pratica-ciencia-de-dados/>
+```{r regressao}
+ajuste <- rnp_regressao(resistencia ~ dias_cura + tipo_cimento,
+                        data = rnp_concreto)
+ajuste
+```
 
-  * Operadores, sequências, funções, loops, família apply e gráficos dos sistemas base, lattice e ggplot2;   
-  * Agregação, transformação, estatística descritiva de dados e tabelas de frequências;   
-  * Dominará a criação de códigos otimizados em R com o moderno operador pipe "%>%" e os pacotes do tidyverse;   
-  * Terá domínio sobre o processo de obtenção de conhecimento a partir de dados passando pelo ciclo de análise de situação problema, obtenção de dados, preparação, análise, visualização e comunicação de resultados com R Markdown;   
-  * Será capaz de resolver cases de estudo e problemas com dados e situações reais.
-  * Terá um vasto material de consulta com amostras de códigos e bases de dados de exemplos de todas as video aulas para reforçar seus conhecimentos e aplicações no dia-a-dia.
+Cada dia de cura adiciona cerca de 0,43 MPa à resistência, e o cimento CP-V
+rende mais que os demais — o modelo explica 77% da variação observada.
 
-### Módulo - II (Estatística descritiva para Data Science com R)
+### Conversa com o `broom`
 
-Em desenvolvimento (0%=================80%======100%)
+Os resultados do `rnp` implementam os genéricos `tidy()` e `glance()` do
+`broom`. Assim, a tabela de coeficientes e o resumo do ajuste saem no formato
+padrão do *tidymodels*, prontos para comparar modelos ou montar relatórios:
 
-### Módulo - III (Introdução à probabilidade para Data Science com R)
+```{r broom}
+tidy(ajuste)    # um termo por linha
+glance(ajuste)  # uma linha de medidas-resumo do ajuste
+```
 
-Em desenvolvimento (0%====10%===================100%)
+### Inferência e gráficos
 
-### Módulo - VI (Testes de hipóteses para Data Science com R)
+```{r inferencia}
+rnp_ic_media(rnp_concreto$resistencia)
+rnp_teste_t(rnp_concreto$resistencia, mu = 30)
+```
 
-Em desenvolvimento (0%==5%======================100%)
+```{r grafico, fig.alt="Dispersão de resistência versus dias de cura"}
+rnp_grafico_dispersao(rnp_concreto, x = "dias_cura", y = "resistencia")
+```
 
-### Módulo - V (Modelagem estatística para Data Science com R)
+## Conjuntos de dados didáticos
 
-Em desenvolvimento (0%=1%=======================100%)
+O pacote traz três conjuntos simulados, pensados para exercitar diferentes
+famílias de métodos:
 
----
+| Conjunto | Conteúdo | Métodos |
+|----------|----------|---------|
+| `rnp_concreto` | resistência (MPa) por cura e tipo de cimento | descritiva, ANOVA, regressão |
+| `rnp_defeitos` | contagem de defeitos por turno e máquina | Poisson, dados categóricos |
+| `rnp_vida_util` | tempo até a falha com censura | sobrevivência, confiabilidade |
 
+Por exemplo, a ANOVA confirma que o tipo de cimento afeta a resistência média:
+
+```{r anova}
+rnp_anova(resistencia ~ tipo_cimento, data = rnp_concreto)$anova
+```
+
+## Como ler os resultados
+
+Muitas funções devolvem um objeto da classe `rnp_resultado`. Ele é, na prática,
+uma lista de componentes (tabelas, escalares, gráficos, o modelo ajustado), com
+duas conveniências: a impressão resumida vista acima e o acesso direto a cada
+parte pelo `$`. Para extrair a tabela de coeficientes, por exemplo:
+
+```{r componentes}
+ajuste$coeficientes
+```
+
+Em resumo: imprima o objeto para uma visão geral, use `$` para um componente
+específico e `tidy()`/`glance()` para integrar com o ecossistema *tidymodels*.
+
+## Por onde continuar
+
+O pacote acompanha onze tutoriais que seguem a progressão típica de um curso de
+estatística, com ênfase na interpretação dos resultados:
+
+1. Estatística descritiva e análise exploratória
+2. Probabilidade, distribuições e os teoremas fundamentais (Bayes, LGN, TCL)
+3. Inferência estatística (p-valor, IC, *bootstrap*, poder)
+4. Regressão linear e modelagem (pressupostos, diagnóstico, regularização)
+5. Análise multivariada (PCA, agrupamento, LDA, Hotelling)
+6. Dados categóricos e métodos não-paramétricos
+7. Análise de sobrevivência (Kaplan-Meier, Cox)
+8. Séries temporais: modelos ARIMA e SARIMA
+9. Modelos lineares generalizados e extensões
+10. Aprendizado de máquina com `tidymodels`
+11. Avaliação de modelos preditivos
+
+Há ainda uma **referência rápida** (*cheatsheet*) com as funções por área e uma
+coletânea de **soluções comentadas** dos exercícios dos primeiros capítulos.
+
+```{r vinhetas, eval = FALSE}
+browseVignettes("rnp")
+```
+
+## Reportar problemas
+
+Bugs e sugestões de novas funções são bem-vindos nas
+[issues](https://github.com/evandeilton/rnp/issues) do projeto.

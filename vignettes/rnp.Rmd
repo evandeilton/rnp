@@ -10,24 +10,40 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
                       fig.width = 7, fig.height = 4.2,
+                      fig.align = "center",
                       message = FALSE, warning = FALSE)
 library(rnp)
 ```
 
 ## O que é o `rnp`
 
-O `rnp` (do projeto **R NA PRÁTICA**) reúne mais de **180 funções** que cobrem os
-temas tratados nos primeiros anos de um curso de estatística: descritiva,
-probabilidade, inferência, regressão, análise multivariada, séries temporais,
-dados categóricos e pré-processamento.
+O `rnp`, do projeto **R NA PRÁTICA**, reúne mais de **230 funções** de estatística
+e ciência de dados em um único pacote, com documentação e mensagens em português.
+A cobertura vai dos temas dos primeiros anos de um curso de estatística até
+tópicos aplicados:
 
-Três escolhas orientam o projeto:
+- **Descritiva e exploratória** — medidas-resumo, momentos, frequências, gráficos;
+- **Probabilidade** — distribuições, Bayes, Lei dos Grandes Números, Teorema
+  Central do Limite, simulação;
+- **Inferência** — estimação, intervalos de confiança, testes de hipóteses,
+  *bootstrap*, poder e tamanho de amostra;
+- **Regressão e modelagem** — linear, regularizada, robusta, logística, GLM,
+  modelos mistos e aditivos;
+- **Multivariada** — componentes principais, agrupamento, discriminante, fatorial;
+- **Séries temporais** — decomposição, ARIMA/SARIMA, GARCH, previsão;
+- **Sobrevivência** — Kaplan-Meier, log-rank, Cox e modelos paramétricos;
+- **Aprendizado de máquina** — fluxo com `tidymodels` e avaliação de modelos.
 
-- **Saídas tidy** — as funções analíticas retornam `tibble` e os gráficos usam
-  `ggplot2`; documentação e mensagens em português.
-- **Desempenho** — rotinas numericamente intensivas são escritas em C++
-  (Rcpp/RcppArmadillo) e conferidas contra as funções equivalentes do R.
-- **Poucas dependências** — apenas R base, tidyverse, tidymodels e Rcpp.
+## Três escolhas de projeto
+
+- **Saídas *tidy*** — as funções analíticas devolvem `tibble` (ou um objeto
+  `rnp_resultado`, descrito adiante) e os gráficos usam `ggplot2`. O resultado
+  já entra no pipe e em outras etapas da análise sem conversões.
+- **Desempenho** — as rotinas numericamente intensivas (distâncias, álgebra
+  matricial, reamostragem) são escritas em C++ com `Rcpp`/`RcppArmadillo` e
+  conferidas contra as funções equivalentes do R.
+- **Poucas dependências** — o pacote se apoia apenas no R base, no `tidyverse`,
+  no `tidymodels` e no `Rcpp`, evitando uma cadeia extensa de pacotes externos.
 
 ## Instalação
 
@@ -38,36 +54,98 @@ devtools::install_github("evandeilton/rnp")
 
 ## Um tour rápido
 
-Toda função analítica retorna um `tibble`, pronto para o pipe.
+As funções seguem a convenção `rnp_<área>_<método>()`. Comecemos pela descritiva
+de uma variável — a saída é um `tibble`:
 
 ```{r descritiva}
-rnp_descritiva(airquality$Temp)
+rnp_descritiva(rnp_concreto$resistencia)
 ```
 
-```{r inferencia}
-rnp_ic_media(airquality$Temp)
-rnp_teste_t(airquality$Temp, mu = 75)
-```
+Os modelos seguem a mesma lógica. Ajustamos uma regressão da resistência do
+concreto sobre o tempo de cura e o tipo de cimento. O resultado tem uma
+impressão organizada, que resume cada componente:
 
 ```{r regressao}
-rnp_regressao(mpg ~ wt + hp, data = mtcars)$coeficientes
+ajuste <- rnp_regressao(resistencia ~ dias_cura + tipo_cimento,
+                        data = rnp_concreto)
+ajuste
 ```
 
-```{r grafico, fig.alt="Dispersão de consumo versus peso"}
-rnp_grafico_dispersao(mtcars, x = "wt", y = "mpg")
+Cada dia de cura adiciona cerca de 0,43 MPa à resistência, e o cimento CP-V
+rende mais que os demais — o modelo explica 77% da variação observada.
+
+### Conversa com o `broom`
+
+Os resultados do `rnp` implementam os genéricos `tidy()` e `glance()` do
+`broom`. Assim, a tabela de coeficientes e o resumo do ajuste saem no formato
+padrão do *tidymodels*, prontos para comparar modelos ou montar relatórios:
+
+```{r broom}
+tidy(ajuste)    # um termo por linha
+glance(ajuste)  # uma linha de medidas-resumo do ajuste
 ```
+
+### Inferência e gráficos
+
+```{r inferencia}
+rnp_ic_media(rnp_concreto$resistencia)
+rnp_teste_t(rnp_concreto$resistencia, mu = 30)
+```
+
+```{r grafico, fig.alt="Dispersão de resistência versus dias de cura"}
+rnp_grafico_dispersao(rnp_concreto, x = "dias_cura", y = "resistencia")
+```
+
+## Conjuntos de dados didáticos
+
+O pacote traz três conjuntos simulados, pensados para exercitar diferentes
+famílias de métodos:
+
+| Conjunto | Conteúdo | Métodos |
+|----------|----------|---------|
+| `rnp_concreto` | resistência (MPa) por cura e tipo de cimento | descritiva, ANOVA, regressão |
+| `rnp_defeitos` | contagem de defeitos por turno e máquina | Poisson, dados categóricos |
+| `rnp_vida_util` | tempo até a falha com censura | sobrevivência, confiabilidade |
+
+Por exemplo, a ANOVA confirma que o tipo de cimento afeta a resistência média:
+
+```{r anova}
+rnp_anova(resistencia ~ tipo_cimento, data = rnp_concreto)$anova
+```
+
+## Como ler os resultados
+
+Muitas funções devolvem um objeto da classe `rnp_resultado`. Ele é, na prática,
+uma lista de componentes (tabelas, escalares, gráficos, o modelo ajustado), com
+duas conveniências: a impressão resumida vista acima e o acesso direto a cada
+parte pelo `$`. Para extrair a tabela de coeficientes, por exemplo:
+
+```{r componentes}
+ajuste$coeficientes
+```
+
+Em resumo: imprima o objeto para uma visão geral, use `$` para um componente
+específico e `tidy()`/`glance()` para integrar com o ecossistema *tidymodels*.
 
 ## Por onde continuar
 
-O pacote acompanha seis tutoriais que seguem a progressão típica de um curso de
-estatística, com dados reais e ênfase na interpretação dos resultados:
+O pacote acompanha onze tutoriais que seguem a progressão típica de um curso de
+estatística, com ênfase na interpretação dos resultados:
 
-1. **Estatística descritiva e análise exploratória**
-2. **Probabilidade, distribuições e os teoremas fundamentais** (Bayes, LGN, TCL)
-3. **Inferência estatística** (p-valor, IC, bootstrap, poder)
-4. **Regressão linear e modelagem** (projeção, pressupostos, regularização)
-5. **Análise multivariada** (PCA, agrupamento, LDA, Hotelling)
-6. **Dados categóricos e métodos não-paramétricos**
+1. Estatística descritiva e análise exploratória
+2. Probabilidade, distribuições e os teoremas fundamentais (Bayes, LGN, TCL)
+3. Inferência estatística (p-valor, IC, *bootstrap*, poder)
+4. Regressão linear e modelagem (pressupostos, diagnóstico, regularização)
+5. Análise multivariada (PCA, agrupamento, LDA, Hotelling)
+6. Dados categóricos e métodos não-paramétricos
+7. Análise de sobrevivência (Kaplan-Meier, Cox)
+8. Séries temporais: modelos ARIMA e SARIMA
+9. Modelos lineares generalizados e extensões
+10. Aprendizado de máquina com `tidymodels`
+11. Avaliação de modelos preditivos
+
+Há ainda uma **referência rápida** (*cheatsheet*) com as funções por área e uma
+coletânea de **soluções comentadas** dos exercícios dos primeiros capítulos.
 
 ```{r vinhetas, eval = FALSE}
 browseVignettes("rnp")

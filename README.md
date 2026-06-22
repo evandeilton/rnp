@@ -73,6 +73,15 @@ p <- rnp_pca(iris[, 1:4])
 rnp_biplot(p)
 ```
 
+As funções que produzem modelos devolvem um objeto `rnp_resultado`: uma lista de
+componentes (tabelas, escalares, gráficos) com impressão organizada e acesso
+direto pelo `$`. Esses resultados implementam os genéricos `tidy()` e `glance()`
+do `broom`, de modo que conversam com o ecossistema `tidymodels`.
+
+O pacote inclui três conjuntos de dados simulados para praticar — `rnp_concreto`
+(resistência de concreto), `rnp_defeitos` (contagem de defeitos) e `rnp_vida_util`
+(tempo até a falha, com censura).
+
 ## Funções por área
 
 <details>
@@ -187,7 +196,7 @@ qui-quadrado, F, binomial, Poisson, lognormal, Weibull, multinomial),
 
 ## Tutoriais
 
-O pacote acompanha seis tutoriais que acompanham a progressão típica de um curso
+O pacote acompanha onze tutoriais que seguem a progressão típica de um curso
 de estatística, com dados reais e ênfase na interpretação dos resultados:
 
 1. Estatística descritiva e análise exploratória
@@ -201,6 +210,10 @@ de estatística, com dados reais e ênfase na interpretação dos resultados:
 9. Modelos lineares generalizados e extensões
 10. Aprendizado de máquina com tidymodels
 11. Avaliação de modelos preditivos
+
+Além dos tutoriais, há uma **referência rápida** (_cheatsheet_) das funções por
+área e uma coletânea de **soluções comentadas** dos exercícios dos primeiros
+capítulos.
 
 ``` r
 browseVignettes("rnp")
