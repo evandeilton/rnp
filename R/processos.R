@@ -43,13 +43,13 @@ rnp_cadeia_markov <- function(P, estado_inicial = 1L, n = 10L, digits = 4L) {
   dist_n <- as.numeric(pi0 %*% Pn)
   est <- as.numeric(markov_estacionaria_cpp(P))
   estados <- rownames(P) %||% paste0("E", seq_len(d))
-  list(
+  .rnp_lista(list(
     distribuicao_n = tibble::tibble(estado = estados,
                                     probabilidade = arredonda(dist_n, digits)),
     estacionaria   = tibble::tibble(estado = estados,
                                     probabilidade = arredonda(est, digits)),
     matriz_n       = round(Pn, digits)
-  )
+  ), "Cadeia de Markov")
 }
 
 #' Passeio aleatorio simples
@@ -188,10 +188,10 @@ rnp_simula_aceitacao_rejeicao <- function(f, gerador, densidade_g, M,
     aceitos <- c(aceitos, y[u <= razao])
     tentativas <- tentativas + lote
   }
-  list(
+  .rnp_lista(list(
     amostra        = aceitos[seq_len(n)],
     taxa_aceitacao = n / tentativas
-  )
+  ), "Simulacao por aceitacao-rejeicao")
 }
 
 #' Integracao por Monte Carlo

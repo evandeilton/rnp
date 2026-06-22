@@ -76,7 +76,7 @@ rnp_emv <- function(log_veross, inicio, nomes = NULL, metodo = "Nelder-Mead",
     ic_inf      = arredonda(est - 1.96 * se, digits),
     ic_sup      = arredonda(est + 1.96 * se, digits)
   )
-  list(
+  .rnp_lista(list(
     estimativas = tibble_est,
     ajuste = tibble::tibble(
       log_veross = arredonda(ll_max, digits),
@@ -85,7 +85,7 @@ rnp_emv <- function(log_veross, inicio, nomes = NULL, metodo = "Nelder-Mead",
       n_par      = k,
       convergiu  = op$convergence == 0
     )
-  )
+  ), "Estimacao por maxima verossimilhanca")
 }
 
 #' Estimacao por metodo dos momentos
@@ -149,10 +149,10 @@ rnp_informacao_fisher <- function(log_veross, theta, digits = 4L) {
   info <- -H
   vcov <- tryCatch(solve(info), error = function(e) matrix(NA_real_, length(theta), length(theta)))
   vdiag <- diag(vcov); vdiag[vdiag < 0] <- NA_real_
-  list(
+  .rnp_lista(list(
     informacao   = round(info, digits),
     erros_padrao = arredonda(sqrt(vdiag), digits)
-  )
+  ), "Informacao de Fisher observada")
 }
 
 #' Grafico da funcao de log-verossimilhanca (1 parametro)

@@ -64,7 +64,7 @@ rnp_bootstrap <- function(x, estatistica = "media", B = 2000L, na.rm = TRUE,
     erro_padrao = arredonda(stats::sd(reps), digits),
     B           = B
   )
-  list(replicas = reps, resumo = tibble_resumo)
+  .rnp_lista(list(replicas = reps, resumo = tibble_resumo), "Bootstrap")
 }
 
 #' Intervalo de confianca bootstrap
@@ -157,7 +157,7 @@ rnp_jackknife <- function(x, estatistica = "media", na.rm = TRUE, digits = 4L) {
   jbar <- mean(reps)
   vies <- (n - 1) * (jbar - est0)
   ep <- sqrt((n - 1) / n * sum((reps - jbar)^2))
-  list(
+  .rnp_lista(list(
     replicas = reps,
     resumo = tibble::tibble(
       estimativa  = arredonda(est0, digits),
@@ -165,7 +165,7 @@ rnp_jackknife <- function(x, estatistica = "media", na.rm = TRUE, digits = 4L) {
       erro_padrao = arredonda(ep, digits),
       n           = n
     )
-  )
+  ), "Jackknife")
 }
 
 #' Bootstrap parametrico
@@ -207,7 +207,7 @@ rnp_bootstrap_parametrico <- function(x, dist, estatistica, B = 2000L,
   set.seed(seed)
   reps <- vapply(seq_len(B), function(i) estatistica(gerador()), numeric(1))
   est0 <- estatistica(x)
-  list(
+  .rnp_lista(list(
     replicas = reps,
     resumo = tibble::tibble(
       estimativa  = arredonda(est0, digits),
@@ -216,7 +216,7 @@ rnp_bootstrap_parametrico <- function(x, dist, estatistica, B = 2000L,
       erro_padrao = arredonda(stats::sd(reps), digits),
       B           = B
     )
-  )
+  ), "Bootstrap parametrico")
 }
 
 #' Teste de permutacao (diferenca de medias)

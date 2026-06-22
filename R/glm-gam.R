@@ -53,7 +53,8 @@ rnp_glm <- function(formula, data,
     deviance_nula     = arredonda(fit$null.deviance, digits),
     dispersao         = arredonda(summary(fit)$dispersion, digits),
     nobs              = stats::nobs(fit))
-  list(coeficientes = coefs, modelo = modelo, objeto = fit)
+  .rnp_lista(list(coeficientes = coefs, modelo = modelo, objeto = fit),
+             "Modelo linear generalizado (GLM)")
 }
 
 #' Diagnostico de GLM
@@ -87,7 +88,7 @@ rnp_glm_diagnosticos <- function(modelo, grafico = FALSE, digits = 4L) {
       if (dispersao > 1.5) "superdispersao" else "dispersao ok",
       NA_character_,
       if (p_disp < 0.05) "falta de ajuste/superdispersao" else "ajuste adequado"))
-  out <- list(testes = testes)
+  out <- .rnp_lista(list(testes = testes), "Diagnostico de GLM")
   if (grafico) {
     d <- tibble::tibble(ajustado = stats::fitted(fit),
                         residuo = stats::residuals(fit, type = "deviance"))
@@ -126,10 +127,11 @@ rnp_binomial_negativa <- function(formula, data, digits = 4L) {
     erro_padrao = arredonda(unname(co[, 2L]), digits),
     p_valor     = arredonda(unname(co[, 4L]), digits),
     irr         = arredonda(unname(exp(co[, 1L])), digits))
-  list(coeficientes = coefs,
-       theta = arredonda(fit$theta, digits),
-       aic = arredonda(stats::AIC(fit), digits),
-       objeto = fit)
+  .rnp_lista(list(coeficientes = coefs,
+                  theta = arredonda(fit$theta, digits),
+                  aic = arredonda(stats::AIC(fit), digits),
+                  objeto = fit),
+             "Regressao binomial negativa")
 }
 
 #' Regressao ordinal (odds proporcionais)
@@ -166,7 +168,8 @@ rnp_regressao_ordinal <- function(formula, data, pesos = NULL, digits = 4L) {
   limiares <- tibble::tibble(
     limiar = names(fit$zeta),
     valor  = arredonda(unname(fit$zeta), digits))
-  list(coeficientes = coefs, limiares = limiares, objeto = fit)
+  .rnp_lista(list(coeficientes = coefs, limiares = limiares, objeto = fit),
+             "Regressao ordinal (odds proporcionais)")
 }
 
 #' Modelo linear de efeitos mistos
@@ -201,7 +204,8 @@ rnp_modelo_misto <- function(fixos, data, aleatorio, digits = 4L) {
   variancia <- tibble::tibble(
     componente = c("aleatorio", "residuo", "ICC"),
     variancia  = arredonda(c(var_aleat, var_resid, icc), digits))
-  list(efeitos_fixos = fixos_tb, variancia = variancia, objeto = fit)
+  .rnp_lista(list(efeitos_fixos = fixos_tb, variancia = variancia, objeto = fit),
+             "Modelo linear de efeitos mistos")
 }
 
 #' Modelo aditivo generalizado (GAM)
@@ -247,7 +251,9 @@ rnp_gam <- function(formula, data, familia = "gaussian", digits = 4L) {
     r2_ajustado       = arredonda(sm$r.sq, digits),
     deviance_explicada = arredonda(sm$dev.expl, digits),
     aic               = arredonda(stats::AIC(fit), digits))
-  list(parametricos = parametricos, suaves = suaves, modelo = modelo, objeto = fit)
+  .rnp_lista(list(parametricos = parametricos, suaves = suaves,
+                  modelo = modelo, objeto = fit),
+             "Modelo aditivo generalizado (GAM)")
 }
 
 #' Grafico de efeitos parciais

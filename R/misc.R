@@ -97,11 +97,11 @@ rnp_na_summary <- function(base, digits = 4L) {
     as.data.frame() |>
     dplyr::count(dplyr::across(dplyr::everything()), name = "n_casos") |>
     dplyr::arrange(dplyr::desc(.data$n_casos))
-  list(
+  .rnp_lista(list(
     por_variavel = por_var |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                           ~ arredonda(.x, digits))),
     por_observacao = por_obs |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                             ~ arredonda(.x, digits))),
     padrao = tibble::as_tibble(padrao)
-  )
+  ), "Resumo de valores faltantes")
 }

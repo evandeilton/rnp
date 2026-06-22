@@ -65,7 +65,8 @@ rnp_kaplan_meier <- function(tempo, evento, grupo = NULL, conf = 0.95,
     ic_inf        = arredonda(fit$lower, digits),
     ic_sup        = arredonda(fit$upper, digits)
   )
-  list(tabela = tabela, mediana = .km_mediana(fit, digits), modelo = fit)
+  .rnp_lista(list(tabela = tabela, mediana = .km_mediana(fit, digits),
+                  modelo = fit), "Estimador de Kaplan-Meier")
 }
 
 #' Curva de Kaplan-Meier (grafico)
@@ -211,7 +212,8 @@ rnp_cox <- function(formula, data, conf = 0.95, digits = 4L) {
     eventos         = sm$nevent,
     p_razao_veross  = arredonda(sm$logtest["pvalue"], digits)
   )
-  list(coeficientes = coefs, modelo = modelo, objeto = fit)
+  .rnp_lista(list(coeficientes = coefs, modelo = modelo, objeto = fit),
+             "Modelo de Cox de riscos proporcionais")
 }
 
 #' Diagnostico da hipotese de riscos proporcionais
@@ -243,7 +245,8 @@ rnp_cox_diagnosticos <- function(modelo, grafico = FALSE, digits = 4L) {
     p_valor     = arredonda(tab$p, digits),
     interpretacao = ifelse(tab$p < 0.05, "viola PH", "PH nao rejeitada")
   )
-  out <- list(teste = teste)
+  out <- .rnp_lista(list(teste = teste),
+                    "Diagnostico de riscos proporcionais (Schoenfeld)")
   if (grafico) {
     res <- as.data.frame(zph$y)
     res$tempo <- zph$x
@@ -292,12 +295,12 @@ rnp_sobrevivencia_parametrica <- function(formula, data,
     z           = arredonda(unname(co[, "z"]), digits),
     p_valor     = arredonda(unname(co[, "p"]), digits)
   )
-  list(
+  .rnp_lista(list(
     coeficientes = coefs,
     escala       = arredonda(fit$scale, digits),
     aic          = arredonda(stats::AIC(fit), digits),
     objeto       = fit
-  )
+  ), "Modelo parametrico de sobrevivencia (AFT)")
 }
 
 #' Tabela de vida atuarial

@@ -41,7 +41,7 @@ rnp_momentos <- function(x, ordem = 4L, na.rm = TRUE, digits = 4L) {
     ordem           = seq.int(2L, as.integer(ordem)),
     momento_central = arredonda(m$momentos_centrais[-(1:2)], digits)
   )
-  list(resumo = resumo, momentos = momentos)
+  .rnp_lista(list(resumo = resumo, momentos = momentos), "Momentos amostrais")
 }
 
 #' Numero/limites de classes por regra classica

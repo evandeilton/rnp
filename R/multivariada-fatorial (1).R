@@ -70,7 +70,7 @@ rnp_correspondencia <- function(tabela, n_dim = 2L, digits = 4L) {
   coord_l <- Dr_inv %*% sv$u[, seq_len(k), drop = FALSE] %*% diag(sv$d[seq_len(k)], k)
   coord_c <- Dc_inv %*% sv$v[, seq_len(k), drop = FALSE] %*% diag(sv$d[seq_len(k)], k)
   nm <- paste0("Dim", seq_len(k))
-  .rnp_lista(list(
+  list(
     inercia = tibble::tibble(
       dimensao = seq_len(k),
       inercia  = arredonda(sv$d[seq_len(k)]^2, digits),
@@ -83,7 +83,7 @@ rnp_correspondencia <- function(tabela, n_dim = 2L, digits = 4L) {
       categoria = colnames(N),
       tibble::as_tibble(as.data.frame.matrix(coord_c)) |> stats::setNames(nm)) |>
       dplyr::mutate(dplyr::across(where(is.numeric), ~ arredonda(.x, digits)))
-  ), "Analise de correspondencia")
+  )
 }
 
 #' Biplot de PCA

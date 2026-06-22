@@ -328,7 +328,7 @@ rnp_ajuste_distribuicao <- function(x, dist = c("norm", "exp", "gamma",
   fn <- seq_len(n) / n
   ks <- max(abs(fn - fit$cdf(xs, par)))
 
-  list(
+  .rnp_lista(list(
     parametros = tibble::tibble(
       parametro = names(par),
       estimativa = arredonda(unname(par), digits)
@@ -340,5 +340,5 @@ rnp_ajuste_distribuicao <- function(x, dist = c("norm", "exp", "gamma",
       ks_estatistica = arredonda(ks, digits),
       n              = n
     )
-  )
+  ), "Ajuste de distribuicao")
 }

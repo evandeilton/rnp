@@ -93,14 +93,14 @@ rnp_distribuicao_conjunta <- function(p, valores_x = NULL, valores_y = NULL,
   e_xy <- sum(outer(vx, vy) * p)
   cov_xy <- e_xy - e_x * e_y
   cor_xy <- if (var_x > 0 && var_y > 0) cov_xy / sqrt(var_x * var_y) else NA_real_
-  list(
+  .rnp_lista(list(
     marginal_x = tibble::tibble(x = vx, p = arredonda(px, digits)),
     marginal_y = tibble::tibble(y = vy, p = arredonda(py, digits)),
     resumo = tibble::tibble(
       e_x = e_x, e_y = e_y, var_x = var_x, var_y = var_y,
       cov_xy = cov_xy, cor_xy = cor_xy
     ) |> dplyr::mutate(dplyr::across(where(is.numeric), ~ arredonda(.x, digits)))
-  )
+  ), "Distribuicao conjunta discreta")
 }
 
 #' Esperanca e variancia condicionais E\[Y | X = x\]

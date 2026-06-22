@@ -116,7 +116,7 @@ rnp_curva_lift <- function(observado, escore, positivo = NULL, n_grupos = 10,
     ggplot2::geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
     rnp_tema_rnp() +
     ggplot2::labs(title = "Curva de lift", x = "Faixa (escore decrescente)", y = "Lift")
-  list(tabela = tab, grafico = g)
+  .rnp_lista(list(tabela = tab, grafico = g), "Curva de lift")
 }
 
 #' Curva de ganho acumulado
@@ -140,7 +140,7 @@ rnp_curva_ganho <- function(observado, escore, positivo = NULL, digits = 4L) {
     rnp_tema_rnp() +
     ggplot2::labs(title = "Curva de ganho acumulado",
                   x = "Proporcao da populacao", y = "Proporcao de positivos captados")
-  list(tabela = tab, grafico = g)
+  .rnp_lista(list(tabela = tab, grafico = g), "Curva de ganho acumulado")
 }
 
 #' Calibracao de probabilidades
@@ -189,7 +189,8 @@ rnp_calibracao <- function(observado, prob, positivo = NULL, n_grupos = 10,
     rnp_tema_rnp() +
     ggplot2::labs(title = "Calibracao", x = "Probabilidade media predita",
                   y = "Frequencia observada")
-  list(tabela = tab, hosmer_lemeshow = hl_tb, grafico = g)
+  .rnp_lista(list(tabela = tab, hosmer_lemeshow = hl_tb, grafico = g),
+             "Calibracao de probabilidades")
 }
 
 #' Escore de Brier
@@ -247,7 +248,8 @@ rnp_ks_classificador <- function(observado, escore, positivo = NULL, digits = 4L
     rnp_tema_rnp() +
     ggplot2::labs(title = glue::glue("KS = {round(ks, 3)}"),
                   x = "Escore", y = "Distribuicao acumulada", color = NULL)
-  list(ks = arredonda(ks, digits), grafico = g)
+  .rnp_lista(list(ks = arredonda(ks, digits), grafico = g),
+             "Estatistica KS de classificador")
 }
 
 #' Curva precisao-revocacao
@@ -275,7 +277,8 @@ rnp_curva_precisao_revocacao <- function(observado, escore, positivo = NULL,
     ggplot2::ylim(0, 1) + rnp_tema_rnp() +
     ggplot2::labs(title = glue::glue("AUC-PR = {round(auc_pr, 3)}"),
                   x = "Revocacao", y = "Precisao")
-  list(curva = curva, auc_pr = arredonda(auc_pr, digits), grafico = g)
+  .rnp_lista(list(curva = curva, auc_pr = arredonda(auc_pr, digits), grafico = g),
+             "Curva precisao-revocacao")
 }
 
 # AUC e valores de colocacao (placement values) de DeLong para um escore.

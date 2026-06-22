@@ -47,7 +47,8 @@ rnp_matriz_correlacao <- function(base, metodo = c("pearson", "spearman"),
     correlacao = arredonda(as.numeric(R), digits),
     p_valor    = arredonda(as.numeric(P), digits)
   )
-  list(matriz = round(R, digits), p_valores = round(P, digits), tidy = tidy)
+  .rnp_lista(list(matriz = round(R, digits), p_valores = round(P, digits),
+                  tidy = tidy), "Matriz de correlacao")
 }
 
 #' Correlograma (mapa de calor de correlacoes)
@@ -111,11 +112,11 @@ rnp_cluster_hierarquico <- function(base, k = 2L, metodo_dist = "euclidean",
   fit <- stats::hclust(d, method = metodo_lig)
   grupos <- stats::cutree(fit, k = k)
   n <- length(fit$height)
-  list(
+  .rnp_lista(list(
     modelo = fit,
     grupos = tibble::tibble(observacao = seq_along(grupos), grupo = unname(grupos)),
     altura_cortes = round(rev(fit$height)[seq_len(min(k, n))], digits)
-  )
+  ), "Cluster hierarquico")
 }
 
 #' Dendrograma
@@ -208,12 +209,12 @@ rnp_silhueta <- function(base, clusters, metodo_dist = "euclidean", digits = 4L)
     rlang::abort("{.arg clusters} deve ter comprimento = numero de observacoes.")
   }
   s <- as.numeric(silhueta_cpp(D, as.integer(clusters)))
-  list(
+  .rnp_lista(list(
     silhuetas = tibble::tibble(
       observacao = seq_along(s), cluster = clusters,
       silhueta = arredonda(s, digits)),
     media = arredonda(mean(s), digits)
-  )
+  ), "Analise de silhueta")
 }
 
 #' k-medoids (PAM)
@@ -266,11 +267,11 @@ rnp_kmedoids <- function(base, k = 2L, metodo_dist = "euclidean",
     if (!melhorou) break
   }
   cl <- atribui(medoides)
-  list(
+  .rnp_lista(list(
     clusters = tibble::tibble(observacao = seq_len(n), cluster = cl),
     medoides = medoides,
     custo = arredonda(custo, digits)
-  )
+  ), "Cluster k-medoids (PAM)")
 }
 
 #' Analise discriminante linear (LDA)
@@ -321,11 +322,11 @@ rnp_lda <- function(formula, data, digits = 4L) {
     stats::setNames(paste0("LD_", niveis))
   tibble_disc <- dplyr::bind_cols(variavel = colnames(X), tibble_disc) |>
     dplyr::mutate(dplyr::across(where(is.numeric), ~ arredonda(.x, digits)))
-  list(
+  .rnp_lista(list(
     discriminantes = tibble_disc,
     predito = pred,
     acuracia = arredonda(mean(pred == as.character(y)), digits)
-  )
+  ), "Analise discriminante linear (LDA)")
 }
 
 #' Teste T2 de Hotelling (medias multivariadas)

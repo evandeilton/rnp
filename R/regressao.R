@@ -149,14 +149,14 @@ rnp_regressao <- function(formula, data, conf = 0.95, digits = 4L) {
     gl_residuos   = fit$df.residual,
     nobs          = stats::nobs(fit)
   )
-  list(
+  .rnp_lista(list(
     coeficientes = coef_tbl |>
       dplyr::mutate(dplyr::across(where(is.numeric),
                                   ~ arredonda(.x, digits))),
     modelo = mod_tbl |>
       dplyr::mutate(dplyr::across(where(is.numeric) & !gl_residuos & !nobs,
                                   ~ arredonda(.x, digits)))
-  )
+  ), "Regressao linear")
 }
 
 #' Diagnosticos de regressao linear
@@ -239,14 +239,14 @@ rnp_regressao_diagnosticos <- function(modelo, data = NULL, digits = 4L) {
           if (dw > 2.5) "Possivel autocorrelacao negativa" else "Sem autocorrelacao preocupante"
     )
   )
-  list(
+  .rnp_lista(list(
     pontos = pontos_flags |>
       dplyr::mutate(dplyr::across(where(is.numeric) & !indice,
                                   ~ arredonda(.x, digits))),
     testes = testes |>
       dplyr::mutate(dplyr::across(where(is.numeric),
                                   ~ arredonda(.x, digits)))
-  )
+  ), "Diagnosticos de regressao")
 }
 
 #' Regressao logistica binaria
@@ -292,14 +292,14 @@ rnp_logistic <- function(formula, data, conf = 0.95, digits = 4L) {
     nobs                = stats::nobs(fit),
     df_residuos         = fit$df.residual
   )
-  list(
+  .rnp_lista(list(
     coeficientes = coef_tbl |>
       dplyr::mutate(dplyr::across(where(is.numeric),
                                   ~ arredonda(.x, digits))),
     modelo = mod_tbl |>
       dplyr::mutate(dplyr::across(where(is.numeric) & !df_residuos & !nobs,
                                   ~ arredonda(.x, digits)))
-  )
+  ), "Regressao logistica")
 }
 
 #' Matriz de confusao
@@ -353,12 +353,12 @@ rnp_matriz_confusao <- function(observado, predito,
     prevalencia   = safe_div(TP + FN, N),
     n             = N
   )
-  list(
+  .rnp_lista(list(
     matriz = mat,
     metricas = metricas |>
       dplyr::mutate(dplyr::across(where(is.numeric) & !n,
                                   ~ arredonda(.x, digits)))
-  )
+  ), "Matriz de confusao")
 }
 
 #' Curva ROC e AUC
@@ -399,12 +399,12 @@ rnp_curva_roc <- function(observado, escores, positivo = NULL, digits = 4L) {
   thr <- escores
   auc <- sum(diff(c(0, fpr, 1)) * (c(0, tpr, 1)[-1L] + c(0, tpr, 1)[-(length(tpr) + 1L)]) / 2)
   auc <- max(0, min(1, auc))
-  list(
+  .rnp_lista(list(
     curva = tibble::tibble(fpr = fpr, tpr = tpr, limiar = thr) |>
       dplyr::mutate(dplyr::across(where(is.numeric),
                                   ~ arredonda(.x, digits))),
     auc = arredonda(auc, digits)
-  )
+  ), "Curva ROC")
 }
 
 #' AUC (somente)

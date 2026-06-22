@@ -49,9 +49,9 @@ rnp_arima <- function(x, ordem = c(0, 0, 0), incluir_media = TRUE, digits = 4L) 
   if (length(ordem) != 3L) rlang::abort("{.arg ordem} deve ser c(p, d, q).")
   fit <- stats::arima(x, order = ordem,
                       include.mean = incluir_media && ordem[2L] == 0)
-  list(coeficientes = .arima_coefs(fit, digits),
-       modelo = .arima_resumo(fit, x, digits),
-       objeto = fit, serie = x)
+  .rnp_lista(list(coeficientes = .arima_coefs(fit, digits),
+                  modelo = .arima_resumo(fit, x, digits),
+                  objeto = fit, serie = x), "Modelo ARIMA")
 }
 
 #' Ajuste de modelo SARIMA (ARIMA sazonal)
@@ -72,9 +72,9 @@ rnp_sarima <- function(x, ordem = c(0, 0, 0), sazonal = c(0, 0, 0),
                        periodo = 12, digits = 4L) {
   fit <- stats::arima(x, order = ordem,
                       seasonal = list(order = sazonal, period = periodo))
-  list(coeficientes = .arima_coefs(fit, digits),
-       modelo = .arima_resumo(fit, x, digits),
-       objeto = fit, serie = x)
+  .rnp_lista(list(coeficientes = .arima_coefs(fit, digits),
+                  modelo = .arima_resumo(fit, x, digits),
+                  objeto = fit, serie = x), "Modelo SARIMA")
 }
 
 #' Selecao automatica de ordem ARIMA
@@ -167,7 +167,7 @@ rnp_ts_previsao <- function(modelo, h = 10, conf = 0.95, digits = 4L) {
       rnp_tema_rnp() +
       ggplot2::labs(title = "Previsao", x = "Tempo", y = "Valor")
   }
-  list(previsao = prev, grafico = g)
+  .rnp_lista(list(previsao = prev, grafico = g), "Previsao de serie temporal")
 }
 
 #' Teste de Dickey-Fuller aumentado (ADF)
@@ -295,7 +295,7 @@ rnp_ts_ccf <- function(x, y, lag_max = NULL, digits = 4L) {
                           color = rnp_paleta_rnp("rnp_qual", 1)) +
     rnp_tema_rnp() +
     ggplot2::labs(title = "Correlacao cruzada", x = "Lag", y = "CCF")
-  list(tabela = d, grafico = g)
+  .rnp_lista(list(tabela = d, grafico = g), "Correlacao cruzada (CCF)")
 }
 
 #' Autorregressao vetorial (VAR)
@@ -345,7 +345,8 @@ rnp_ts_var <- function(dados, p = 1, digits = 4L) {
                      p_valor = arredonda(stats::pf(Fstat, gl1, gl2, lower.tail = FALSE), digits))
     })
   })
-  list(coeficientes = coefs, granger = granger)
+  .rnp_lista(list(coeficientes = coefs, granger = granger),
+             "Autorregressao vetorial (VAR)")
 }
 
 #' Modelo de volatilidade GARCH(1,1)
@@ -383,12 +384,12 @@ rnp_ts_garch <- function(x, digits = 4L) {
   e <- x - par[1L]
   s2 <- numeric(n); s2[1L] <- stats::var(x)
   for (t in 2:n) s2[t] <- par[2L] + par[3L] * e[t - 1L]^2 + par[4L] * s2[t - 1L]
-  list(
+  .rnp_lista(list(
     parametros = tibble::tibble(
       parametro = c("mu", "omega", "alpha", "beta"),
       estimativa = arredonda(par, digits)),
     persistencia = arredonda(par[3L] + par[4L], digits),
-    volatilidade = sqrt(s2))
+    volatilidade = sqrt(s2)), "Modelo de volatilidade GARCH(1,1)")
 }
 
 #' Diagnostico de residuos de modelo de series

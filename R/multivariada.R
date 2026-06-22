@@ -41,7 +41,7 @@ rnp_pca <- function(base, scale = TRUE, n_comp = NULL, digits = 4L) {
     percentual = var_exp,
     acumulada  = var_acum
   )
-  list(
+  .rnp_lista(list(
     modelo     = fit,
     scores     = scores |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                        ~ arredonda(.x, digits))),
@@ -49,7 +49,7 @@ rnp_pca <- function(base, scale = TRUE, n_comp = NULL, digits = 4L) {
                                                          ~ arredonda(.x, digits))),
     variancia  = var_tbl |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                         ~ arredonda(.x, digits)))
-  )
+  ), "Analise de componentes principais (PCA)")
 }
 
 #' Cluster K-Means
@@ -104,14 +104,14 @@ rnp_kmeans <- function(base, k, nstart = 25L, scale = TRUE,
     k           = k,
     nobs        = nrow(base_num)
   )
-  list(
+  .rnp_lista(list(
     modelo   = fit,
     clusters = clusters,
     centros  = centros |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                       ~ arredonda(.x, digits))),
     metricas = metricas |> dplyr::mutate(dplyr::across(where(is.numeric) & !k & !nobs,
                                                        ~ arredonda(.x, digits)))
-  )
+  ), "Cluster k-medias")
 }
 
 #' Distancias entre observacoes
@@ -186,10 +186,10 @@ rnp_mds <- function(d, k = 2, digits = 4L) {
   pts <- fit$points
   colnames(pts) <- paste0("Dim", seq_len(ncol(pts)))
   pontos <- tibble::as_tibble(pts)
-  list(
+  .rnp_lista(list(
     pontos        = pontos |> dplyr::mutate(dplyr::across(where(is.numeric),
                                                           ~ arredonda(.x, digits))),
     eigenvalues   = fit$eig,
     GOF           = fit$GOF
-  )
+  ), "Escalonamento multidimensional (MDS)")
 }
