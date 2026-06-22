@@ -92,24 +92,57 @@
 <div class="section level2">
 <h2 id="o-que-é-o-rnp">O que é o <code>rnp</code><a class="anchor" aria-label="anchor" href="#o-que-%C3%A9-o-rnp"></a>
 </h2>
-<p>O <code>rnp</code> (do projeto <strong>R NA PRÁTICA</strong>) reúne
-mais de <strong>180 funções</strong> que cobrem os temas tratados nos
-primeiros anos de um curso de estatística: descritiva, probabilidade,
-inferência, regressão, análise multivariada, séries temporais, dados
-categóricos e pré-processamento.</p>
-<p>Três escolhas orientam o projeto:</p>
+<p>O <code>rnp</code>, do projeto <strong>R NA PRÁTICA</strong>, reúne
+mais de <strong>230 funções</strong> de estatística e ciência de dados
+em um único pacote, com documentação e mensagens em português. A
+cobertura vai dos temas dos primeiros anos de um curso de estatística
+até tópicos aplicados:</p>
 <ul>
 <li>
-<strong>Saídas tidy</strong> — as funções analíticas retornam
-<code>tibble</code> e os gráficos usam <code>ggplot2</code>;
-documentação e mensagens em português.</li>
+<strong>Descritiva e exploratória</strong> — medidas-resumo,
+momentos, frequências, gráficos;</li>
 <li>
-<strong>Desempenho</strong> — rotinas numericamente intensivas são
-escritas em C++ (Rcpp/RcppArmadillo) e conferidas contra as funções
-equivalentes do R.</li>
+<strong>Probabilidade</strong> — distribuições, Bayes, Lei dos
+Grandes Números, Teorema Central do Limite, simulação;</li>
 <li>
-<strong>Poucas dependências</strong> — apenas R base, tidyverse,
-tidymodels e Rcpp.</li>
+<strong>Inferência</strong> — estimação, intervalos de confiança,
+testes de hipóteses, <em>bootstrap</em>, poder e tamanho de
+amostra;</li>
+<li>
+<strong>Regressão e modelagem</strong> — linear, regularizada,
+robusta, logística, GLM, modelos mistos e aditivos;</li>
+<li>
+<strong>Multivariada</strong> — componentes principais, agrupamento,
+discriminante, fatorial;</li>
+<li>
+<strong>Séries temporais</strong> — decomposição, ARIMA/SARIMA,
+GARCH, previsão;</li>
+<li>
+<strong>Sobrevivência</strong> — Kaplan-Meier, log-rank, Cox e
+modelos paramétricos;</li>
+<li>
+<strong>Aprendizado de máquina</strong> — fluxo com
+<code>tidymodels</code> e avaliação de modelos.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="três-escolhas-de-projeto">Três escolhas de projeto<a class="anchor" aria-label="anchor" href="#tr%C3%AAs-escolhas-de-projeto"></a>
+</h2>
+<ul>
+<li>
+<strong>Saídas <em>tidy</em></strong> — as funções analíticas
+devolvem <code>tibble</code> (ou um objeto <code>rnp_resultado</code>,
+descrito adiante) e os gráficos usam <code>ggplot2</code>. O resultado
+já entra no pipe e em outras etapas da análise sem conversões.</li>
+<li>
+<strong>Desempenho</strong> — as rotinas numericamente intensivas
+(distâncias, álgebra matricial, reamostragem) são escritas em C++ com
+<code>Rcpp</code>/<code>RcppArmadillo</code> e conferidas contra as
+funções equivalentes do R.</li>
+<li>
+<strong>Poucas dependências</strong> — o pacote se apoia apenas no R
+base, no <code>tidyverse</code>, no <code>tidymodels</code> e no
+<code>Rcpp</code>, evitando uma cadeia extensa de pacotes externos.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -122,65 +155,176 @@ tidymodels e Rcpp.</li>
 <div class="section level2">
 <h2 id="um-tour-rápido">Um tour rápido<a class="anchor" aria-label="anchor" href="#um-tour-r%C3%A1pido"></a>
 </h2>
-<p>Toda função analítica retorna um <code>tibble</code>, pronto para o
-pipe.</p>
+<p>As funções seguem a convenção
+<code>rnp_&lt;área&gt;_&lt;método&gt;()</code>. Comecemos pela
+descritiva de uma variável — a saída é um <code>tibble</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_descritiva.html">rnp_descritiva</a></span><span class="op">(</span><span class="va">rnp_concreto</span><span class="op">$</span><span class="va">resistencia</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 21</span></span></span>
 <span><span class="co">#&gt;       n n_validos n_faltantes  soma media mediana  moda desvio variancia   min</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   153       153           0 <span style="text-decoration: underline;">11</span>916  77.9      79    81   9.47      89.6    56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    90        90           0 <span style="text-decoration: underline;">2</span>331.  25.9    25.8  27.2   5.29      28.0  15.6</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: q1 &lt;dbl&gt;, q3 &lt;dbl&gt;, max &lt;dbl&gt;, amplitude &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   iqr &lt;dbl&gt;, cv &lt;dbl&gt;, se_media &lt;dbl&gt;, ic_inf &lt;dbl&gt;, ic_sup &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   assimetria &lt;dbl&gt;, curtose &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>Os modelos seguem a mesma lógica. Ajustamos uma regressão da
+resistência do concreto sobre o tempo de cura e o tipo de cimento. O
+resultado tem uma impressão organizada, que resume cada componente:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_media.html">rnp_ic_media</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ajuste</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rnp_regressao.html">rnp_regressao</a></span><span class="op">(</span><span class="va">resistencia</span> <span class="op">~</span> <span class="va">dias_cura</span> <span class="op">+</span> <span class="va">tipo_cimento</span>,</span>
+<span>                        data <span class="op">=</span> <span class="va">rnp_concreto</span><span class="op">)</span></span>
+<span><span class="va">ajuste</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 7</span></span></span>
+<span><span class="co">#&gt;   termo             estimativa erro_padrao estatistica_t p_valor ic_inf ic_sup</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)           17.8        0.689          25.8   0      16.4   19.2  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dias_cura              0.430      0.030<span style="text-decoration: underline;">9</span>         13.9   0       0.368  0.491</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tipo_cimentoCP-IV     -<span style="color: #BB0000;">1.53</span>       0.662          -<span style="color: #BB0000;">2.31</span>  0.023<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">2.84</span>  -<span style="color: #BB0000;">0.211</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tipo_cimentoCP-V       4.82       0.662           7.28  0       3.50   6.14</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;      r2 r2_ajustado f_statistic f_pvalor sigma gl_residuos  nobs</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.773       0.765        97.6        0  2.56          86    90</span></span></code></pre></div>
+<p>Cada dia de cura adiciona cerca de 0,43 MPa à resistência, e o
+cimento CP-V rende mais que os demais — o modelo explica 77% da variação
+observada.</p>
+<div class="section level3">
+<h3 id="conversa-com-o-broom">Conversa com o <code>broom</code><a class="anchor" aria-label="anchor" href="#conversa-com-o-broom"></a>
+</h3>
+<p>Os resultados do <code>rnp</code> implementam os genéricos
+<code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> e <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> do <code>broom</code>.
+Assim, a tabela de coeficientes e o resumo do ajuste saem no formato
+padrão do <em>tidymodels</em>, prontos para comparar modelos ou montar
+relatórios:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">ajuste</span><span class="op">)</span>    <span class="co"># um termo por linha</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 7</span></span></span>
+<span><span class="co">#&gt;   termo             estimativa erro_padrao estatistica_t p_valor ic_inf ic_sup</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)           17.8        0.689          25.8   0      16.4   19.2  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dias_cura              0.430      0.030<span style="text-decoration: underline;">9</span>         13.9   0       0.368  0.491</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tipo_cimentoCP-IV     -<span style="color: #BB0000;">1.53</span>       0.662          -<span style="color: #BB0000;">2.31</span>  0.023<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">2.84</span>  -<span style="color: #BB0000;">0.211</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tipo_cimentoCP-V       4.82       0.662           7.28  0       3.50   6.14</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">ajuste</span><span class="op">)</span>  <span class="co"># uma linha de medidas-resumo do ajuste</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;      r2 r2_ajustado f_statistic f_pvalor sigma gl_residuos  nobs</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.773       0.765        97.6        0  2.56          86    90</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="inferência-e-gráficos">Inferência e gráficos<a class="anchor" aria-label="anchor" href="#infer%C3%AAncia-e-gr%C3%A1ficos"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_ic_media.html">rnp_ic_media</a></span><span class="op">(</span><span class="va">rnp_concreto</span><span class="op">$</span><span class="va">resistencia</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
 <span><span class="co">#&gt;   media erro_padrao limite_inferior limite_superior     n nivel_confianca</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  77.9       0.765            76.4            79.4   153            0.95</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  25.9       0.558            24.8            27.0    90            0.95</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: distribuicao &lt;chr&gt;</span></span></span>
-<span><span class="fu"><a href="../reference/rnp_teste_t.html">rnp_teste_t</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">$</span><span class="va">Temp</span>, mu <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rnp_teste_t.html">rnp_teste_t</a></span><span class="op">(</span><span class="va">rnp_concreto</span><span class="op">$</span><span class="va">resistencia</span>, mu <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   estatistica    gl p_valor media_x media_y  diff ic_inf ic_sup hipotese_nula</span></span>
 <span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        3.77   152  0.000<span style="text-decoration: underline;">2</span>    77.9      <span style="color: #BB0000;">NA</span>  2.88   76.4   79.4            75</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       -<span style="color: #BB0000;">7.35</span>    89       0    25.9      <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">4.10</span>   24.8   27.0            30</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: alternativa &lt;chr&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_regressao.html">rnp_regressao</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span><span class="op">$</span><span class="va">coeficientes</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
-<span><span class="co">#&gt;   termo       estimativa erro_padrao estatistica_t p_valor  ic_inf  ic_sup</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)    37.2          1.60          23.3   0      34.0    40.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> wt             -<span style="color: #BB0000;">3.88</span>         0.633         -<span style="color: #BB0000;">6.13</span>  0      -<span style="color: #BB0000;">5.17</span>   -<span style="color: #BB0000;">2.58</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> hp             -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">8</span>       0.009         -<span style="color: #BB0000;">3.52</span>  0.001<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.050</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.013</span><span style="color: #BB0000; text-decoration: underline;">3</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_dispersao.html">rnp_grafico_dispersao</a></span><span class="op">(</span><span class="va">mtcars</span>, x <span class="op">=</span> <span class="st">"wt"</span>, y <span class="op">=</span> <span class="st">"mpg"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rnp_files/figure-html/grafico-1.png" class="r-plt" alt="Dispersão de consumo versus peso" width="672"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_grafico_dispersao.html">rnp_grafico_dispersao</a></span><span class="op">(</span><span class="va">rnp_concreto</span>, x <span class="op">=</span> <span class="st">"dias_cura"</span>, y <span class="op">=</span> <span class="st">"resistencia"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="rnp_files/figure-html/grafico-1.png" class="r-plt" alt="Dispersão de resistência versus dias de cura" width="672" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="conjuntos-de-dados-didáticos">Conjuntos de dados didáticos<a class="anchor" aria-label="anchor" href="#conjuntos-de-dados-did%C3%A1ticos"></a>
+</h2>
+<p>O pacote traz três conjuntos simulados, pensados para exercitar
+diferentes famílias de métodos:</p>
+<table class="table">
+<colgroup>
+<col width="34%">
+<col width="34%">
+<col width="31%">
+</colgroup>
+<thead><tr class="header">
+<th>Conjunto</th>
+<th>Conteúdo</th>
+<th>Métodos</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>rnp_concreto</code></td>
+<td>resistência (MPa) por cura e tipo de cimento</td>
+<td>descritiva, ANOVA, regressão</td>
+</tr>
+<tr class="even">
+<td><code>rnp_defeitos</code></td>
+<td>contagem de defeitos por turno e máquina</td>
+<td>Poisson, dados categóricos</td>
+</tr>
+<tr class="odd">
+<td><code>rnp_vida_util</code></td>
+<td>tempo até a falha com censura</td>
+<td>sobrevivência, confiabilidade</td>
+</tr>
+</tbody>
+</table>
+<p>Por exemplo, a ANOVA confirma que o tipo de cimento afeta a
+resistência média:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rnp_anova.html">rnp_anova</a></span><span class="op">(</span><span class="va">resistencia</span> <span class="op">~</span> <span class="va">tipo_cimento</span>, data <span class="op">=</span> <span class="va">rnp_concreto</span><span class="op">)</span><span class="op">$</span><span class="va">anova</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
+<span><span class="co">#&gt;   fonte            gl soma_quadrados media_quadrados estatistica_F p_valor</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">"</span>g          <span style="color: #949494;">"</span>     2           658.           329.           15.6       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">"</span>Residuals  <span style="color: #949494;">"</span>    87          <span style="text-decoration: underline;">1</span>831.            21.0          <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">"</span>total<span style="color: #949494;">"</span>          89          <span style="text-decoration: underline;">2</span>489.            <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="como-ler-os-resultados">Como ler os resultados<a class="anchor" aria-label="anchor" href="#como-ler-os-resultados"></a>
+</h2>
+<p>Muitas funções devolvem um objeto da classe
+<code>rnp_resultado</code>. Ele é, na prática, uma lista de componentes
+(tabelas, escalares, gráficos, o modelo ajustado), com duas
+conveniências: a impressão resumida vista acima e o acesso direto a cada
+parte pelo <code>$</code>. Para extrair a tabela de coeficientes, por
+exemplo:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ajuste</span><span class="op">$</span><span class="va">coeficientes</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 7</span></span></span>
+<span><span class="co">#&gt;   termo             estimativa erro_padrao estatistica_t p_valor ic_inf ic_sup</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> (Intercept)           17.8        0.689          25.8   0      16.4   19.2  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dias_cura              0.430      0.030<span style="text-decoration: underline;">9</span>         13.9   0       0.368  0.491</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tipo_cimentoCP-IV     -<span style="color: #BB0000;">1.53</span>       0.662          -<span style="color: #BB0000;">2.31</span>  0.023<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">2.84</span>  -<span style="color: #BB0000;">0.211</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> tipo_cimentoCP-V       4.82       0.662           7.28  0       3.50   6.14</span></span></code></pre></div>
+<p>Em resumo: imprima o objeto para uma visão geral, use <code>$</code>
+para um componente específico e
+<code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>/<code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> para integrar com o
+ecossistema <em>tidymodels</em>.</p>
 </div>
 <div class="section level2">
 <h2 id="por-onde-continuar">Por onde continuar<a class="anchor" aria-label="anchor" href="#por-onde-continuar"></a>
 </h2>
-<p>O pacote acompanha seis tutoriais que seguem a progressão típica de
-um curso de estatística, com dados reais e ênfase na interpretação dos
-resultados:</p>
+<p>O pacote acompanha onze tutoriais que seguem a progressão típica de
+um curso de estatística, com ênfase na interpretação dos resultados:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Estatística descritiva e análise exploratória</strong></li>
-<li>
-<strong>Probabilidade, distribuições e os teoremas
-fundamentais</strong> (Bayes, LGN, TCL)</li>
-<li>
-<strong>Inferência estatística</strong> (p-valor, IC, bootstrap,
-poder)</li>
-<li>
-<strong>Regressão linear e modelagem</strong> (projeção,
-pressupostos, regularização)</li>
-<li>
-<strong>Análise multivariada</strong> (PCA, agrupamento, LDA,
-Hotelling)</li>
-<li><strong>Dados categóricos e métodos não-paramétricos</strong></li>
+<li>Estatística descritiva e análise exploratória</li>
+<li>Probabilidade, distribuições e os teoremas fundamentais (Bayes, LGN,
+TCL)</li>
+<li>Inferência estatística (p-valor, IC, <em>bootstrap</em>, poder)</li>
+<li>Regressão linear e modelagem (pressupostos, diagnóstico,
+regularização)</li>
+<li>Análise multivariada (PCA, agrupamento, LDA, Hotelling)</li>
+<li>Dados categóricos e métodos não-paramétricos</li>
+<li>Análise de sobrevivência (Kaplan-Meier, Cox)</li>
+<li>Séries temporais: modelos ARIMA e SARIMA</li>
+<li>Modelos lineares generalizados e extensões</li>
+<li>Aprendizado de máquina com <code>tidymodels</code>
+</li>
+<li>Avaliação de modelos preditivos</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>Há ainda uma <strong>referência rápida</strong> (<em>cheatsheet</em>)
+com as funções por área e uma coletânea de <strong>soluções
+comentadas</strong> dos exercícios dos primeiros capítulos.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"rnp"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

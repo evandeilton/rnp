@@ -130,6 +130,8 @@
 <span><span class="co"># Componentes principais</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/rnp_pca.html">rnp_pca</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/rnp_biplot.html">rnp_biplot</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p>As funções que produzem modelos devolvem um objeto <code>rnp_resultado</code>: uma lista de componentes (tabelas, escalares, gráficos) com impressão organizada e acesso direto pelo <code>$</code>. Esses resultados implementam os genéricos <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> e <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> do <code>broom</code>, de modo que conversam com o ecossistema <code>tidymodels</code>.</p>
+<p>O pacote inclui três conjuntos de dados simulados para praticar — <code>rnp_concreto</code> (resistência de concreto), <code>rnp_defeitos</code> (contagem de defeitos) e <code>rnp_vida_util</code> (tempo até a falha, com censura).</p>
 </div>
 <div class="section level2">
 <h2 id="funções-por-área">Funções por área<a class="anchor" aria-label="anchor" href="#fun%C3%A7%C3%B5es-por-%C3%A1rea"></a>
@@ -163,7 +165,7 @@
 <div class="section level2">
 <h2 id="tutoriais">Tutoriais<a class="anchor" aria-label="anchor" href="#tutoriais"></a>
 </h2>
-<p>O pacote acompanha seis tutoriais que acompanham a progressão típica de um curso de estatística, com dados reais e ênfase na interpretação dos resultados:</p>
+<p>O pacote acompanha onze tutoriais que seguem a progressão típica de um curso de estatística, com dados reais e ênfase na interpretação dos resultados:</p>
 <ol style="list-style-type: decimal">
 <li>Estatística descritiva e análise exploratória</li>
 <li>Probabilidade, distribuições e os teoremas fundamentais</li>
@@ -177,6 +179,7 @@
 <li>Aprendizado de máquina com tidymodels</li>
 <li>Avaliação de modelos preditivos</li>
 </ol>
+<p>Além dos tutoriais, há uma <strong>referência rápida</strong> (<em>cheatsheet</em>) das funções por área e uma coletânea de <strong>soluções comentadas</strong> dos exercícios dos primeiros capítulos.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"rnp"</span><span class="op">)</span></span></code></pre></div>
 </div>
